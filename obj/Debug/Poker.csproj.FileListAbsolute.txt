@@ -1,0 +1,320 @@
+C:\Users\jean\source\repos\Poker\Poker\bin\Debug\Poker.exe.config
+C:\Users\jean\source\repos\Poker\Poker\bin\Debug\Poker.exe
+C:\Users\jean\source\repos\Poker\Poker\bin\Debug\Poker.pdb
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.csproj.AssemblyReference.cache
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\MainWindow.g.cs
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\App.g.cs
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker_MarkupCompile.cache
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker_MarkupCompile.lref
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\App.baml
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\MainWindow.baml
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.g.resources
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.cache
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.exe
+C:\Users\jean\source\repos\Poker\Poker\obj\Debug\Poker.pdb
+C:\Users\jean\source\repos\Poker\bin\Debug\Poker.exe.config
+C:\Users\jean\source\repos\Poker\bin\Debug\Poker.exe
+C:\Users\jean\source\repos\Poker\bin\Debug\Poker.pdb
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.csproj.AssemblyReference.cache
+C:\Users\jean\source\repos\Poker\obj\Debug\MainWindow.g.cs
+C:\Users\jean\source\repos\Poker\obj\Debug\App.g.cs
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker_MarkupCompile.cache
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker_MarkupCompile.lref
+C:\Users\jean\source\repos\Poker\obj\Debug\App.baml
+C:\Users\jean\source\repos\Poker\obj\Debug\MainWindow.baml
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.g.resources
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.Properties.Resources.resources
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.csproj.GenerateResource.cache
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.exe
+C:\Users\jean\source\repos\Poker\obj\Debug\Poker.pdb
+D:\source\repos\Poker\bin\Debug\Poker.exe.config
+D:\source\repos\Poker\bin\Debug\Poker.exe
+D:\source\repos\Poker\bin\Debug\Poker.pdb
+D:\source\repos\Poker\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker\obj\Debug\App.g.cs
+D:\source\repos\Poker\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker\obj\Debug\App.baml
+D:\source\repos\Poker\obj\Debug\MainWindow.baml
+D:\source\repos\Poker\obj\Debug\Poker.g.resources
+D:\source\repos\Poker\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker\obj\Debug\Poker.exe
+D:\source\repos\Poker\obj\Debug\Poker.pdb
+D:\source\repos - Copie (3)\Poker\bin\Debug\Poker.exe.config
+D:\source\repos - Copie (3)\Poker\bin\Debug\Poker.exe
+D:\source\repos - Copie (3)\Poker\bin\Debug\Poker.pdb
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos - Copie (3)\Poker\obj\Debug\MainWindow.g.cs
+D:\source\repos - Copie (3)\Poker\obj\Debug\App.g.cs
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos - Copie (3)\Poker\obj\Debug\App.baml
+D:\source\repos - Copie (3)\Poker\obj\Debug\MainWindow.baml
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.g.resources
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.exe
+D:\source\repos - Copie (3)\Poker\obj\Debug\Poker.pdb
+D:\S\repos\Poker3\bin\Debug\Poker.exe
+D:\S\repos\Poker3\bin\Debug\Poker.exe.config
+D:\S\repos\Poker3\bin\Debug\Poker.pdb
+D:\S\repos\Poker3\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\S\repos\Poker3\obj\Debug\MainWindow.baml
+D:\S\repos\Poker3\obj\Debug\MainWindow.g.cs
+D:\S\repos\Poker3\obj\Debug\App.g.cs
+D:\S\repos\Poker3\obj\Debug\Poker_MarkupCompile.cache
+D:\S\repos\Poker3\obj\Debug\Poker_MarkupCompile.lref
+D:\S\repos\Poker3\obj\Debug\App.baml
+D:\S\repos\Poker3\obj\Debug\Poker.g.resources
+D:\S\repos\Poker3\obj\Debug\Poker.Properties.Resources.resources
+D:\S\repos\Poker3\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\S\repos\Poker3\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\S\repos\Poker3\obj\Debug\Poker.exe
+D:\S\repos\Poker3\obj\Debug\Poker.pdb
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\S\repos\Poker New2 Bad\obj\Debug\MainWindow.baml
+D:\S\repos\Poker New2 Bad\obj\Debug\MainWindow.g.cs
+D:\S\repos\Poker New2 Bad\obj\Debug\App.g.cs
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker_MarkupCompile.cache
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker_MarkupCompile.lref
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.exe
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.pdb
+D:\S\repos\Poker New2 Bad\bin\Debug\Poker.exe.config
+D:\S\repos\Poker New2 Bad\bin\Debug\Poker.exe
+D:\S\repos\Poker New2 Bad\bin\Debug\Poker.pdb
+D:\S\repos\Poker New2 Bad\obj\Debug\App.baml
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.g.resources
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.Properties.Resources.resources
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\S\repos\Poker New2 Bad\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 4\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 4\bin\Debug\Poker.exe
+D:\source\repos\Poker New 4\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 4\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 4\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 4\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 4\obj\Debug\App.g.cs
+D:\source\repos\Poker New 4\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 4\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 4\obj\Debug\App.baml
+D:\source\repos\Poker New 4\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 4\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 4\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 4\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 4\obj\Debug\Poker.exe
+D:\source\repos\Poker New 4\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 5\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 5\bin\Debug\Poker.exe
+D:\source\repos\Poker New 5\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 5\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 5\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 5\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 5\obj\Debug\App.g.cs
+D:\source\repos\Poker New 5\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 5\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 5\obj\Debug\App.baml
+D:\source\repos\Poker New 5\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 5\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 5\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 5\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 5\obj\Debug\Poker.exe
+D:\source\repos\Poker New 5\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 6\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 6\bin\Debug\Poker.exe
+D:\source\repos\Poker New 6\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 6\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 6\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 6\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 6\obj\Debug\App.g.cs
+D:\source\repos\Poker New 6\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 6\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 6\obj\Debug\App.baml
+D:\source\repos\Poker New 6\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 6\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 6\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 6\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 6\obj\Debug\Poker.exe
+D:\source\repos\Poker New 6\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 7\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 7\bin\Debug\Poker.exe
+D:\source\repos\Poker New 7\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 7\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 7\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 7\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 7\obj\Debug\App.g.cs
+D:\source\repos\Poker New 7\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 7\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 7\obj\Debug\App.baml
+D:\source\repos\Poker New 7\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 7\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 7\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 7\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 7\obj\Debug\Poker.exe
+D:\source\repos\Poker New 7\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 8\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 8\bin\Debug\Poker.exe
+D:\source\repos\Poker New 8\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 8\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 8\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 8\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 8\obj\Debug\App.g.cs
+D:\source\repos\Poker New 8\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 8\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 8\obj\Debug\App.baml
+D:\source\repos\Poker New 8\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 8\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 8\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 8\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 8\obj\Debug\Poker.exe
+D:\source\repos\Poker New 8\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 9\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 9\bin\Debug\Poker.exe
+D:\source\repos\Poker New 9\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 9\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 9\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 9\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 9\obj\Debug\App.g.cs
+D:\source\repos\Poker New 9\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 9\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 9\obj\Debug\App.baml
+D:\source\repos\Poker New 9\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 9\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 9\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 9\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 9\obj\Debug\Poker.exe
+D:\source\repos\Poker New 9\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 10\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 10\bin\Debug\Poker.exe
+D:\source\repos\Poker New 10\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 10\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 10\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 10\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 10\obj\Debug\App.g.cs
+D:\source\repos\Poker New 10\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 10\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 10\obj\Debug\App.baml
+D:\source\repos\Poker New 10\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 10\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 10\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 10\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 10\obj\Debug\Poker.exe
+D:\source\repos\Poker New 10\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 11\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 11\bin\Debug\Poker.exe
+D:\source\repos\Poker New 11\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 11\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 11\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 11\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 11\obj\Debug\App.g.cs
+D:\source\repos\Poker New 11\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 11\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 11\obj\Debug\App.baml
+D:\source\repos\Poker New 11\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 11\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 11\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 11\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 11\obj\Debug\Poker.exe
+D:\source\repos\Poker New 11\obj\Debug\Poker.pdb
+D:\source\repos\Poker New 12\bin\Debug\Poker.exe.config
+D:\source\repos\Poker New 12\bin\Debug\Poker.exe
+D:\source\repos\Poker New 12\bin\Debug\Poker.pdb
+D:\source\repos\Poker New 12\obj\Debug\Poker.csproj.AssemblyReference.cache
+D:\source\repos\Poker New 12\obj\Debug\MainWindow.baml
+D:\source\repos\Poker New 12\obj\Debug\MainWindow.g.cs
+D:\source\repos\Poker New 12\obj\Debug\App.g.cs
+D:\source\repos\Poker New 12\obj\Debug\Poker_MarkupCompile.cache
+D:\source\repos\Poker New 12\obj\Debug\Poker_MarkupCompile.lref
+D:\source\repos\Poker New 12\obj\Debug\App.baml
+D:\source\repos\Poker New 12\obj\Debug\Poker.g.resources
+D:\source\repos\Poker New 12\obj\Debug\Poker.Properties.Resources.resources
+D:\source\repos\Poker New 12\obj\Debug\Poker.csproj.GenerateResource.cache
+D:\source\repos\Poker New 12\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+D:\source\repos\Poker New 12\obj\Debug\Poker.exe
+D:\source\repos\Poker New 12\obj\Debug\Poker.pdb
+F:\source\repos\Poker New 12\bin\Debug\Poker.exe.config
+F:\source\repos\Poker New 12\bin\Debug\Poker.exe
+F:\source\repos\Poker New 12\bin\Debug\Poker.pdb
+F:\source\repos\Poker New 12\obj\Debug\Poker.csproj.AssemblyReference.cache
+F:\source\repos\Poker New 12\obj\Debug\MainWindow.baml
+F:\source\repos\Poker New 12\obj\Debug\MainWindow.g.cs
+F:\source\repos\Poker New 12\obj\Debug\App.g.cs
+F:\source\repos\Poker New 12\obj\Debug\Poker_MarkupCompile.cache
+F:\source\repos\Poker New 12\obj\Debug\Poker_MarkupCompile.lref
+F:\source\repos\Poker New 12\obj\Debug\App.baml
+F:\source\repos\Poker New 12\obj\Debug\Poker.g.resources
+F:\source\repos\Poker New 12\obj\Debug\Poker.Properties.Resources.resources
+F:\source\repos\Poker New 12\obj\Debug\Poker.csproj.GenerateResource.cache
+F:\source\repos\Poker New 12\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+F:\source\repos\Poker New 12\obj\Debug\Poker.exe
+F:\source\repos\Poker New 12\obj\Debug\Poker.pdb
+F:\source\repos\Poker New 13\bin\Debug\Poker.exe.config
+F:\source\repos\Poker New 13\bin\Debug\Poker.exe
+F:\source\repos\Poker New 13\bin\Debug\Poker.pdb
+F:\source\repos\Poker New 13\obj\Debug\Poker.csproj.AssemblyReference.cache
+F:\source\repos\Poker New 13\obj\Debug\MainWindow.baml
+F:\source\repos\Poker New 13\obj\Debug\MainWindow.g.cs
+F:\source\repos\Poker New 13\obj\Debug\App.g.cs
+F:\source\repos\Poker New 13\obj\Debug\Poker_MarkupCompile.cache
+F:\source\repos\Poker New 13\obj\Debug\Poker_MarkupCompile.lref
+F:\source\repos\Poker New 13\obj\Debug\App.baml
+F:\source\repos\Poker New 13\obj\Debug\Poker.g.resources
+F:\source\repos\Poker New 13\obj\Debug\Poker.Properties.Resources.resources
+F:\source\repos\Poker New 13\obj\Debug\Poker.csproj.GenerateResource.cache
+F:\source\repos\Poker New 13\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+F:\source\repos\Poker New 13\obj\Debug\Poker.exe
+F:\source\repos\Poker New 13\obj\Debug\Poker.pdb
+F:\source\repos\Poker\Poker New 13\bin\Debug\Poker.exe.config
+F:\source\repos\Poker\Poker New 13\bin\Debug\Poker.exe
+F:\source\repos\Poker\Poker New 13\bin\Debug\Poker.pdb
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.csproj.AssemblyReference.cache
+F:\source\repos\Poker\Poker New 13\obj\Debug\MainWindow.baml
+F:\source\repos\Poker\Poker New 13\obj\Debug\MainWindow.g.cs
+F:\source\repos\Poker\Poker New 13\obj\Debug\App.g.cs
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker_MarkupCompile.cache
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker_MarkupCompile.lref
+F:\source\repos\Poker\Poker New 13\obj\Debug\App.baml
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.g.resources
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.Properties.Resources.resources
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.csproj.GenerateResource.cache
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.exe
+F:\source\repos\Poker\Poker New 13\obj\Debug\Poker.pdb
+F:\source\repos\Poker\Poker New 14\bin\Debug\Poker.exe.config
+F:\source\repos\Poker\Poker New 14\bin\Debug\Poker.exe
+F:\source\repos\Poker\Poker New 14\bin\Debug\Poker.pdb
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.csproj.AssemblyReference.cache
+F:\source\repos\Poker\Poker New 14\obj\Debug\MainWindow.baml
+F:\source\repos\Poker\Poker New 14\obj\Debug\MainWindow.g.cs
+F:\source\repos\Poker\Poker New 14\obj\Debug\App.g.cs
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker_MarkupCompile.cache
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker_MarkupCompile.lref
+F:\source\repos\Poker\Poker New 14\obj\Debug\App.baml
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.g.resources
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.Properties.Resources.resources
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.csproj.GenerateResource.cache
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.exe
+F:\source\repos\Poker\Poker New 14\obj\Debug\Poker.pdb
+F:\source\repos\Poker\bin\Debug\Poker.exe.config
+F:\source\repos\Poker\bin\Debug\Poker.exe
+F:\source\repos\Poker\bin\Debug\Poker.pdb
+F:\source\repos\Poker\obj\Debug\Poker.csproj.AssemblyReference.cache
+F:\source\repos\Poker\obj\Debug\MainWindow.baml
+F:\source\repos\Poker\obj\Debug\MainWindow.g.cs
+F:\source\repos\Poker\obj\Debug\App.g.cs
+F:\source\repos\Poker\obj\Debug\Poker_MarkupCompile.cache
+F:\source\repos\Poker\obj\Debug\Poker_MarkupCompile.lref
+F:\source\repos\Poker\obj\Debug\App.baml
+F:\source\repos\Poker\obj\Debug\Poker.g.resources
+F:\source\repos\Poker\obj\Debug\Poker.Properties.Resources.resources
+F:\source\repos\Poker\obj\Debug\Poker.csproj.GenerateResource.cache
+F:\source\repos\Poker\obj\Debug\Poker.csproj.CoreCompileInputs.cache
+F:\source\repos\Poker\obj\Debug\Poker.exe
+F:\source\repos\Poker\obj\Debug\Poker.pdb

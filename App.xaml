@@ -1,0 +1,28 @@
+﻿<Application x:Class="Poker.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:Poker"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+        <SolidColorBrush x:Key="blanc" Color="#FFDDDDDD" />
+        <SolidColorBrush x:Key="bleu" Color="#3399FF" />
+        <SolidColorBrush x:Key="vert" Color="#33FF66" />
+        <SolidColorBrush x:Key="vert1" Color="#FF27B323" />
+        <SolidColorBrush x:Key="jaune" Color="#CCFF33" />
+        <SolidColorBrush x:Key="orange" Color="#FF8C00" />
+        <SolidColorBrush x:Key="rouge" Color="#FF0000" />
+        <SolidColorBrush x:Key="rouge1" Color="#FF6666" />
+        <SolidColorBrush x:Key="gold" Color="#FFD700" />
+        <SolidColorBrush x:Key="cfond" Color="#FF2C5C0C" />
+        <SolidColorBrush x:Key="cAttente" Color="#FF686868" />
+        <SolidColorBrush x:Key="cSecouche" Color="#FF6F6F6F" />
+        <SolidColorBrush x:Key="cParole" Color="#FFFE7C02" />
+        <SolidColorBrush x:Key="cSuit" Color="#FF5491C9" />
+        <SolidColorBrush x:Key="cRelance" Color="#FF67C926" />
+        <SolidColorBrush x:Key="cTapis" Color="#FFFFB700" />
+        <SolidColorBrush x:Key="cbouton" Color="#FFADF81A" />
+        <SolidColorBrush x:Key="cgagne" Color="#FF094C07" />
+        <SolidColorBrush x:Key="noir" Color="#000000" />
+    </Application.Resources>
+
+</Application>

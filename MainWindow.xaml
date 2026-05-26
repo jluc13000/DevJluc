@@ -1,0 +1,493 @@
+﻿<Window x:Class="Poker.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        ResizeMode="NoResize"
+    Title="MainWindow" Height="900" Width="410" Topmost="True" Top="122" Left="0" WindowStyle="None">
+    <Window.Resources>
+        <!-- Couleurs -->
+        <SolidColorBrush x:Key="blanc" Color="White"/>
+        <SolidColorBrush x:Key="bleu" Color="#4A90E2"/>
+        <SolidColorBrush x:Key="gris" Color="#CCCCCC"/>
+
+        <!-- Bouton totalement neutre -->
+        <Style x:Key="FlatButton" TargetType="Button">
+            <Setter Property="Background" Value="{StaticResource blanc}"/>
+            <Setter Property="BorderBrush" Value="Black"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding" Value="8"/>
+            <Setter Property="Margin" Value="6"/>
+            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"/>
+                        </Border>
+
+                        <!-- UNIQUEMENT Disabled -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.5"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <!-- ===================================================== -->
+        <!-- INJECTION MAIN1 -->
+        <!-- ===================================================== -->
+
+        <TextBox x:Name="TB_Injection"
+         HorizontalAlignment="Left"
+         VerticalAlignment="Top"
+         Margin="6,20,0,0"
+         Width="390"
+         Height="90"
+         AcceptsReturn="True"
+         VerticalScrollBarVisibility="Auto"
+         TextWrapping="Wrap"
+         FontSize="10"/>
+
+        
+        <!-- Image de fond -->
+        <Image x:Name="Turn1" Source="/Fenetre_Poker.gif"
+               Stretch="None"
+               HorizontalAlignment="Center"
+               VerticalAlignment="Center"/>
+
+        <!-- Image des 52 cartes -->
+
+        <!-- Zones cliquables -->
+        <Canvas x:Name="ZoneCartes"
+                Width="128"
+                Height="260"
+                Margin="5,238,0,0"
+                HorizontalAlignment="Left"
+                VerticalAlignment="Top"
+                IsHitTestVisible="True"/>
+        <!-- Boutons -->
+        <Button x:Name="Bt_Main_1"                  Content="Main 1"            Click="Bt_Main_1_Click"             HorizontalAlignment="Left"              Height="20"     Margin="6,501,0,0"      VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Main_2"                  Content="Main 2"            Click="Bt_Main_2_Click"             HorizontalAlignment="Left"              Height="20"     Margin="71,501,0,0"     VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_1"                  Content="Flop 1"            Click="Bt_Flop_1_Click"             HorizontalAlignment="Left"              Height="20"     Margin="6,562,0,0"      VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_2"                  Content="Flop 2"            Click="Bt_Flop_2_Click"             HorizontalAlignment="Left"              Height="20"     Margin="71,562,0,0"     VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_3"                  Content="Flop 3"            Click="Bt_Flop_3_Click"             HorizontalAlignment="Left"              Height="20"     Margin="136,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn"                    Content="Turn"              Click="Bt_Turn_Click"               HorizontalAlignment="Left"              Height="20"     Margin="201,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River"                   Content="River"             Click="Bt_River_Click"              HorizontalAlignment="Left"              Height="20"     Margin="266,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Fin_Main"                Content="Fin Main"          Click="Bt_Fin_Main_Click"           HorizontalAlignment="Left"              Height="20"     Margin="332,562,0,0"    VerticalAlignment="Top"     Width="66"                                                          Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_M"                  Content="M"                 Click="Bt_Rand_M_Click"                                                     Height="20"     Margin="332,583,61,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_F"                  Content="F"                 Click="Bt_Rand_F_Click"                                                     Height="20"     Margin="349,583,44,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_T"                  Content="T"                 Click="Bt_Rand_T_Click"                                                     Height="20"     Margin="366,583,27,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_R"                  Content="R"                 Click="Bt_Rand_R_Click"                                                     Height="20"     Margin="383,583,10,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_MTFR"               Content="MTFR"              Click="Bt_Rand_MTFR_Click"                                                  Height="20"     Margin="332,602,44,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}" />
+        <Button x:Name="Bt_Se_Recare"               Content="Se Recare"         Click="Bt_Se_Recare_Click"          HorizontalAlignment="Left"              Height="20"     Margin="6,623,0,0"      VerticalAlignment="Top"     Width="60"                  FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Position_1"              Content="1"                 Click="Bt_Position_1_Click"         HorizontalAlignment="Left"              Height="17"     Margin="4,140,0,0"      VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}" />
+        <Button x:Name="Bt_Position_2"              Content="2"                 Click="Bt_Position_2_Click"         HorizontalAlignment="Left"              Height="17"     Margin="32,140,0,0"     VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_3"              Content="3"                 Click="Bt_Position_3_Click"         HorizontalAlignment="Left"              Height="17"     Margin="60,140,0,0"     VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_4"              Content="4"                 Click="Bt_Position_4_Click"         HorizontalAlignment="Left"              Height="17"     Margin="88,140,0,0"     VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_5"              Content="5"                 Click="Bt_Position_5_Click"         HorizontalAlignment="Left"              Height="17"     Margin="116,140,0,0"    VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_6"              Content="6"                 Click="Bt_Position_6_Click"         HorizontalAlignment="Left"              Height="17"     Margin="144,140,0,0"    VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_7"              Content="7"                 Click="Bt_Position_7_Click"         HorizontalAlignment="Left"              Height="17"     Margin="172,140,0,0"    VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_8"              Content="8"                 Click="Bt_Position_8_Click"         HorizontalAlignment="Left"              Height="17"     Margin="200,140,0,0"    VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Position_9"              Content="9"                 Click="Bt_Position_9_Click"         HorizontalAlignment="Left"              Height="17"     Margin="228,140,0,0"    VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_PreFlop_Paire"           Content="Paire"             Click="Bt_PreFlop_Paire_Click"      HorizontalAlignment="Left"              Height="20"     Margin="52,648,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PreFlop_Pareille"        Content="Pareillé"          Click="Bt_PreFlop_Pareille_Click"   HorizontalAlignment="Left"              Height="20"     Margin="93,648,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PreFlop_Suite"           Content="Suite"             Click="Bt_PreFlop_Suite_Click"      HorizontalAlignment="Left"              Height="20"     Margin="135,648,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Paire"              Content="Paire"             Click="Bt_Flop_Paire_Click"         HorizontalAlignment="Left"              Height="20"     Margin="52,668,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_2_Paires"           Content="2 Paires"          Click="Bt_Flop_2_Paires_Click"      HorizontalAlignment="Left"              Height="20"     Margin="93,668,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Brelan"             Content="Brelan"            Click="Bt_Flop_Brelan_Click"        HorizontalAlignment="Left"              Height="20"     Margin="135,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Quinte"             Content="Quinte"            Click="Bt_Flop_Quinte_Click"        HorizontalAlignment="Left"              Height="20"     Margin="177,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Couleur"            Content="Couleur"           Click="Bt_Flop_Couleur_Click"       HorizontalAlignment="Left"              Height="20"     Margin="219,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Full"               Content="Full"              Click="Bt_Flop_Full_Click"          HorizontalAlignment="Left"              Height="20"     Margin="261,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Carre"              Content="Carré"             Click="Bt_Flop_Carre_Click"         HorizontalAlignment="Left"              Height="20"     Margin="303,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_QFlush"             Content="QFlush"            Click="Bt_Flop_QFlush_Click"        HorizontalAlignment="Left"              Height="20"     Margin="345,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Turn_Paire"              Content="Paire"             Click="Bt_Turn_Paire_Click"         HorizontalAlignment="Left"              Height="20"     Margin="52,688,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_2_Paires"           Content="2 Paires"          Click="Bt_Turn_2_Paires_Click"      HorizontalAlignment="Left"              Height="20"     Margin="93,688,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Brelan"             Content="Brelan"            Click="Bt_Turn_Brelan_Click"        HorizontalAlignment="Left"              Height="20"     Margin="135,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Quinte"             Content="Quinte"            Click="Bt_Turn_Quinte_Click"        HorizontalAlignment="Left"              Height="20"     Margin="177,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Couleur"            Content="Couleur"           Click="Bt_Turn_Couleur_Click"       HorizontalAlignment="Left"              Height="20"     Margin="219,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Full"               Content="Full"              Click="Bt_Turn_Full_Click"          HorizontalAlignment="Left"              Height="20"     Margin="261,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Carre"              Content="Carré"             Click="Bt_Turn_Carre_Click"         HorizontalAlignment="Left"              Height="20"     Margin="303,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_QFlush"             Content="QFlush"            Click="Bt_Turn_QFlush_Click"        HorizontalAlignment="Left"              Height="20"     Margin="345,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_River_Paire"             Content="Paire"             Click="Bt_River_Paire_Click"        HorizontalAlignment="Left"              Height="20"     Margin="52,708,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_2_Paires"          Content="2 Paires"          Click="Bt_River_2_Paires_Click"     HorizontalAlignment="Left"              Height="20"     Margin="93,708,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Brelan"            Content="Brelan"            Click="Bt_River_Brelan_Click"       HorizontalAlignment="Left"              Height="20"     Margin="135,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Quinte"            Content="Quinte"            Click="Bt_River_Quinte_Click"       HorizontalAlignment="Left"              Height="20"     Margin="177,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Couleur"           Content="Couleur"           Click="Bt_River_Couleur_Click"      HorizontalAlignment="Left"              Height="20"     Margin="219,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Full"              Content="Full"              Click="Bt_River_Full_Click"         HorizontalAlignment="Left"              Height="20"     Margin="261,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Carre"             Content="Carré"             Click="Bt_River_Carre_Click"        HorizontalAlignment="Left"              Height="20"     Margin="303,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_QFlush"            Content="QFlush"            Click="Bt_River_QFlush_Click"       HorizontalAlignment="Left"              Height="20"     Margin="345,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_AA"                      Content="AA"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,740,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_KK"                      Content="KK"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,740,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_QQ"                      Content="QQ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="64,740,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_JJ"                      Content="JJ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="93,740,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_1010"                    Content="1010"              Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="122,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_99"                      Content="99"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="151,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_88"                      Content="88"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="180,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_77"                      Content="77"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="209,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_66"                      Content="66"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="238,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_55"                      Content="55"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="267,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_44"                      Content="44"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="296,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_33"                      Content="33"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="325,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_22"                      Content="22"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="354,740,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_AKp"                     Content="AKp"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,760,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_AQp"                     Content="AQp"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,760,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_AJp"                     Content="AJp"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="64,760,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A10p"                    Content="A10p"              Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="93,760,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A9p"                     Content="A9p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="122,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A8p"                     Content="A8p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="151,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A7p"                     Content="A7p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="180,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A6p"                     Content="A6p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="209,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A5p"                     Content="A5p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="238,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A4p"                     Content="A4p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="267,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A3p"                     Content="A3p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="296,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A2p"                     Content="A2p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="325,760,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_AK"                      Content="AK"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,780,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_AQ"                      Content="AQ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,780,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_AJ"                      Content="AJ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="64,780,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A10"                     Content="A10"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="93,780,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A9"                      Content="A9"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="122,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A8"                      Content="A8"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="151,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A7"                      Content="A7"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="180,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A6"                      Content="A6"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="209,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A5"                      Content="A5"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="238,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A4"                      Content="A4"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="267,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A3"                      Content="A3"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="296,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_A2"                      Content="A2"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="325,780,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_KQp"                     Content="KQp"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,800,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_KJp"                     Content="KJp"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,800,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K10p"                    Content="K10p"              Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="64,800,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K9p"                     Content="K9p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="93,800,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K8p"                     Content="K8p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="122,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K7p"                     Content="K7p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="151,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K6p"                     Content="K6p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="180,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K5p"                     Content="K5p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="209,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K4p"                     Content="K4p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="238,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K3p"                     Content="K3p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="267,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K2p"                     Content="K2p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="296,800,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_KQ"                      Content="KQ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,820,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_KJ"                      Content="KJ"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,820,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K10"                     Content="K10"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="64,820,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K9"                      Content="K9"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="93,820,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K8"                      Content="K8"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="122,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K7"                      Content="K7"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="151,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_K6"                      Content="K6"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="180,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_QJp"                     Content="QJp"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="209,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Q10p"                    Content="Q10p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="238,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Q9p"                     Content="Q9p"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="267,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_J10p"                    Content="J10p"               Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="296,820,0,0"    VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Auto_M9"                 Content="-9"                Click="Bt_Auto_M9_Click"            HorizontalAlignment="Left"              Height="20"     Margin="203,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_M8"                 Content="-8"                Click="Bt_Auto_M8_Click"            HorizontalAlignment="Left"              Height="20"     Margin="216,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_M6"                 Content="-6"                Click="Bt_Auto_M6_Click"            HorizontalAlignment="Left"              Height="20"     Margin="229,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_M4"                 Content="-4"                Click="Bt_Auto_M4_Click"            HorizontalAlignment="Left"              Height="20"     Margin="242,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_M2"                 Content="-2"                Click="Bt_Auto_M2_Click"            HorizontalAlignment="Left"              Height="20"     Margin="255,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_0"                  Content="0"                 Click="Bt_Auto_0_Click"             HorizontalAlignment="Left"              Height="20"     Margin="268,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_P2"                 Content="+2"                Click="Bt_Auto_P2_Click"            HorizontalAlignment="Left"              Height="20"     Margin="281,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_P4"                 Content="+4"                Click="Bt_Auto_P4_Click"            HorizontalAlignment="Left"              Height="20"     Margin="294,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_P6"                 Content="+6"                Click="Bt_Auto_P6_Click"            HorizontalAlignment="Left"              Height="20"     Margin="307,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto_P8"                 Content="+8"                Click="Bt_Auto_P8_Click"            HorizontalAlignment="Left"              Height="20"     Margin="320,648,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Auto_GO"                 Content="GO"                Click="Bt_Auto_GO_Click"            HorizontalAlignment="Left"              Height="20"     Margin="333,648,0,0"    VerticalAlignment="Top"     Width="14"  FontSize="6"    FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_S"                       Content="S"                 Click="Bt_S_Click"                  HorizontalAlignment="Left"              Height="20"     Margin="320,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Auto"                    Content="Auto"              Click="Bt_Auto_Click"               HorizontalAlignment="Left"              Height="20"     Margin="178,648,0,0"    VerticalAlignment="Top"     Width="24"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Fermer"                     Content="Fermer"            Click="Fermer_Click"                HorizontalAlignment="Left"              Height="20"     Margin="172,870,0,0"    VerticalAlignment="Top"     Width="65"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Background="#75F0C6"   />
+
+        <Button x:Name="Bt_Tir_Flop_Quinte"         Content="Q"                 Click="Bt_Tir_Flop_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,668,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_Couleur"        Content="Col"               Click="Bt_Tir_Flop_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_QFlush"         Content="QF"                Click="Bt_Tir_Flop_QFlush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Quinte"         Content="Q"                 Click="Bt_Tir_Turn_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,689,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Couleur"        Content="Col"               Click="Bt_Tir_Turn_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_QFlush"         Content="QF"                Click="Bt_Tir_Turn_QFlush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Je_suis_a_table"         Content=""                  Click="Bt_Je_suis_a_table_Click"    HorizontalAlignment="Left"              Height="17"     Margin="256,140,0,0"    VerticalAlignment="Top"     Width="9"   FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Un_Joueur_en_1"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_2"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_3"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_4"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_5"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_6"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_7"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_8"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Un_Joueur_en_9"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Bouton_en_1"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_2"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_3"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_4"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_5"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_6"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_7"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_8"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Bouton_en_9"             Content=""                  Click="Bt_Bouton_en_Click"          HorizontalAlignment="Left"              Height="11"     Margin="268,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+
+        <Button x:Name="Bt_PlaceDisponible_1"       Content="1"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_2"       Content="2"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_3"       Content="3"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_4"       Content="4"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_5"       Content="5"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_6"       Content="6"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_7"       Content="7"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_8"       Content="8"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_PlaceDisponible_9"       Content="9"                 Click="Bt_PlaceDisponible_Click"    HorizontalAlignment="Left"              Height="11"     Margin="312,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Joueur1_Fold"            Content=""                  Click="Bt_Joueur1_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur2_Fold"            Content=""                  Click="Bt_Joueur2_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur3_Fold"            Content=""                  Click="Bt_Joueur3_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur4_Fold"            Content=""                  Click="Bt_Joueur4_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur5_Fold"            Content=""                  Click="Bt_Joueur5_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur6_Fold"            Content=""                  Click="Bt_Joueur6_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur7_Fold"            Content=""                  Click="Bt_Joueur7_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur8_Fold"            Content=""                  Click="Bt_Joueur8_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur9_Fold"            Content=""                  Click="Bt_Joueur9_Fold_Click"       HorizontalAlignment="Left"              Height="11"     Margin="279,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Joueur1_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur2_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur3_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur4_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur5_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur6_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur7_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur8_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur9_Mise"            Content=""                  Click="Bt_Joueur_Mise_Click"       HorizontalAlignment="Left"              Height="11"     Margin="290,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Joueur1_Tapis"           Content=""                  Click="Bt_Joueur1_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur2_Tapis"           Content=""                  Click="Bt_Joueur2_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur3_Tapis"           Content=""                  Click="Bt_Joueur3_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,53,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur4_Tapis"           Content=""                  Click="Bt_Joueur4_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,65,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur5_Tapis"           Content=""                  Click="Bt_Joueur5_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,77,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur6_Tapis"           Content=""                  Click="Bt_Joueur6_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,89,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur7_Tapis"           Content=""                  Click="Bt_Joueur7_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,101,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur8_Tapis"           Content=""                  Click="Bt_Joueur8_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,113,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Joueur9_Tapis"           Content=""                  Click="Bt_Joueur9_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+
+        <Button x:Name="Bt_Gagne_en_1"              Content=""                  Click="Bt_Gagne_en_1_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,29,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_2"              Content=""                  Click="Bt_Gagne_en_2_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,41,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_3"              Content=""                  Click="Bt_Gagne_en_3_Click"                                                 Height="12"     Margin="404,53,0,0"     VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_4"              Content=""                  Click="Bt_Gagne_en_4_Click"                                                 Height="12"     Margin="404,65,0,0"     VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_5"              Content=""                  Click="Bt_Gagne_en_5_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,77,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_6"              Content=""                  Click="Bt_Gagne_en_6_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,89,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_7"              Content=""                  Click="Bt_Gagne_en_7_Click"                                                 Height="12"     Margin="404,101,0,0"    VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_8"              Content=""                  Click="Bt_Gagne_en_8_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,113,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_9"              Content=""                  Click="Bt_Gagne_en_9_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,125,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <!-- PAROLE / PASSE -->
+        <Button x:Name="Bt_Parole_Passe"
+            Content="Parole/Passe"      
+            Click="Bt_Parole_Passe_Click"       
+            HorizontalAlignment="Left"              
+            Height="20"     
+            Margin="145,255,0,0"    
+            VerticalAlignment="Top"     
+            Width="60"  FontSize="9"                        
+            FontWeight="Bold"   
+            Style="{StaticResource FlatButton}"/>
+        <Label x:Name="LbNbParole"                  
+            Content="0"                                                     
+            HorizontalAlignment="Left"                              
+            Margin="140,275,0,0"    
+            VerticalAlignment="Top"     
+            Width="60"  FontSize="10"       
+            HorizontalContentAlignment="Center"/>
+
+        <!-- CALL -->
+        <Button x:Name="Bt_Call"
+            Content="Call"              
+            Click="Bt_Call_Click"         
+            HorizontalAlignment="Left"
+            Height="20"
+            Margin="205,255,0,0"
+            VerticalAlignment="Top"
+            Width="60"
+            FontSize="9"
+            FontWeight="Bold"
+            Style="{StaticResource FlatButton}"/>
+
+        <!-- RAISE -->
+        <Button x:Name="Bt_Raise"
+            Content="Raise"
+            Click="Bt_Raise_Click"
+            HorizontalAlignment="Left"
+            Height="20"
+            Margin="265,255,0,0"
+            VerticalAlignment="Top"
+            Width="60"
+            FontSize="9"
+            FontWeight="Bold"
+            Style="{StaticResource FlatButton}"/>
+
+        <Label x:Name="LbMH"
+       Content="Main/h: 0"
+       HorizontalAlignment="Left"
+       Margin="235,275,0,0"
+       VerticalAlignment="Top"
+       Width="70"
+       Height="20"
+       FontSize="9"
+       Background="Transparent"
+       Foreground="Black"
+       HorizontalContentAlignment="Center"
+       VerticalContentAlignment="Center"/>
+
+        <!-- TAPIS -->
+        <Button x:Name="Bt_Tapis"
+        Content="Tapis"
+        Click="Bt_Tapis_Click"
+        HorizontalAlignment="Left"
+        Height="20"
+        Margin="325,255,0,0"
+        VerticalAlignment="Top"
+        Width="60"
+        FontSize="9"
+        FontWeight="Bold"
+        Style="{StaticResource FlatButton}"/>
+
+        <!-- Chrono au-dessus -->
+        <Label x:Name="LbTemps"
+       Content="00:00:00"
+       HorizontalAlignment="Left"
+       Margin="325,230,0,0"
+       VerticalAlignment="Top"
+       Width="60"
+       FontSize="10"
+       Background="White"
+       Foreground="Black"
+       HorizontalContentAlignment="Center"/>
+
+        <!-- Compteur Tapis -->
+        <Label x:Name="LbNbTapis"
+       Content="0"
+       HorizontalAlignment="Left"
+       Margin="325,275,0,0"
+       VerticalAlignment="Top"
+       Width="56"
+       FontSize="10"
+       HorizontalContentAlignment="Center"/>
+
+        <Button x:Name="Bt_Mem01"                   Content="1"                 Click="Bt_Mem01_Click"              HorizontalAlignment="Left"              Height="12"     Margin="6,841,0,0"      VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem02"                   Content="2"                 Click="Bt_Mem02_Click"              HorizontalAlignment="Left"              Height="12"     Margin="19,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem03"                   Content="3"                 Click="Bt_Mem03_Click"              HorizontalAlignment="Left"              Height="12"     Margin="32,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem04"                   Content="4"                 Click="Bt_Mem04_Click"              HorizontalAlignment="Left"              Height="12"     Margin="45,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem05"                   Content="5"                 Click="Bt_Mem05_Click"              HorizontalAlignment="Left"              Height="12"     Margin="58,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem06"                   Content="6"                 Click="Bt_Mem06_Click"              HorizontalAlignment="Left"              Height="12"     Margin="71,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem07"                   Content="7"                 Click="Bt_Mem07_Click"              HorizontalAlignment="Left"              Height="12"     Margin="84,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem08"                   Content="8"                 Click="Bt_Mem08_Click"              HorizontalAlignment="Left"              Height="12"     Margin="97,841,0,0"     VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem09"                   Content="9"                 Click="Bt_Mem09_Click"              HorizontalAlignment="Left"              Height="12"     Margin="110,841,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem10"                   Content="10"                Click="Bt_Mem10_Click"              HorizontalAlignment="Left"              Height="12"     Margin="123,841,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem11"                   Content="11"                Click="Bt_Mem11_Click"              HorizontalAlignment="Left"              Height="12"     Margin="136,841,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem12"                   Content="12"                Click="Bt_Mem12_Click"              HorizontalAlignment="Left"              Height="12"     Margin="149,841,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Mem13"                   Content="13"                Click="Bt_Mem13_Click"              HorizontalAlignment="Left"              Height="12"     Margin="162,841,0,0"    VerticalAlignment="Top"     Width="12"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_Greenhorn"               Content="Greenhorn"         Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="12,157,0,0"     VerticalAlignment="Top"     Width="44"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Beginner"                Content="Beginner"          Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="12,177,0,0"     VerticalAlignment="Top"     Width="44"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gambler"                 Content="Gambler"           Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="12,197,0,0"     VerticalAlignment="Top"     Width="44"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Pro"                     Content="Pro"               Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="12,217,0,0"     VerticalAlignment="Top"     Width="44"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_BigFish"                 Content="BigFish"           Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="56,217,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Master"                  Content="Master"            Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="97,217,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Champion"                Content="Champion"          Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="138,217,0,0"    VerticalAlignment="Top"     Width="44"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Guru"                    Content="Guru"              Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="182,217,0,0"    VerticalAlignment="Top"     Width="40"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Ultimate"                Content="Ultimate"          Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="222,217,0,0"    VerticalAlignment="Top"     Width="43"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Epic"                    Content="Epic"              Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="222,197,0,0"    VerticalAlignment="Top"     Width="43"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Insane"                  Content="Insane"            Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="222,177,0,0"    VerticalAlignment="Top"     Width="43"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Legendary"               Content="Legendary"         Click="Bt_NiveauTable_Click"        HorizontalAlignment="Left"              Height="20"     Margin="222,157,0,0"    VerticalAlignment="Top"     Width="43"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+        <Button x:Name="Bt_M9"                      Content="-9"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="67,623,0,0"     VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_M8"                      Content="-8"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="90,623,0,0"     VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_M6"                      Content="-6"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="113,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_M4"                      Content="-4"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="136,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_M2"                      Content="-2"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="159,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_0"                       Content="0"                 Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="182,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_P2"                      Content="+2"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="205,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_P4"                      Content="+4"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="228,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_P6"                      Content="+6"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="251,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_P8"                      Content="+8"                Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="274,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_P10"                     Content="+10"               Click="Bt_Mise_Click"               HorizontalAlignment="Left"              Height="20"     Margin="297,623,0,0"    VerticalAlignment="Top"     Width="22"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Pas_de_Bouton"           Content=""                  Click="Bt_Pas_de_Bouton_Click"      HorizontalAlignment="Left"              Height="11"     Margin="268,137,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_J_ai_Gagne"              Content="J'ai GAGNE"        Click="Bt_J_ai_Gagne_Click"         HorizontalAlignment="Left"              Height="20"     Margin="270,157,0,0"    VerticalAlignment="Top"     Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+
+        <!-- TextBox -->
+        <TextBox x:Name="TB_M1"           Width="65"    Height="39"     Margin="6,522,0,0"   FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_M2"           Width="65"    Height="39"     Margin="71,522,0,0"  FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_F1"           Width="65"    Height="39"     Margin="6,583,0,0"   FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_F2"           Width="65"    Height="39"     Margin="71,583,0,0"  FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
+        <TextBox x:Name="TB_Mise"         Width="65"    Height="20"     Margin="343,623,0,0" TextWrapping="Wrap" Text="0"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" FontSize="10"/>
+        <TextBox x:Name="TB_Mise_Coeff"   Width="26"    Height="20"     Margin="348,648,0,0" TextWrapping="Wrap" Text="1.5"  HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_Coeff_TextChanged"/>
+
+        <!-- TextBlock -->
+        <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Blind3"                Width="36"      Height="13"         Margin="185,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Care_Min"              Width="44"      Height="13"         Margin="95,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Care_Max"              Width="44"      Height="13"         Margin="140,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Call_Max"              Width="56"      Height="13"         Margin="207,240,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"/>
+        <TextBlock x:Name="T_Raise_Max"             Width="56"      Height="13"         Margin="266,240,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"><Run Language="fr-fr" /></TextBlock>
+        <TextBlock x:Name="T_Stak_Depart_Joueur1"   Width="71"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="MISES"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="ATTENTE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="LECTURE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur5"   Width="71"      Height="12"         Margin="327,77,0,0"     TextWrapping="Wrap" Text="ATTENTE FIN MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur6"   Width="71"      Height="12"         Margin="327,88,0,0"     TextWrapping="Wrap" Text="SUITE"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="71"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="71"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="71"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Care_Min_Copy"         Width="44"      Height="13"         Margin="140,190,0,0"    HorizontalAlignment="Left"      TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="140,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+
+        <!-- Label -->
+        <Label Content="      Binds           Care Min Care Max" HorizontalAlignment="Left" Height="21" Margin="57,153,0,0" VerticalAlignment="Top" Width="165" FontSize="10" FontStyle="Italic"/>
+        <Label Content="POT"        HorizontalAlignment="Left" Height="21" Margin="83,184,0,0"  VerticalAlignment="Top" Width="32" FontSize="10" FontStyle="Italic"/>
+        <Label Content="Mes Chips"  HorizontalAlignment="Left" Height="21" Margin="57,197,0,0"  VerticalAlignment="Top" Width="57" FontSize="10"    FontStyle="Italic"/>
+        <Label  Content="Tirages"   HorizontalAlignment="Left" Height="23" Margin="0,645,0,0"   VerticalAlignment="Top" Width="50" FontSize="9"     FontWeight="Bold"/>
+        <Label x:Name="LbRandomStatus"
+            Height="22"
+            VerticalAlignment="Bottom"
+            Margin="7,0,318,24"
+            FontSize="10"
+            FontWeight="Bold"
+            HorizontalContentAlignment="Center"
+            VerticalContentAlignment="Center"
+            Background="#E6E6E6"
+            Foreground="Black"
+            BorderThickness="1"
+            BorderBrush="#C0C0C0"
+            Padding="4,0"
+            Content="RANDOM OFF"/>
+
+        <ComboBox x:Name="CbRandom" HorizontalAlignment="Left" Height="22" Margin="93,854,0,0" VerticalAlignment="Top" Width="50" SelectionChanged="CbRandom_SelectionChanged"/>
+        <TextBox x:Name="Tb_Tapis_Max" HorizontalAlignment="Left" Height="20" Margin="332,157,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" FontSize="10"/>
+        <Button x:Name="Bt_Pause" Content="Pause" HorizontalAlignment="Left" Height="20" Margin="361,157,0,0" VerticalAlignment="Top" Width="37" Click="Bt_Pause_Click" FontSize="9"/>
+        <Button x:Name="Bt_Initialise" Content="Initialise" Click="Bt_Initialise_Click" HorizontalAlignment="Left" Height="20" Margin="361,177,0,0" VerticalAlignment="Top" Width="37"  FontSize="9" RenderTransformOrigin="0.495,1.65" />
+        <Button x:Name="Bt_Doublon"    Content="Doublons"   Click="Bt_Doublon_Click"    HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Injection"  Content="INJECTION"  Click="Bt_Injection_Click"  HorizontalAlignment="Left" Height="20" Margin="270,197,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+
+    </Grid>
+</Window>
+
