@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
@@ -66,8 +67,7 @@ namespace Poker
 
         private int NbDoublon_Turn;
         private int NbDoublon_River;
-
-
+        private System.Drawing.Bitmap Bitmap_Main;
 
 
         HashSet<string> RangeTapis =            new HashSet<string>();
@@ -85,6 +85,8 @@ namespace Poker
 
         List<Button> BoutonsJoueur_Mise =       new List<Button>();
         List<Button> BoutonsBouton_en = new List<Button>();
+
+
 
         int niveauMemoAuto = 0;
 
@@ -614,7 +616,7 @@ namespace Poker
                 // COMMENT : Main 1
                 // =====================================
 
-                if (ligne == "COMMENT : Main 1")
+                if (ligne == "COMMENT : Main_1")
                 {
                     bMain1 = true;
                     continue;
@@ -634,7 +636,7 @@ namespace Poker
 
                     // ignorer lignes invalides
 
-                    if (nom == "Main 1")
+                    if (nom == "Main_1")
                         continue;
 
                     if (nom.Length < 2)
@@ -2363,6 +2365,17 @@ namespace Poker
             ActiverBoutonPosition((Button)sender);
         }
 
+        private void Bt_Test_Main_1_Click(
+    object sender,
+    RoutedEventArgs e)
+        {
+            Bitmap_Main =
+                new System.Drawing.Bitmap(
+                    @"F:\POKER2026\Test.png");
+
+            Lire_Main_1();
+        }
+
         private void Bt_Bouton_en_5_Click(object sender, RoutedEventArgs e)
         {
             ActiverBoutonPosition((Button)sender);
@@ -3171,6 +3184,60 @@ namespace Poker
             }
 
             MessageBox.Show("Injection OK\n\n" + "52 cartes Main1 reçues");
+        }
+        private void Lire_Main_1()
+        {
+            foreach (var carte in Main1Detect)
+            {
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // Correspondance exacte
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte(
+                        TB_M1,
+                        null,
+                        Bt_Main_1,
+                        0);
+
+                    return;
+                }
+            }
+
+            TB_M1.Text = "AUCUNE";
+        }
+        private void CaptureEcran()
+        {
+            System.Drawing.Rectangle zone =
+                new System.Drawing.Rectangle(
+                    0,
+                    0,
+                    (int)SystemParameters.PrimaryScreenWidth,
+                    (int)SystemParameters.PrimaryScreenHeight);
+
+            Bitmap_Main =
+                new System.Drawing.Bitmap(
+                    zone.Width,
+                    zone.Height);
+
+            using (System.Drawing.Graphics g =
+                System.Drawing.Graphics.FromImage(Bitmap_Main))
+            {
+                g.CopyFromScreen(
+                    0,
+                    0,
+                    0,
+                    0,
+                    zone.Size);
+            }
         }
     }
 }

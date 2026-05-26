@@ -37,7 +37,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
@@ -53,6 +53,19 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "F:\\source\\repos\\Poker\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
+              "ToolTip": "F:\\source\\repos\\Poker\\MainWindow.xaml.cs",
+              "RelativeToolTip": "MainWindow.xaml.cs",
+              "ViewState": "AgIAAIgMAAAAAAAAAAAAAKgMAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-04T20:07:18.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 3,
               "Title": "RuntimeType.cs",
               "DocumentMoniker": "C:\\Users\\jean\\AppData\\Local\\Temp\\.vsdbgsrc\\c85548b9ebc31856ad730fe79146a73d29d6bc4f01c61013bce9d8f5cd2cdf41\\RuntimeType.cs",
@@ -60,19 +73,6 @@
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-15T05:40:41.278Z",
               "EditorCaption": " [Lecture seule]"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "MainWindow.xaml.cs",
-              "DocumentMoniker": "F:\\source\\repos\\Poker\\MainWindow.xaml.cs",
-              "RelativeDocumentMoniker": "MainWindow.xaml.cs",
-              "ToolTip": "F:\\source\\repos\\Poker\\MainWindow.xaml.cs",
-              "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAABcMAAAAAAAAAAAUwGYMAAAFAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-04T20:07:18.453Z",
-              "EditorCaption": ""
             },
             {
               "$type": "Document",

@@ -487,6 +487,7 @@
         <Button x:Name="Bt_Initialise" Content="Initialise" Click="Bt_Initialise_Click" HorizontalAlignment="Left" Height="20" Margin="361,177,0,0" VerticalAlignment="Top" Width="37"  FontSize="9" RenderTransformOrigin="0.495,1.65" />
         <Button x:Name="Bt_Doublon"    Content="Doublons"   Click="Bt_Doublon_Click"    HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Injection"  Content="INJECTION"  Click="Bt_Injection_Click"  HorizontalAlignment="Left" Height="20" Margin="270,197,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Test_Main_1"  Content="Test Main_1"  Click="Bt_Test_Main_1_Click"  HorizontalAlignment="Left" Height="20" Margin="270,217,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>
