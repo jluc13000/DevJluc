@@ -49,7 +49,8 @@
               "RelativeToolTip": "MainWindow.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
               "WhenOpened": "2026-02-02T15:34:14.735Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
@@ -59,7 +60,7 @@
               "RelativeDocumentMoniker": "MainWindow.xaml.cs",
               "ToolTip": "F:\\source\\repos\\Poker\\MainWindow.xaml.cs",
               "RelativeToolTip": "MainWindow.xaml.cs",
-              "ViewState": "AgIAAAcNAAAAAAAAAAAAACUNAAAJAAAAAAAAAA==",
+              "ViewState": "AgIAAEwMAAAAAAAAAAAiwGUMAAAeAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-02-04T20:07:18.453Z",
               "EditorCaption": ""
@@ -82,7 +83,7 @@
               "RelativeDocumentMoniker": "Parole.cs",
               "ToolTip": "F:\\source\\repos\\Poker\\Parole.cs",
               "RelativeToolTip": "Parole.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAqwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAA6wAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-04-18T02:21:33.045Z"
             },
@@ -95,7 +96,8 @@
               "ToolTip": "F:\\source\\repos\\Poker\\App.xaml",
               "RelativeToolTip": "App.xaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2026-02-04T22:44:51.348Z"
+              "WhenOpened": "2026-02-04T22:44:51.348Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",

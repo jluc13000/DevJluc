@@ -10,7 +10,10 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
+using System.IO;
+using Newtonsoft.Json;
 
+using System.Text.Json;
 namespace Poker
 {
     public partial class MainWindow : Window
@@ -128,6 +131,11 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
+
+            // 🔥 Charger les JSON
+            Charger_Main1_JSON();
+            Charger_Main2_JSON();
+            Charger_Main1_Presente_JSON();
 
             // 🔥 Variables
             DebutSession = DateTime.Now;
@@ -601,212 +609,7 @@ namespace Poker
         **              M A I N            **
         **                                 **
         ************************************/
-        private bool Extraire_Main1(string txt)
-        {
-            string[] lignes =
-                txt.Split('\n');
-
-            int index = 0;
-
-            bool bMain1 = false;
-
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne =
-                    lignes[i].Trim();
-
-                // =====================================
-                // COMMENT : Main 1
-                // =====================================
-
-                if (ligne == "COMMENT : Main_1")
-                {
-                    bMain1 = true;
-                    continue;
-                }
-                if (!bMain1)
-                    continue;
-                // =====================================
-                // COMMENT : Carte
-                // =====================================
-
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "")
-                            .Trim();
-
-                    // ignorer lignes invalides
-
-                    if (nom == "Main_1")
-                        continue;
-
-                    if (nom.Length < 2)
-                        continue;
-
-                    // =====================================
-                    // Ligne suivante :
-                    // IF PIXEL COLOR EQUALS
-                    // =====================================
-
-                    if (i + 1 >= lignes.Length)
-                        continue;
-
-                    string l2 =
-                        lignes[i + 1].Trim();
-
-                    if (!l2.StartsWith(
-                        "IF PIXEL COLOR EQUALS"))
-                        continue;
-
-                    // =====================================
-                    // Découpage :
-                    // IF PIXEL COLOR EQUALS : X : Y : C : 0
-                    // =====================================
-
-                    string[] t =
-                        l2.Split(':');
-
-                    if (t.Length < 5)
-                        continue;
-
-                    // =====================================
-                    // Extraction
-                    // =====================================
-
-                    Main1Detect[index].Nom =
-                        nom;
-
-                    Main1Detect[index].X =
-                        int.Parse(t[1]);
-
-                    Main1Detect[index].Y =
-                        int.Parse(t[2]);
-
-                    Main1Detect[index].Couleur =
-                        int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // Validation
-            // =====================================
-
-            if (!bMain1)
-                return false;
-
-            if (index != 52)
-                return false;
-
-            return true;
-        }
-        private bool Extraire_Main2(string txt)
-        {
-            string[] lignes =
-                txt.Split('\n');
-
-            int index = 0;
-
-            bool bMain2 = false;
-
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne =
-                    lignes[i].Trim();
-
-                // =====================================
-                // COMMENT : Main_2
-                // =====================================
-
-                if (ligne == "COMMENT : Main_2")
-                {
-                    bMain2 = true;
-                    continue;
-                }
-                if (!bMain2)
-                    continue;
-                // =====================================
-                // COMMENT : Carte
-                // =====================================
-
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "")
-                            .Trim();
-
-                    // ignorer lignes invalides
-
-                    if (nom == "Main_2")
-                        continue;
-
-                    if (nom.Length < 2)
-                        continue;
-
-                    // =====================================
-                    // Ligne suivante :
-                    // IF PIXEL COLOR EQUALS
-                    // =====================================
-
-                    if (i + 1 >= lignes.Length)
-                        continue;
-
-                    string l2 =
-                        lignes[i + 1].Trim();
-
-                    if (!l2.StartsWith(
-                        "IF PIXEL COLOR EQUALS"))
-                        continue;
-
-                    // =====================================
-                    // Découpage :
-                    // IF PIXEL COLOR EQUALS : X : Y : C : 0
-                    // =====================================
-
-                    string[] t =
-                        l2.Split(':');
-
-                    if (t.Length < 5)
-                        continue;
-
-                    // =====================================
-                    // Extraction
-                    // =====================================
-
-                    Main2Detect[index].Nom =
-                        nom;
-
-                    Main2Detect[index].X =
-                        int.Parse(t[1]);
-
-                    Main2Detect[index].Y =
-                        int.Parse(t[2]);
-
-                    Main2Detect[index].Couleur =
-                        int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // Validation
-            // =====================================
-
-            if (!bMain2)
-                return false;
-
-            if (index != 52)
-                return false;
-
-            return true;
-        }
+        
         private void Bt_Main_1_Click(object sender, RoutedEventArgs e)
         {
             // =========================================================
@@ -3065,7 +2868,6 @@ namespace Poker
             Bt_Auto_GO.Background = (Brush)FindResource("blanc");
         }
 
-
         private string NormaliserMain(string carte1, string carte2)
         {
             if (string.IsNullOrWhiteSpace(carte1) || string.IsNullOrWhiteSpace(carte2))
@@ -3243,73 +3045,7 @@ namespace Poker
                 NbDoublon_River++;
             }
         }
-        private void Bt_Injection_Click(object sender, RoutedEventArgs e)
-        {
-            // =====================================
-            // Lecture presse-papiers
-            // =====================================
 
-            string txt =
-                Clipboard.GetText();
-
-            // =====================================
-            // Rien ?
-            // =====================================
-
-            if (string.IsNullOrWhiteSpace(txt))
-            {
-                MessageBox.Show(
-                    "Aucune donnée exploitable");
-
-                return;
-            }
-
-            // =====================================
-            // Affichage dans TextBox
-            // =====================================
-
-            TB_Injection.Text = txt;
-
-            // =====================================
-            // Extraction Main_1
-            // =====================================
-
-            bool ok1 =
-                Extraire_Main1(txt);
-
-            // =====================================
-            // Extraction Main_2
-            // =====================================
-
-            bool ok2 =
-                Extraire_Main2(txt);
-
-            // =====================================
-            // Vérification
-            // =====================================
-
-            if (!ok1 && !ok2)
-            {
-                MessageBox.Show(
-                    "Aucune donnée exploitable");
-
-                return;
-            }
-
-            // =====================================
-            // Résultat
-            // =====================================
-
-            string msg = "Injection OK\n\n";
-
-            if (ok1)
-                msg += "52 cartes Main_1 reçues\n";
-
-            if (ok2)
-                msg += "52 cartes Main_2 reçues\n";
-
-            MessageBox.Show(msg);
-        }
         private void Lire_Main_1()
         {
             foreach (var carte in Main1Detect)
@@ -3390,5 +3126,656 @@ namespace Poker
                     zone.Size);
             }
         }
+        #region INJECTION
+        private S_CarteDetect[] Main1PresenteDetect = new S_CarteDetect[4];
+        private S_CarteDetect[] Main2PresenteDetect = new S_CarteDetect[7];
+
+        private void Bt_Injection_Click(object sender, RoutedEventArgs e)
+        {
+            // =====================================
+            // Lecture presse-papiers
+            // =====================================
+
+            string txt =
+                Clipboard.GetText();
+
+            // =====================================
+            // Rien ?
+            // =====================================
+
+            if (string.IsNullOrWhiteSpace(txt))
+            {
+                MessageBox.Show(
+                    "Aucune donnée exploitable");
+
+                return;
+            }
+
+            // =====================================
+            // Affichage brut injection
+            // =====================================
+
+            TB_Injection.Text = txt;
+
+            // =====================================
+            // EXTRACTION
+            // =====================================
+
+            bool okMain1 =
+                Extraire_Main1(txt);
+
+            bool okMain2 =
+                Extraire_Main2(txt);
+
+            bool okMain1Presente =
+                Extraire_Main1_Presente(txt);
+
+            bool okMain2Presente =
+                Extraire_Main2_Presente(txt);
+
+            // =====================================
+            // Aucune donnée reconnue
+            // =====================================
+
+            if (!okMain1 &&
+                !okMain2 &&
+                !okMain1Presente &&
+                !okMain2Presente)
+            {
+                MessageBox.Show(
+                    "Aucune donnée exploitable");
+
+                return;
+            }
+
+            // =====================================
+            // SAUVEGARDE JSON
+            // =====================================
+
+            if (okMain1)
+                Sauver_Main1_JSON();
+
+            if (okMain2)
+                Sauver_Main2_JSON();
+
+            if (okMain1Presente)
+                Sauver_Main1_Presente_JSON();
+
+            if (okMain2Presente)
+                Sauver_Main2_Presente_JSON();
+
+            // =====================================
+            // RESULTAT
+            // =====================================
+
+            string msg =
+                "Injection OK\n\n";
+
+            if (okMain1)
+                msg +=
+                    "52 cartes Main_1 reçues\n";
+
+            if (okMain2)
+                msg +=
+                    "52 cartes Main_2 reçues\n";
+
+            if (okMain1Presente)
+                msg +=
+                    "Main_1_Presente reçu\n";
+
+            MessageBox.Show(msg);
+        }
+        #endregion
+
+        #region CHARGER JSON
+        private void Charger_Main1_JSON()
+        {
+            string fichier =
+                @"F:\source\repos\Poker\JSON\Main_1.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json =
+                File.ReadAllText(fichier);
+
+            Main1Detect =
+                JsonConvert.DeserializeObject
+                <S_CarteDetect[]>(json);
+        }
+        private void Charger_Main2_JSON()
+        {
+            string fichier =
+                @"F:\source\repos\Poker\JSON\Main_2.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json =
+                File.ReadAllText(fichier);
+
+            Main2Detect =
+                JsonConvert.DeserializeObject
+                <S_CarteDetect[]>(json);
+        }
+        private void Charger_Main1_Presente_JSON()
+        {
+            string fichier =
+                @"F:\source\repos\Poker\JSON\Main_1_Presente.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json =
+                File.ReadAllText(fichier);
+
+            Main1PresenteDetect =
+                JsonConvert.DeserializeObject
+                <S_CarteDetect[]>(json);
+        }
+        private void Charger_Main2_Presente_JSON()
+        {
+            string fichier =
+                @"F:\source\repos\Poker\JSON\Main_2_Presente.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json =
+                File.ReadAllText(fichier);
+
+            Main2PresenteDetect =
+                JsonConvert.DeserializeObject
+                <S_CarteDetect[]>(json);
+        }
+
+        #endregion
+
+        #region SAUVER JSON
+        private void Sauver_Main1_JSON()
+        {
+            string dossier =
+                @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier =
+                Path.Combine(
+                    dossier,
+                    "Main_1.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    Main1Detect,
+                    Formatting.Indented);
+
+            File.WriteAllText(
+                fichier,
+                json);
+        }
+        private void Sauver_Main2_JSON()
+        {
+            string dossier =
+                @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier =
+                Path.Combine(
+                    dossier,
+                    "Main_2.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    Main2Detect,
+                    Formatting.Indented);
+
+            File.WriteAllText(
+                fichier,
+                json);
+        }
+        private void Sauver_Main1_Presente_JSON()
+        {
+            string dossier =
+                @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier =
+                Path.Combine(
+                    dossier,
+                    "Main_1_Presente.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    Main1PresenteDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(
+                fichier,
+                json);
+        }
+        private void Sauver_Main2_Presente_JSON()
+        {
+            string dossier =
+                @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier =
+                Path.Combine(
+                    dossier,
+                    "Main_2_Presente.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    Main2PresenteDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(
+                fichier,
+                json);
+        }
+        #endregion
+
+        #region EXTRAIRE
+        private bool Extraire_Main1(string txt)
+        {
+            string[] lignes =
+                txt.Split('\n');
+
+            int index = 0;
+
+            bool bMain1 = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne =
+                    lignes[i].Trim();
+
+                // =====================================
+                // FIN DU BLOC
+                // =====================================
+
+                if (bMain1 &&
+                    ligne.StartsWith("COMMENT :") &&
+                    ligne != "COMMENT : Main_1")
+                {
+                    break;
+                }
+
+                // =====================================
+                // COMMENT : Main_1
+                // =====================================
+
+                if (ligne == "COMMENT : Main_1")
+                {
+                    bMain1 = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bMain1)
+                    continue;
+
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom =
+                        ligne.Replace(
+                            "COMMENT :",
+                            "")
+                            .Trim();
+
+                    if (nom == "Main_1")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante
+                    // =====================================
+
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 =
+                        lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith(
+                        "IF PIXEL COLOR EQUALS"))
+                        continue;
+
+                    // =====================================
+                    // Découpage
+                    // =====================================
+
+                    string[] t =
+                        l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    Main1Detect[index].Nom =
+                        nom;
+
+                    Main1Detect[index].X =
+                        int.Parse(t[1]);
+
+                    Main1Detect[index].Y =
+                        int.Parse(t[2]);
+
+                    Main1Detect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // Validation
+            // =====================================
+
+            if (!bMain1)
+                return false;
+
+            if (index != 52)
+                return false;
+
+            return true;
+        }
+        private bool Extraire_Main2(string txt)
+        {
+            string[] lignes =
+                txt.Split('\n');
+
+            int index = 0;
+
+            bool bMain2 = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne =
+                    lignes[i].Trim();
+
+                // =====================================
+                // FIN DU BLOC
+                // =====================================
+
+                if (bMain2 &&
+                    ligne.StartsWith("COMMENT :") &&
+                    ligne != "COMMENT : Main_2")
+                {
+                    break;
+                }
+
+                // =====================================
+                // COMMENT : Main_2
+                // =====================================
+
+                if (ligne == "COMMENT : Main_2")
+                {
+                    bMain2 = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bMain2)
+                    continue;
+
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom =
+                        ligne.Replace(
+                            "COMMENT :",
+                            "")
+                            .Trim();
+
+                    if (nom == "Main_2")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante
+                    // =====================================
+
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 =
+                        lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith(
+                        "IF PIXEL COLOR EQUALS"))
+                        continue;
+
+                    // =====================================
+                    // Découpage
+                    // =====================================
+
+                    string[] t =
+                        l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    Main2Detect[index].Nom =
+                        nom;
+
+                    Main2Detect[index].X =
+                        int.Parse(t[1]);
+
+                    Main2Detect[index].Y =
+                        int.Parse(t[2]);
+
+                    Main2Detect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // Validation
+            // =====================================
+
+            if (!bMain2)
+                return false;
+
+            if (index != 52)
+                return false;
+
+            return true;
+        }
+        private bool Extraire_Main1_Presente(string txt)
+        {
+            string[] lignes =
+                txt.Split('\n');
+
+            int index = 0;
+
+            bool bMain1Presente = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne =
+                    lignes[i].Trim();
+
+                // =====================================
+                // FIN DU BLOC
+                // =====================================
+
+                if (bMain1Presente &&
+                    ligne.StartsWith("COMMENT :") &&
+                    ligne != "COMMENT : Main_1_Presente")
+                {
+                    break;
+                }
+
+                // =====================================
+                // COMMENT : Main_1_Presente
+                // =====================================
+
+                if (ligne ==
+                    "COMMENT : Main_1_Presente")
+                {
+                    bMain1Presente = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bMain1Presente)
+                    continue;
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+
+                if (ligne.StartsWith(
+                    "IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t =
+                        ligne.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    Main1PresenteDetect[index].Nom =
+                        "Main_1_Presente";
+
+                    Main1PresenteDetect[index].X =
+                        int.Parse(t[1]);
+
+                    Main1PresenteDetect[index].Y =
+                        int.Parse(t[2]);
+
+                    Main1PresenteDetect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            if (!bMain1Presente)
+                return false;
+
+            if (index != 4)
+                return false;
+
+            return true;
+        }
+        private bool Extraire_Main2_Presente(string txt)
+        {
+            string[] lignes =
+                txt.Split('\n');
+
+            int index = 0;
+
+            bool bMain2Presente = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne =
+                    lignes[i].Trim();
+
+                // =====================================
+                // FIN DU BLOC
+                // =====================================
+
+                if (bMain2Presente &&
+                    ligne.StartsWith("COMMENT :") &&
+                    ligne != "COMMENT : Main_2_Presente")
+                {
+                    break;
+                }
+
+                // =====================================
+                // COMMENT : Main_2_Presente
+                // =====================================
+
+                if (ligne ==
+                    "COMMENT : Main_2_Presente")
+                {
+                    bMain2Presente = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bMain2Presente)
+                    continue;
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+
+                if (ligne.StartsWith(
+                    "IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t =
+                        ligne.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    Main2PresenteDetect[index].Nom =
+                        "Main_2_Presente";
+
+                    Main2PresenteDetect[index].X =
+                        int.Parse(t[1]);
+
+                    Main2PresenteDetect[index].Y =
+                        int.Parse(t[2]);
+
+                    Main2PresenteDetect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            if (!bMain2Presente)
+                return false;
+
+            if (index != 7)
+                return false;
+
+            return true;
+        }
+        
+        
+
+
+        #endregion
+
     }
 }
