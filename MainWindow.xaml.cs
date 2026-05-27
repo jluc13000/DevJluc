@@ -1401,40 +1401,95 @@ namespace Poker
             // =========================================================
 
             List<string> cartes = new List<string>()
+    {
+        TB_M1.Text,
+        TB_M2.Text,
+
+        TB_F1.Text,
+        TB_F2.Text,
+        TB_F3.Text,
+
+        TB_T.Text
+    };
+
+            // =========================================================
+            // 🔥 SECURITE
+            // =========================================================
+
+            if (cartes.Any(c =>
+                string.IsNullOrWhiteSpace(c)))
             {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
                 return;
+            }
 
             // =========================================================
             // 🔥 EXTRACTION VALEURS / COULEURS
             // =========================================================
 
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
+            List<int> valeurs =
+                new List<int>();
 
-            string ordre = "23456789TJQKA";
+            List<char> couleurs =
+                new List<char>();
+
+            // =========================================================
+            // 🔥 LISTES PAR COULEUR
+            // =========================================================
+
+            List<int> Trefles =
+                new List<int>();
+
+            List<int> Piques =
+                new List<int>();
+
+            List<int> Coeurs =
+                new List<int>();
+
+            List<int> Carreaux =
+                new List<int>();
+
+            string ordre =
+                "23456789TJQKA";
 
             foreach (string c in cartes)
             {
-                string val = c.StartsWith("10")
+                // =====================================
+                // Valeur
+                // =====================================
+
+                string val =
+                    c.StartsWith("10")
                     ? "T"
                     : c[0].ToString();
 
-                char suit = c[c.Length - 1];
+                int v =
+                    ordre.IndexOf(val) + 2;
 
-                valeurs.Add(ordre.IndexOf(val) + 2);
+                // =====================================
+                // Couleur
+                // =====================================
+
+                char suit =
+                    c[c.Length - 1];
+
+                valeurs.Add(v);
                 couleurs.Add(suit);
+
+                // =====================================
+                // Répartition couleur
+                // =====================================
+
+                if (suit == '♣')
+                    Trefles.Add(v);
+
+                if (suit == '♠')
+                    Piques.Add(v);
+
+                if (suit == '♥')
+                    Coeurs.Add(v);
+
+                if (suit == '♦')
+                    Carreaux.Add(v);
             }
 
             // =========================================================
@@ -1443,41 +1498,55 @@ namespace Poker
             // =========================================================
 
             bool tirCouleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() == 4);
+                couleurs
+                .GroupBy(c => c)
+                .Any(g => g.Count() >= 4);
 
             if (tirCouleur)
             {
                 bTir_Turn_Couleur = true;
-                Bt_Tir_Turn_Couleur.Background = Vert;
+
+                Bt_Tir_Turn_Couleur.Background =
+                    Vert;
             }
 
             // =========================================================
             // 🔥 TIRAGE QUINTE
-            // 4 cartes qui se suivent
+            // UNIQUEMENT SUITE OUVERTE
             // =========================================================
 
-            var vals = valeurs
+            var vals =
+                valeurs
                 .Distinct()
                 .OrderBy(v => v)
                 .ToList();
 
-            // 🔥 Gestion As bas
+            // =====================================
+            // Gestion As bas
+            // =====================================
+
             if (vals.Contains(14))
+            {
                 vals.Insert(0, 1);
+            }
 
             int suite = 1;
 
-            for (int i = 1; i < vals.Count; i++)
+            for (int i = 1;
+                 i < vals.Count;
+                 i++)
             {
-                if (vals[i] == vals[i - 1] + 1)
+                if (vals[i] ==
+                    vals[i - 1] + 1)
                 {
                     suite++;
 
-                    if (suite == 4)
+                    if (suite >= 4)
                     {
                         bTir_Turn_Quinte = true;
-                        Bt_Tir_Turn_Quinte.Background = Vert;
+
+                        Bt_Tir_Turn_Quinte.Background =
+                            Vert;
                     }
                 }
                 else
@@ -1490,11 +1559,129 @@ namespace Poker
             // 🔥 TIRAGE QUINTE FLUSH
             // =========================================================
 
-            if (bTir_Turn_Quinte && bTir_Turn_Couleur)
+            if (Tirage_Quinte_Special(Trefles) ||
+                Tirage_Quinte_Special(Piques) ||
+                Tirage_Quinte_Special(Coeurs) ||
+                Tirage_Quinte_Special(Carreaux))
             {
                 bTir_Turn_QFlush = true;
-                Bt_Tir_Turn_QFlush.Background = Vert;
+
+                Bt_Tir_Turn_QFlush.Background =
+                    Vert;
             }
+            else
+            {
+                bTir_Turn_QFlush = false;
+
+                Bt_Tir_Turn_QFlush.Background =
+                    Blanc;
+            }
+        }
+        // =========================================================
+        // 🔥 TIRAGE QUINTE SPECIAL
+        // =========================================================
+        //
+        // Retourne TRUE si :
+        //
+        // ✔ quinte ouverte
+        // OU
+        // ✔ quinte ventrale
+        //
+        // Les cartes DOIVENT être
+        // de la même couleur.
+        //
+        // Utilisé uniquement
+        // pour le Tirage QFlush.
+        //
+        // =========================================================
+
+        private bool Tirage_Quinte_Special(
+            List<int> valeurs)
+        {
+            // =====================================
+            // Suppression doublons
+            // =====================================
+
+            valeurs =
+                valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            // =====================================
+            // Pas assez de cartes
+            // =====================================
+
+            if (valeurs.Count < 4)
+                return false;
+
+            // =====================================
+            // Analyse groupes de 4 cartes
+            // =====================================
+
+            for (int i = 0;
+                 i <= valeurs.Count - 4;
+                 i++)
+            {
+                int a = valeurs[i];
+                int b = valeurs[i + 1];
+                int c = valeurs[i + 2];
+                int d = valeurs[i + 3];
+
+                // =====================================
+                // QUINTE OUVERTE
+                // Exemple :
+                // 7 8 9 10
+                // =====================================
+
+                if (b == a + 1 &&
+                    c == a + 2 &&
+                    d == a + 3)
+                {
+                    return true;
+                }
+
+                // =====================================
+                // VENTRALE 1
+                // 7 8 10 J
+                // manque 9
+                // =====================================
+
+                if (b == a + 1 &&
+                    c == a + 3 &&
+                    d == a + 4)
+                {
+                    return true;
+                }
+
+                // =====================================
+                // VENTRALE 2
+                // 7 9 10 J
+                // manque 8
+                // =====================================
+
+                if (b == a + 2 &&
+                    c == a + 3 &&
+                    d == a + 4)
+                {
+                    return true;
+                }
+
+                // =====================================
+                // VENTRALE 3
+                // 7 8 9 J
+                // manque 10
+                // =====================================
+
+                if (b == a + 1 &&
+                    c == a + 2 &&
+                    d == a + 4)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
         /************************************
         **                                 **
@@ -3126,6 +3313,97 @@ namespace Poker
                     zone.Size);
             }
         }
+        // =====================================
+        // EFFACER TIRAGES FLOP
+        // =====================================
+
+        private void Effacer_Tirages_Flop()
+        {
+            Bt_Tir_Flop_Quinte.IsEnabled = false;
+            Bt_Tir_Flop_Couleur.IsEnabled = false;
+            Bt_Tir_Flop_QFlush.IsEnabled = false;
+        }
+
+        // =====================================
+        // EFFACER TIRAGES TURN
+        // =====================================
+
+        private void Effacer_Tirages_Turn()
+        {
+            Bt_Tir_Turn_Quinte.IsEnabled = false;
+            Bt_Tir_Turn_Couleur.IsEnabled = false;
+            Bt_Tir_Turn_QFlush.IsEnabled = false;
+        }
+
+        // =====================================
+        // ALLUMER FLOP QUINTE
+        // =====================================
+
+        private void Flop_Quinte_ON()
+        {
+            Bt_Tir_Flop_Quinte.IsEnabled = true;
+        }
+
+        // =====================================
+        // ALLUMER FLOP COULEUR
+        // =====================================
+
+        private void Flop_Couleur_ON()
+        {
+            Bt_Tir_Flop_Couleur.IsEnabled = true;
+        }
+
+        // =====================================
+        // ALLUMER FLOP QFLUSH
+        // =====================================
+
+        private void Flop_QFlush_ON()
+        {
+            Bt_Tir_Flop_QFlush.IsEnabled = true;
+        }
+
+        // =====================================
+        // ALLUMER TURN QUINTE
+        // =====================================
+
+        private void Turn_Quinte_ON()
+        {
+            Bt_Tir_Turn_Quinte.IsEnabled = true;
+        }
+
+        // =====================================
+        // ALLUMER TURN COULEUR
+        // =====================================
+
+        private void Turn_Couleur_ON()
+        {
+            Bt_Tir_Turn_Couleur.IsEnabled = true;
+        }
+
+        // =====================================
+        // ALLUMER TURN QFLUSH
+        // =====================================
+
+        private void Turn_QFlush_ON()
+        {
+            Bt_Tir_Turn_QFlush.IsEnabled = true;
+        }
+
+        // =====================================
+        // TEST MANUEL
+        // =====================================
+
+        private void Test_Tirages()
+        {
+            Effacer_Tirages_Flop();
+            Effacer_Tirages_Turn();
+
+            Flop_Quinte_ON();
+            Flop_Couleur_ON();
+
+            Turn_QFlush_ON();
+        }
+
         #region INJECTION
         private S_CarteDetect[] Main1PresenteDetect = new S_CarteDetect[4];
         private S_CarteDetect[] Main2PresenteDetect = new S_CarteDetect[7];
