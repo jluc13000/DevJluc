@@ -29,10 +29,13 @@ namespace Poker
             public int Couleur;
         }
         // =====================================================
-        // TABLEAU MAIN1
+        // TABLEAU MAIN
         // =====================================================
 
         private S_CarteDetect[] Main1Detect =
+            new S_CarteDetect[52];
+
+        private S_CarteDetect[] Main2Detect =
             new S_CarteDetect[52];
 
 
@@ -350,7 +353,7 @@ namespace Poker
             };
 
             // 👉 Appliquer Memo07 au démarrage
-            Bt_Mem07_Click(null, null);
+            //Bt_Mem07_Click(null, null);
 
             if (Bt_Se_Recare.Background.Equals((Brush)FindResource("blanc")))
             {
@@ -621,7 +624,8 @@ namespace Poker
                     bMain1 = true;
                     continue;
                 }
-
+                if (!bMain1)
+                    continue;
                 // =====================================
                 // COMMENT : Carte
                 // =====================================
@@ -693,6 +697,109 @@ namespace Poker
             // =====================================
 
             if (!bMain1)
+                return false;
+
+            if (index != 52)
+                return false;
+
+            return true;
+        }
+        private bool Extraire_Main2(string txt)
+        {
+            string[] lignes =
+                txt.Split('\n');
+
+            int index = 0;
+
+            bool bMain2 = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne =
+                    lignes[i].Trim();
+
+                // =====================================
+                // COMMENT : Main_2
+                // =====================================
+
+                if (ligne == "COMMENT : Main_2")
+                {
+                    bMain2 = true;
+                    continue;
+                }
+                if (!bMain2)
+                    continue;
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom =
+                        ligne.Replace(
+                            "COMMENT :",
+                            "")
+                            .Trim();
+
+                    // ignorer lignes invalides
+
+                    if (nom == "Main_2")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante :
+                    // IF PIXEL COLOR EQUALS
+                    // =====================================
+
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 =
+                        lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith(
+                        "IF PIXEL COLOR EQUALS"))
+                        continue;
+
+                    // =====================================
+                    // Découpage :
+                    // IF PIXEL COLOR EQUALS : X : Y : C : 0
+                    // =====================================
+
+                    string[] t =
+                        l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    Main2Detect[index].Nom =
+                        nom;
+
+                    Main2Detect[index].X =
+                        int.Parse(t[1]);
+
+                    Main2Detect[index].Y =
+                        int.Parse(t[2]);
+
+                    Main2Detect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // Validation
+            // =====================================
+
+            if (!bMain2)
                 return false;
 
             if (index != 52)
@@ -2366,14 +2473,13 @@ namespace Poker
         }
 
         private void Bt_Test_Main_1_Click(
-    object sender,
-    RoutedEventArgs e)
+            object sender,
+            RoutedEventArgs e)
         {
-            Bitmap_Main =
-                new System.Drawing.Bitmap(
-                    @"F:\POKER2026\Test.png");
+            CaptureEcran();
 
             Lire_Main_1();
+            Lire_Main_2();
         }
 
         private void Bt_Bouton_en_5_Click(object sender, RoutedEventArgs e)
@@ -3165,17 +3271,24 @@ namespace Poker
             TB_Injection.Text = txt;
 
             // =====================================
-            // Extraction Main1
+            // Extraction Main_1
             // =====================================
 
-            bool ok =
+            bool ok1 =
                 Extraire_Main1(txt);
+
+            // =====================================
+            // Extraction Main_2
+            // =====================================
+
+            bool ok2 =
+                Extraire_Main2(txt);
 
             // =====================================
             // Vérification
             // =====================================
 
-            if (!ok)
+            if (!ok1 && !ok2)
             {
                 MessageBox.Show(
                     "Aucune donnée exploitable");
@@ -3183,7 +3296,19 @@ namespace Poker
                 return;
             }
 
-            MessageBox.Show("Injection OK\n\n" + "52 cartes Main1 reçues");
+            // =====================================
+            // Résultat
+            // =====================================
+
+            string msg = "Injection OK\n\n";
+
+            if (ok1)
+                msg += "52 cartes Main_1 reçues\n";
+
+            if (ok2)
+                msg += "52 cartes Main_2 reçues\n";
+
+            MessageBox.Show(msg);
         }
         private void Lire_Main_1()
         {
@@ -3211,9 +3336,35 @@ namespace Poker
                     return;
                 }
             }
-
-            TB_M1.Text = "AUCUNE";
         }
+        private void Lire_Main_2()
+        {
+            foreach (var carte in Main2Detect)
+            {
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // Correspondance exacte
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte(
+                        TB_M2,
+                        Bt_Main_1,
+                        Bt_Main_2,
+                        1);
+
+                    return;
+                }
+            }
+        }
+
         private void CaptureEcran()
         {
             System.Drawing.Rectangle zone =
