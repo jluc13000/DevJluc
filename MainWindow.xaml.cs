@@ -17,6 +17,8 @@ namespace Poker
 {
     public partial class MainWindow : Window
     {
+        
+
         // =====================================================
         // STRUCTURE DETECTION CARTE
         // =====================================================
@@ -34,21 +36,27 @@ namespace Poker
         // TABLEAU MAIN FLOP TURN RIVER
         // =====================================================
 
-        private S_CarteDetect[] Main1Detect     = new S_CarteDetect[52];
-        private S_CarteDetect[] Main2Detect     = new S_CarteDetect[52];
-        private S_CarteDetect[] Flop1Detect     = new S_CarteDetect[52];
-        private S_CarteDetect[] Flop2Detect     = new S_CarteDetect[52];
-        private S_CarteDetect[] Flop3Detect     = new S_CarteDetect[52];
-        private S_CarteDetect[] TurnDetect      = new S_CarteDetect[52];
-        private S_CarteDetect[] RiverDetect     = new S_CarteDetect[52];
-        private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
+        private S_CarteDetect[] Main1Detect = new S_CarteDetect[52];
+        private S_CarteDetect[] Main2Detect = new S_CarteDetect[52];
+        private S_CarteDetect[] Flop1Detect = new S_CarteDetect[52];
+        private S_CarteDetect[] Flop2Detect = new S_CarteDetect[52];
+        private S_CarteDetect[] Flop3Detect = new S_CarteDetect[52];
+        private S_CarteDetect[] TurnDetect = new S_CarteDetect[52];
+        private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
 
+        // =====================================
+        // SIGNATURE MAIN
+        // =====================================
 
+        private bool bPremiereMain = true;
+
+        private int Signature_Main1 = 0;
+        private int Signature_Main2 = 0;
 
         private string Carte, Memo_Max_Suit, Main1, Main2, Flop1, Flop2, Flop3, Turn, River, M, M1_Val, M2_Val;
         private string ActionForcee = null;
         private float flottant;
-        private int entier; 
+        private int entier;
         DateTime DebutSession;
         DispatcherTimer timer;
         int NbMains = 0;
@@ -58,15 +66,15 @@ namespace Poker
         DateTime DebutPause;
         private bool bTir_Flop_Quinte, bTir_Flop_Couleur, bTir_Flop_QFlush;
         private bool bTir_Turn_Quinte, bTir_Turn_Couleur, bTir_Turn_QFlush;
-        private bool bPreFlop_Paire,   bPreFlop_Suite,    bPreFlop_Pareille;
-        private bool bFlop_Paire,      bFlop_2_Paires,    bFlop_Brelan,     bFlop_Quinte,      bFlop_Couleur,    bFlop_Full,      bFlop_Carre,      bFlop_QFlush;
-        private bool bTurn_Paire,      bTurn_2_Paires,    bTurn_Brelan,     bTurn_Quinte,      bTurn_Couleur,    bTurn_Full,      bTurn_Carre,      bTurn_QFlush;
-        private bool bRiver_Paire,     bRiver_2_Paires,   bRiver_Brelan,    bRiver_Quinte,     bRiver_Couleur,   bRiver_Full,     bRiver_Carre,     bRiver_QFlush;
-        
+        private bool bPreFlop_Paire, bPreFlop_Suite, bPreFlop_Pareille;
+        private bool bFlop_Paire, bFlop_2_Paires, bFlop_Brelan, bFlop_Quinte, bFlop_Couleur, bFlop_Full, bFlop_Carre, bFlop_QFlush;
+        private bool bTurn_Paire, bTurn_2_Paires, bTurn_Brelan, bTurn_Quinte, bTurn_Couleur, bTurn_Full, bTurn_Carre, bTurn_QFlush;
+        private bool bRiver_Paire, bRiver_2_Paires, bRiver_Brelan, bRiver_Quinte, bRiver_Couleur, bRiver_Full, bRiver_Carre, bRiver_QFlush;
+
         private bool bSe_Recare;
         private bool NM9, NM8, NM6, NM2, NM0, NP2, NP4, NP6, NP8, NP10;
         private bool bPosition_1, bPosition_2, bPosition_3, bPosition_4, bPosition_5, bPosition_6, bPosition_7, bPosition_8, bPosition_9;
-        private bool bGrenhorn, bBeginner, bGambler, bPro, bBigFish, bMaster, bChampion, bGuru, bUltimate, bEpic, bInsane, bLegendary ;
+        private bool bGrenhorn, bBeginner, bGambler, bPro, bBigFish, bMaster, bChampion, bGuru, bUltimate, bEpic, bInsane, bLegendary;
 
         private bool ss, bBouton_en_1, bBouton_en_2, bBouton_en_3, bBouton_en_4, bBouton_en_5, bBouton_en_6, bBouton_en_7, bBouton_en_8, bBouton_en_9;
 
@@ -78,21 +86,23 @@ namespace Poker
         private int NbDoublon_River;
         private System.Drawing.Bitmap Bitmap_Main;
 
+        private string Main_Board_Presence = "";
 
-        HashSet<string> RangeTapis =            new HashSet<string>();
-        HashSet<string> RangeRelance =          new HashSet<string>();
-        HashSet<string> RangeCall =             new HashSet<string>();
-        HashSet<string> RangeFold =             new HashSet<string>();
+
+        HashSet<string> RangeTapis = new HashSet<string>();
+        HashSet<string> RangeRelance = new HashSet<string>();
+        HashSet<string> RangeCall = new HashSet<string>();
+        HashSet<string> RangeFold = new HashSet<string>();
         Dictionary<string, Button> BoutonsRange;
         List<Button> BoutonsAutoMise = new List<Button>();
-        List<Button> BoutonsMemo =              new List<Button>();
-        List<Button> BoutonsNiveauTable =       new List<Button>();
-        List<Button> BoutonsMise =              new List<Button>();
-        List<Button> BoutonsPosition =          new List<Button>();
-        List<Button> BoutonsPlaceDisponible =   new List<Button>();
-        List<Button> BoutonsBoutonPosition =    new List<Button>();
+        List<Button> BoutonsMemo = new List<Button>();
+        List<Button> BoutonsNiveauTable = new List<Button>();
+        List<Button> BoutonsMise = new List<Button>();
+        List<Button> BoutonsPosition = new List<Button>();
+        List<Button> BoutonsPlaceDisponible = new List<Button>();
+        List<Button> BoutonsBoutonPosition = new List<Button>();
 
-        List<Button> BoutonsJoueur_Mise =       new List<Button>();
+        List<Button> BoutonsJoueur_Mise = new List<Button>();
         List<Button> BoutonsBouton_en = new List<Button>();
 
 
@@ -141,10 +151,12 @@ namespace Poker
             Charger_Flop1_JSON();
             Charger_Flop2_JSON();
             Charger_Flop3_JSON();
-            Charger_Turn_JSON();
 
-            Charger_Main1_Presente_JSON();
-            Charger_Main2_Presente_JSON();
+            Charger_Turn_JSON();
+            Charger_River_JSON();
+
+            Charger_Main_Board_JSON();
+
 
             // 🔥 Variables
             DebutSession = DateTime.Now;
@@ -444,9 +456,9 @@ namespace Poker
         // Carte utilisée par le moteur d'analyse
         struct CarteInfo
         {
-            public int Numero,N;   // 0..51
-            public int Couleur,C;  // 0..3
-            public int Valeur,V;   // 1..13 (2..As)
+            public int Numero, N;   // 0..51
+            public int Couleur, C;  // 0..3
+            public int Valeur, V;   // 1..13 (2..As)
         }
 
         // Table moteur des 7 cartes
@@ -479,7 +491,7 @@ namespace Poker
                 }
             }
         }
-       
+
         // Convertit "10♠" ou "A♥" en données moteur exploitables
         private CarteInfo ExtraireCarte(string carte)
         {
@@ -639,7 +651,7 @@ namespace Poker
         **              M A I N            **
         **                                 **
         ************************************/
-        
+
         private void Bt_Main_1_Click(object sender, RoutedEventArgs e)
         {
             // =========================================================
@@ -679,7 +691,7 @@ namespace Poker
             bPreFlop_Pareille = false;
             bPreFlop_Suite = false;
 
-            bFlop_Paire = false; 
+            bFlop_Paire = false;
             bFlop_2_Paires = false;
             bFlop_Brelan = false;
             bFlop_Quinte = false;
@@ -2313,79 +2325,79 @@ namespace Poker
                 AppliquerNiveauMise();
             }
         }
-        private void Bt_Joueur1_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur2_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur3_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur4_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur5_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur6_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur7_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur8_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur2_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur9_Fold_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur3_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur4_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur5_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur6_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur7_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur8_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur9_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_1_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_2_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_3_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_4_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_5_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_6_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_7_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_8_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Gagne_en_9_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tapis_PreFlop_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Force_Parole_Passe_Click(object sender, RoutedEventArgs e){}
-        private void Bt_J_ai_Fais_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Je_Fais_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Bouton_Click(object sender, RoutedEventArgs e){}
-        private void Bt_S_Click(object sender, RoutedEventArgs e){}
-        private void tB_Mise_Coeff_TextChanged(object sender, TextChangedEventArgs e){}
-        private void tB_Mise_TextChanged(object sender, TextChangedEventArgs e){}
-        private void Bt_PreFlop_Paire_Click(object sender, RoutedEventArgs e){}
-        private void Bt_PreFlop_Pareille_Click(object sender, RoutedEventArgs e){}
-        private void Bt_PreFlop_Suite_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Paire_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_2_Paires_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Brelan_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Quinte_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Couleur_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Full_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_Carre_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Flop_QFlush_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Paire_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_2_Paires_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Brelan_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Quinte_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Couleur_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Full_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_Carre_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Turn_QFlush_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Paire_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_2_Paires_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Brelan_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Quinte_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Couleur_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Full_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_Carre_Click(object sender, RoutedEventArgs e){}
-        private void Bt_River_QFlush_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Flop_Quinte_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Flop_Couleur_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Flop_QFlush_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Turn_Quinte_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Turn_Couleur_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Tir_Turn_QFlush_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Suivre_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Passe_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Parole_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Relance_Click(object sender, RoutedEventArgs e){}
-        private void Bt_Joueur1_Tapis_Click(object sender, RoutedEventArgs e){}
-        private void boutonRAZ_Click(object sender, RoutedEventArgs e){}
+        private void Bt_Joueur1_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur2_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur3_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur4_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur5_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur6_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur7_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur8_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur2_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur9_Fold_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur3_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur4_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur5_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur6_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur7_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur8_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur9_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_1_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_2_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_3_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_4_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_5_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_6_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_7_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_8_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Gagne_en_9_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tapis_PreFlop_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Force_Parole_Passe_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_J_ai_Fais_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Je_Fais_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Bouton_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_S_Click(object sender, RoutedEventArgs e) { }
+        private void tB_Mise_Coeff_TextChanged(object sender, TextChangedEventArgs e) { }
+        private void tB_Mise_TextChanged(object sender, TextChangedEventArgs e) { }
+        private void Bt_PreFlop_Paire_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_PreFlop_Pareille_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_PreFlop_Suite_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Paire_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_2_Paires_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Brelan_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Quinte_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Couleur_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Full_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Carre_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Paire_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_2_Paires_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Brelan_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Quinte_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Couleur_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Full_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Carre_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Paire_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_2_Paires_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Brelan_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Quinte_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Couleur_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Full_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Carre_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Flop_Quinte_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Flop_Couleur_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Flop_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Turn_Quinte_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Turn_Couleur_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Turn_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Suivre_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Passe_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Parole_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Relance_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Joueur1_Tapis_Click(object sender, RoutedEventArgs e) { }
+        private void boutonRAZ_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Pas_de_Bouton_Click(object sender, RoutedEventArgs e)
         {
             Bt_Pas_de_Bouton.Background = (Brush)FindResource("jaune");
@@ -2458,13 +2470,329 @@ namespace Poker
         {
             ActiverBoutonPosition((Button)sender);
         }
-        private void Bt_Test_Main_1_Click(object sender, RoutedEventArgs e)
-        {
-            CaptureEcran();
+        // =========================================================
+        // RESET ETATS POKER
+        // =========================================================
 
-            Lire_Main_1();
-            Lire_Main_2();
+        private void Reset_Etats_Poker()
+        {
+            bMain1_OK = false;
+            bMain2_OK = false;
+
+            bFlop1_OK = false;
+            bFlop2_OK = false;
+            bFlop3_OK = false;
+
+            bTurn_OK = false;
+
+            bRiver_OK = false;
         }
+
+
+        // =========================================================
+        // ETAT LECTURE
+        // =========================================================
+
+        private bool bMain1_OK = false;
+        private bool bMain2_OK = false;
+
+        private bool bFlop1_OK = false;
+        private bool bFlop2_OK = false;
+        private bool bFlop3_OK = false;
+
+        private bool bTurn_OK = false;
+
+        private bool bRiver_OK = false;
+
+
+        
+        // =========================================================
+        // RESET ETATS TRIGGER
+        // =========================================================
+
+        private void Reset_Etats_Trigger()
+        {
+            bMain1_OK = false;
+            bMain2_OK = false;
+
+            bFlop1_OK = false;
+            bFlop2_OK = false;
+            bFlop3_OK = false;
+
+            bTurn_OK = false;
+
+            bRiver_OK = false;
+        }
+
+        // =========================================================
+        // TRIGGER BOARD
+        // =========================================================
+
+        private async void Bt_Trigger_Board_Click(object sender, RoutedEventArgs e)
+        {
+            // =====================================
+            // STOP
+            // =====================================
+
+            if (bTestFlop)
+            {
+                bTestFlop = false;
+
+                Bt_Trigger_Board.Content = "Trigger Board";
+
+                return;
+            }
+
+            // =====================================
+            // START
+            // =====================================
+
+            bTestFlop = true;
+
+            Bt_Trigger_Board.Content = "STOP";
+
+            try
+            {
+                // =====================================
+                // ETAT LECTURE
+                // =====================================
+
+                bool bMain1_Lue = false;
+                bool bMain2_Lue = false;
+
+                bool bFlop1_Lue = false;
+                bool bFlop2_Lue = false;
+                bool bFlop3_Lue = false;
+
+                bool bTurn_Lue = false;
+                bool bRiver_Lue = false;
+
+                // =====================================
+                // BOUCLE
+                // =====================================
+
+                while (bTestFlop)
+                {
+                    // =====================================
+                    // Capture écran
+                    // =====================================
+
+                    CaptureEcran();
+
+                    // =====================================
+                    // ATTENTE MAIN 1
+                    // =====================================
+
+                    if (!bMain1_Lue)
+                    {
+                        if (Detecter_Presence("Main_1_Presence"))
+                        {
+                            // ================================
+                            // RESET NOUVELLE MAIN
+                            // ================================
+
+                            bMain2_Lue = false;
+
+                            bFlop1_Lue = false;
+                            bFlop2_Lue = false;
+                            bFlop3_Lue = false;
+
+                            bTurn_Lue = false;
+                            bRiver_Lue = false;
+
+                            // ================================
+                            // AFFICHAGE
+                            // ================================
+
+                            Efface_Board();
+
+                            Lire_Main_1();
+
+                            bMain1_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE MAIN 2
+                    // =====================================
+
+                    if (bMain1_Lue && !bMain2_Lue)
+                    {
+                        if (Detecter_Presence("Main_2_Presence"))
+                        {
+                            Lire_Main_2();
+
+                            bMain2_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE FLOP 1
+                    // =====================================
+
+                    if (bMain2_Lue && !bFlop1_Lue)
+                    {
+                        // ================================
+                        // Fin pré-flop
+                        // ================================
+
+                        if (Detecter_Presence("Fin_Main"))
+                        {
+                            bMain1_Lue = false;
+                            bMain2_Lue = false;
+
+                            continue;
+                        }
+
+                        // ================================
+                        // FLOP 1
+                        // ================================
+
+                        if (Detecter_Presence("Flop_1_Presence"))
+                        {
+                            Lire_Flop1();
+
+                            bFlop1_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE FLOP 2
+                    // =====================================
+
+                    if (bFlop1_Lue && !bFlop2_Lue)
+                    {
+                        if (Detecter_Presence("Flop_2_Presence"))
+                        {
+                            Lire_Flop2();
+
+                            bFlop2_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE FLOP 3
+                    // =====================================
+
+                    if (bFlop2_Lue && !bFlop3_Lue)
+                    {
+                        if (Detecter_Presence("Flop_3_Presence"))
+                        {
+                            Lire_Flop3();
+
+                            bFlop3_Lue = true;
+
+                            // ================================
+                            // RESET TURN / RIVER
+                            // ================================
+
+                            TB_T.Clear();
+
+                            TB_R.Clear();
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE TURN
+                    // =====================================
+
+                    if (bFlop3_Lue && !bTurn_Lue)
+                    {
+                        // ================================
+                        // TURN
+                        // ================================
+
+                        if (Detecter_Presence("Turn_Presence"))
+                        {
+                            Lire_Turn();
+
+                            bTurn_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // ATTENTE RIVER
+                    // =====================================
+
+                    if (bTurn_Lue && !bRiver_Lue)
+                    {
+                        // ================================
+                        // RIVER
+                        // ================================
+
+                        if (Detecter_Presence("River_Presence"))
+                        {
+                            Lire_River();
+
+                            bRiver_Lue = true;
+                        }
+                    }
+
+                    // =====================================
+                    // FIN RIVER
+                    // =====================================
+
+                    if (bRiver_Lue)
+                    {
+                        int Nouvelle_Main1 =
+                            LirePixel(765, 865);
+
+                        int Nouvelle_Main2 =
+                            LirePixel(845, 865);
+
+                        // ================================
+                        // Première initialisation
+                        // ================================
+
+                        if (bPremiereMain)
+                        {
+                            Signature_Main1 = Nouvelle_Main1;
+                            Signature_Main2 = Nouvelle_Main2;
+
+                            bPremiereMain = false;
+                        }
+
+                        // ================================
+                        // Nouvelle main détectée
+                        // ================================
+
+                        if (Nouvelle_Main1 != Signature_Main1 ||
+                            Nouvelle_Main2 != Signature_Main2)
+                        {
+                            Signature_Main1 = Nouvelle_Main1;
+                            Signature_Main2 = Nouvelle_Main2;
+
+                            bMain1_Lue = false;
+                            bMain2_Lue = false;
+
+                            bFlop1_Lue = false;
+                            bFlop2_Lue = false;
+                            bFlop3_Lue = false;
+
+                            bTurn_Lue = false;
+                            bRiver_Lue = false;
+
+                            continue;
+                        }
+                    }
+
+                    // =====================================
+                    // PAUSE CPU
+                    // =====================================
+
+                    await Task.Delay(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                bTestFlop = false;
+
+                Bt_Trigger_Board.Content = "Trigger Board";
+
+                MessageBox.Show(ex.ToString());
+            }
+        }
+
         private void Bt_Bouton_en_5_Click(object sender, RoutedEventArgs e)
         {
             ActiverBoutonPosition((Button)sender);
@@ -2524,7 +2852,7 @@ namespace Poker
         {
             ActiverPosition((Button)sender);
         }
-        
+
         private void Bt_Position_9_Click(object sender, RoutedEventArgs e)
         {
             ActiverPosition((Button)sender);
@@ -2789,6 +3117,12 @@ namespace Poker
         {
             ActiverAutoMise((Button)sender);
         }
+
+        private void Bt_Benchmark_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Bt_Auto_P6_Click(object sender, RoutedEventArgs e)
         {
             ActiverAutoMise((Button)sender);
@@ -3149,7 +3483,7 @@ namespace Poker
 
             if (TB_T.Text == TB_F3.Text)
             {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge"); 
+                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
 
                 NbDoublon_Turn++;
             }
@@ -3166,352 +3500,7 @@ namespace Poker
             }
         }
 
-        #region LIRE Main_1, Main_2, Flop_1, Flop_2, Flop_3, Turn, River, River_HB
-        // =========================================================
-        // 🔥 LIRE MAIN_1
-        // =========================================================
-        private void Lire_Main_1()
-        {
-            CarteCourante = "";
 
-            foreach (var carte in Main1Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_M1,
-                        Bt_Main_1,
-                        0);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE MAIN_2
-        // =========================================================
-        private void Lire_Main_2()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Main2Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_M2,
-                        Bt_Main_2,
-                        1);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE FLOP_1
-        // =========================================================
-        private void Lire_Flop1()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop1Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_F1,
-                        Bt_Flop_1,
-                        2);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE FLOP_2
-        // =========================================================
-        private void Lire_Flop2()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop2Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_F2,
-                        Bt_Flop_2,
-                        3);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE FLOP_3
-        // =========================================================
-        private void Lire_Flop3()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop3Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel( carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_F3, Bt_Flop_3, 4);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE TURN
-        // =========================================================
-        private void Lire_Turn()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in TurnDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE RIVER
-        // =========================================================
-        private void Lire_River()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in RiverDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_R, Bt_River, 6);
-
-                    return;
-                }
-            }
-        }
-        // =========================================================
-        // 🔥 LIRE RIVER_HB
-        // =========================================================
-        private void Lire_River_HB()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in River_HBDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_R, Bt_River, 6);
-
-                    return;
-                }
-            }
-        }
-        #endregion
 
         // =========================================================
         // 🔥 CAPTURE ECRAN
@@ -3677,29 +3666,52 @@ namespace Poker
                     // =====================================
                     // Capture écran
                     // =====================================
+
                     CaptureEcran();
 
-                    // Initialise_Boutons_Main_Flop_Turn_River();
-                    //Efface_Affichage_Cartes();
                     // =====================================
-                    // Lecture cartes
+                    // LECTURE EVENEMENTIELLE
                     // =====================================
-                    
-                    Lire_Main_1();
-                    Lire_Main_2();
 
-                    Lire_Flop1();
-                    Lire_Flop2();
-                    Lire_Flop3();
+                    if (Detecter_Presence("Main_1_Presence"))
+                    {
+                        Lire_Main_1();
+                    }
 
-                    Lire_Turn();
+                    if (Detecter_Presence("Main_2_Presence"))
+                    {
+                        Lire_Main_2();
+                    }
 
-                    Lire_River();
-                    //Lire_River_HB();
+                    if (Detecter_Presence("Flop_1_Presence"))
+                    {
+                        Lire_Flop1();
+                    }
+
+                    if (Detecter_Presence("Flop_2_Presence"))
+                    {
+                        Lire_Flop2();
+                    }
+
+                    if (Detecter_Presence("Flop_3_Presence"))
+                    {
+                        Lire_Flop3();
+                    }
+
+                    if (Detecter_Presence("Turn_Presence"))
+                    {
+                        Lire_Turn();
+                    }
+
+                    if (Detecter_Presence("River_Presence"))
+                    {
+                        Lire_River();
+                    }
 
                     // =====================================
-                    // Pause stabilité
+                    // PAUSE CPU
                     // =====================================
+
                     await Task.Delay(1);
                 }
             }
@@ -3715,9 +3727,6 @@ namespace Poker
         }
 
         #region INJECTION
-        private S_CarteDetect[] Main1PresenteDetect = new S_CarteDetect[4];
-        private S_CarteDetect[] Main2PresenteDetect = new S_CarteDetect[7];
-
         private void Bt_Injection_Click(object sender, RoutedEventArgs e)
         {
             // =====================================
@@ -3763,15 +3772,12 @@ namespace Poker
 
             bool okRiver = Extraire_River(txt);
 
-            bool okRiver_HB = Extraire_River_HB(txt);
-
-            bool okMain1Presente = Extraire_Main1_Presente(txt);
-
-            bool okMain2Presente = Extraire_Main2_Presente(txt);
+            bool okMain_Board = Extraire_Main_Board(txt);
 
             // =====================================
             // Aucune donnée reconnue
             // =====================================
+
             if (!okMain1 &&
                 !okMain2 &&
                 !okFlop1 &&
@@ -3779,18 +3785,18 @@ namespace Poker
                 !okFlop3 &&
                 !okTurn &&
                 !okRiver &&
-                !okRiver_HB &&
-                !okMain1Presente &&
-                !okMain2Presente)
+                !okMain_Board)
             {
                 MessageBox.Show(
                     "Aucune donnée exploitable");
 
                 return;
             }
+
             // =====================================
             // SAUVEGARDE JSON
             // =====================================
+
             if (okMain1)
                 Sauver_Main1_JSON();
 
@@ -3812,51 +3818,39 @@ namespace Poker
             if (okRiver)
                 Sauver_River_JSON();
 
-            if (okRiver_HB)
-                Sauver_River_HB_JSON();
-
-            if (okMain1Presente)
-                Sauver_Main1_Presente_JSON();
-
-            if (okMain2Presente)
-                Sauver_Main2_Presente_JSON();
+            if (okMain_Board)
+                Sauver_Main_Board_JSON();
 
             // =====================================
             // RESULTAT
             // =====================================
 
             string msg =
-                "Injection OK\n\n";
+                "Injection JSON OK\n\n";
 
             if (okMain1)
-                msg += "52 cartes Main_1 reçues\n";
+                msg += "Main_1 : 52 cartes\n";
 
             if (okMain2)
-                msg += "52 cartes Main_2 reçues\n";
+                msg += "Main_2 : 52 cartes\n";
 
             if (okFlop1)
-                msg += "52 cartes Flop_1 reçues\n";
+                msg += "Flop_1 : 52 cartes\n";
 
             if (okFlop2)
-                msg += "52 cartes Flop_2 reçues\n";
+                msg += "Flop_2 : 52 cartes\n";
 
             if (okFlop3)
-                msg += "52 cartes Flop_3 reçues\n"; 
-            
+                msg += "Flop_3 : 52 cartes\n";
+
             if (okTurn)
-                msg += "52 cartes Turn reçues\n";
+                msg += "Turn : 52 cartes\n";
 
             if (okRiver)
-                msg += "52 cartes River reçues\n";
+                msg += "River : 52 cartes\n";
 
-            if (okRiver_HB)
-                msg += "104 cartes River_HB reçues\n";
-
-            if (okMain1Presente)
-                msg += "Main_1_Presente reçu\n";
-
-            if (okMain2Presente)
-                msg += "Main_2_Presente reçu\n";
+            if (okMain_Board)
+                msg += "Main_Board OK\n";
 
             MessageBox.Show(msg);
         }
@@ -3875,7 +3869,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            Main1Detect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            Main1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER MAIN_2 JSON
@@ -3889,7 +3883,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            Main2Detect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            Main2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER FLOP_1 JSON
@@ -3903,7 +3897,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            Flop1Detect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            Flop1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER FLOP_2 JSON
@@ -3917,7 +3911,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            Flop2Detect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            Flop2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER FLOP_3 JSON
@@ -3931,7 +3925,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            Flop3Detect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            Flop3Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER TURN JSON
@@ -3945,7 +3939,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            TurnDetect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+            TurnDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER RIVER JSON
@@ -3962,49 +3956,53 @@ namespace Poker
             RiverDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
-        // 🔥 CHARGER RIVER_HAUT JSON
+        // 🔥 CHARGER MAIN_BOARD JSON
         // =========================================================
-        private void Charger_River_HB_JSON()
+        private void Charger_Main_Board_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\River_HB.json";
+            string fichier = @"F:\source\repos\Poker\JSON\Main_Board.json";
 
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
 
-            River_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+            Main_BoardDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
-        // 🔥 CHARGER MAIN1_Presente JSON
+        // DETECTER PRESENCE
         // =========================================================
-        private void Charger_Main1_Presente_JSON()
+
+        private bool Detecter_Presence(string nom)
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_1_Presente.json";
+            for (int i = 0; i < Main_BoardDetect.Length; i++)
+            {
+                // =====================================
+                // Nom différent
+                // =====================================
 
-            if (!File.Exists(fichier))
-                return;
+                if (Main_BoardDetect[i].Nom != nom)
+                    continue;
 
-            string json = File.ReadAllText(fichier);
+                // =====================================
+                // Lecture pixel
+                // =====================================
 
-            Main1PresenteDetect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
+                int couleur = LirePixel(Main_BoardDetect[i].X, Main_BoardDetect[i].Y);
+
+                // =====================================
+                // Couleur trouvée
+                // =====================================
+
+                if (couleur ==
+                    Main_BoardDetect[i].Couleur)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
-
-        // =========================================================
-        // 🔥 CHARGER  MAIN2_Presente JSON
-        // =========================================================
-        private void Charger_Main2_Presente_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_2_Presente.json";
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            Main2PresenteDetect = JsonConvert.DeserializeObject <S_CarteDetect[]>(json);
-        }
-
         #endregion
 
         #region SAUVER JSON
@@ -4038,7 +4036,6 @@ namespace Poker
 
             File.WriteAllText(fichier, json);
         }
-
         // =========================================================
         // 🔥 SAUVER FLOP_1 JSON
         // =========================================================
@@ -4115,47 +4112,17 @@ namespace Poker
             File.WriteAllText(fichier, json);
         }
         // =========================================================
-        // 🔥 SAUVER RIVER_HB JSON
+        // 🔥 SAUVER MAIN_BOARD
         // =========================================================
-        private void Sauver_River_HB_JSON()
+        private void Sauver_Main_Board_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
 
             Directory.CreateDirectory(dossier);
 
-            string fichier = Path.Combine(dossier, "River_HB.json");
+            string fichier = Path.Combine(dossier, "Main_Board.json");
 
-            string json = JsonConvert.SerializeObject(River_HBDetect, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        // =========================================================
-        // 🔥 SAUVER MAIN_1_PRESENTE JSON
-        // =========================================================
-        private void Sauver_Main1_Presente_JSON()
-        {
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            Directory.CreateDirectory(dossier);
-
-            string fichier = Path.Combine(dossier, "Main_1_Presente.json");
-
-            string json = JsonConvert.SerializeObject(Main1PresenteDetect, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        // =========================================================
-        // 🔥 SAUVER MAIN_2-PRESENTE JSON
-        // =========================================================
-        private void Sauver_Main2_Presente_JSON()
-        {
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            Directory.CreateDirectory(dossier);
-
-            string fichier = Path.Combine(dossier, "Main_2_Presente.json");
-
-            string json = JsonConvert.SerializeObject(Main2PresenteDetect, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(Main_BoardDetect, Formatting.Indented);
 
             File.WriteAllText(fichier, json);
         }
@@ -4211,7 +4178,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom = ligne.Replace("COMMENT :", "") .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Main_1")
                         continue;
@@ -4505,7 +4472,6 @@ namespace Poker
 
             return true;
         }
-
         // =========================================================
         // 🔥 EXTRAIRE FLOP_2
         // =========================================================
@@ -4620,7 +4586,6 @@ namespace Poker
 
             return true;
         }
-
         // =========================================================
         // 🔥 EXTRAIRE FLOP_3
         // =========================================================
@@ -4661,7 +4626,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom = ligne.Replace("COMMENT :", "") .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Flop_3")
                         continue;
@@ -4756,7 +4721,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom = ligne.Replace("COMMENT :", "") .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Turn")
                         continue;
@@ -4901,30 +4866,29 @@ namespace Poker
             return true;
         }
         // =========================================================
-        // 🔥 EXTRAIRE RIVER_HB
+        // 🔥 EXTRAIRE MAIN_BOARD
         // =========================================================
-        private bool Extraire_River_HB(string txt)
+        private bool Extraire_Main_Board(string txt)
         {
-            MessageBox.Show(
-    "Extraire_River_HB appelée");
-
             string[] lignes = txt.Split('\n');
 
             int index = 0;
 
-            bool bRiver_HB = false;
+            bool bMain_Board = false;
+
+            string nomCourant = "";
 
             for (int i = 0; i < lignes.Length; i++)
             {
                 string ligne = lignes[i].Trim();
 
                 // =====================================
-                // COMMENT : River_HB
+                // DEBUT DU BLOC
                 // =====================================
 
-                if (ligne == "COMMENT : River_HB")
+                if (ligne == "COMMENT : Main_Board_Presence")
                 {
-                    bRiver_HB = true;
+                    bMain_Board = true;
                     continue;
                 }
 
@@ -4932,71 +4896,42 @@ namespace Poker
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
 
-                if (!bRiver_HB)
+                if (!bMain_Board)
                     continue;
 
                 // =====================================
-                // COMMENT : Carte
+                // COMMENT :
                 // =====================================
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "").Trim();
+                    nomCourant =
+                        ligne.Replace("COMMENT :", "").Trim();
 
-                    if (nom == "River_HB")
-                        continue;
+                    continue;
+                }
 
-                    if (nom.Length < 2)
-                        continue;
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
 
-                    // =====================================
-                    // Ligne suivante
-                    // =====================================
-
-                    if (i + 1 >= lignes.Length)
-                        continue;
-
-                    string l2 =
-                        lignes[i + 1].Trim();
-
-                    if (!l2.StartsWith(
-                        "IF PIXEL COLOR EQUALS"))
-                        continue;
-
-                    // =====================================
-                    // Découpage
-                    // =====================================
-
-                    string[] t =
-                        l2.Split(':');
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
 
                     if (t.Length < 5)
                         continue;
 
-                    // =====================================
-                    // CREATION OBJET
-                    // =====================================
+                    Main_BoardDetect[index].Nom =
+                        nomCourant;
 
-                    River_HBDetect[index] =
-                        new S_CarteDetect();
-
-                    // =====================================
-                    // Extraction
-                    // =====================================
-
-                    River_HBDetect[index].Nom =
-                        nom;
-
-                    River_HBDetect[index].X =
+                    Main_BoardDetect[index].X =
                         int.Parse(t[1]);
 
-                    River_HBDetect[index].Y =
+                    Main_BoardDetect[index].Y =
                         int.Parse(t[2]);
 
-                    River_HBDetect[index].Couleur =
+                    Main_BoardDetect[index].Couleur =
                         int.Parse(t[3]);
 
                     index++;
@@ -5004,163 +4939,418 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // AUCUN BLOC TROUVE
             // =====================================
 
-            if (!bRiver_HB)
+            if (!bMain_Board)
                 return false;
 
-            if (index != 104)
-                return false;
+            // =====================================
+            // AUCUNE DONNEE
+            // =====================================
 
-            return true;
-        }
-        // =========================================================
-        // 🔥 EXTRAIRE MAIN_1_PRESENTE
-        // =========================================================
-        private bool Extraire_Main1_Presente(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-
-            int index = 0;
-
-            bool bMain1Presente = false;
-
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // FIN DU BLOC
-                // =====================================
-
-                if (bMain1Presente && ligne.StartsWith("COMMENT :") && ligne != "COMMENT : Main_1_Presente")
-                {
-                    break;
-                }
-
-                // =====================================
-                // COMMENT : Main_1_Presente
-                // =====================================
-
-                if (ligne == "COMMENT : Main_1_Presente")
-                {
-                    bMain1Presente = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-
-                if (!bMain1Presente)
-                    continue;
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-
-                    if (t.Length < 5)
-                        continue;
-
-                    Main1PresenteDetect[index].Nom = "Main_1_Presente";
-
-                    Main1PresenteDetect[index].X = int.Parse(t[1]);
-
-                    Main1PresenteDetect[index].Y = int.Parse(t[2]);
-
-                    Main1PresenteDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            if (!bMain1Presente)
-                return false;
-
-            if (index != 4)
+            if (index <= 0)
                 return false;
 
             return true;
         }
-        // =========================================================
-        // 🔥 EXTRAIRE MAIN_2_PRESENTE
-        // =========================================================
-        private bool Extraire_Main2_Presente(string txt)
-        {
-            string[] lignes = txt.Split('\n');
 
-            int index = 0;
-
-            bool bMain2Presente = false;
-
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // FIN DU BLOC
-                // =====================================
-
-                if (bMain2Presente && ligne.StartsWith("COMMENT :") && ligne != "COMMENT : Main_2_Presente")
-                {
-                    break;
-                }
-
-                // =====================================
-                // COMMENT : Main_2_Presente
-                // =====================================
-
-                if (ligne == "COMMENT : Main_2_Presente")
-                {
-                    bMain2Presente = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-
-                if (!bMain2Presente)
-                    continue;
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-
-                    if (t.Length < 5)
-                        continue;
-
-                    Main2PresenteDetect[index].Nom = "Main_2_Presente";
-
-                    Main2PresenteDetect[index].X = int.Parse(t[1]);
-
-                    Main2PresenteDetect[index].Y = int.Parse(t[2]);
-
-                    Main2PresenteDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            if (!bMain2Presente)
-                return false;
-
-            if (index != 7)
-                return false;
-
-            return true;
-        }
-        
         #endregion
+
+        #region LIRE Main_1, Main_2, Flop_1, Flop_2, Flop_3, Turn, River
+        // =========================================================
+        // 🔥 LIRE MAIN_1
+        // =========================================================
+        private void Lire_Main_1()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Main1Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_M1,
+                        Bt_Main_1,
+                        0);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE MAIN_2
+        // =========================================================
+        private void Lire_Main_2()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Main2Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_M2,
+                        Bt_Main_2,
+                        1);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE FLOP_1
+        // =========================================================
+        private void Lire_Flop1()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop1Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_F1,
+                        Bt_Flop_1,
+                        2);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE FLOP_2
+        // =========================================================
+        private void Lire_Flop2()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop2Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_F2,
+                        Bt_Flop_2,
+                        3);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE FLOP_3
+        // =========================================================
+        private void Lire_Flop3()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop3Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_F3, Bt_Flop_3, 4);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE TURN
+        // =========================================================
+        private void Lire_Turn()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in TurnDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
+
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // 🔥 LIRE RIVER
+        // =========================================================
+        private void Lire_River()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in RiverDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_R, Bt_River, 6);
+
+                    return;
+                }
+            }
+        }
+
+
+        #endregion
+
+        // =========================================================
+        // ETAT GLOBAL
+        // =========================================================
+
+        private enum E_EtatPoker
+        {
+            Attente_Main_1,
+            Attente_Main_2,
+            Attente_Flop_1,
+            Attente_Flop_2,
+            Attente_Flop_3,
+            Attente_Turn,
+            Attente_River
+        }
+        // =========================================================
+        // ETAT ACTUEL
+        // =========================================================
+
+        private E_EtatPoker EtatPoker =
+            E_EtatPoker.Attente_Main_1;
+
+        // =====================================
+        // SIGNATURE MAIN
+        // =====================================
+
+        private int Construire_Signature_Main()
+        {
+            // ================================
+            // Pixels discriminants
+            // ================================
+
+            int p1 = LirePixel(765, 865);
+
+            int p2 = LirePixel(845, 865);
+
+            // ================================
+            // Signature
+            // ================================
+
+            return (p1 * 397) ^ p2;
+        }
+        // =========================================================
+        // TABLEAU PRESENCE EVENEMENTIEL
+        // =========================================================
+
+        private S_CarteDetect[] Main_BoardDetect =
+            new S_CarteDetect[28];
+        // =========================================================
+        // LIRE PIXEL
+        // =========================================================
+
+        private int LirePixel(int x, int y)
+        {
+            // =====================================
+            // SECURITE
+            // =====================================
+
+            if (Bitmap_Main == null)
+                return 0;
+
+            // =====================================
+            // LECTURE PIXEL
+            // =====================================
+
+            System.Drawing.Color c =
+                Bitmap_Main.GetPixel(x, y);
+
+            // =====================================
+            // RGB 24 bits
+            // =====================================
+
+            return c.ToArgb() & 0xFFFFFF;
+        }
+        private void Efface_Board()
+        {
+            TB_F1.Clear();
+            TB_F2.Clear();
+            TB_F3.Clear();
+
+            TB_T.Clear();
+
+            TB_R.Clear();
+        }
 
     }
 }
