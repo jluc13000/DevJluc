@@ -84,6 +84,12 @@
     "Couleur": 16776958
   },
   {
+    "Nom": "Flop_2_Presence",
+    "X": 868,
+    "Y": 563,
+    "Couleur": 16777213
+  },
+  {
     "Nom": "Flop_3_Presence",
     "X": 934,
     "Y": 565,
@@ -144,27 +150,51 @@
     "Couleur": 16776959
   },
   {
+    "Nom": "Turn_Presence",
+    "X": 1000,
+    "Y": 570,
+    "Couleur": 16711679
+  },
+  {
+    "Nom": "Turn_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 16316919
+  },
+  {
+    "Nom": "Turn_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15791600
+  },
+  {
+    "Nom": "Turn_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15922415
+  },
+  {
     "Nom": "River_Presence",
     "X": 1065,
-    "Y": 564,
+    "Y": 570,
     "Couleur": 16776959
   },
   {
     "Nom": "River_Presence",
     "X": 1065,
-    "Y": 564,
+    "Y": 570,
     "Couleur": 16777215
   },
   {
     "Nom": "River_Presence",
     "X": 1065,
-    "Y": 564,
+    "Y": 570,
     "Couleur": 16646143
   },
   {
     "Nom": "River_Presence",
     "X": 1065,
-    "Y": 564,
-    "Couleur": 16777213
+    "Y": 570,
+    "Couleur": 16776958
   }
 ]

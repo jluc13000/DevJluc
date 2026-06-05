@@ -61,7 +61,7 @@
          TextWrapping="Wrap"
          FontSize="10"/>
 
-        
+
         <!-- Image de fond -->
         <Image x:Name="Turn1" Source="/Fenetre_Poker.gif"
                Stretch="None"
@@ -439,8 +439,23 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Mise"         Width="65"    Height="20"     Margin="343,623,0,0" TextWrapping="Wrap" Text="0"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" FontSize="10"/>
-        <TextBox x:Name="TB_Mise_Coeff"   Width="26"    Height="20"     Margin="348,648,0,0" TextWrapping="Wrap" Text="1.5"  HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_Coeff_TextChanged"/>
+        <TextBox x:Name="TB_Mise"         Width="46"    Height="20"     Margin="238,491,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text=""/>
+
+        <TextBox x:Name="TB_Ligne_Temps"
+         Width="242"
+         Height="18"
+         Margin="138,294,0,0"
+         HorizontalAlignment="Left"
+         VerticalAlignment="Top"
+         FontSize="12"
+         FontWeight="Bold"
+         FontFamily="Consolas"
+         Background="Black"
+         Foreground="Lime"
+         BorderBrush="Lime"
+         IsReadOnly="True"
+         TextWrapping="Wrap"
+         Text="✓M1 " TextChanged="TB_Ligne_Temps_TextChanged" />
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>

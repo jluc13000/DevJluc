@@ -17,7 +17,7 @@ namespace Poker
 {
     public partial class MainWindow : Window
     {
-        
+        private int Nb_Mains_Testees = 0;
 
         // =====================================================
         // STRUCTURE DETECTION CARTE
@@ -144,6 +144,11 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
+
+            LbNbTapis.Content = "0";
+
+            Charger_Main1_JSON();
+            Charger_Main2_JSON();
 
             Charger_Main1_JSON();
             Charger_Main2_JSON();
@@ -676,6 +681,8 @@ namespace Poker
             Bt_Tir_Turn_Couleur.Background = Blanc;
             Bt_Tir_Turn_QFlush.Background = Blanc;
             NbMains++;
+
+
             AppliquerRandomSiActif();
 
             InitialiserPaquet();
@@ -2587,6 +2594,11 @@ namespace Poker
                     {
                         if (Detecter_Presence("Main_1_Presence"))
                         {
+                            Nb_Mains_Testees++;
+
+                            LbNbTapis.Content =
+                                Nb_Mains_Testees.ToString();
+
                             // ================================
                             // RESET NOUVELLE MAIN
                             // ================================
@@ -2606,15 +2618,22 @@ namespace Poker
 
                             Efface_Board();
 
+                            // ================================
+                            // MEMORISATION SIGNATURE
+                            // ================================
+
+                            Memoriser_Signature();
+
                             Lire_Main_1();
 
                             bMain1_Lue = true;
+
+                            TB_Ligne_Temps.Clear();
+                            TB_Ligne_Temps.AppendText("M1 ");
                         }
                     }
 
-                    // =====================================
                     // ATTENTE MAIN 2
-                    // =====================================
 
                     if (bMain1_Lue && !bMain2_Lue)
                     {
@@ -2623,6 +2642,10 @@ namespace Poker
                             Lire_Main_2();
 
                             bMain2_Lue = true;
+
+                            Memoriser_Signature();
+
+                            TB_Ligne_Temps.AppendText("M2 ");
                         }
                     }
 
@@ -2633,13 +2656,22 @@ namespace Poker
                     if (bMain2_Lue && !bFlop1_Lue)
                     {
                         // ================================
-                        // Fin pré-flop
+                        // TEST EXPERIMENTAL FP
                         // ================================
 
-                        if (Detecter_Presence("Fin_Main"))
+                        if (Nouvelle_Main_Detectee())
                         {
+                            TB_Ligne_Temps.AppendText("FP ");
+
                             bMain1_Lue = false;
                             bMain2_Lue = false;
+
+                            bFlop1_Lue = false;
+                            bFlop2_Lue = false;
+                            bFlop3_Lue = false;
+
+                            bTurn_Lue = false;
+                            bRiver_Lue = false;
 
                             continue;
                         }
@@ -2653,6 +2685,8 @@ namespace Poker
                             Lire_Flop1();
 
                             bFlop1_Lue = true;
+
+                            TB_Ligne_Temps.AppendText("F1 ");
                         }
                     }
 
@@ -2683,21 +2717,50 @@ namespace Poker
                             bFlop3_Lue = true;
 
                             // ================================
+                            // MEMORISATION SIGNATURE
+                            // ================================
+
+                            Memoriser_Signature();
+
+                            // ================================
                             // RESET TURN / RIVER
                             // ================================
 
                             TB_T.Clear();
 
                             TB_R.Clear();
+
+                            TB_Ligne_Temps.AppendText("F3 ");
                         }
                     }
 
-                    // =====================================
+                    /// =====================================
                     // ATTENTE TURN
                     // =====================================
 
                     if (bFlop3_Lue && !bTurn_Lue)
                     {
+                        // ================================
+                        // FIN AU FLOP
+                        // ================================
+
+                        if (Nouvelle_Main_Detectee())
+                        {
+                            TB_Ligne_Temps.AppendText("FF ");
+
+                            bMain1_Lue = false;
+                            bMain2_Lue = false;
+
+                            bFlop1_Lue = false;
+                            bFlop2_Lue = false;
+                            bFlop3_Lue = false;
+
+                            bTurn_Lue = false;
+                            bRiver_Lue = false;
+
+                            continue;
+                        }
+
                         // ================================
                         // TURN
                         // ================================
@@ -2707,6 +2770,10 @@ namespace Poker
                             Lire_Turn();
 
                             bTurn_Lue = true;
+
+                            Memoriser_Signature();
+
+                            TB_Ligne_Temps.AppendText("T ");
                         }
                     }
 
@@ -2717,14 +2784,38 @@ namespace Poker
                     if (bTurn_Lue && !bRiver_Lue)
                     {
                         // ================================
+                        // FIN AU TURN
+                        // ================================
+
+                        if (Nouvelle_Main_Detectee())
+                        {
+                            TB_Ligne_Temps.AppendText("FT ");
+
+                            bMain1_Lue = false;
+                            bMain2_Lue = false;
+
+                            bFlop1_Lue = false;
+                            bFlop2_Lue = false;
+                            bFlop3_Lue = false;
+
+                            bTurn_Lue = false;
+                            bRiver_Lue = false;
+
+                            continue;
+                        }
+
+                        // ================================
                         // RIVER
                         // ================================
 
                         if (Detecter_Presence("River_Presence"))
                         {
+                            //await Task.Delay(10);
                             Lire_River();
 
                             bRiver_Lue = true;
+
+                            TB_Ligne_Temps.AppendText("R ");
                         }
                     }
 
@@ -3143,6 +3234,12 @@ namespace Poker
             ActiverBoutonPosition((Button)sender);
             //Bt_Pas_de_Bouton.Background = (Brush)FindResource("blanc");
         }
+
+        private void TB_Ligne_Temps_TextChanged(object sender, TextChangedEventArgs e)
+        {
+
+        }
+
         private string GetMain()
         {
             if (string.IsNullOrEmpty(TB_M1.Text) || string.IsNullOrEmpty(TB_M2.Text))
@@ -5309,12 +5406,28 @@ namespace Poker
 
             return (p1 * 397) ^ p2;
         }
+        private bool Nouvelle_Main_Detectee()
+        {
+            int Nouvelle_Main1 = LirePixel(765, 865);
+            int Nouvelle_Main2 = LirePixel(845, 865);
+
+            return
+                Nouvelle_Main1 != Signature_Main1 ||
+                Nouvelle_Main2 != Signature_Main2;
+        }
+
+        private void Memoriser_Signature()
+        {
+            Signature_Main1 = LirePixel(765, 865);
+            Signature_Main2 = LirePixel(845, 865);
+        }
+
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
         // =========================================================
 
         private S_CarteDetect[] Main_BoardDetect =
-            new S_CarteDetect[28];
+            new S_CarteDetect[33];
         // =========================================================
         // LIRE PIXEL
         // =========================================================
