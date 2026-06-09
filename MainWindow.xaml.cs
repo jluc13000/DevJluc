@@ -42,7 +42,9 @@ namespace Poker
         private S_CarteDetect[] Flop2Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Flop3Detect = new S_CarteDetect[52];
         private S_CarteDetect[] TurnDetect = new S_CarteDetect[52];
+        private S_CarteDetect[] Turn_HBDetect = new S_CarteDetect[104];
         private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
+        private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
         // =====================================
         // SIGNATURE MAIN
@@ -158,7 +160,11 @@ namespace Poker
             Charger_Flop3_JSON();
 
             Charger_Turn_JSON();
+            Charger_Turn_HB_JSON();
             Charger_River_JSON();
+
+            Charger_River_HB_JSON();
+
 
             Charger_Main_Board_JSON();
 
@@ -686,8 +692,8 @@ namespace Poker
             AppliquerRandomSiActif();
 
             InitialiserPaquet();
-            Efface_Affichage_Cartes();
-            Initialise_Boutons_Main_Flop_Turn_River();
+            //Efface_Affichage_Cartes();
+            //Initialise_Boutons_Main_Flop_Turn_River();
 
             // 🔥 RESET boutons ACTION
             Bt_Tapis.Background = Blanc;
@@ -1239,11 +1245,11 @@ namespace Poker
 
         private void Bt_Turn_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte(TB_T, Bt_Flop_3, Bt_Turn, 5);
-
+            //AfficherCarte(TB_T, Bt_Flop_3, Bt_Turn, 5);
+            AfficherCarte_Test(TB_T, Bt_Turn, 5);
 
             // 🔥 Analyse Turn
-            Calcul_Turn();
+            //Calcul_Turn();
         }
         private void Calcul_Turn()
         {
@@ -1740,10 +1746,11 @@ namespace Poker
 
         private void Bt_River_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte(TB_R, Bt_Turn, Bt_River, 6);
+            //AfficherCarte(TB_R, Bt_Turn, Bt_River, 6);
 
+            AfficherCarte_Test(TB_R, Bt_River, 6);
             // 🔥 Analyse River
-            Calcul_River();
+            //Calcul_River();
         }
         private void Calcul_River()
         {
@@ -2594,10 +2601,6 @@ namespace Poker
                     {
                         if (Detecter_Presence("Main_1_Presence"))
                         {
-                            Nb_Mains_Testees++;
-
-                            LbNbTapis.Content =
-                                Nb_Mains_Testees.ToString();
 
                             // ================================
                             // RESET NOUVELLE MAIN
@@ -2613,6 +2616,20 @@ namespace Poker
                             bRiver_Lue = false;
 
                             // ================================
+                            // RESET INDICATEURS VISUELS
+                            // ================================
+
+                            Bt_Main_1.Background = Brushes.White;
+                            Bt_Main_2.Background = Brushes.White;
+
+                            Bt_Flop_1.Background = Brushes.White;
+                            Bt_Flop_2.Background = Brushes.White;
+                            Bt_Flop_3.Background = Brushes.White;
+
+                            Bt_Turn.Background = Brushes.White;
+                            Bt_River.Background = Brushes.White;
+
+                            // ================================
                             // AFFICHAGE
                             // ================================
 
@@ -2624,12 +2641,21 @@ namespace Poker
 
                             Memoriser_Signature();
 
+                            // ================================
+                            // RESET VISUEL NOUVELLE MAIN
+                            // ================================
+
+                            Reset_PreFlop();
+                            Reset_Flop();
+                            Reset_Tirages_Flop();
+                            Reset_Turn();
+                            Reset_Tirages_Turn();
+                            Reset_River();
+
                             Lire_Main_1();
 
                             bMain1_Lue = true;
 
-                            TB_Ligne_Temps.Clear();
-                            TB_Ligne_Temps.AppendText("M1 ");
                         }
                     }
 
@@ -2639,13 +2665,19 @@ namespace Poker
                     {
                         if (Detecter_Presence("Main_2_Presence"))
                         {
+
+                            //await Task.Delay(1);
                             Lire_Main_2();
 
                             bMain2_Lue = true;
 
                             Memoriser_Signature();
 
-                            TB_Ligne_Temps.AppendText("M2 ");
+                            // ================================
+                            // CALCUL PRE FLOP
+                            // ================================
+
+                            Calcul_PreFlop();
                         }
                     }
 
@@ -2661,7 +2693,6 @@ namespace Poker
 
                         if (Nouvelle_Main_Detectee())
                         {
-                            TB_Ligne_Temps.AppendText("FP ");
 
                             bMain1_Lue = false;
                             bMain2_Lue = false;
@@ -2682,11 +2713,12 @@ namespace Poker
 
                         if (Detecter_Presence("Flop_1_Presence"))
                         {
+
+                            //await Task.Delay(5);
                             Lire_Flop1();
 
                             bFlop1_Lue = true;
 
-                            TB_Ligne_Temps.AppendText("F1 ");
                         }
                     }
 
@@ -2727,10 +2759,14 @@ namespace Poker
                             // ================================
 
                             TB_T.Clear();
-
                             TB_R.Clear();
 
-                            TB_Ligne_Temps.AppendText("F3 ");
+                            // ================================
+                            // CALCUL FLOP
+                            // ================================
+
+                            Calcul_Flop();
+                            Calcul_Tirages_Flop();
                         }
                     }
 
@@ -2746,7 +2782,6 @@ namespace Poker
 
                         if (Nouvelle_Main_Detectee())
                         {
-                            TB_Ligne_Temps.AppendText("FF ");
 
                             bMain1_Lue = false;
                             bMain2_Lue = false;
@@ -2765,15 +2800,24 @@ namespace Poker
                         // TURN
                         // ================================
 
-                        if (Detecter_Presence("Turn_Presence"))
+                        if (!bTurn_Lue)
                         {
-                            Lire_Turn();
+                            if (Detecter_Presence("Turn_Presence"))
+                            {
+                                //await Task.Delay(6);
+                                Lire_Turn();
 
-                            bTurn_Lue = true;
+                                bTurn_Lue = true;
 
-                            Memoriser_Signature();
+                                Memoriser_Signature();
 
-                            TB_Ligne_Temps.AppendText("T ");
+                                // ================================
+                                // CALCUL TURN
+                                // ================================
+
+                                Calcul_Turn();
+                                Calcul_Tirages_Turn();
+                            }
                         }
                     }
 
@@ -2789,7 +2833,6 @@ namespace Poker
 
                         if (Nouvelle_Main_Detectee())
                         {
-                            TB_Ligne_Temps.AppendText("FT ");
 
                             bMain1_Lue = false;
                             bMain2_Lue = false;
@@ -2808,14 +2851,28 @@ namespace Poker
                         // RIVER
                         // ================================
 
-                        if (Detecter_Presence("River_Presence"))
+                        if (!bRiver_Lue)
                         {
-                            //await Task.Delay(10);
-                            Lire_River();
+                            if (Detecter_Presence("River_Presence"))
+                            {
+                                //await Task.Delay(1);
 
-                            bRiver_Lue = true;
+                                Lire_River();
 
-                            TB_Ligne_Temps.AppendText("R ");
+                                bRiver_Lue = true;
+
+                                // ================================
+                                // MEMORISATION SIGNATURE
+                                // ================================
+
+                                Memoriser_Signature();
+
+                                // ================================
+                                // CALCUL RIVER
+                                // ================================
+
+                                Calcul_River();
+                            }
                         }
                     }
 
@@ -3795,14 +3852,30 @@ namespace Poker
                         Lire_Flop3();
                     }
 
+                    // =====================================
+                    // TURN
+                    // =====================================
+
                     if (Detecter_Presence("Turn_Presence"))
                     {
                         Lire_Turn();
                     }
+                    else if (Detecter_Presence("Turn_HB_Presence"))
+                    {
+                        Lire_Turn_HB();
+                    }
+
+                    // =====================================
+                    // RIVER
+                    // =====================================
 
                     if (Detecter_Presence("River_Presence"))
                     {
                         Lire_River();
+                    }
+                    else if (Detecter_Presence("River_HB_Presence"))
+                    {
+                        Lire_River_HB();
                     }
 
                     // =====================================
@@ -3830,8 +3903,7 @@ namespace Poker
             // Lecture presse-papiers
             // =====================================
 
-            string txt =
-                Clipboard.GetText();
+            string txt = Clipboard.GetText();
 
             // =====================================
             // Rien ?
@@ -3867,7 +3939,11 @@ namespace Poker
 
             bool okTurn = Extraire_Turn(txt);
 
+            bool okTurn_HB = Extraire_Turn_HB(txt);
+
             bool okRiver = Extraire_River(txt);
+
+            bool okRiver_HB = Extraire_River_HB(txt);
 
             bool okMain_Board = Extraire_Main_Board(txt);
 
@@ -3881,7 +3957,9 @@ namespace Poker
                 !okFlop2 &&
                 !okFlop3 &&
                 !okTurn &&
+                !okTurn_HB &&
                 !okRiver &&
+                !okRiver_HB &&
                 !okMain_Board)
             {
                 MessageBox.Show(
@@ -3912,8 +3990,14 @@ namespace Poker
             if (okTurn)
                 Sauver_Turn_JSON();
 
+            if (okTurn_HB)
+                Sauver_Turn_HB_JSON();
+
             if (okRiver)
                 Sauver_River_JSON();
+
+            if (okRiver_HB)
+                Sauver_River_HB_JSON();
 
             if (okMain_Board)
                 Sauver_Main_Board_JSON();
@@ -3943,8 +4027,14 @@ namespace Poker
             if (okTurn)
                 msg += "Turn : 52 cartes\n";
 
+            if (okTurn_HB)
+                msg += "Turn_HB : 104 cartes\n";
+
             if (okRiver)
                 msg += "River : 52 cartes\n";
+
+            if (okRiver_HB)
+                msg += "River_HB : 104 cartes\n";
 
             if (okMain_Board)
                 msg += "Main_Board OK\n";
@@ -4039,6 +4129,21 @@ namespace Poker
             TurnDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
+        // 🔥 CHARGER TURN_HB JSON
+        // =========================================================
+        private void Charger_Turn_HB_JSON()
+        {
+            string fichier = @"F:\source\repos\Poker\JSON\Turn_HB.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            Turn_HBDetect =
+                JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
+        // =========================================================
         // 🔥 CHARGER RIVER JSON
         // =========================================================
         private void Charger_River_JSON()
@@ -4051,6 +4156,21 @@ namespace Poker
             string json = File.ReadAllText(fichier);
 
             RiverDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
+        // =========================================================
+        // 🔥 CHARGER RIVER_HB JSON
+        // =========================================================
+        private void Charger_River_HB_JSON()
+        {
+            string fichier = @"F:\source\repos\Poker\JSON\River_HB.json";
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            River_HBDetect =
+                JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
         // =========================================================
         // 🔥 CHARGER MAIN_BOARD JSON
@@ -4194,6 +4314,23 @@ namespace Poker
             File.WriteAllText(fichier, json);
         }
         // =========================================================
+        // 🔥 SAUVER TURN_HB JSON
+        // =========================================================
+        private void Sauver_Turn_HB_JSON()
+        {
+            string dossier = @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier = Path.Combine(dossier, "Turn_HB.json");
+
+            string json = JsonConvert.SerializeObject(
+                Turn_HBDetect,
+                Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
+        // =========================================================
         // 🔥 SAUVER RIVER JSON
         // =========================================================
         private void Sauver_River_JSON()
@@ -4205,6 +4342,23 @@ namespace Poker
             string fichier = Path.Combine(dossier, "River.json");
 
             string json = JsonConvert.SerializeObject(RiverDetect, Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
+        // =========================================================
+        // 🔥 SAUVER RIVER_HB JSON
+        // =========================================================
+        private void Sauver_River_HB_JSON()
+        {
+            string dossier = @"F:\source\repos\Poker\JSON";
+
+            Directory.CreateDirectory(dossier);
+
+            string fichier = Path.Combine(dossier, "River_HB.json");
+
+            string json = JsonConvert.SerializeObject(
+                River_HBDetect,
+                Formatting.Indented);
 
             File.WriteAllText(fichier, json);
         }
@@ -4963,6 +5117,196 @@ namespace Poker
             return true;
         }
         // =========================================================
+        // 🔥 EXTRAIRE TURN_HB
+        // =========================================================
+        private bool Extraire_Turn_HB(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            int index = 0;
+
+            bool bTurn_HB = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // COMMENT : Turn_HB
+                // =====================================
+
+                if (ligne == "COMMENT : Turn_HB")
+                {
+                    bTurn_HB = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bTurn_HB)
+                    continue;
+
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
+
+                    if (nom == "Turn_HB")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante
+                    // =====================================
+
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 = lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
+                        continue;
+
+                    // =====================================
+                    // Découpage
+                    // =====================================
+
+                    string[] t = l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    Turn_HBDetect[index].Nom = nom;
+
+                    Turn_HBDetect[index].X = int.Parse(t[1]);
+
+                    Turn_HBDetect[index].Y = int.Parse(t[2]);
+
+                    Turn_HBDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // Validation
+            // =====================================
+
+            if (!bTurn_HB)
+                return false;
+
+            if (index != 104)
+                return false;
+
+            return true;
+        }
+        // =========================================================
+        // 🔥 EXTRAIRE RIVER_HB
+        // =========================================================
+        private bool Extraire_River_HB(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            int index = 0;
+
+            bool bRiver_HB = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // COMMENT : River_HB
+                // =====================================
+
+                if (ligne == "COMMENT : River_HB")
+                {
+                    bRiver_HB = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bRiver_HB)
+                    continue;
+
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
+
+                    if (nom == "River_HB")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante
+                    // =====================================
+
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 = lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
+                        continue;
+
+                    // =====================================
+                    // Découpage
+                    // =====================================
+
+                    string[] t = l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    River_HBDetect[index].Nom = nom;
+
+                    River_HBDetect[index].X = int.Parse(t[1]);
+
+                    River_HBDetect[index].Y = int.Parse(t[2]);
+
+                    River_HBDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // Validation
+            // =====================================
+
+            if (!bRiver_HB)
+                return false;
+
+            if (index != 104)
+                return false;
+
+            return true;
+        }
+        // =========================================================
         // 🔥 EXTRAIRE MAIN_BOARD
         // =========================================================
         private bool Extraire_Main_Board(string txt)
@@ -5054,7 +5398,7 @@ namespace Poker
 
         #endregion
 
-        #region LIRE Main_1, Main_2, Flop_1, Flop_2, Flop_3, Turn, River
+        #region LIRE
         // =========================================================
         // 🔥 LIRE MAIN_1
         // =========================================================
@@ -5323,6 +5667,45 @@ namespace Poker
                 }
             }
         }
+
+        // =========================================================
+        // 🔥 LIRE TURN_HB
+        // =========================================================
+        private void Lire_Turn_HB()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Turn_HBDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
+
+                    return;
+                }
+            }
+        }
         // =========================================================
         // 🔥 LIRE RIVER
         // =========================================================
@@ -5361,7 +5744,44 @@ namespace Poker
                 }
             }
         }
+        // =========================================================
+        // 🔥 LIRE RIVER_HB
+        // =========================================================
+        private void Lire_River_HB()
+        {
+            CarteCourante = "";
 
+            foreach (var carte in River_HBDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_R, Bt_River, 6);
+
+                    return;
+                }
+            }
+        }
 
         #endregion
 
@@ -5421,13 +5841,83 @@ namespace Poker
             Signature_Main1 = LirePixel(765, 865);
             Signature_Main2 = LirePixel(845, 865);
         }
+        private void Reset_PreFlop()
+        {
+            Bt_PreFlop_Paire.Background = Blanc;
+            Bt_PreFlop_Pareille.Background = Blanc;
+            Bt_PreFlop_Suite.Background = Blanc;
+        }
+        private void Reset_Flop()
+        {
+            Bt_Flop_Paire.Background = Blanc;
+            Bt_Flop_2_Paires.Background = Blanc;
+            Bt_Flop_Brelan.Background = Blanc;
+            Bt_Flop_Quinte.Background = Blanc;
+            Bt_Flop_Couleur.Background = Blanc;
+            Bt_Flop_Full.Background = Blanc;
+            Bt_Flop_Carre.Background = Blanc;
+            Bt_Flop_QFlush.Background = Blanc;
+        }
+        private void Reset_Tirages_Flop()
+        {
+            bTir_Flop_Quinte = false;
+            bTir_Flop_Couleur = false;
+            bTir_Flop_QFlush = false;
 
+            Bt_Tir_Flop_Quinte.Background = Blanc;
+            Bt_Tir_Flop_Couleur.Background = Blanc;
+            Bt_Tir_Flop_QFlush.Background = Blanc;
+        }
+        // =========================================================
+        // RESET TURN
+        // =========================================================
+
+        private void Reset_Turn()
+        {
+            Bt_Turn_Paire.Background = Blanc;
+            Bt_Turn_2_Paires.Background = Blanc;
+            Bt_Turn_Brelan.Background = Blanc;
+            Bt_Turn_Quinte.Background = Blanc;
+            Bt_Turn_Couleur.Background = Blanc;
+            Bt_Turn_Full.Background = Blanc;
+            Bt_Turn_Carre.Background = Blanc;
+            Bt_Turn_QFlush.Background = Blanc;
+        }
+        // =========================================================
+        // RESET TIRAGES TURN
+        // =========================================================
+
+        private void Reset_Tirages_Turn()
+        {
+            bTir_Turn_Quinte = false;
+            bTir_Turn_Couleur = false;
+            bTir_Turn_QFlush = false;
+
+            Bt_Tir_Turn_Quinte.Background = Blanc;
+            Bt_Tir_Turn_Couleur.Background = Blanc;
+            Bt_Tir_Turn_QFlush.Background = Blanc;
+        }
+        // =========================================================
+        // RESET RIVER
+        // =========================================================
+
+        private void Reset_River()
+        {
+            Bt_River_Paire.Background = Blanc;
+            Bt_River_2_Paires.Background = Blanc;
+            Bt_River_Brelan.Background = Blanc;
+            Bt_River_Quinte.Background = Blanc;
+            Bt_River_Couleur.Background = Blanc;
+            Bt_River_Full.Background = Blanc;
+            Bt_River_Carre.Background = Blanc;
+            Bt_River_QFlush.Background = Blanc;
+        }
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
         // =========================================================
 
         private S_CarteDetect[] Main_BoardDetect =
-            new S_CarteDetect[33];
+            new S_CarteDetect[65];
         // =========================================================
         // LIRE PIXEL
         // =========================================================

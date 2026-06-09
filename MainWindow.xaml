@@ -441,22 +441,6 @@
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_Mise"         Width="46"    Height="20"     Margin="238,491,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text=""/>
 
-        <TextBox x:Name="TB_Ligne_Temps"
-         Width="242"
-         Height="18"
-         Margin="138,294,0,0"
-         HorizontalAlignment="Left"
-         VerticalAlignment="Top"
-         FontSize="12"
-         FontWeight="Bold"
-         FontFamily="Consolas"
-         Background="Black"
-         Foreground="Lime"
-         BorderBrush="Lime"
-         IsReadOnly="True"
-         TextWrapping="Wrap"
-         Text="✓M1 " TextChanged="TB_Ligne_Temps_TextChanged" />
-
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Blind3"                Width="36"      Height="13"         Margin="185,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>

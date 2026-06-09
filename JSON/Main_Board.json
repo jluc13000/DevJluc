@@ -1,51 +1,147 @@
 [
   {
     "Nom": "Main_1_Presence",
-    "X": 847,
-    "Y": 920,
-    "Couleur": 16776703
+    "X": 846,
+    "Y": 900,
+    "Couleur": 10860695
   },
   {
     "Nom": "Main_1_Presence",
-    "X": 847,
-    "Y": 920,
-    "Couleur": 16776959
+    "X": 846,
+    "Y": 900,
+    "Couleur": 10926231
   },
   {
     "Nom": "Main_1_Presence",
-    "X": 847,
-    "Y": 920,
-    "Couleur": 16645887
+    "X": 846,
+    "Y": 900,
+    "Couleur": 10925975
   },
   {
     "Nom": "Main_1_Presence",
-    "X": 847,
-    "Y": 920,
-    "Couleur": 16776957
+    "X": 846,
+    "Y": 900,
+    "Couleur": 10926230
+  },
+  {
+    "Nom": "Main_1_Presence",
+    "X": 846,
+    "Y": 900,
+    "Couleur": 10860694
+  },
+  {
+    "Nom": "Main_1_Presence",
+    "X": 846,
+    "Y": 900,
+    "Couleur": 11649189
+  },
+  {
+    "Nom": "Main_1_Presence",
+    "X": 846,
+    "Y": 900,
+    "Couleur": 11648933
+  },
+  {
+    "Nom": "Main_1_Presence",
+    "X": 846,
+    "Y": 900,
+    "Couleur": 11649188
   },
   {
     "Nom": "Main_2_Presence",
-    "X": 942,
-    "Y": 920,
-    "Couleur": 16645887
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14147538
   },
   {
     "Nom": "Main_2_Presence",
-    "X": 942,
-    "Y": 920,
-    "Couleur": 16776959
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14213074
   },
   {
     "Nom": "Main_2_Presence",
-    "X": 942,
-    "Y": 920,
-    "Couleur": 16776703
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14212818
   },
   {
     "Nom": "Main_2_Presence",
-    "X": 942,
-    "Y": 920,
-    "Couleur": 16776957
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14213073
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14212817
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14147536
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14936030
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14936286
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14870750
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14936285
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14936029
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14870748
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14082002
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14212562
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14805214
+  },
+  {
+    "Nom": "Main_2_Presence",
+    "X": 941,
+    "Y": 900,
+    "Couleur": 14805212
   },
   {
     "Nom": "Flop_1_Presence",
@@ -126,10 +222,10 @@
     "Couleur": 16777213
   },
   {
-    "Nom": "Turn_Presence",
-    "X": 1000,
-    "Y": 570,
-    "Couleur": 16777213
+    "Nom": "Flop_3_Presence",
+    "X": 934,
+    "Y": 565,
+    "Couleur": 16776958
   },
   {
     "Nom": "Turn_Presence",
@@ -139,39 +235,63 @@
   },
   {
     "Nom": "Turn_Presence",
-    "X": 1000,
+    "X": 999,
     "Y": 570,
-    "Couleur": 16711678
-  },
-  {
-    "Nom": "Turn_Presence",
-    "X": 1000,
-    "Y": 570,
-    "Couleur": 16776959
-  },
-  {
-    "Nom": "Turn_Presence",
-    "X": 1000,
-    "Y": 570,
-    "Couleur": 16711679
+    "Couleur": 15857136
   },
   {
     "Nom": "Turn_Presence",
     "X": 999,
     "Y": 570,
-    "Couleur": 16316919
+    "Couleur": 15922416
   },
   {
     "Nom": "Turn_Presence",
     "X": 999,
     "Y": 570,
-    "Couleur": 15791600
+    "Couleur": 15922670
   },
   {
     "Nom": "Turn_Presence",
     "X": 999,
     "Y": 570,
     "Couleur": 15922415
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12110253
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12898746
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12044715
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15593449
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15461861
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15461862
   },
   {
     "Nom": "River_Presence",
@@ -196,5 +316,77 @@
     "X": 1065,
     "Y": 570,
     "Couleur": 16776958
+  },
+  {
+    "Nom": "River_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16777213
+  },
+  {
+    "Nom": "River_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16711677
+  },
+  {
+    "Nom": "River_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16711679
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16119282
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13358786
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12767161
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16119280
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12766905
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16185075
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16185074
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13358530
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16184819
   }
 ]
