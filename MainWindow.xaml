@@ -439,7 +439,7 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Mise"         Width="46"    Height="20"     Margin="238,491,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text=""/>
+        <TextBox x:Name="TB_Mise"         Width="206"    Height="25"     Margin="145,529,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text=""/>
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
@@ -486,9 +486,14 @@
         <Button x:Name="Bt_Initialise" Content="Initialise" Click="Bt_Initialise_Click" HorizontalAlignment="Left" Height="20" Margin="361,177,0,0" VerticalAlignment="Top" Width="37"  FontSize="9" RenderTransformOrigin="0.495,1.65" />
         <Button x:Name="Bt_Doublon"    Content="Doublons"   Click="Bt_Doublon_Click"    HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Injection"  Content="INJECTION"  Click="Bt_Injection_Click"  HorizontalAlignment="Left" Height="20" Margin="270,197,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Trigger_Board"  Content="Trigger_Board"  Click="Bt_Trigger_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="270,217,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Test_Board"  Content="Test Board"  Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="330,198,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Triggers_Board"  Content="Triggers_Board"  Click="Bt_Triggers_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="140,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button
+    x:Name="Bt_Test_Board"
+    Content="Test Board"
+    Click="Bt_Test_Board_Click"
+    MouseDoubleClick="Bt_Test_Board_DoubleClick"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Bench"  Content="benchmark"  Click="Bt_Benchmark_Click"  HorizontalAlignment="Left" Height="20" Margin="330,218,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Test_Clean"  Content="Test Clean"  Click="Bt_Test_Clean_Click"  HorizontalAlignment="Left" Height="20" Margin="200,315,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>

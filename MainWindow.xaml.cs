@@ -86,10 +86,18 @@ namespace Poker
 
         private int NbDoublon_Turn;
         private int NbDoublon_River;
+        private bool bTriggersBoard = false;
+
+        private bool bTestClean = false;
         private System.Drawing.Bitmap Bitmap_Main;
 
         private string Main_Board_Presence = "";
 
+        private int NbTurnNormal = 0;
+        private int NbTurnHB = 0;
+
+        private int NbRiverNormal = 0;
+        private int NbRiverHB = 0;
 
         HashSet<string> RangeTapis = new HashSet<string>();
         HashSet<string> RangeRelance = new HashSet<string>();
@@ -2542,17 +2550,20 @@ namespace Poker
         // TRIGGER BOARD
         // =========================================================
 
-        private async void Bt_Trigger_Board_Click(object sender, RoutedEventArgs e)
+        private async void Bt_Triggers_Board_Click(object sender, RoutedEventArgs e)
         {
             // =====================================
             // STOP
             // =====================================
 
-            if (bTestFlop)
+            if (bTriggersBoard)
             {
-                bTestFlop = false;
+                bTriggersBoard = false;
 
-                Bt_Trigger_Board.Content = "Trigger Board";
+                Bt_Triggers_Board.Content = "Triggers Board";
+
+                Bt_Triggers_Board.Background =
+                    Brushes.White;
 
                 return;
             }
@@ -2561,9 +2572,46 @@ namespace Poker
             // START
             // =====================================
 
-            bTestFlop = true;
+            // =====================================
+            // Arrêt Test_Board
+            // =====================================
 
-            Bt_Trigger_Board.Content = "STOP";
+            if (bTestFlop)
+            {
+                bTestFlop = false;
+
+                Bt_Test_Board.Content =
+                    "Test Board";
+
+                Bt_Test_Board.Background =
+                    Brushes.White;
+
+                await Task.Delay(50);
+            }
+
+            // =====================================
+            // Arrêt Test_Clean
+            // =====================================
+
+            if (bTestClean)
+            {
+                bTestClean = false;
+
+                Bt_Test_Clean.Content =
+                    "Test Clean";
+
+                Bt_Test_Clean.Background =
+                    Brushes.White;
+
+                await Task.Delay(50);
+            }
+
+            bTriggersBoard = true;
+
+            Bt_Triggers_Board.Content = "STOP";
+
+            Bt_Triggers_Board.Background =
+                Brushes.LightGreen;
 
             try
             {
@@ -2585,7 +2633,7 @@ namespace Poker
                 // BOUCLE
                 // =====================================
 
-                while (bTestFlop)
+                while (bTriggersBoard)
                 {
                     // =====================================
                     // Capture écran
@@ -2933,9 +2981,11 @@ namespace Poker
             }
             catch (Exception ex)
             {
-                bTestFlop = false;
+                bTriggersBoard = false;
 
-                Bt_Trigger_Board.Content = "Trigger Board";
+                Bt_Triggers_Board.Content = "Triggers Board";
+
+                Bt_Triggers_Board.Background = Brushes.White;
 
                 MessageBox.Show(ex.ToString());
             }
@@ -3556,6 +3606,202 @@ namespace Poker
 
             return NormaliserMain(cartes[0], cartes[1]);
         }
+
+        private async void Bt_Test_Clean_Click(object sender, RoutedEventArgs e)
+        {
+            // =====================================
+            // STOP
+            // =====================================
+
+            if (bTestClean)
+            {
+                bTestClean = false;
+
+                Bt_Test_Clean.Content =
+                    "Test Clean";
+
+                Bt_Test_Clean.ClearValue(
+                    Button.BackgroundProperty);
+
+                return;
+            }
+
+            // =====================================
+            // Arrêt Test_Board
+            // =====================================
+
+            if (bTestFlop)
+            {
+                bTestFlop = false;
+
+                Bt_Test_Board.Content =
+                    "Test Board";
+
+                Bt_Test_Board.ClearValue(
+                    Button.BackgroundProperty);
+
+                await Task.Delay(50);
+            }
+
+            // =====================================
+            // Arrêt Triggers_Board
+            // =====================================
+
+            if (bTriggersBoard)
+            {
+                bTriggersBoard = false;
+
+                Bt_Triggers_Board.Content =
+                    "Triggers Board";
+
+                Bt_Triggers_Board.ClearValue(
+                    Button.BackgroundProperty);
+
+                await Task.Delay(50);
+            }
+
+            // =====================================
+            // START
+            // =====================================
+
+            bTestClean = true;
+
+            Bt_Test_Clean.Content = "STOP";
+
+            Bt_Test_Clean.Background =
+                Brushes.Orange;
+
+            try
+            {
+                while (bTestClean)
+                {
+                    // =====================================
+                    // Capture écran
+                    // =====================================
+
+                    CaptureEcran();
+
+                    // =====================================
+                    // LECTURE EVENEMENTIELLE
+                    // =====================================
+
+                    if (Detecter_Presence("Main_1_Presence"))
+                    {
+                        Lire_Main_1();
+                    }
+
+                    if (Detecter_Presence("Main_2_Presence"))
+                    {
+                        Lire_Main_2();
+
+                        TB_F1.Clear();
+                        TB_F2.Clear();
+                        TB_F3.Clear();
+                        TB_T.Clear();
+                        TB_R.Clear();
+
+                        //Bt_Flop_1.ClearValue(Button.BackgroundProperty);
+                        //Bt_Flop_2.ClearValue(Button.BackgroundProperty);
+                        //Bt_Flop_3.ClearValue(Button.BackgroundProperty);
+                        //Bt_Turn.ClearValue(Button.BackgroundProperty);
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+
+                    if (Detecter_Presence("Flop_1_Presence"))
+                    {
+                        Lire_Flop1();
+
+                        TB_F2.Clear();
+                        TB_F3.Clear();
+                        TB_T.Clear();
+                        TB_R.Clear();
+
+                        //Bt_Flop_2.ClearValue(Button.BackgroundProperty);
+                        //Bt_Flop_3.ClearValue(Button.BackgroundProperty);
+                        //Bt_Turn.ClearValue(Button.BackgroundProperty);
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+
+                    if (Detecter_Presence("Flop_2_Presence"))
+                    {
+                        Lire_Flop2();
+
+                        TB_F3.Clear();
+                        TB_T.Clear();
+                        TB_R.Clear();
+
+                        //Bt_Flop_3.ClearValue(Button.BackgroundProperty);
+                        //Bt_Turn.ClearValue(Button.BackgroundProperty);
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+
+                    if (Detecter_Presence("Flop_3_Presence"))
+                    {
+                        Lire_Flop3();
+
+                        TB_T.Clear();
+                        TB_R.Clear();
+
+                        //Bt_Turn.ClearValue(Button.BackgroundProperty);
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+
+                    // =====================================
+                    // TURN
+                    // =====================================
+
+                    if (Detecter_Presence("Turn_Presence"))
+                    {
+                        Lire_Turn();
+
+                        TB_R.Clear();
+
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+                    else if (Detecter_Presence("Turn_HB_Presence"))
+                    {
+                        Lire_Turn_HB();
+
+                        TB_R.Clear();
+
+                        //Bt_River.ClearValue(Button.BackgroundProperty);
+                    }
+
+                    // =====================================
+                    // RIVER
+                    // =====================================
+
+                    if (Detecter_Presence("River_Presence"))
+                    {
+                        Lire_River();
+                    }
+                    else if (Detecter_Presence("River_HB_Presence"))
+                    {
+                        Lire_River_HB();
+                    }
+
+                    // =====================================
+                    // PAUSE CPU
+                    // =====================================
+
+                    await Task.Delay(1);
+                }
+            }
+            catch (Exception ex)
+            {
+                bTestClean = false;
+
+                Bt_Test_Clean.Content =
+                    "Test Clean";
+
+                Bt_Test_Clean.ClearValue(
+                    Button.BackgroundProperty);
+
+                MessageBox.Show(
+                    ex.ToString());
+            }
+        }
+
         private bool EstDansRange(string main)
         {
             // match exact
@@ -3798,16 +4044,62 @@ namespace Poker
 
                 Bt_Test_Board.Content = "Test Board";
 
+                Bt_Test_Board.Background =
+                    Brushes.White;
+
                 return;
             }
+
+            // =====================================
+            // Désactivation des autres modes
+            // =====================================
+
+            //Bt_Triggers_Board.IsEnabled = false;
 
             // =====================================
             // START
             // =====================================
 
+            // =====================================
+            // Arrêt Triggers_Board
+            // =====================================
+
+            if (bTriggersBoard)
+            {
+                bTriggersBoard = false;
+
+                Bt_Triggers_Board.Content =
+                    "Triggers Board";
+
+                Bt_Triggers_Board.Background =
+                    Brushes.White;
+
+                await Task.Delay(50);
+            }
+
+            // =====================================
+            // Arrêt Test_Clean
+            // =====================================
+
+            if (bTestClean)
+            {
+                bTestClean = false;
+
+                Bt_Test_Clean.Content =
+                    "Test Clean";
+
+                Bt_Test_Clean.Background =
+                    Brushes.White;
+
+                await Task.Delay(50);
+            }
+
             bTestFlop = true;
 
             Bt_Test_Board.Content = "STOP";
+
+            Bt_Test_Board.Background =
+                Brushes.LightGreen;
 
             try
             {
@@ -3889,7 +4181,11 @@ namespace Poker
             {
                 bTestFlop = false;
 
-                Bt_Test_Board.Content = "Test Board";
+                Bt_Test_Board.Content =
+                    "Test Board";
+
+                Bt_Test_Board.Background =
+                    Brushes.White;
 
                 MessageBox.Show(
                     ex.ToString());
@@ -5660,7 +5956,7 @@ namespace Poker
                 if (couleurLue == carte.Couleur)
                 {
                     CarteCourante = carte.Nom;
-
+                    NbTurnNormal++;
                     AfficherCarte_Test(TB_T, Bt_Turn, 5);
 
                     return;
@@ -5699,7 +5995,7 @@ namespace Poker
                 if (couleurLue == carte.Couleur)
                 {
                     CarteCourante = carte.Nom;
-
+                    NbTurnHB++;
                     AfficherCarte_Test(TB_T, Bt_Turn, 5);
 
                     return;
@@ -5737,7 +6033,7 @@ namespace Poker
                 if (couleurLue == carte.Couleur)
                 {
                     CarteCourante = carte.Nom;
-
+                    NbRiverNormal++;
                     AfficherCarte_Test(TB_R, Bt_River, 6);
 
                     return;
@@ -5775,7 +6071,7 @@ namespace Poker
                 if (couleurLue == carte.Couleur)
                 {
                     CarteCourante = carte.Nom;
-
+                    NbRiverHB++;
                     AfficherCarte_Test(TB_R, Bt_River, 6);
 
                     return;
@@ -5912,12 +6208,18 @@ namespace Poker
             Bt_River_Carre.Background = Blanc;
             Bt_River_QFlush.Background = Blanc;
         }
+        private void Bt_Test_Board_DoubleClick(object sender, MouseButtonEventArgs e)
+        {
+
+            MessageBox.Show(
+                "Double clic");
+        }
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
         // =========================================================
 
         private S_CarteDetect[] Main_BoardDetect =
-            new S_CarteDetect[65];
+            new S_CarteDetect[58];
         // =========================================================
         // LIRE PIXEL
         // =========================================================
