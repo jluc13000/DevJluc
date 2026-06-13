@@ -3594,6 +3594,14 @@ namespace Poker
 
             Main1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
+        // =========================================================
+        // 🔥 CHARGER MAIN_1_CROP JSON
+        // =========================================================
+        
+
+
+
         // =========================================================
         // 🔥 CHARGER MAIN_2 JSON
         // =========================================================
@@ -3726,7 +3734,7 @@ namespace Poker
         // DETECTER PRESENCE
         // =========================================================
         #endregion
-        
+
         #region SAUVER JSON
         // =========================================================
         // 🔥 SAUVER MAIN_1 JSON
@@ -3739,9 +3747,17 @@ namespace Poker
 
             string fichier = Path.Combine(dossier, "Main_1.json");
 
-            string json = JsonConvert.SerializeObject(Main1Detect, Formatting.Indented);
+            string json = JsonConvert.SerializeObject(
+                Main1Detect,
+                Formatting.Indented);
 
-            File.WriteAllText(fichier, json);
+            File.WriteAllText(
+                fichier,
+                json);
+            // =====================================
+            // Recalcul automatique du Crop
+            // =====================================
+            Recalculer_Main_1_Crop();
         }
         // =========================================================
         // 🔥 SAUVER MAIN_2 JSON
@@ -3990,6 +4006,27 @@ namespace Poker
                 return false;
 
             return true;
+        }
+        // =========================================================
+        // 🔥 EXTRAIRE MAIN_1_CROP
+        // =========================================================
+        private System.Drawing.Bitmap Extraire_Crop(
+             System.Drawing.Bitmap source,
+             int x,
+             int y,
+             int l,
+             int h)
+        {
+            System.Drawing.Rectangle zone =
+                new System.Drawing.Rectangle(
+                    x,
+                    y,
+                    l,
+                    h);
+
+            return source.Clone(
+                zone,
+                source.PixelFormat);
         }
         // =========================================================
         // 🔥 EXTRAIRE MAIN_2
@@ -4953,6 +4990,60 @@ namespace Poker
             }
         }
         // =========================================================
+        private void Lire_Main_1_Crop()
+        {
+            CropInfo crop =
+                Charger_Main_1_Crop_JSON();
+
+            if (crop == null)
+                return;
+
+            System.Drawing.Bitmap bmpCrop =
+                Extraire_Crop(
+                    Bitmap_Main,
+                    crop.X,
+                    crop.Y,
+                    crop.L,
+                    crop.H);
+
+            for (int i = 0; i < 52; i++)
+            {
+                int xLocal =
+                    Main1Detect[i].X - crop.X;
+
+                int yLocal =
+                    Main1Detect[i].Y - crop.Y;
+
+                if (xLocal < 0 ||
+                    yLocal < 0 ||
+                    xLocal >= bmpCrop.Width ||
+                    yLocal >= bmpCrop.Height)
+                {
+                    continue;
+                }
+
+                System.Drawing.Color pixel =
+                    bmpCrop.GetPixel(
+                        xLocal,
+                        yLocal);
+
+                int couleur =
+                    pixel.ToArgb() & 0xFFFFFF;
+
+                if (couleur == Main1Detect[i].Couleur)
+                {
+                    TB_M1.Text =
+                        Main1Detect[i].Nom;
+
+                    bmpCrop.Dispose();
+
+                    return;
+                }
+            }
+
+            bmpCrop.Dispose();
+        }
+
         // 🔥 LIRE MAIN_2
         // =========================================================
         private void Lire_Main_2()
@@ -5287,6 +5378,7 @@ namespace Poker
                 }
             }
         }
+
 
         #endregion
 
@@ -6232,7 +6324,7 @@ namespace Poker
                             Reset_Tirages_Turn();
                             Reset_River();
 
-                            Lire_Main_1();
+                            Lire_Main_1_Crop();
 
                             bMain1_Lue = true;
 
@@ -6563,7 +6655,6 @@ namespace Poker
             File.WriteAllText(
                 fichier,
                 json);
-            MessageBox.Show($"Main_1\nX={crop.X}\nY={crop.Y}\nL={crop.L}\nH={crop.H}");
         }
 
         // =========================================================
@@ -6698,6 +6789,21 @@ namespace Poker
 
             MessageBox.Show(
                 "Double clic");
+        }
+        private CropInfo Charger_Main_1_Crop_JSON()
+        {
+            string fichier =
+                @"F:\source\repos\Poker\JSON\Main_1_Crop.json";
+
+            if (File.Exists(fichier))
+            {
+                string json =
+                    File.ReadAllText(fichier);
+
+                return JsonConvert.DeserializeObject<CropInfo>(json);
+            }
+
+            return null;
         }
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
