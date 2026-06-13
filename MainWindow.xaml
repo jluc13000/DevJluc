@@ -494,6 +494,7 @@
     MouseDoubleClick="Bt_Test_Board_DoubleClick"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Bench"  Content="benchmark"  Click="Bt_Benchmark_Click"  HorizontalAlignment="Left" Height="20" Margin="330,218,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Test_Clean"  Content="Test Clean"  Click="Bt_Test_Clean_Click"  HorizontalAlignment="Left" Height="20" Margin="200,315,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Triggers_Crop"  Content="Triggers_Crop"  Click="Bt_Triggers_Crop_Click"  HorizontalAlignment="Left" Height="20" Margin="140,315,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}" RenderTransformOrigin="0.45,1.575"/>
 
     </Grid>
 </Window>

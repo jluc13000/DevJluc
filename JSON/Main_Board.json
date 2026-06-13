@@ -186,6 +186,12 @@
     "Couleur": 15857134
   },
   {
+    "Nom": "Turn_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15791600
+  },
+  {
     "Nom": "Turn_HB_Presence",
     "X": 999,
     "Y": 570,
@@ -238,6 +244,66 @@
     "X": 999,
     "Y": 570,
     "Couleur": 15593193
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12833210
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12109997
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15593448
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12898489
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12898490
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15396326
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12044717
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 15593447
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12110251
+  },
+  {
+    "Nom": "Turn_HB_Presence",
+    "X": 999,
+    "Y": 570,
+    "Couleur": 12109996
   },
   {
     "Nom": "River_Presence",
@@ -346,5 +412,65 @@
     "X": 1065,
     "Y": 570,
     "Couleur": 16119026
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12701625
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13293250
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13358784
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16185073
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12767159
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12701623
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 12636089
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 16119281
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13358529
+  },
+  {
+    "Nom": "River_HB_Presence",
+    "X": 1065,
+    "Y": 570,
+    "Couleur": 13293248
   }
 ]
