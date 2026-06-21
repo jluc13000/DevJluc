@@ -205,67 +205,15 @@ namespace Poker
             string dossier = @"F:\source\repos\Poker\JSON";
 
             string fichierMain1 = Path.Combine(dossier, "Main_1.json");
-
-            if (File.Exists(fichierMain1))
-            {
-                Recalculer_Main_1_Crop();
-            }
-
             string fichierMain2 = Path.Combine(dossier, "Main_2.json");
-
-            if (File.Exists(fichierMain2))
-            {
-                Recalculer_Main_2_Crop();
-            }
-
             string fichierFlop1 = Path.Combine(dossier, "Flop_1.json");
-
-            if (File.Exists(fichierFlop1))
-            {
-                Recalculer_Flop_1_Crop();
-            }
-
             string fichierFlop2 = Path.Combine(dossier, "Flop_2.json");
-
-            if (File.Exists(fichierFlop2))
-            {
-                Recalculer_Flop_2_Crop();
-            }
-
             string fichierFlop3 = Path.Combine(dossier, "Flop_3.json");
-
-            if (File.Exists(fichierFlop3))
-            {
-                Recalculer_Flop_3_Crop();
-            }
-
             string fichierTurn = Path.Combine(dossier, "Turn.json");
-
-            if (File.Exists(fichierTurn))
-            {
-                Recalculer_Turn_Crop();
-            }
-
             string fichierTurn_HB = Path.Combine(dossier, "Turn_HB.json");
-
-            if (File.Exists(fichierTurn_HB))
-            {
-                Recalculer_Turn_HB_Crop();
-
-            }
             string fichierRiver = Path.Combine(dossier, "River.json");
-
-            if (File.Exists(fichierRiver))
-            {
-                Recalculer_River_Crop();
-            }
-
             string fichierRiver_HB = Path.Combine(dossier, "River_HB.json");
 
-            if (File.Exists(fichierRiver_HB))
-            {
-                Recalculer_River_HB_Crop();
-            }
 
             // 🔥 Variables
             DebutSession = DateTime.Now;
@@ -3772,20 +3720,11 @@ namespace Poker
         private void Sauver_Main1_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Main_1.json");
-
             string json = JsonConvert.SerializeObject(Main1Detect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Main_1_Crop();
         }
-        
 
         // =========================================================
         // 🔥 SAUVER MAIN_2 JSON
@@ -3793,43 +3732,25 @@ namespace Poker
         private void Sauver_Main2_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Main_2.json");
-
             string json = JsonConvert.SerializeObject(Main2Detect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Main_2_Crop();
         }
 
         private void Bt_Test_Click(object sender, RoutedEventArgs e)
         {
             Paragraph p = new Paragraph();
-
             p.Inlines.Add(new Run("A♥ K♦  8♠ 10♠ 2♣  K♠ K♥"));
-
             RTB_Historique.Document.Blocks.Add(p);
         }
 
         private void Test_Click(object sender, RoutedEventArgs e)
         {
-
             Paragraph p = new Paragraph();
-
             p.Inlines.Add(new Run("A♥ K♦  8♠ 10♠ 2♣  K♠ K♥"));
-
             RTB_Historique.Document.Blocks.Add(p);
-
         }
-
-
-
-
 
         // =========================================================
         // 🔥 SAUVER FLOP_1 JSON
@@ -3837,18 +3758,10 @@ namespace Poker
         private void Sauver_Flop1_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Flop_1.json");
-
             string json = JsonConvert.SerializeObject(Flop1Detect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Flop_1_Crop();
         }
         // =========================================================
         // 🔥 SAUVER FLOP_2 JSON
@@ -3856,18 +3769,10 @@ namespace Poker
         private void Sauver_Flop2_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Flop_2.json");
-
             string json = JsonConvert.SerializeObject(Flop2Detect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Flop_2_Crop();
         }
         // =========================================================
         // 🔥 SAUVER FLOP_3 JSON
@@ -3875,18 +3780,10 @@ namespace Poker
         private void Sauver_Flop3_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Flop_3.json");
-
             string json = JsonConvert.SerializeObject(Flop3Detect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Flop_3_Crop();
         }
         // =========================================================
         // 🔥 SAUVER TURN JSON
@@ -3894,18 +3791,10 @@ namespace Poker
         private void Sauver_Turn_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Turn.json");
-
             string json = JsonConvert.SerializeObject(TurnDetect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Turn_Crop();
         }
         // =========================================================
         // 🔥 SAUVER TURN_HB JSON
@@ -3913,20 +3802,10 @@ namespace Poker
         private void Sauver_Turn_HB_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Turn_HB.json");
-
-            string json = JsonConvert.SerializeObject(
-                Turn_HBDetect,
-                Formatting.Indented);
-
+            string json = JsonConvert.SerializeObject(Turn_HBDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_Turn_HB_Crop();
         }
         // =========================================================
         // 🔥 SAUVER RIVER JSON
@@ -3934,18 +3813,10 @@ namespace Poker
         private void Sauver_River_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "River.json");
-
             string json = JsonConvert.SerializeObject(RiverDetect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_River_Crop();
         }
         // =========================================================
         // 🔥 SAUVER RIVER_HB JSON
@@ -3953,23 +3824,11 @@ namespace Poker
         private void Sauver_River_HB_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "River_HB.json");
-
-            string json = JsonConvert.SerializeObject(
-                River_HBDetect,
-                Formatting.Indented);
-
+            string json = JsonConvert.SerializeObject(River_HBDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
-            // =====================================
-            // Recalcul automatique du Crop
-            // =====================================
-            Recalculer_River_HB_Crop();
         }
-
-
 
         // =========================================================
         // 🔥 SAUVER MAIN_BOARD
@@ -3977,13 +3836,9 @@ namespace Poker
         private void Sauver_Main_Board_JSON()
         {
             string dossier = @"F:\source\repos\Poker\JSON";
-
             Directory.CreateDirectory(dossier);
-
             string fichier = Path.Combine(dossier, "Main_Board.json");
-
             string json = JsonConvert.SerializeObject(Main_BoardDetect, Formatting.Indented);
-
             File.WriteAllText(fichier, json);
         }
         #endregion
@@ -4070,13 +3925,9 @@ namespace Poker
                     // =====================================
                     // Extraction
                     // =====================================
-
                     Main1Detect[index].Nom = nom;
-
                     Main1Detect[index].X = int.Parse(t[1]);
-
                     Main1Detect[index].Y = int.Parse(t[2]);
-
                     Main1Detect[index].Couleur = int.Parse(t[3]);
 
                     index++;
@@ -4095,34 +3946,13 @@ namespace Poker
 
             return true;
         }
-        // =========================================================
-        // 🔥 EXTRAIRE MAIN_1_CROP
-        // =========================================================
-        private System.Drawing.Bitmap Extraire_Crop(
-             System.Drawing.Bitmap source,
-             int x,
-             int y,
-             int l,
-             int h)
-        {
-            System.Drawing.Rectangle zone =
-                new System.Drawing.Rectangle(
-                    x,
-                    y,
-                    l,
-                    h);
-
-            return source.Clone(
-                zone,
-                source.PixelFormat);
-        }
+        
         // =========================================================
         // 🔥 EXTRAIRE MAIN_2
         // =========================================================
         private bool Extraire_Main2(string txt)
         {
-            string[] lignes =
-                txt.Split('\n');
+            string[] lignes = txt.Split('\n');
 
             int index = 0;
 
@@ -4130,8 +3960,7 @@ namespace Poker
 
             for (int i = 0; i < lignes.Length; i++)
             {
-                string ligne =
-                    lignes[i].Trim();
+                string ligne = lignes[i].Trim();
 
                 // =====================================
                 // FIN DU BLOC
@@ -4167,11 +3996,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "")
-                            .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Main_2")
                         continue;
@@ -4186,19 +4011,16 @@ namespace Poker
                     if (i + 1 >= lignes.Length)
                         continue;
 
-                    string l2 =
-                        lignes[i + 1].Trim();
+                    string l2 = lignes[i + 1].Trim();
 
-                    if (!l2.StartsWith(
-                        "IF PIXEL COLOR EQUALS"))
+                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
                         continue;
 
                     // =====================================
                     // Découpage
                     // =====================================
 
-                    string[] t =
-                        l2.Split(':');
+                    string[] t = l2.Split(':');
 
                     if (t.Length < 5)
                         continue;
@@ -4206,18 +4028,10 @@ namespace Poker
                     // =====================================
                     // Extraction
                     // =====================================
-
-                    Main2Detect[index].Nom =
-                        nom;
-
-                    Main2Detect[index].X =
-                        int.Parse(t[1]);
-
-                    Main2Detect[index].Y =
-                        int.Parse(t[2]);
-
-                    Main2Detect[index].Couleur =
-                        int.Parse(t[3]);
+                    Main2Detect[index].Nom = nom;
+                    Main2Detect[index].X = int.Parse(t[1]);
+                    Main2Detect[index].Y = int.Parse(t[2]);
+                    Main2Detect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -4286,11 +4100,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "")
-                            .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Flop_1")
                         continue;
@@ -4305,19 +4115,16 @@ namespace Poker
                     if (i + 1 >= lignes.Length)
                         continue;
 
-                    string l2 =
-                        lignes[i + 1].Trim();
+                    string l2 = lignes[i + 1].Trim();
 
-                    if (!l2.StartsWith(
-                        "IF PIXEL COLOR EQUALS"))
+                    if (!l2.StartsWith( "IF PIXEL COLOR EQUALS"))
                         continue;
 
                     // =====================================
                     // Découpage
                     // =====================================
 
-                    string[] t =
-                        l2.Split(':');
+                    string[] t = l2.Split(':');
 
                     if (t.Length < 5)
                         continue;
@@ -4325,18 +4132,10 @@ namespace Poker
                     // =====================================
                     // Extraction
                     // =====================================
-
-                    Flop1Detect[index].Nom =
-                        nom;
-
-                    Flop1Detect[index].X =
-                        int.Parse(t[1]);
-
-                    Flop1Detect[index].Y =
-                        int.Parse(t[2]);
-
-                    Flop1Detect[index].Couleur =
-                        int.Parse(t[3]);
+                    Flop1Detect[index].Nom = nom;
+                    Flop1Detect[index].X = int.Parse(t[1]);
+                    Flop1Detect[index].Y = int.Parse(t[2]);
+                    Flop1Detect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -4359,8 +4158,7 @@ namespace Poker
         // =========================================================
         private bool Extraire_Flop2(string txt)
         {
-            string[] lignes =
-                txt.Split('\n');
+            string[] lignes = txt.Split('\n');
 
             int index = 0;
 
@@ -4368,8 +4166,7 @@ namespace Poker
 
             for (int i = 0; i < lignes.Length; i++)
             {
-                string ligne =
-                    lignes[i].Trim();
+                string ligne = lignes[i].Trim();
 
                 // =====================================
                 // COMMENT : Flop_2
@@ -4385,8 +4182,7 @@ namespace Poker
                 // FIN DU BLOC
                 // =====================================
 
-                if (bFlop2 &&
-                    ligne == "COMMENT : Flop_3")
+                if (bFlop2 && ligne == "COMMENT : Flop_3")
                 {
                     break;
                 }
@@ -4404,11 +4200,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom =
-                        ligne.Replace(
-                            "COMMENT :",
-                            "")
-                            .Trim();
+                    string nom = ligne.Replace("COMMENT :", "") .Trim();
 
                     if (nom == "Flop_2")
                         continue;
@@ -4445,11 +4237,8 @@ namespace Poker
                     // =====================================
 
                     Flop2Detect[index].Nom = nom;
-
                     Flop2Detect[index].X = int.Parse(t[1]);
-
                     Flop2Detect[index].Y = int.Parse(t[2]);
-
                     Flop2Detect[index].Couleur = int.Parse(t[3]);
 
                     index++;
@@ -4977,8 +4766,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    nomCourant =
-                        ligne.Replace("COMMENT :", "").Trim();
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
 
                     continue;
                 }
@@ -4994,17 +4782,13 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    Main_BoardDetect[index].Nom =
-                        nomCourant;
+                    Main_BoardDetect[index].Nom = nomCourant;
 
-                    Main_BoardDetect[index].X =
-                        int.Parse(t[1]);
+                    Main_BoardDetect[index].X = int.Parse(t[1]);
 
-                    Main_BoardDetect[index].Y =
-                        int.Parse(t[2]);
+                    Main_BoardDetect[index].Y = int.Parse(t[2]);
 
-                    Main_BoardDetect[index].Couleur =
-                        int.Parse(t[3]);
+                    Main_BoardDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -5013,20 +4797,17 @@ namespace Poker
             // =====================================
             // AUCUN BLOC TROUVE
             // =====================================
-
             if (!bMain_Board)
                 return false;
 
             // =====================================
             // AUCUNE DONNEE
             // =====================================
-
             if (index <= 0)
                 return false;
 
             return true;
         }
-
         #endregion
 
         #region LIRE
@@ -5080,59 +4861,6 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 LIRE MAIN_1_CROP
-        // =========================================================
-        private void Lire_Main_1_Crop()
-        {
-            CropInfo crop = Charger_Main_1_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop = Extraire_Crop(Bitmap_Main, crop.X, crop.Y, crop.L, crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal = Main1Detect[i].X - crop.X;
-
-                int yLocal = Main1Detect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel = bmpCrop.GetPixel(xLocal, yLocal);
-
-                int couleur = pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Main1Detect[i].Couleur)
-                {
-                    Sig_M1_X = Main1Detect[i].X;
-                    Sig_M1_Y = Main1Detect[i].Y;
-                    Sig_M1_C = Main1Detect[i].Couleur;
-
-                    CarteCourante =
-                        Main1Detect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_M1,
-                        Bt_Main_1,
-                        0);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
-
-        // =========================================================
         // 🔥 LIRE MAIN_2
         // =========================================================
         private void Lire_Main_2()
@@ -5169,60 +4897,6 @@ namespace Poker
                     return;
                 }
             }
-        }
-
-        // =========================================================
-        // 🔥 LIRE MAIN_2_CROP
-        // =========================================================
-        private void Lire_Main_2_Crop()
-        {
-            CropInfo crop = Charger_Main_2_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(Bitmap_Main, crop.X, crop.Y, crop.L, crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal = Main2Detect[i].X - crop.X;
-
-                int yLocal = Main2Detect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel = bmpCrop.GetPixel(xLocal, yLocal);
-
-                int couleur = pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Main2Detect[i].Couleur)
-                {
-                    Sig_M2_X = Main2Detect[i].X;
-                    Sig_M2_Y = Main2Detect[i].Y;
-                    Sig_M2_C = Main2Detect[i].Couleur;
-
-                    CarteCourante =
-                        Main2Detect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_M2,
-                        Bt_Main_2,
-                        1);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
         }
 
         // =========================================================
@@ -5273,68 +4947,7 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE FLOP_1_CROP
-        // =========================================================
-        private void Lire_Flop_1_Crop()
-        {
-            CropInfo crop =
-                Charger_Flop_1_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal =
-                    Flop1Detect[i].X - crop.X;
-
-                int yLocal =
-                    Flop1Detect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Flop1Detect[i].Couleur)
-                {
-                    CarteCourante =
-                        Flop1Detect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_F1,
-                        Bt_Flop_1,
-                        2);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
-
+        
         // =========================================================
         // 🔥 LIRE FLOP_2
         // =========================================================
@@ -5383,67 +4996,6 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE FLOP_2_CROP
-        // =========================================================
-        private void Lire_Flop_2_Crop()
-        {
-            CropInfo crop =
-                Charger_Flop_2_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal =
-                    Flop2Detect[i].X - crop.X;
-
-                int yLocal =
-                    Flop2Detect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Flop2Detect[i].Couleur)
-                {
-                    CarteCourante =
-                        Flop2Detect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_F2,
-                        Bt_Flop_2,
-                        3);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
 
         // =========================================================
         // 🔥 LIRE FLOP_3
@@ -5483,68 +5035,7 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE FLOP_3_CROP
-        // =========================================================
-        private void Lire_Flop_3_Crop()
-        {
-            CropInfo crop =
-                Charger_Flop_3_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal =
-                    Flop3Detect[i].X - crop.X;
-
-                int yLocal =
-                    Flop3Detect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Flop3Detect[i].Couleur)
-                {
-                    CarteCourante =
-                        Flop3Detect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_F3,
-                        Bt_Flop_3,
-                        4);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
-
+        
         // =========================================================
         // 🔥 LIRE TURN
         // =========================================================
@@ -5582,67 +5073,7 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE TURN_CROP
-        // =========================================================
-        private void Lire_Turn_Crop()
-        {
-            CropInfo crop =
-                Charger_Turn_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal =
-                    TurnDetect[i].X - crop.X;
-
-                int yLocal =
-                    TurnDetect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == TurnDetect[i].Couleur)
-                {
-                    CarteCourante =
-                        TurnDetect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_T,
-                        Bt_Turn,
-                        5);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
+        
         // =========================================================
         // 🔥 LIRE TURN_HB
         // =========================================================
@@ -5680,67 +5111,7 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE TURN_HB_CROP
-        // =========================================================
-        private void Lire_Turn_HB_Crop()
-        {
-            CropInfo crop =
-                Charger_Turn_HB_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 104; i++)
-            {
-                int xLocal =
-                    Turn_HBDetect[i].X - crop.X;
-
-                int yLocal =
-                    Turn_HBDetect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == Turn_HBDetect[i].Couleur)
-                {
-                    CarteCourante =
-                        Turn_HBDetect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_T,
-                        Bt_Turn,
-                        5);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
+        
         // =========================================================
         // 🔥 LIRE RIVER
         // =========================================================
@@ -5778,67 +5149,7 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE RIVER_CROP
-        // =========================================================
-        private void Lire_River_Crop()
-        {
-            CropInfo crop =
-                Charger_River_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 52; i++)
-            {
-                int xLocal =
-                    RiverDetect[i].X - crop.X;
-
-                int yLocal =
-                    RiverDetect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == RiverDetect[i].Couleur)
-                {
-                    CarteCourante =
-                        RiverDetect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_R,
-                        Bt_River,
-                        6);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
+        
         // =========================================================
         // 🔥 LIRE RIVER_HB
         // =========================================================
@@ -5876,71 +5187,11 @@ namespace Poker
                 }
             }
         }
-        // =========================================================
-        // 🔥 LIRE RIVER_HB_CROP
-        // =========================================================
-        private void Lire_River_HB_Crop()
-        {
-            CropInfo crop =
-                Charger_River_HB_Crop_JSON();
-
-            if (crop == null)
-                return;
-
-            System.Drawing.Bitmap bmpCrop =
-                Extraire_Crop(
-                    Bitmap_Main,
-                    crop.X,
-                    crop.Y,
-                    crop.L,
-                    crop.H);
-
-            for (int i = 0; i < 104; i++)
-            {
-                int xLocal =
-                    River_HBDetect[i].X - crop.X;
-
-                int yLocal =
-                    River_HBDetect[i].Y - crop.Y;
-
-                if (xLocal < 0 ||
-                    yLocal < 0 ||
-                    xLocal >= bmpCrop.Width ||
-                    yLocal >= bmpCrop.Height)
-                {
-                    continue;
-                }
-
-                System.Drawing.Color pixel =
-                    bmpCrop.GetPixel(
-                        xLocal,
-                        yLocal);
-
-                int couleur =
-                    pixel.ToArgb() & 0xFFFFFF;
-
-                if (couleur == River_HBDetect[i].Couleur)
-                {
-                    CarteCourante =
-                        River_HBDetect[i].Nom;
-
-                    AfficherCarte_Test(
-                        TB_R,
-                        Bt_River,
-                        6);
-
-                    bmpCrop.Dispose();
-
-                    return;
-                }
-            }
-
-            bmpCrop.Dispose();
-        }
-
+        
         #endregion
 
         #region BOUTONS TEST
+
         // =========================================================
         // RESET ETATS TRIGGER
         // =========================================================
@@ -5966,7 +5217,6 @@ namespace Poker
             // =====================================
             // START
             // =====================================
-
             if (bTestFlop)
             {
                 StopTousModes();
@@ -5974,11 +5224,11 @@ namespace Poker
             }
 
             StopTousModes();
-
+            Reset_Table();
             await Task.Delay(50);
 
+            bool bGris = false;
             bTestFlop = true;
-
             Bt_Test_Board.Background = Brushes.LightGreen;
 
             try
@@ -5992,13 +5242,52 @@ namespace Poker
                     // =====================================
                     // Capture écran
                     // =====================================
-
                     CaptureEcran();
+                    // ==========================
+                    // PASSAGE AU GRIS
+                    // ==========================
+
+                    if (LirePixel(1126, 989) == 8421504)
+                    {
+                        bGris = true;
+                    }
+
+                    // ==========================
+                    // RETOUR AU BLANC
+                    // ==========================
+                    if (bGris &&
+                        LirePixel(1126, 989) == 16646141)
+                    {
+                        bGris = false;
+                        Reset_Table();
+
+                        continue;
+                    }
+
+                    // ==========================
+                    // PASSAGE AU GRIS
+                    // ==========================
+
+                    if (LirePixel(1126, 989) == 8421504)
+                    {
+                        bGris = true;
+                    }
+
+                    // ==========================
+                    // RETOUR AU BLANC
+                    // ==========================
+                    if (bGris &&
+                        LirePixel(1126, 989) == 16646141)
+                    {
+                        bGris = false;
+                        Reset_Table();
+
+                        continue;
+                    }
 
                     // =====================================
                     // LECTURE EVENEMENTIELLE
                     // =====================================
-
                     if (Detecter_Presence("Main_1_Presence"))
                     {
                         Lire_Main_1();
@@ -6053,7 +5342,6 @@ namespace Poker
                     // =====================================
                     // PAUSE CPU
                     // =====================================
-
                     await Task.Delay(1);
                 }
             }
@@ -6061,16 +5349,14 @@ namespace Poker
             {
                 bTestFlop = false;
 
-                Bt_Test_Board.Content =
-                    "Test Board";
+                Bt_Test_Board.Content = "Test Board";
 
-                Bt_Test_Board.Background =
-                    Brushes.White;
+                Bt_Test_Board.Background = Brushes.White;
 
-                MessageBox.Show(
-                    ex.ToString());
+                MessageBox.Show(ex.ToString());
             }
         }
+
         // =========================================================
         // TRIGGERS_BOARD
         // =========================================================
@@ -6079,11 +5365,12 @@ namespace Poker
             if (bTriggersBoard_Actif)
             {
                 StopTousModes();
+
                 return;
             }
 
             StopTousModes();
-
+            Reset_Table();
             await Task.Delay(50);
 
             bTriggersBoard_Actif = true;
@@ -6153,41 +5440,7 @@ namespace Poker
                     bTurn_Lu = false;
                     bRiver_Lu = false;
 
-                    // ==========================
-                    // EFFACEMENT CARTES
-                    // ==========================
-                    TB_M1.Clear();
-                    TB_M2.Clear();
-
-                    TB_F1.Clear();
-                    TB_F2.Clear();
-                    TB_F3.Clear();
-
-                    TB_T.Clear();
-                    TB_R.Clear();
-
-                    // ==========================
-                    // RESET CALCULS
-                    // ==========================
-                    Reset_PreFlop();
-                    Reset_Flop();
-                    Reset_Tirages_Flop();
-                    Reset_Turn();
-                    Reset_Tirages_Turn();
-                    Reset_River();
-
-                    // ==========================
-                    // RESET VISUEL
-                    // ==========================
-                    Bt_Main_1.Background = Brushes.White;
-                    Bt_Main_2.Background = Brushes.White;
-
-                    Bt_Flop_1.Background = Brushes.White;
-                    Bt_Flop_2.Background = Brushes.White;
-                    Bt_Flop_3.Background = Brushes.White;
-
-                    Bt_Turn.Background = Brushes.White;
-                    Bt_River.Background = Brushes.White;
+                    Reset_Table();
 
                     continue;
                 }
@@ -6344,11 +5597,10 @@ namespace Poker
             }
 
             StopTousModes();
-
+            bool bGris = false;
             await Task.Delay(50);
 
             bTestClean = true;
-
             Bt_Test_Clean.Background = Brushes.Orange;
 
             try
@@ -6360,6 +5612,26 @@ namespace Poker
                     // =====================================
 
                     CaptureEcran();
+                    // ==========================
+                    // PASSAGE AU GRIS
+                    // ==========================
+
+                    if (LirePixel(1126, 989) == 8421504)
+                    {
+                        bGris = true;
+                    }
+
+                    // ==========================
+                    // RETOUR AU BLANC
+                    // ==========================
+                    if (bGris &&
+                        LirePixel(1126, 989) == 16646141)
+                    {
+                        bGris = false;
+                        Reset_Table();
+
+                        continue;
+                    }
 
                     // =====================================
                     // LECTURE EVENEMENTIELLE
@@ -6461,276 +5733,6 @@ namespace Poker
             }
         }
 
-
-
-        // =========================================================
-        // TRIGGERS_CROP
-        // =========================================================
-        private async void Bt_Triggers_Crop_Click(object sender, RoutedEventArgs e)
-        {
-            if (bTriggersCrop_Actif)
-            {
-                StopTousModes();
-                return;
-            }
-
-            StopTousModes();
-
-            await Task.Delay(100);
-
-            bTriggersCrop_Actif = true;
-
-            Bt_Triggers_Crop.Background = Brushes.LightGreen;
-
-            bool bMain1_Lu = false;
-            bool bMain2_Lu = false;
-            bool bFlop1_Lu = false;
-            bool bFlop2_Lu = false;
-            bool bFlop3_Lu = false;
-            bool bTurn_Lu = false;
-            bool bRiver_Lu = false;
-            bool bPremierHistorique = true;
-            bool bGris = false;
-
-            try
-            {
-                while (bTriggersCrop_Actif)
-                {
-                    if (JeuEnPause)
-                    {
-                        await Task.Delay(100);
-                        continue;
-                    }
-
-                    await Task.Delay(1);
-
-                    CaptureEcran();
-
-                    if (LirePixel(1126, 989) == 8421504)
-                    {
-                        bGris = true;
-                    }
-
-                    // ==========================
-                    // RETOUR DEBUT
-                    // ==========================
-                    if (bGris && LirePixel(1126, 989) == 16646141)
-                    {
-                        bGris = false;
-
-                        // ==========================
-                        // HISTORIQUE
-                        // ==========================
-                        if (bPremierHistorique)
-                        {
-                            RTB_Historique.Document = new FlowDocument();
-
-                            bPremierHistorique = false;
-                        }
-                        else
-                        {
-                            Ajouter_Historique();
-
-                            NbMains += 1;
-                            LbNbParole.Content = NbMains.ToString();
-                        }
-
-                        // ==========================
-                        // REMISE A ZERO
-                        // ==========================
-                        bMain1_Lu = false;
-                        bMain2_Lu = false;
-
-                        bFlop1_Lu = false;
-                        bFlop2_Lu = false;
-                        bFlop3_Lu = false;
-
-                        bTurn_Lu = false;
-                        bRiver_Lu = false;
-
-                        // ==========================
-                        // EFFACEMENT CARTES
-                        // ==========================
-                        TB_M1.Clear();
-                        TB_M2.Clear();
-
-                        TB_F1.Clear();
-                        TB_F2.Clear();
-                        TB_F3.Clear();
-
-                        TB_T.Clear();
-                        TB_R.Clear();
-
-                        // ==========================
-                        // RESET CALCULS
-                        // ==========================
-                        Reset_PreFlop();
-                        Reset_Flop();
-                        Reset_Tirages_Flop();
-                        Reset_Turn();
-                        Reset_Tirages_Turn();
-                        Reset_River();
-
-                        // ==========================
-                        // RESET VISUEL
-                        // ==========================
-                        Bt_Main_1.Background = Brushes.White;
-                        Bt_Main_2.Background = Brushes.White;
-
-                        Bt_Flop_1.Background = Brushes.White;
-                        Bt_Flop_2.Background = Brushes.White;
-                        Bt_Flop_3.Background = Brushes.White;
-
-                        Bt_Turn.Background = Brushes.White;
-                        Bt_River.Background = Brushes.White;
-
-                        continue;
-                    }
-
-                    // ==========================
-                    // MAIN 1
-                    // ==========================
-                    if (!bMain1_Lu &&
-                        Detecter_Presence("Main_1_Presence"))
-                    {
-                        TB_M1.Clear();
-                        TB_M2.Clear();
-
-                        Reset_PreFlop();
-
-                        Lire_Main_1_Crop();
-
-                        bMain1_Lu = true;
-
-                        continue;
-                    }
-
-                    // ==========================
-                    // MAIN 2
-                    // ==========================
-                    if (bMain1_Lu &&
-                        !bMain2_Lu &&
-                        Detecter_Presence("Main_2_Presence"))
-                    {
-                        Lire_Main_2_Crop();
-
-                        bMain2_Lu = true;
-
-                        Calcul_PreFlop();
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 1
-                    // ==========================
-                    if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
-                    {
-                        Lire_Flop_1_Crop();
-
-                        bFlop1_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 2
-                    // ==========================
-                    if (bFlop1_Lu && !bFlop2_Lu &&
-                        Detecter_Presence("Flop_2_Presence"))
-                    {
-                        Lire_Flop_2_Crop();
-
-                        bFlop2_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 3
-                    // ==========================
-                    if (bFlop2_Lu && !bFlop3_Lu &&
-                        Detecter_Presence("Flop_3_Presence"))
-                    {
-                        Lire_Flop_3_Crop();
-
-                        bFlop3_Lu = true;
-
-                        Calcul_Flop();
-                        Calcul_Tirages_Flop();
-
-                        continue;
-                    }
-                    // ==========================
-                    // TURN
-                    // ==========================
-                    if (bFlop3_Lu && !bTurn_Lu)
-                    {
-                        // ----- Turn normal -----
-                        if (Detecter_Presence("Turn_Presence"))
-                        {
-                            Lire_Turn_Crop();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-
-                        // ----- Turn HB -----
-                        if (Detecter_Presence("Turn_HB_Presence"))
-                        {
-                            Lire_Turn_HB_Crop();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-                    }
-                    // ==========================
-                    // RIVER
-                    // ==========================
-                    if (bTurn_Lu && !bRiver_Lu)
-                    {
-                        // ----- River normale -----
-                        if (Detecter_Presence("River_Presence"))
-                        {
-                            Lire_River_Crop();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
-
-                        // ----- River HB -----
-                        if (Detecter_Presence("River_HB_Presence"))
-                        {
-                            Lire_River_HB_Crop();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                bTriggersCrop_Actif = false;
-
-                Bt_Triggers_Crop.Background = Brushes.White;
-            }
-        }
         // =========================================================
         // AFFICHAGE HISTORIQUE
         // =========================================================
@@ -6788,537 +5790,50 @@ namespace Poker
         {
             bTestFlop = false;
             bTestClean = false;
-
             bTriggersBoard_Actif = false;
-            bTriggersCrop_Actif = false;
 
             Bt_Test_Board.Background = Brushes.White;
             Bt_Triggers_Board.Background = Brushes.White;
             Bt_Test_Clean.Background = Brushes.White;
-            Bt_Triggers_Crop.Background = Brushes.White;
-        }
-        #endregion
-
-        #region RECALCULER CROPS
-        private void Recalculer_Main_1_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Main1Detect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Main1Detect[i].X);
-                xmax = Math.Max(xmax, Main1Detect[i].X);
-
-                ymin = Math.Min(ymin, Main1Detect[i].Y);
-                ymax = Math.Max(ymax, Main1Detect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Main_1";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Main_1_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Main_2_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Main2Detect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Main2Detect[i].X);
-                xmax = Math.Max(xmax, Main2Detect[i].X);
-
-                ymin = Math.Min(ymin, Main2Detect[i].Y);
-                ymax = Math.Max(ymax, Main2Detect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Main_2";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Main_2_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Flop_1_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Flop1Detect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Flop1Detect[i].X);
-                xmax = Math.Max(xmax, Flop1Detect[i].X);
-
-                ymin = Math.Min(ymin, Flop1Detect[i].Y);
-                ymax = Math.Max(ymax, Flop1Detect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Flop_1";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Flop_1_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Flop_2_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Flop2Detect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Flop2Detect[i].X);
-                xmax = Math.Max(xmax, Flop2Detect[i].X);
-
-                ymin = Math.Min(ymin, Flop2Detect[i].Y);
-                ymax = Math.Max(ymax, Flop2Detect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Flop_2";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Flop_2_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Flop_3_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Flop3Detect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Flop3Detect[i].X);
-                xmax = Math.Max(xmax, Flop3Detect[i].X);
-
-                ymin = Math.Min(ymin, Flop3Detect[i].Y);
-                ymax = Math.Max(ymax, Flop3Detect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Flop_3";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Flop_3_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Turn_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < TurnDetect.Length; i++)
-            {
-                xmin = Math.Min(xmin, TurnDetect[i].X);
-                xmax = Math.Max(xmax, TurnDetect[i].X);
-
-                ymin = Math.Min(ymin, TurnDetect[i].Y);
-                ymax = Math.Max(ymax, TurnDetect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Turn";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Turn_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_Turn_HB_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < Turn_HBDetect.Length; i++)
-            {
-                xmin = Math.Min(xmin, Turn_HBDetect[i].X);
-                xmax = Math.Max(xmax, Turn_HBDetect[i].X);
-
-                ymin = Math.Min(ymin, Turn_HBDetect[i].Y);
-                ymax = Math.Max(ymax, Turn_HBDetect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "Turn_HB";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "Turn_HB_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_River_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < RiverDetect.Length; i++)
-            {
-                xmin = Math.Min(xmin, RiverDetect[i].X);
-                xmax = Math.Max(xmax, RiverDetect[i].X);
-
-                ymin = Math.Min(ymin, RiverDetect[i].Y);
-                ymax = Math.Max(ymax, RiverDetect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "River";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "River_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        private void Recalculer_River_HB_Crop()
-        {
-            int xmin = int.MaxValue;
-            int xmax = int.MinValue;
-
-            int ymin = int.MaxValue;
-            int ymax = int.MinValue;
-
-            for (int i = 0; i < River_HBDetect.Length; i++)
-            {
-                xmin = Math.Min(xmin, River_HBDetect[i].X);
-                xmax = Math.Max(xmax, River_HBDetect[i].X);
-
-                ymin = Math.Min(ymin, River_HBDetect[i].Y);
-                ymax = Math.Max(ymax, River_HBDetect[i].Y);
-            }
-
-            CropInfo crop = new CropInfo();
-
-            crop.Carte = "River_HB";
-
-            crop.X = xmin;
-
-            crop.Y = ymin;
-
-            crop.L = xmax - xmin + 1;
-
-            crop.H = ymax - ymin + 1;
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichier = Path.Combine(dossier, "River_HB_Crop.json");
-
-            string json = JsonConvert.SerializeObject(crop, Formatting.Indented);
-
-            File.WriteAllText(fichier, json);
-        }
-        #endregion
-
-        #region CROPINFO
-        // =========================================================
-        // CROPINFO
-        // =========================================================
-        private CropInfo Charger_Main_1_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_1_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Main_2_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_2_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json =
-                    File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Flop_1_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_1_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Flop_2_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_2_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Flop_3_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_3_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Turn_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Turn_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_Turn_HB_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\Turn_HB_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_River_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\River_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
-        }
-        private CropInfo Charger_River_HB_Crop_JSON()
-        {
-            string fichier = @"F:\source\repos\Poker\JSON\River_HB_Crop.json";
-
-            if (File.Exists(fichier))
-            {
-                string json = File.ReadAllText(fichier);
-
-                return JsonConvert.DeserializeObject<CropInfo>(json);
-            }
-
-            return null;
         }
         #endregion
 
         // =========================================================
-        // ETAT GLOBAL
+        // RESET TABLE
         // =========================================================
-        private enum E_EtatPoker
+        private void Reset_Table()
         {
-            Attente_Main_1,
-            Attente_Main_2,
-            Attente_Flop_1,
-            Attente_Flop_2,
-            Attente_Flop_3,
-            Attente_Turn,
-            Attente_River
+            // =====================================
+            // BOARD
+            // =====================================
+            TB_F1.Clear();
+            TB_F2.Clear();
+            TB_F3.Clear();
+            TB_T.Clear();
+            TB_R.Clear();
+
+            // =====================================
+            // BOUTONS
+            // =====================================
+            Bt_Flop_1.Background = Brushes.White;
+            Bt_Flop_2.Background = Brushes.White;
+            Bt_Flop_3.Background = Brushes.White;
+            Bt_Turn.Background = Brushes.White;
+            Bt_River.Background = Brushes.White;
+
+            // =====================================
+            // CALCULS
+            // =====================================
+            Reset_Flop();
+            Reset_Tirages_Flop();
+            Reset_Turn();
+            Reset_Tirages_Turn();
+            Reset_River();
         }
 
         // =========================================================
-        // ETAT ACTUEL
+        // RESET PreFlop Flop Turn River
         // =========================================================
-        private E_EtatPoker EtatPoker =
-            E_EtatPoker.Attente_Main_1;
-
-        // =====================================
-        // SIGNATURE MAIN
-        // =====================================
-        private int Construire_Signature_Main()
-        {
-            // ================================
-            // Pixels discriminants
-            // ================================
-
-            int p1 = LirePixel(765, 865);
-
-            int p2 = LirePixel(845, 865);
-
-            // ================================
-            // Signature
-            // ================================
-
-            return (p1 * 397) ^ p2;
-        }
-        private bool Nouvelle_Main_Detectee()
-        {
-            int c1 =
-                LirePixel(
-                    Sig_M1_X,
-                    Sig_M1_Y);
-
-            int c2 =
-                LirePixel(
-                    Sig_M2_X,
-                    Sig_M2_Y);
-
-            return
-                c1 != Sig_M1_C ||
-                c2 != Sig_M2_C;
-        }
-        private void Memoriser_Signature()
-        {
-            Signature_Main1 = LirePixel(765, 865);
-            Signature_Main2 = LirePixel(845, 865);
-        }
         private void Reset_PreFlop()
         {
             Bt_PreFlop_Paire.Background = Blanc;
@@ -7346,10 +5861,6 @@ namespace Poker
             Bt_Tir_Flop_Couleur.Background = Blanc;
             Bt_Tir_Flop_QFlush.Background = Blanc;
         }
-
-        // =========================================================
-        // RESET TURN
-        // =========================================================
         private void Reset_Turn()
         {
             Bt_Turn_Paire.Background = Blanc;
@@ -7361,10 +5872,6 @@ namespace Poker
             Bt_Turn_Carre.Background = Blanc;
             Bt_Turn_QFlush.Background = Blanc;
         }
-
-        // =========================================================
-        // RESET TIRAGES TURN
-        // =========================================================
         private void Reset_Tirages_Turn()
         {
             bTir_Turn_Quinte = false;
@@ -7375,10 +5882,6 @@ namespace Poker
             Bt_Tir_Turn_Couleur.Background = Blanc;
             Bt_Tir_Turn_QFlush.Background = Blanc;
         }
-
-        // =========================================================
-        // RESET RIVER
-        // =========================================================
         private void Reset_River()
         {
             Bt_River_Paire.Background = Blanc;
@@ -7390,20 +5893,11 @@ namespace Poker
             Bt_River_Carre.Background = Blanc;
             Bt_River_QFlush.Background = Blanc;
         }
-        private void Bt_Test_Board_DoubleClick(object sender, MouseButtonEventArgs e)
-        {
-
-            MessageBox.Show(
-                "Double clic");
-        }
-
-
 
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
         // =========================================================
-        private S_CarteDetect[] Main_BoardDetect =
-            new S_CarteDetect[81];
+        private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[81];
 
         // =========================================================
         // LIRE PIXEL
@@ -7435,9 +5929,7 @@ namespace Poker
             TB_F1.Clear();
             TB_F2.Clear();
             TB_F3.Clear();
-
             TB_T.Clear();
-
             TB_R.Clear();
         }
 
