@@ -22,18 +22,11 @@ namespace Poker
     public class CropInfo
     {
         public string Carte { get; set; }
-
         public int X { get; set; }
-
         public int Y { get; set; }
-
         public int L { get; set; }
-
         public int H { get; set; }
     }
-
-
-
 
 
     public partial class MainWindow : Window
@@ -111,7 +104,7 @@ namespace Poker
         private bool bTestFlop = false;
         private bool bTriggersBoard = false;
         private bool bTestClean = false;
-        private bool bTriggersCrop = false;
+        private bool bPoints = true;
 
         private System.Drawing.Bitmap Bitmap_Main;
 
@@ -130,8 +123,6 @@ namespace Poker
         private int Sig_M2_X = 1;
         private int Sig_M2_Y = 1;
         private int Sig_M2_C = 0;
-
-        private bool bTriggersCrop_Actif = false;
 
         private bool bTriggersBoard_Actif = false;
 
@@ -445,8 +436,7 @@ namespace Poker
             {
                 Bt_Se_Recare_Click(null, null);
             }
-            // 👉 Appliquer Fin Main au démarrage
-            Bt_Fin_Main_Click(null, null);
+            
 
             ActiverMise(Bt_0);
 
@@ -657,7 +647,6 @@ namespace Poker
             Bt_Flop_3.Background = Blanc;
             Bt_Turn.Background = Blanc;
             Bt_River.Background = Blanc;
-            Bt_Fin_Main.Background = Blanc;
             Bt_Rand_M.Background = Blanc;
             Bt_Rand_F.Background = Blanc;
             Bt_Rand_T.Background = Blanc;
@@ -1978,14 +1967,7 @@ namespace Poker
         {
             this.Close();
         }
-        private void Bt_Fin_Main_Click(object sender, RoutedEventArgs e)
-        {
-            if (Bt_Main_1.Background.Equals((Brush)FindResource("orange"))) return;// imposible de faire Fin_Main sur main 1
-            if (Bt_Flop_1.Background.Equals((Brush)FindResource("orange"))) return;// imposible de faire Fin_Main sur Flop 1
-            if (Bt_Flop_2.Background.Equals((Brush)FindResource("orange"))) return;// imposible de faire Fin_Main sur Flop 2
-            PaquetInitialise = false;
-            Bt_Fin_Main.Background = Orange;
-        }
+        
         private string CarteDepuisNumero(int n)
         {
             string valeurs = "23456789TJQKA";
@@ -2058,7 +2040,6 @@ namespace Poker
             Bt_Turn.Background = Blanc;
             Bt_River.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
-            Bt_Fin_Main.Background = Blanc;
             Bt_Rand_M.Background = Orange;
             Bt_Rand_F.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
@@ -2102,8 +2083,6 @@ namespace Poker
             Bt_Rand_T.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
 
-            Bt_Fin_Main.Background = Blanc;
-
             // 🔥 Etat actif
             Bt_Rand_F.Background = Orange;
         }
@@ -2136,8 +2115,6 @@ namespace Poker
             Bt_Rand_F.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
 
-            Bt_Fin_Main.Background = Blanc;
-
             // 🔥 Etat actif
             Bt_Rand_T.Background = Orange;
         }
@@ -2159,7 +2136,6 @@ namespace Poker
             // 🔥 Reset visuel
             Bt_Turn.Background = Blanc;
             Bt_Rand_T.Background = Blanc;
-            Bt_Fin_Main.Background = Blanc;
             // 🔥 Etat actif
             Bt_Rand_R.Background = Orange;
         }
@@ -2294,8 +2270,6 @@ namespace Poker
             Bt_Rand_F.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
             Bt_Rand_T.Background = Blanc;
-
-            Bt_Fin_Main.Background = Blanc;
 
             // 🔥 River active
             Bt_River.Background = Orange;
@@ -3343,6 +3317,36 @@ namespace Poker
 
             return false;
         }
+
+        // =========================================================
+        // 🔥 BOUTON POINTS
+        // =========================================================
+        private void Bt_Points_Click(object sender, RoutedEventArgs e)
+        {
+            bPoints = !bPoints;
+
+            if (bPoints)
+            {
+                Bt_Points.Background = Brushes.LightGreen;
+
+                for (int i = 0; i < 104; i++)
+                {
+                    Turn_HBDetect[i].Nom = Ajouter_Point(Turn_HBDetect[i].Nom);
+                    River_HBDetect[i].Nom = Ajouter_Point(River_HBDetect[i].Nom);
+                }
+            }
+            else
+            {
+                Bt_Points.Background = Brushes.White;
+
+                for (int i = 0; i < 104; i++)
+                {
+                    Turn_HBDetect[i].Nom = Enlever_Point(Turn_HBDetect[i].Nom);
+                    River_HBDetect[i].Nom = Enlever_Point(River_HBDetect[i].Nom);
+                }
+            }
+        }
+
         private void Bt_Initialise_Click(object sender, RoutedEventArgs e)
         {
             // 🔥 Remise à zéro des compteurs
@@ -5760,14 +5764,14 @@ namespace Poker
             p.Margin = new Thickness(0);
             p.LineHeight = 1;
 
-            AjouterCarte(p, TB_M1, " ");
-            AjouterCarte(p, TB_M2, " ");
+            AjouterCarte(p, TB_M1, "");
+            AjouterCarte(p, TB_M2, " \t");
 
-            AjouterCarte(p, TB_F1, " ");
-            AjouterCarte(p, TB_F2, " ");
-            AjouterCarte(p, TB_F3, " ");
+            AjouterCarte(p, TB_F1, "");
+            AjouterCarte(p, TB_F2, "");
+            AjouterCarte(p, TB_F3, "\t ");
 
-            AjouterCarte(p, TB_T, " ");
+            AjouterCarte(p, TB_T, "");
             AjouterCarte(p, TB_R, "");
 
             RTB_Historique.Document.Blocks.Add(p);
@@ -5892,6 +5896,27 @@ namespace Poker
             Bt_River_Full.Background = Blanc;
             Bt_River_Carre.Background = Blanc;
             Bt_River_QFlush.Background = Blanc;
+        }
+        // =========================================================
+        // 🔥 AJOUTER POINT
+        // =========================================================
+        private string Ajouter_Point(string nom)
+        {
+            if (nom.StartsWith("."))
+                return nom;
+
+            return "." + nom;
+        }
+
+        // =========================================================
+        // 🔥 ENLEVER POINT
+        // =========================================================
+        private string Enlever_Point(string nom)
+        {
+            if (nom.StartsWith("."))
+                return nom.Substring(1);
+
+            return nom;
         }
 
         // =========================================================
