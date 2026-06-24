@@ -1,0 +1,9 @@
+git status                 -> état du projet
+
+git log --oneline          -> historique des sauvegardes
+
+git tag                    -> liste des versions importantes
+
+git checkout V1.0          -> revenir à V1.0
+
+git switch master          -> revenir au développement courant

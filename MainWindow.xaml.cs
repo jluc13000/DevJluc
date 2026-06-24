@@ -13,19 +13,20 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Windows.Markup;
 namespace Poker
 {
-
-
-
-
-    public class CropInfo
+    public class MainHistorique
     {
-        public string Carte { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public int L { get; set; }
-        public int H { get; set; }
+        public string M1 { get; set; }
+        public string M2 { get; set; }
+
+        public string F1 { get; set; }
+        public string F2 { get; set; }
+        public string F3 { get; set; }
+
+        public string T { get; set; }
+        public string R { get; set; }
     }
 
 
@@ -46,6 +47,9 @@ namespace Poker
 
             public int Couleur;
         }
+        private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
+
+        private const string FichierHistoriqueRTF = @"F:\source\repos\Poker\Historique.rtf";
         // =====================================================
         // TABLEAU MAIN FLOP TURN RIVER
         // =====================================================
@@ -127,7 +131,9 @@ namespace Poker
         private bool bTriggersBoard_Actif = false;
 
         private const string DOSSIER_JSON = @"F:\source\repos\Poker\JSON";
-        string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
+        private static readonly string FichierHistoriqueJSON = Path.Combine(DOSSIER_JSON, "Historique.json");
+        private List<MainHistorique> Historique = new List<MainHistorique>();
+
 
         HashSet<string> RangeTapis = new HashSet<string>();
         HashSet<string> RangeRelance = new HashSet<string>();
@@ -1965,9 +1971,26 @@ namespace Poker
         }
         private void Fermer_Click(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            if (!bTriggersBoard_Actif)
+            {
+                this.Close();
+
+                return;
+            }
+
+            MessageBoxResult rep =
+                MessageBox.Show(
+                    "Triggers_Board est actif.\nQuitter sans sauvegarder ?",
+                    "Confirmation",
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Question);
+
+            if (rep == MessageBoxResult.Yes)
+            {
+                this.Close();
+            }
         }
-        
+
         private string CarteDepuisNumero(int n)
         {
             string valeurs = "23456789TJQKA";
@@ -5366,6 +5389,7 @@ namespace Poker
         // =========================================================
         private async void Bt_Triggers_Board_Click(object sender, RoutedEventArgs e)
         {
+            //Vider_Historiques();
             if (bTriggersBoard_Actif)
             {
                 StopTousModes();
@@ -5390,6 +5414,12 @@ namespace Poker
             bool bRiver_Lu = false;
             bool bPremierHistorique = true;
             bool bGris = false;
+            // =====================================
+            // Nouvelle session
+            // =====================================
+
+            RTB_Historique.Document.Blocks.Clear();
+
             while (bTriggersBoard_Actif)
             {
                 if (JeuEnPause)
@@ -5764,14 +5794,59 @@ namespace Poker
             p.Margin = new Thickness(0);
             p.LineHeight = 1;
 
-            AjouterCarte(p, TB_M1, "");
-            AjouterCarte(p, TB_M2, " \t");
+            // =====================================
+            // Longueur Main
+            // =====================================
 
-            AjouterCarte(p, TB_F1, "");
-            AjouterCarte(p, TB_F2, "");
-            AjouterCarte(p, TB_F3, "\t ");
+            int lgMain =
+                TB_M1.Text.Length +
+                1 +
+                TB_M2.Text.Length;
 
-            AjouterCarte(p, TB_T, "");
+            int nbEspacesMainFlop = 9 - lgMain;
+
+            if (nbEspacesMainFlop < 2)
+                nbEspacesMainFlop = 2;
+
+            // =====================================
+            // Longueur Flop
+            // =====================================
+
+            int lgFlop =
+                TB_F1.Text.Length +
+                1 +
+                TB_F2.Text.Length +
+                1 +
+                TB_F3.Text.Length;
+
+            int nbEspacesFlopTurn = 14 - lgFlop;
+
+            if (nbEspacesFlopTurn < 2)
+                nbEspacesFlopTurn = 2;
+
+            // =====================================
+            // Main
+            // =====================================
+
+            AjouterCarte(p, TB_M1, " ");
+            AjouterCarte(p, TB_M2, new string(' ', nbEspacesMainFlop));
+
+            // =====================================
+            // Flop
+            // =====================================
+
+            AjouterCarte(p, TB_F1, " ");
+            AjouterCarte(p, TB_F2, " ");
+            AjouterCarte(
+                p,
+                TB_F3,
+                new string(' ', nbEspacesFlopTurn));
+
+            // =====================================
+            // Turn River
+            // =====================================
+
+            AjouterCarte(p, TB_T, " ");
             AjouterCarte(p, TB_R, "");
 
             RTB_Historique.Document.Blocks.Add(p);
@@ -5779,22 +5854,25 @@ namespace Poker
             RTB_Historique.ScrollToEnd();
         }
 
-        // =========================================================
-        // AJOUTER CARTE
-        // =========================================================
-        private void AjouterCarte(Paragraph p, TextBox tb, string separateur)
-        {
-            Run r = new Run(tb.Text + separateur);
-
-            r.Foreground = tb.Foreground;
-
-            p.Inlines.Add(r);
-        }
+        
         private void StopTousModes()
         {
             bTestFlop = false;
             bTestClean = false;
-            bTriggersBoard_Actif = false;
+
+            if (bTriggersBoard_Actif)
+            {
+                bTriggersBoard_Actif = false;
+
+                // Ajouter la dernière main telle qu'elle est affichée
+                Ajouter_Historique();
+
+                Sauvegarder_Historique_TXT();
+
+                Sauvegarder_Historique_RTF();
+
+                Sauvegarder_Historique_JSON();
+            }
 
             Bt_Test_Board.Background = Brushes.White;
             Bt_Triggers_Board.Background = Brushes.White;
@@ -5905,7 +5983,7 @@ namespace Poker
             if (nom.StartsWith("."))
                 return nom;
 
-            return "." + nom;
+            return nom + ".";
         }
 
         // =========================================================
@@ -5918,7 +5996,324 @@ namespace Poker
 
             return nom;
         }
+        
+        
+        // =========================================================
+        // AJOUTER CARTE
+        // =========================================================
+        private void AjouterCarte(
+            Paragraph p,
+            TextBox tb,
+            string separateur)
+        {
+            Run r =
+                new Run(
+                    tb.Text
+                    + separateur);
 
+            r.Foreground =
+                tb.Foreground;
+
+            p.Inlines.Add(r);
+        }
+        // =========================================================
+        // 🔥 AJOUTER UNE MAIN DANS LE RICHTEXTBOX
+        // =========================================================
+        private void Ajouter_Main_RTB()
+        {
+            // =====================================
+            // Ne pas afficher une main sans flop
+            // =====================================
+
+            if (TB_F1.Text == "")
+                return;
+
+            Paragraph p = new Paragraph();
+
+            p.Margin = new Thickness(0);
+
+            // =====================================
+            // Colonnes
+            // =====================================
+
+            string main =
+                TB_M1.Text + " " +
+                TB_M2.Text;
+
+            string flop =
+                TB_F1.Text + " " +
+                TB_F2.Text + " " +
+                TB_F3.Text;
+
+            string turnRiver =
+                TB_T.Text + " " +
+                TB_R.Text;
+
+            // =====================================
+            // Ligne complète
+            // =====================================
+
+            string ligne = "  " + main.PadRight(9) + "  " + flop.PadRight(14) + "  " + turnRiver;
+
+            Run r = new Run(ligne);
+
+            r.FontFamily = new FontFamily("Consolas");
+
+            r.Foreground = Brushes.Black;
+
+            p.Inlines.Add(r);
+
+            RTB_Historique.Document.Blocks.Add(p);
+        }
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE TXT
+        // =========================================================
+        private void Sauvegarder_Historique_TXT()
+        {
+            TextRange tr = new TextRange(
+                RTB_Historique.Document.ContentStart,
+                RTB_Historique.Document.ContentEnd);
+
+            string texte = tr.Text;
+
+            texte = texte.Replace(".", "");
+
+            File.WriteAllText(
+                FichierHistoriqueTXT,
+                texte);
+        }
+        
+        private void Sauvegarder_Historique_RTF()
+        {
+            FlowDocument doc;
+
+            // =====================================
+            // Charger l'ancien RTF
+            // =====================================
+
+            doc = new FlowDocument();
+
+            if (File.Exists(FichierHistoriqueRTF))
+            {
+                FileInfo fi =
+                    new FileInfo(
+                        FichierHistoriqueRTF);
+
+                if (fi.Length > 0)
+                {
+                    TextRange tr =
+                        new TextRange(
+                            doc.ContentStart,
+                            doc.ContentEnd);
+
+                    using (FileStream fs = new FileStream(
+                        FichierHistoriqueRTF,
+                        FileMode.Open,
+                        FileAccess.Read))
+                    {
+                        tr.Load(
+                            fs,
+                            DataFormats.Rtf);
+                    }
+                }
+            }
+            else
+            {
+                doc = new FlowDocument();
+            }
+
+            // =====================================
+            // Ajouter les Paragraph du RTB
+            // =====================================
+
+            foreach (Block b in RTB_Historique.Document.Blocks)
+            {
+                Block copie =
+                    (Block)XamlReader.Parse(
+                        XamlWriter.Save(b));
+
+                doc.Blocks.Add(copie);
+            }
+
+            // =====================================
+            // Enlever les points
+            // =====================================
+
+            foreach (Block b in doc.Blocks)
+            {
+                if (b is Paragraph p)
+                {
+                    foreach (Inline i in p.Inlines)
+                    {
+                        if (i is Run r)
+                        {
+                            r.Text =
+                                r.Text.Replace(
+                                    ".",
+                                    "");
+                        }
+                    }
+                }
+            }
+
+            // =====================================
+            // Sauvegarder le RTF
+            // =====================================
+
+            TextRange trRTF = new TextRange(
+                doc.ContentStart,
+                doc.ContentEnd);
+
+            using (FileStream fs = new FileStream(
+                FichierHistoriqueRTF,
+                FileMode.Create))
+            {
+                trRTF.Save(
+                    fs,
+                    DataFormats.Rtf);
+            }
+
+            // =====================================
+            // Vider le RTB
+            // =====================================
+
+            //RTB_Historique.Document.Blocks.Clear();
+        }
+
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE JSON
+        // =========================================================
+        private void Sauvegarder_Historique_JSON()
+        {
+            List<MainHistorique> liste;
+
+            // =====================================
+            // Charger l'ancien JSON
+            // =====================================
+
+            if (File.Exists(FichierHistoriqueJSON))
+            {
+                string ancienJson =
+                    File.ReadAllText(
+                        FichierHistoriqueJSON);
+
+                if (ancienJson.Trim() != "")
+                {
+                    liste =
+                        System.Text.Json.JsonSerializer.Deserialize<
+                            List<MainHistorique>>(
+                                ancienJson);
+
+                    if (liste == null)
+                    {
+                        liste =
+                            new List<MainHistorique>();
+                    }
+                }
+                else
+                {
+                    liste =
+                        new List<MainHistorique>();
+                }
+            }
+            else
+            {
+                liste =
+                    new List<MainHistorique>();
+            }
+
+            // =====================================
+            // Ajouter les nouvelles mains
+            // =====================================
+
+            string[] lignes =
+                File.ReadAllLines(
+                    FichierHistoriqueTXT);
+
+            foreach (string ligne in lignes)
+            {
+                string[] cartes =
+                    ligne.Split(
+                        new char[] { ' ' },
+                        StringSplitOptions.RemoveEmptyEntries);
+
+                MainHistorique h =
+                    new MainHistorique();
+
+                if (cartes.Length > 0)
+                    h.M1 = cartes[0];
+
+                if (cartes.Length > 1)
+                    h.M2 = cartes[1];
+
+                if (cartes.Length > 2)
+                    h.F1 = cartes[2];
+
+                if (cartes.Length > 3)
+                    h.F2 = cartes[3];
+
+                if (cartes.Length > 4)
+                    h.F3 = cartes[4];
+
+                if (cartes.Length > 5)
+                    h.T = cartes[5];
+
+                if (cartes.Length > 6)
+                    h.R = cartes[6];
+
+                liste.Add(h);
+            }
+
+            // =====================================
+            // Sauvegarder le JSON complet
+            // =====================================
+
+            string json =
+                System.Text.Json.JsonSerializer.Serialize(
+                    liste,
+                    new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder =
+                            System.Text.Encodings.Web
+                            .JavaScriptEncoder
+                            .UnsafeRelaxedJsonEscaping
+                    });
+
+            File.WriteAllText(
+                FichierHistoriqueJSON,
+                json);
+        }
+        // =========================================================
+        // 🔥 EXTRAIRE CARTES
+        // =========================================================
+        private List<string> Extraire_Cartes(string txt)
+        {
+            List<string> cartes =
+                new List<string>();
+
+            MatchCollection mc =
+                Regex.Matches(
+                    txt,
+                    @"10[♠♥♦♣]|[2-9AJQKA][♠♥♦♣]");
+
+            foreach (Match m in mc)
+            {
+                cartes.Add(m.Value);
+            }
+
+            return cartes;
+        }
+        // =========================================================
+        // 🔥 VIDER HISTORIQUES
+        // =========================================================
+        private void Vider_Historiques()
+        {
+            File.WriteAllText(FichierHistoriqueRTF, "");
+            File.WriteAllText(FichierHistoriqueJSON, "");
+
+            RTB_Historique.Document.Blocks.Clear();
+        }
         // =========================================================
         // TABLEAU PRESENCE EVENEMENTIEL
         // =========================================================
