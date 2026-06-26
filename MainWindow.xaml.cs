@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -10,21 +11,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Windows.Markup;
 namespace Poker
 {
     public class MainHistorique
     {
         public string M1 { get; set; }
         public string M2 { get; set; }
-
         public string F1 { get; set; }
         public string F2 { get; set; }
         public string F3 { get; set; }
-
         public string T { get; set; }
         public string R { get; set; }
     }
@@ -37,36 +36,72 @@ namespace Poker
         // =====================================================
         // STRUCTURE DETECTION CARTE
         // =====================================================
-
         public struct S_CarteDetect
         {
             public string Nom;
-
             public int X;
             public int Y;
-
             public int Couleur;
         }
+
+        // =====================================================
+        // STRUCTURE DETECTION MA POSITION
+        // =====================================================
+        public struct S_PositionDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // =====================================================
+        // STRUCTURE DETECTION LLACES LIBRES
+        // =====================================================
+        public struct S_PlacesLibresDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
 
         private const string FichierHistoriqueRTF = @"F:\source\repos\Poker\Historique.rtf";
-        // =====================================================
-        // TABLEAU MAIN FLOP TURN RIVER
-        // =====================================================
 
+        // =====================================================
+        // TABLEAU DETECTION CARTES
+        // =====================================================
         private S_CarteDetect[] Main1Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Main2Detect = new S_CarteDetect[52];
+
         private S_CarteDetect[] Flop1Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Flop2Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Flop3Detect = new S_CarteDetect[52];
+
         private S_CarteDetect[] TurnDetect = new S_CarteDetect[52];
         private S_CarteDetect[] Turn_HBDetect = new S_CarteDetect[104];
+
         private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
         private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
-        // =====================================
-        // SIGNATURE MAIN
-        // =====================================
+        // =====================================================
+        // TABLEAU DETECTION EVENEMENTIELLE
+        // =====================================================
+        private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[81];
+
+        // =====================================================
+        // TABLEAU DETECTION MA POSITION
+        // =====================================================
+        private S_PositionDetect[] PositionDetect = new S_PositionDetect[9]; 
+
+        // =====================================================
+        // TABLEAU DETECTION MA POSITION
+        // =====================================================
+
+        private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
+
 
         private bool bPremiereMain = true;
 
@@ -84,6 +119,7 @@ namespace Poker
         int NbParole = 0;
         bool JeuEnPause = false;
         DateTime DebutPause;
+
         private bool bTir_Flop_Quinte, bTir_Flop_Couleur, bTir_Flop_QFlush;
         private bool bTir_Turn_Quinte, bTir_Turn_Couleur, bTir_Turn_QFlush;
         private bool bPreFlop_Paire, bPreFlop_Suite, bPreFlop_Pareille;
@@ -204,18 +240,9 @@ namespace Poker
             Charger_River_HB_JSON();
 
             Charger_Main_Board_JSON();
-
-            string dossier = @"F:\source\repos\Poker\JSON";
-
-            string fichierMain1 = Path.Combine(dossier, "Main_1.json");
-            string fichierMain2 = Path.Combine(dossier, "Main_2.json");
-            string fichierFlop1 = Path.Combine(dossier, "Flop_1.json");
-            string fichierFlop2 = Path.Combine(dossier, "Flop_2.json");
-            string fichierFlop3 = Path.Combine(dossier, "Flop_3.json");
-            string fichierTurn = Path.Combine(dossier, "Turn.json");
-            string fichierTurn_HB = Path.Combine(dossier, "Turn_HB.json");
-            string fichierRiver = Path.Combine(dossier, "River.json");
-            string fichierRiver_HB = Path.Combine(dossier, "River_HB.json");
+            Charger_Main_Board_JSON();
+            Charger_Ma_Position_JSON();
+            Charger_Places_Libres_JSON();
 
 
             // 🔥 Variables
@@ -448,7 +475,6 @@ namespace Poker
             {
                 Bt_Se_Recare_Click(null, null);
             }
-            
 
             ActiverMise(Bt_0);
 
@@ -647,8 +673,6 @@ namespace Poker
         public Brush Bleu { get; private set; }
         public Brush Vert { get; private set; }
         public Brush Gold { get; private set; }
-        //public Brush Bt_Pas_de_Bouton { get; private set; }
-
 
         private void Initialise_Boutons_Main_Flop_Turn_River()
         {
@@ -979,19 +1003,16 @@ namespace Poker
         private void Bt_Flop_1_Click(object sender, RoutedEventArgs e)
         {
             AfficherCarte(TB_F1, Bt_Main_2, Bt_Flop_1, 2);
-            Verifier_Doublon_Flop1();
         }
 
         private void Bt_Flop_2_Click(object sender, RoutedEventArgs e)
         {
             AfficherCarte(TB_F2, Bt_Flop_1, Bt_Flop_2, 3);
-            Verifier_Doublon_Flop2();
         }
 
         private void Bt_Flop_3_Click(object sender, RoutedEventArgs e)
         {
             AfficherCarte(TB_F3, Bt_Flop_2, Bt_Flop_3, 4);
-            Verifier_Doublon_Flop2();
 
             // 🔥 Analyse complète du flop
             Calcul_Flop();
@@ -1977,7 +1998,8 @@ namespace Poker
         }
         private void Fermer_Click(object sender, RoutedEventArgs e)
         {
-            if (!bTriggersBoard_Actif)
+            if (!bTriggersBoard_Actif &&
+                !bTapisPreFlop_Actif)
             {
                 this.Close();
 
@@ -1986,7 +2008,7 @@ namespace Poker
 
             MessageBoxResult rep =
                 MessageBox.Show(
-                    "Triggers_Board est actif.\nQuitter sans sauvegarder ?",
+                    "Une session est active.\nQuitter sans sauvegarder ?",
                     "Confirmation",
                     MessageBoxButton.YesNo,
                     MessageBoxImage.Question);
@@ -2885,7 +2907,6 @@ namespace Poker
         private void Bt_Bouton_en_Click(object sender, RoutedEventArgs e)
         {
             ActiverBoutonPosition((Button)sender);
-            //Bt_Pas_de_Bouton.Background = (Brush)FindResource("blanc");
         }
         private void TB_Ligne_Temps_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -3196,9 +3217,7 @@ namespace Poker
 
             if (string.IsNullOrWhiteSpace(txt))
             {
-                MessageBox.Show(
-                    "Aucune donnée exploitable");
-
+                MessageBox.Show("Aucune donnée exploitable");
                 return;
             }
 
@@ -3213,24 +3232,17 @@ namespace Poker
             // =====================================
 
             bool okMain1 = Extraire_Main1(txt);
-
             bool okMain2 = Extraire_Main2(txt);
-
             bool okFlop1 = Extraire_Flop1(txt);
-
             bool okFlop2 = Extraire_Flop2(txt);
-
             bool okFlop3 = Extraire_Flop3(txt);
-
             bool okTurn = Extraire_Turn(txt);
-
             bool okTurn_HB = Extraire_Turn_HB(txt);
-
             bool okRiver = Extraire_River(txt);
-
             bool okRiver_HB = Extraire_River_HB(txt);
-
             bool okMain_Board = Extraire_Main_Board(txt);
+            bool okMa_Position = Extraire_Ma_Position(txt);
+            bool okPlaces_Libres = Extraire_Places_Libres(txt);
 
             // =====================================
             // Aucune donnée reconnue
@@ -3245,11 +3257,11 @@ namespace Poker
                 !okTurn_HB &&
                 !okRiver &&
                 !okRiver_HB &&
-                !okMain_Board)
+                !okMain_Board &&
+                !okMa_Position &&
+                !okPlaces_Libres)
             {
-                MessageBox.Show(
-                    "Aucune donnée exploitable");
-
+                MessageBox.Show("Injection refusée");
                 return;
             }
 
@@ -3287,6 +3299,12 @@ namespace Poker
             if (okMain_Board)
                 Sauver_Main_Board_JSON();
 
+            if (okMa_Position)
+                Sauver_Ma_Position_JSON();
+
+            if (okPlaces_Libres)
+                Sauver_Places_Libres_JSON();
+
             // =====================================
             // RESULTAT
             // =====================================
@@ -3322,7 +3340,13 @@ namespace Poker
                 msg += "River_HB : 104 cartes\n";
 
             if (okMain_Board)
-                msg += "Main_Board OK\n";
+                msg += "Main_Board : 81 détecteurs\n";
+
+            if (okMa_Position)
+                msg += "Ma_Position : 9 détecteurs\n";
+
+            if (okPlaces_Libres)
+                msg += "Places_Libres : 9 détecteurs\n";
 
             MessageBox.Show(msg);
         }
@@ -3375,6 +3399,9 @@ namespace Poker
             }
         }
 
+        // =========================================================
+        // 🔥 INITIALISE
+        // =========================================================
         private void Bt_Initialise_Click(object sender, RoutedEventArgs e)
         {
             // 🔥 Remise à zéro des compteurs
@@ -3403,68 +3430,11 @@ namespace Poker
 
             Console.WriteLine("SESSION RÉINITIALISÉE");
         }
-        private void Verifier_Doublon_Flop1()
-        {
-            Bt_Doublon.Background = Blanc;
-
-            if (TB_F1.Text == TB_M2.Text)
-            {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
-
-                NbDoublon_Flop1++;
-            }
-        }
-        private void Verifier_Doublon_Flop2()
-        {
-            Bt_Doublon.Background = Blanc;
-
-            if (TB_F2.Text == TB_F1.Text)
-            {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
-
-                NbDoublon_Flop2++;
-            }
-        }
-        private void Verifier_Doublon_Flop3()
-        {
-            Bt_Doublon.Background = Blanc;
-
-            if (TB_F3.Text == TB_F2.Text)
-            {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
-
-                NbDoublon_Flop3++;
-            }
-        }
-        private void Verifier_Doublon_Turn()
-        {
-            Bt_Doublon.Background = Blanc;
-
-            if (TB_T.Text == TB_F3.Text)
-            {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
-
-                NbDoublon_Turn++;
-            }
-        }
-        private void Verifier_Doublon_River()
-        {
-            Bt_Doublon.Background = Blanc;
-
-            if (TB_R.Text == TB_T.Text)
-            {
-                Bt_Doublon.Background = Bt_Doublon.Background = (Brush)FindResource("rouge");
-
-                NbDoublon_River++;
-            }
-        }
-
-
 
         // =========================================================
         // 🔥 CAPTURE ECRAN
         // =========================================================
-        private void CaptureEcran()
+        private void CaptureEcran_Ecran1()
         {
             // =====================================
             // Libération ancienne bitmap
@@ -3512,6 +3482,7 @@ namespace Poker
                     zone.Size);
             }
         }
+        
         // =====================================
         // EFFACER TIRAGES FLOP
         // =====================================
@@ -3586,152 +3557,129 @@ namespace Poker
 
             Turn_QFlush_ON();
         }
-        
+
         #endregion
 
         #region CHARGER JSON
         // =========================================================
-        // 🔥 CHARGER MAIN_1 JSON
+        // 🔥 CHARGER MAIN 1 JSON
         // =========================================================
         private void Charger_Main1_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_1.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
             if (!File.Exists(fichier))
                 return;
-
             string json = File.ReadAllText(fichier);
-
             Main1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
 
         // =========================================================
-        // 🔥 CHARGER MAIN_1_CROP JSON
-        // =========================================================
-        
-
-
-
-        // =========================================================
-        // 🔥 CHARGER MAIN_2 JSON
+        // 🔥 CHARGER MAIN 2 JSON
         // =========================================================
         private void Charger_Main2_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_2.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
             if (!File.Exists(fichier))
                 return;
-
             string json = File.ReadAllText(fichier);
-
             Main2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
-        // 🔥 CHARGER FLOP_1 JSON
+        // 🔥 CHARGER FLOP 1 JSON
         // =========================================================
         private void Charger_Flop1_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_1.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
             if (!File.Exists(fichier))
                 return;
-
             string json = File.ReadAllText(fichier);
-
             Flop1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
-        // 🔥 CHARGER FLOP_2 JSON
+        // 🔥 CHARGER FLOP 2 JSON
         // =========================================================
         private void Charger_Flop2_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_2.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
-
             Flop2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
-        // 🔥 CHARGER FLOP_3 JSON
+        // 🔥 CHARGER FLOP 3 JSON
         // =========================================================
         private void Charger_Flop3_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Flop_3.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
-
             Flop3Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
         // 🔥 CHARGER TURN JSON
         // =========================================================
         private void Charger_Turn_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Turn.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
-
             TurnDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
         // 🔥 CHARGER TURN_HB JSON
         // =========================================================
         private void Charger_Turn_HB_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Turn_HB.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
             if (!File.Exists(fichier))
                 return;
-
             string json = File.ReadAllText(fichier);
-
-            Turn_HBDetect =
-                JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+            Turn_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
         // 🔥 CHARGER RIVER JSON
         // =========================================================
         private void Charger_River_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\River.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
-
             RiverDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
         // 🔥 CHARGER RIVER_HB JSON
         // =========================================================
         private void Charger_River_HB_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\River_HB.json";
-
+            string fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
-
-            River_HBDetect =
-                JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+            River_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
-        // 🔥 CHARGER MAIN_BOARD JSON
+        // 🔥 CHARGER MAIN BOARD JSON
         // =========================================================
         private void Charger_Main_Board_JSON()
         {
-            string fichier = @"F:\source\repos\Poker\JSON\Main_Board.json";
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_Board.json");
 
             if (!File.Exists(fichier))
                 return;
@@ -3740,144 +3688,174 @@ namespace Poker
 
             Main_BoardDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
+
         // =========================================================
-        // DETECTER PRESENCE
+        // 🔥 CHARGER MA POSITION JSON
         // =========================================================
+        private void Charger_Ma_Position_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PositionDetect = JsonConvert.DeserializeObject<S_PositionDetect[]>(json);
+        }
+
+        // =========================================================
+        // 🔥 CHARGER PLACES LIBRES JSON
+        // =========================================================
+        private void Charger_Places_Libres_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PlacesLibresDetect = JsonConvert.DeserializeObject<S_PlacesLibresDetect[]>(json);
+        }
         #endregion
 
         #region SAUVER JSON
         // =========================================================
-        // 🔥 SAUVER MAIN_1 JSON
+        // 🔥 SAUVER MAIN 1 JSON
         // =========================================================
         private void Sauver_Main1_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Main_1.json");
-            string json = JsonConvert.SerializeObject(Main1Detect, Formatting.Indented);
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string json = JsonConvert.SerializeObject( Main1Detect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
 
         // =========================================================
-        // 🔥 SAUVER MAIN_2 JSON
+        // 🔥 SAUVER MAIN 2 JSON
         // =========================================================
         private void Sauver_Main2_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Main_2.json");
-            string json = JsonConvert.SerializeObject(Main2Detect, Formatting.Indented);
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
+            Directory.CreateDirectory(DOSSIER_JSON); ;
+            string json = JsonConvert.SerializeObject( Main2Detect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
 
-        private void Bt_Test_Click(object sender, RoutedEventArgs e)
-        {
-            Paragraph p = new Paragraph();
-            p.Inlines.Add(new Run("A♥ K♦  8♠ 10♠ 2♣  K♠ K♥"));
-            RTB_Historique.Document.Blocks.Add(p);
-        }
-
-        private void Test_Click(object sender, RoutedEventArgs e)
-        {
-            Paragraph p = new Paragraph();
-            p.Inlines.Add(new Run("A♥ K♦  8♠ 10♠ 2♣  K♠ K♥"));
-            RTB_Historique.Document.Blocks.Add(p);
-        }
-
         // =========================================================
-        // 🔥 SAUVER FLOP_1 JSON
+        // 🔥 SAUVER FLOP 1 JSON
         // =========================================================
         private void Sauver_Flop1_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Flop_1.json");
-            string json = JsonConvert.SerializeObject(Flop1Detect, Formatting.Indented);
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string json = JsonConvert.SerializeObject( Flop1Detect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
-        // 🔥 SAUVER FLOP_2 JSON
+        // 🔥 SAUVER FLOP 2 JSON
         // =========================================================
         private void Sauver_Flop2_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Flop_2.json");
-            string json = JsonConvert.SerializeObject(Flop2Detect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
+            string json = JsonConvert.SerializeObject( Flop2Detect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
-        // 🔥 SAUVER FLOP_3 JSON
+        // 🔥 SAUVER FLOP 3 JSON
         // =========================================================
         private void Sauver_Flop3_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Flop_3.json");
-            string json = JsonConvert.SerializeObject(Flop3Detect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
+            string json = JsonConvert.SerializeObject( Flop3Detect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
         // 🔥 SAUVER TURN JSON
         // =========================================================
         private void Sauver_Turn_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Turn.json");
-            string json = JsonConvert.SerializeObject(TurnDetect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
+            string json = JsonConvert.SerializeObject( TurnDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
-        // 🔥 SAUVER TURN_HB JSON
+        // 🔥 SAUVER TURN HB JSON
         // =========================================================
         private void Sauver_Turn_HB_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Turn_HB.json");
-            string json = JsonConvert.SerializeObject(Turn_HBDetect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
+            string json = JsonConvert.SerializeObject( Turn_HBDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
         // 🔥 SAUVER RIVER JSON
         // =========================================================
         private void Sauver_River_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "River.json");
-            string json = JsonConvert.SerializeObject(RiverDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-        // =========================================================
-        // 🔥 SAUVER RIVER_HB JSON
-        // =========================================================
-        private void Sauver_River_HB_JSON()
-        {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "River_HB.json");
-            string json = JsonConvert.SerializeObject(River_HBDetect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
+            string json = JsonConvert.SerializeObject( RiverDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
 
         // =========================================================
-        // 🔥 SAUVER MAIN_BOARD
+        // 🔥 SAUVER RIVER HB JSON
+        // =========================================================
+        private void Sauver_River_HB_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            String fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
+            string json = JsonConvert.SerializeObject( River_HBDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 SAUVER MAIN BOARD
         // =========================================================
         private void Sauver_Main_Board_JSON()
         {
-            string dossier = @"F:\source\repos\Poker\JSON";
-            Directory.CreateDirectory(dossier);
-            string fichier = Path.Combine(dossier, "Main_Board.json");
-            string json = JsonConvert.SerializeObject(Main_BoardDetect, Formatting.Indented);
+            Directory.CreateDirectory(DOSSIER_JSON);
+            String fichier = Path.Combine(DOSSIER_JSON, "Nain_Board.json");
+            string json = JsonConvert.SerializeObject( Main_BoardDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 SAUVER MA POSITION JSON
+        // =========================================================
+        private void Sauver_Ma_Position_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
+            string json = JsonConvert.SerializeObject( PositionDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+        // =========================================================
+        // 🔥 SAUVER PLACES LIBRES JSON
+        // =========================================================
+        private void Sauver_Places_Libres_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
+            string json = JsonConvert.SerializeObject(PlacesLibresDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
         #endregion
 
         #region EXTRAIRE
         // =========================================================
-        // 🔥 EXTRAIRE MAIN_1
+        // 🔥 EXTRAIRE MAIN 1
         // =========================================================
         private bool Extraire_Main1(string txt)
         {
@@ -3967,11 +3945,8 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bMain1)
-                return false;
 
             if (index != 52)
                 return false;
@@ -3980,7 +3955,7 @@ namespace Poker
         }
         
         // =========================================================
-        // 🔥 EXTRAIRE MAIN_2
+        // 🔥 EXTRAIRE MAIN 2
         // =========================================================
         private bool Extraire_Main2(string txt)
         {
@@ -4070,11 +4045,8 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bMain2)
-                return false;
 
             if (index != 52)
                 return false;
@@ -4083,7 +4055,7 @@ namespace Poker
         }
         
         // =========================================================
-        // 🔥 EXTRAIRE FLOP_1
+        // 🔥 EXTRAIRE FLOP 1
         // =========================================================
         private bool Extraire_Flop1(string txt)
         {
@@ -4174,19 +4146,17 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bFlop1)
-                return false;
 
             if (index != 52)
                 return false;
 
             return true;
         }
+
         // =========================================================
-        // 🔥 EXTRAIRE FLOP_2
+        // 🔥 EXTRAIRE FLOP 2
         // =========================================================
         private bool Extraire_Flop2(string txt)
         {
@@ -4278,19 +4248,17 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bFlop2)
-                return false;
 
             if (index != 52)
                 return false;
 
             return true;
         }
+
         // =========================================================
-        // 🔥 EXTRAIRE FLOP_3
+        // 🔥 EXTRAIRE FLOP 3
         // =========================================================
         private bool Extraire_Flop3(string txt)
         {
@@ -4375,17 +4343,15 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bFlop3)
-                return false;
 
             if (index != 52)
                 return false;
 
             return true;
         }
+
         // =========================================================
         // 🔥 EXTRAIRE TURN
         // =========================================================
@@ -4466,17 +4432,15 @@ namespace Poker
                 }
             }
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bTurn)
-                return false;
 
             if (index != 52)
                 return false;
 
             return true;
         }
+
         // =========================================================
         // 🔥 EXTRAIRE RIVER
         // =========================================================
@@ -4557,19 +4521,17 @@ namespace Poker
                 }
             }
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bRiver)
-                return false;
 
             if (index != 52)
                 return false;
 
             return true;
         }
+
         // =========================================================
-        // 🔥 EXTRAIRE TURN_HB
+        // 🔥 EXTRAIRE TURN HB
         // =========================================================
         private bool Extraire_Turn_HB(string txt)
         {
@@ -4652,19 +4614,17 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bTurn_HB)
-                return false;
 
             if (index != 104)
                 return false;
 
             return true;
         }
+
         // =========================================================
-        // 🔥 EXTRAIRE RIVER_HB
+        // 🔥 EXTRAIRE RIVER HB
         // =========================================================
         private bool Extraire_River_HB(string txt)
         {
@@ -4747,19 +4707,17 @@ namespace Poker
             }
 
             // =====================================
-            // Validation
+            // DONNEES NON CONFORMES
             // =====================================
-
-            if (!bRiver_HB)
-                return false;
 
             if (index != 104)
                 return false;
 
             return true;
         }
+
         // =========================================================
-        // 🔥 EXTRAIRE MAIN_BOARD
+        // 🔥 EXTRAIRE MAIN BOARD
         // =========================================================
         private bool Extraire_Main_Board(string txt)
         {
@@ -4827,15 +4785,138 @@ namespace Poker
             }
 
             // =====================================
-            // AUCUN BLOC TROUVE
+            // DONNEES NON CONFORMES
             // =====================================
-            if (!bMain_Board)
+            if (index != 81)
                 return false;
 
+            return true;
+        }
+        // =========================================================
+        // 🔥 EXTRAIRE MA POSITION
+        // =========================================================
+        private bool Extraire_Ma_Position(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bMa_Position = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Ma_Position")
+                {
+                    bMa_Position = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bMa_Position)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PositionDetect[index].Nom = nomCourant;
+                    PositionDetect[index].X = int.Parse(t[1]);
+                    PositionDetect[index].Y = int.Parse(t[2]);
+                    PositionDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
             // =====================================
-            // AUCUNE DONNEE
+            // DONNEES NON CONFORMES
             // =====================================
-            if (index <= 0)
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+
+        // =========================================================
+        // 🔥 EXTRAIRE PLACES LIBRES
+        // =========================================================
+        private bool Extraire_Places_Libres(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPlaces_Libres = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Places_Libres")
+                {
+                    bPlaces_Libres = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPlaces_Libres)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PlacesLibresDetect[index].Nom = nomCourant;
+                    PlacesLibresDetect[index].X = int.Parse(t[1]);
+                    PlacesLibresDetect[index].Y = int.Parse(t[2]);
+                    PlacesLibresDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
                 return false;
 
             return true;
@@ -4844,7 +4925,7 @@ namespace Poker
 
         #region LIRE
         // =========================================================
-        // 🔥 LIRE MAIN_1
+        // 🔥 LIRE MAIN 1
         // =========================================================
         private void Lire_Main_1()
         {
@@ -4893,7 +4974,7 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 LIRE MAIN_2
+        // 🔥 LIRE MAIN 2
         // =========================================================
         private void Lire_Main_2()
         {
@@ -4932,7 +5013,7 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 LIRE FLOP_1
+        // 🔥 LIRE FLOP 1
         // =========================================================
         private void Lire_Flop_1()
         {
@@ -4981,7 +5062,7 @@ namespace Poker
         }
         
         // =========================================================
-        // 🔥 LIRE FLOP_2
+        // 🔥 LIRE FLOP 2
         // =========================================================
         private void Lire_Flop_2()
         {
@@ -5030,7 +5111,7 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 LIRE FLOP_3
+        // 🔥 LIRE FLOP 3
         // =========================================================
         private void Lire_Flop_3()
         {
@@ -5107,7 +5188,7 @@ namespace Poker
         }
         
         // =========================================================
-        // 🔥 LIRE TURN_HB
+        // 🔥 LIRE TURN HB
         // =========================================================
         private void Lire_Turn_HB()
         {
@@ -5183,7 +5264,7 @@ namespace Poker
         }
         
         // =========================================================
-        // 🔥 LIRE RIVER_HB
+        // 🔥 LIRE RIVER HB
         // =========================================================
         private void Lire_River_HB()
         {
@@ -5283,7 +5364,7 @@ namespace Poker
                     // =====================================
                     // Capture écran
                     // =====================================
-                    CaptureEcran();
+                    CaptureEcran_Ecran1();
 
                     // ==========================
                     // PASSAGE AU GRIS
@@ -5388,16 +5469,11 @@ namespace Poker
         // =========================================================
         // TRIGGERS_BOARD
         // =========================================================
-        private async void Bt_Triggers_Board_Click(
-            object sender,
-            RoutedEventArgs e)
+        private async void Bt_Triggers_Board_Click(object sender, RoutedEventArgs e)
         {
-            //Vider_Historiques();
-
             // =====================================
             // STOP
             // =====================================
-
             if (bTriggersBoard)
             {
                 StopTousModes();
@@ -5450,7 +5526,7 @@ namespace Poker
 
                     await Task.Delay(1);
 
-                    CaptureEcran();
+                    CaptureEcran_Ecran1();
 
                     if (LirePixel(1126, 989) == 8421504)
                     {
@@ -5646,6 +5722,7 @@ namespace Poker
                     Brushes.White;
             }
         }
+
         // =========================================================
         // TAPIS PREFLOP
         // =========================================================
@@ -5707,7 +5784,7 @@ namespace Poker
 
                     await Task.Delay(1);
 
-                    CaptureEcran();
+                    CaptureEcran_Ecran1();
 
                     if (LirePixel(1126, 989) == 8421504)
                     {
@@ -5903,8 +5980,6 @@ namespace Poker
             }
         }
 
-
-
         // =========================================================
         // AFFICHAGE HISTORIQUE
         // =========================================================
@@ -5991,7 +6066,6 @@ namespace Poker
 
             RTB_Historique.ScrollToEnd();
         }
-
 
         // =========================================================
         // 🔥 STOP TOUS MODES
@@ -6141,7 +6215,6 @@ namespace Poker
             return nom;
         }
         
-        
         // =========================================================
         // AJOUTER CARTE
         // =========================================================
@@ -6150,14 +6223,8 @@ namespace Poker
             TextBox tb,
             string separateur)
         {
-            Run r =
-                new Run(
-                    tb.Text
-                    + separateur);
-
-            r.Foreground =
-                tb.Foreground;
-
+            Run r = new Run(tb.Text + separateur);
+            r.Foreground = tb.Foreground;
             p.Inlines.Add(r);
         }
         // =========================================================
@@ -6168,12 +6235,10 @@ namespace Poker
             // =====================================
             // Ne pas afficher une main sans flop
             // =====================================
-
             if (TB_F1.Text == "")
                 return;
 
             Paragraph p = new Paragraph();
-
             p.Margin = new Thickness(0);
 
             // =====================================
@@ -6198,15 +6263,10 @@ namespace Poker
             // =====================================
 
             string ligne = "  " + main.PadRight(9) + "  " + flop.PadRight(14) + "  " + turnRiver;
-
             Run r = new Run(ligne);
-
             r.FontFamily = new FontFamily("Consolas");
-
             r.Foreground = Brushes.Black;
-
             p.Inlines.Add(r);
-
             RTB_Historique.Document.Blocks.Add(p);
         }
         // =========================================================
@@ -6222,11 +6282,12 @@ namespace Poker
 
             texte = texte.Replace(".", "");
 
-            File.WriteAllText(
-                FichierHistoriqueTXT,
-                texte);
+            File.WriteAllText(FichierHistoriqueTXT, texte);
         }
-        
+
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE RTF
+        // =========================================================
         private void Sauvegarder_Historique_RTF()
         {
             FlowDocument doc;
@@ -6239,25 +6300,15 @@ namespace Poker
 
             if (File.Exists(FichierHistoriqueRTF))
             {
-                FileInfo fi =
-                    new FileInfo(
-                        FichierHistoriqueRTF);
+                FileInfo fi = new FileInfo(FichierHistoriqueRTF);
 
                 if (fi.Length > 0)
                 {
-                    TextRange tr =
-                        new TextRange(
-                            doc.ContentStart,
-                            doc.ContentEnd);
+                    TextRange tr = new TextRange(doc.ContentStart, doc.ContentEnd);
 
-                    using (FileStream fs = new FileStream(
-                        FichierHistoriqueRTF,
-                        FileMode.Open,
-                        FileAccess.Read))
+                    using (FileStream fs = new FileStream(FichierHistoriqueRTF, FileMode.Open, FileAccess.Read))
                     {
-                        tr.Load(
-                            fs,
-                            DataFormats.Rtf);
+                        tr.Load( fs, DataFormats.Rtf);
                     }
                 }
             }
@@ -6272,9 +6323,7 @@ namespace Poker
 
             foreach (Block b in RTB_Historique.Document.Blocks)
             {
-                Block copie =
-                    (Block)XamlReader.Parse(
-                        XamlWriter.Save(b));
+                Block copie = (Block)XamlReader.Parse(XamlWriter.Save(b));
 
                 doc.Blocks.Add(copie);
             }
@@ -6291,10 +6340,7 @@ namespace Poker
                     {
                         if (i is Run r)
                         {
-                            r.Text =
-                                r.Text.Replace(
-                                    ".",
-                                    "");
+                            r.Text = r.Text.Replace(".", "");
                         }
                     }
                 }
@@ -6303,25 +6349,12 @@ namespace Poker
             // =====================================
             // Sauvegarder le RTF
             // =====================================
+            TextRange trRTF = new TextRange(doc.ContentStart, doc.ContentEnd);
 
-            TextRange trRTF = new TextRange(
-                doc.ContentStart,
-                doc.ContentEnd);
-
-            using (FileStream fs = new FileStream(
-                FichierHistoriqueRTF,
-                FileMode.Create))
+            using (FileStream fs = new FileStream( FichierHistoriqueRTF, FileMode.Create))
             {
-                trRTF.Save(
-                    fs,
-                    DataFormats.Rtf);
+                trRTF.Save( fs, DataFormats. Rtf);
             }
-
-            // =====================================
-            // Vider le RTB
-            // =====================================
-
-            //RTB_Historique.Document.Blocks.Clear();
         }
 
         // =========================================================
@@ -6337,52 +6370,39 @@ namespace Poker
 
             if (File.Exists(FichierHistoriqueJSON))
             {
-                string ancienJson =
-                    File.ReadAllText(
-                        FichierHistoriqueJSON);
+                string ancienJson = File.ReadAllText(FichierHistoriqueJSON);
 
                 if (ancienJson.Trim() != "")
                 {
                     liste =
                         System.Text.Json.JsonSerializer.Deserialize<
-                            List<MainHistorique>>(
-                                ancienJson);
+                            List<MainHistorique>>(ancienJson);
 
                     if (liste == null)
                     {
-                        liste =
-                            new List<MainHistorique>();
+                        liste = new List<MainHistorique>();
                     }
                 }
                 else
                 {
-                    liste =
-                        new List<MainHistorique>();
+                    liste = new List<MainHistorique>();
                 }
             }
             else
             {
-                liste =
-                    new List<MainHistorique>();
+                liste = new List<MainHistorique>();
             }
 
             // =====================================
             // Ajouter les nouvelles mains
             // =====================================
-
-            string[] lignes =
-                File.ReadAllLines(
-                    FichierHistoriqueTXT);
+            string[] lignes = File.ReadAllLines(FichierHistoriqueTXT);
 
             foreach (string ligne in lignes)
             {
-                string[] cartes =
-                    ligne.Split(
-                        new char[] { ' ' },
-                        StringSplitOptions.RemoveEmptyEntries);
+                string[] cartes = ligne.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
 
-                MainHistorique h =
-                    new MainHistorique();
+                MainHistorique h = new MainHistorique();
 
                 if (cartes.Length > 0)
                     h.M1 = cartes[0];
@@ -6411,35 +6431,21 @@ namespace Poker
             // =====================================
             // Sauvegarder le JSON complet
             // =====================================
-
-            string json =
-                System.Text.Json.JsonSerializer.Serialize(
-                    liste,
-                    new JsonSerializerOptions
+            string json = System.Text.Json.JsonSerializer.Serialize( liste, new JsonSerializerOptions
                     {
                         WriteIndented = true,
-                        Encoder =
-                            System.Text.Encodings.Web
-                            .JavaScriptEncoder
-                            .UnsafeRelaxedJsonEscaping
-                    });
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
 
-            File.WriteAllText(
-                FichierHistoriqueJSON,
-                json);
+            File.WriteAllText( FichierHistoriqueJSON, json);
         }
+
         // =========================================================
         // 🔥 EXTRAIRE CARTES
         // =========================================================
         private List<string> Extraire_Cartes(string txt)
         {
-            List<string> cartes =
-                new List<string>();
-
-            MatchCollection mc =
-                Regex.Matches(
-                    txt,
-                    @"10[♠♥♦♣]|[2-9AJQKA][♠♥♦♣]");
+            List<string> cartes = new List<string>();
+            MatchCollection mc = Regex.Matches(txt, @"10[♠♥♦♣]|[2-9AJQKA][♠♥♦♣]");
 
             foreach (Match m in mc)
             {
@@ -6448,6 +6454,7 @@ namespace Poker
 
             return cartes;
         }
+
         // =========================================================
         // 🔥 VIDER HISTORIQUES
         // =========================================================
@@ -6458,10 +6465,6 @@ namespace Poker
 
             RTB_Historique.Document.Blocks.Clear();
         }
-        // =========================================================
-        // TABLEAU PRESENCE EVENEMENTIEL
-        // =========================================================
-        private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[81];
 
         // =========================================================
         // LIRE PIXEL
@@ -6471,21 +6474,18 @@ namespace Poker
             // =====================================
             // SECURITE
             // =====================================
-
             if (Bitmap_Main == null)
                 return 0;
 
             // =====================================
             // LECTURE PIXEL
             // =====================================
-
             System.Drawing.Color c =
                 Bitmap_Main.GetPixel(x, y);
 
             // =====================================
             // RGB 24 bits
             // =====================================
-
             return c.ToArgb() & 0xFFFFFF;
         }
         private void Efface_Board()
@@ -6496,6 +6496,5 @@ namespace Poker
             TB_T.Clear();
             TB_R.Clear();
         }
-
     }
 }
