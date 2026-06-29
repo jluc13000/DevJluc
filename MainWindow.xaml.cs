@@ -15,6 +15,7 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using static Poker.MainWindow;
 namespace Poker
 {
     public class MainHistorique
@@ -56,9 +57,40 @@ namespace Poker
         }
 
         // =====================================================
-        // STRUCTURE DETECTION LLACES LIBRES
+        // STRUCTURE DETECTION PLACES LIBRES
         // =====================================================
         public struct S_PlacesLibresDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // =====================================================
+        // STRUCTURE DETECTION NIVEAU TABLE
+        // =====================================================
+        public struct S_NiveauTableDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+        // =====================================================
+        // STRUCTURE DETECTION JOUEUR SE COUCHE
+        // =====================================================
+        public struct S_JoueurSeCoucheDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+        // =====================================================
+        // STRUCTURE DETECTION POSITION BOUTON
+        // =====================================================
+        public struct S_PositionBoutonDetect
         {
             public string Nom;
             public int X;
@@ -99,9 +131,22 @@ namespace Poker
         // =====================================================
         // TABLEAU DETECTION MA POSITION
         // =====================================================
-
         private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
 
+        // =====================================================
+        // TABLEAU DETECTION NIVEAU TABLE
+        // =====================================================
+        private S_NiveauTableDetect[] NiveauTableDetect = new S_NiveauTableDetect[12];
+
+        // =====================================================
+        // TABLEAU DETECTION JOUEUR SE COUCHE
+        // =====================
+        private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
+
+        // =====================================================
+        // TABLEAU DETECTION POSITION BOUTON
+        // =====================
+        private S_PositionBoutonDetect[] PositionBoutonDetect = new S_PositionBoutonDetect[9];
 
         private bool bPremiereMain = true;
 
@@ -175,6 +220,7 @@ namespace Poker
         private const string DOSSIER_JSON = @"F:\source\repos\Poker\JSON";
         private static readonly string FichierHistoriqueJSON = Path.Combine(DOSSIER_JSON, "Historique.json");
         private List<MainHistorique> Historique = new List<MainHistorique>();
+        private bool bArretDemande = false;
 
 
         HashSet<string> RangeTapis = new HashSet<string>();
@@ -243,6 +289,9 @@ namespace Poker
             Charger_Main_Board_JSON();
             Charger_Ma_Position_JSON();
             Charger_Places_Libres_JSON();
+            Charger_Niveau_Table_JSON();
+            Charger_Joueur_Se_Couche_JSON();
+            Charger_Position_Bouton_JSON();
 
 
             // 🔥 Variables
@@ -2885,10 +2934,6 @@ namespace Poker
         {
             ActiverAutoMise((Button)sender);
         }
-        private void Bt_Benchmark_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void Bt_Auto_P6_Click(object sender, RoutedEventArgs e)
         {
             ActiverAutoMise((Button)sender);
@@ -2896,6 +2941,10 @@ namespace Poker
         private void Bt_Auto_P8_Click(object sender, RoutedEventArgs e)
         {
             ActiverAutoMise((Button)sender);
+        }
+        private void Bt_Benchmark_Click(object sender, RoutedEventArgs e)
+        {
+
         }
         private void Bt_Un_Joueur_Click(object sender, RoutedEventArgs e)
         {
@@ -3203,6 +3252,10 @@ namespace Poker
         }
 
         #region INJECTION
+
+        // =========================================================
+        // 🔥 BOUTON INJECTION
+        // =========================================================
         private void Bt_Injection_Click(object sender, RoutedEventArgs e)
         {
             // =====================================
@@ -3243,6 +3296,9 @@ namespace Poker
             bool okMain_Board = Extraire_Main_Board(txt);
             bool okMa_Position = Extraire_Ma_Position(txt);
             bool okPlaces_Libres = Extraire_Places_Libres(txt);
+            bool okNiveau_Table = Extraire_Niveau_Table(txt);
+            bool okJoueur_Se_Couche = Extraire_Joueur_Se_Couche(txt);
+            bool okPosition_Bouton = Extraire_Position_Bouton(txt);
 
             // =====================================
             // Aucune donnée reconnue
@@ -3259,7 +3315,10 @@ namespace Poker
                 !okRiver_HB &&
                 !okMain_Board &&
                 !okMa_Position &&
-                !okPlaces_Libres)
+                !okPlaces_Libres &&
+                !okNiveau_Table &&
+                !okJoueur_Se_Couche &&
+                !okPosition_Bouton)
             {
                 MessageBox.Show("Injection refusée");
                 return;
@@ -3305,6 +3364,15 @@ namespace Poker
             if (okPlaces_Libres)
                 Sauver_Places_Libres_JSON();
 
+            if (okNiveau_Table)
+                Sauver_Niveau_Table_JSON();
+
+            if (okJoueur_Se_Couche)
+                Sauver_Joueur_Se_Couche_JSON();
+
+            if (okPosition_Bouton)
+                Sauver_Position_Bouton_JSON();
+
             // =====================================
             // RESULTAT
             // =====================================
@@ -3348,9 +3416,17 @@ namespace Poker
             if (okPlaces_Libres)
                 msg += "Places_Libres : 9 détecteurs\n";
 
+            if (okNiveau_Table)
+                msg += "Niveau_Table : 12 détecteurs\n";
+
+            if (okJoueur_Se_Couche)
+                msg += "Joueur_Se_Couche : 9 détecteurs\n";
+
+            if (okPosition_Bouton)
+                msg += "Position_Bouton : 9 détecteurs\n";
+
             MessageBox.Show(msg);
         }
-
 
         private bool EstDansRange(string main)
         {
@@ -3718,6 +3794,49 @@ namespace Poker
 
             PlacesLibresDetect = JsonConvert.DeserializeObject<S_PlacesLibresDetect[]>(json);
         }
+
+        // =========================================================
+        // 🔥 CHARGER NIVEAU TABLE JSON
+        // =========================================================
+        private void Charger_Niveau_Table_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            NiveauTableDetect = JsonConvert.DeserializeObject<S_NiveauTableDetect[]>(json);
+        }
+        // =========================================================
+        // 🔥 CHARGER JOUEUR SE COUCHE JSON
+        // =========================================================
+        private void Charger_Joueur_Se_Couche_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurSeCoucheDetect = JsonConvert.DeserializeObject<S_JoueurSeCoucheDetect[]>(json);
+        }
+        // =========================================================
+        // 🔥 CHARGER POSITION BOUTON JSON
+        // =========================================================
+        private void Charger_Position_Bouton_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PositionBoutonDetect = JsonConvert.DeserializeObject<S_PositionBoutonDetect[]>(json);
+        }
         #endregion
 
         #region SAUVER JSON
@@ -3841,6 +3960,7 @@ namespace Poker
             string json = JsonConvert.SerializeObject( PositionDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
         // =========================================================
         // 🔥 SAUVER PLACES LIBRES JSON
         // =========================================================
@@ -3849,6 +3969,39 @@ namespace Poker
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
             string json = JsonConvert.SerializeObject(PlacesLibresDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 SAUVER NIVEAU TABLE JSON
+        // =========================================================
+        private void Sauver_Niveau_Table_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
+            string json = JsonConvert.SerializeObject(NiveauTableDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 SAUVER JOUEUR SE COUCHE JSON
+        // =========================================================
+        private void Sauver_Joueur_Se_Couche_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
+            string json = JsonConvert.SerializeObject(JoueurSeCoucheDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 SAUVER POSITION BOUTON JSON
+        // =========================================================
+        private void Sauver_Position_Bouton_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
+            string json = JsonConvert.SerializeObject(PositionBoutonDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
         #endregion
@@ -4921,6 +5074,201 @@ namespace Poker
 
             return true;
         }
+
+        // =========================================================
+        // 🔥 EXTRAIRE NIVEAU TABLE
+        // =========================================================
+        private bool Extraire_Niveau_Table(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bNiveau_Table = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Niveau_Table")
+                {
+                    bNiveau_Table = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bNiveau_Table)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    NiveauTableDetect[index].Nom = nomCourant;
+                    NiveauTableDetect[index].X = int.Parse(t[1]);
+                    NiveauTableDetect[index].Y = int.Parse(t[2]);
+                    NiveauTableDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 12)
+                return false;
+
+            return true;
+        }
+
+        // =========================================================
+        // 🔥 EXTRAIRE JOUEUR SE COUCHE
+        // =========================================================
+        private bool Extraire_Joueur_Se_Couche(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_Se_Couche = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Se_Couche")
+                {
+                    bJoueur_Se_Couche = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_Se_Couche)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurSeCoucheDetect[index].Nom = nomCourant;
+                    JoueurSeCoucheDetect[index].X = int.Parse(t[1]);
+                    JoueurSeCoucheDetect[index].Y = int.Parse(t[2]);
+                    JoueurSeCoucheDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+
+        // =========================================================
+        // 🔥 EXTRAIRE POSITION BOUTON
+        // =========================================================
+        private bool Extraire_Position_Bouton(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPosition_Bouton = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Position_Bouton")
+                {
+                    bPosition_Bouton = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPosition_Bouton)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PositionBoutonDetect[index].Nom = nomCourant;
+                    PositionBoutonDetect[index].X = int.Parse(t[1]);
+                    PositionBoutonDetect[index].Y = int.Parse(t[2]);
+                    PositionBoutonDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
         #endregion
 
         #region LIRE
@@ -5303,7 +5651,7 @@ namespace Poker
         
         #endregion
 
-        #region BOUTONS TEST
+        #region BOUTONS TEST8BOARD TRIGGERS_BOARD TAPIS_PREFLOP  
 
         // =========================================================
         // RESET ETATS TRIGGER
@@ -5321,6 +5669,7 @@ namespace Poker
 
             bRiver_OK = false;
         }
+
         // =========================================================
         // 🔥 TEST_BOARD
         // =========================================================
@@ -5493,8 +5842,7 @@ namespace Poker
 
             bTriggersBoard = true;
 
-            Bt_Triggers_Board.Background =
-                Brushes.LightGreen;
+            Bt_Triggers_Board.Background = Brushes.LightGreen;
 
             bool bMain1_Lu = false;
             bool bMain2_Lu = false;
@@ -5553,6 +5901,12 @@ namespace Poker
                         {
                             Ajouter_Historique();
 
+                            Sauvegarder_Historique_TXT();
+
+                            Sauvegarder_Historique_RTF();
+
+                            Sauvegarder_Historique_JSON();
+
                             NbMains += 1;
                             LbNbParole.Content = NbMains.ToString();
                         }
@@ -5571,6 +5925,18 @@ namespace Poker
                         bRiver_Lu = false;
 
                         Reset_Table();
+
+                        // ==========================
+                        // Arrêt demandé
+                        // ==========================
+                        if (bArretDemande)
+                        {
+                            bArretDemande = false;
+
+                            bTriggersBoard = false;
+
+                            continue;
+                        }
 
                         continue;
                     }
@@ -6078,26 +6444,20 @@ namespace Poker
 
             bTriggersBoard = false;
 
-            if (bTriggersBoard_Actif)
-            {
-                // Ajouter la dernière main telle qu'elle est affichée
-                Ajouter_Historique();
-
-                Sauvegarder_Historique_TXT();
-
-                Sauvegarder_Historique_RTF();
-
-                Sauvegarder_Historique_JSON();
-            }
-
             Bt_Test_Board.Background = Brushes.White;
 
             Bt_Triggers_Board.Background = Brushes.White;
 
             Bt_Tapis_PreFlop.Background = Brushes.White;
         }
+
         #endregion
 
+        #region RESETS
+
+        // =========================================================
+        // RESETS
+        // =========================================================
         // =========================================================
         // RESET TABLE
         // =========================================================
@@ -6193,6 +6553,8 @@ namespace Poker
             Bt_River_Carre.Background = Blanc;
             Bt_River_QFlush.Background = Blanc;
         }
+
+        #endregion
         // =========================================================
         // 🔥 AJOUTER POINT
         // =========================================================
@@ -6218,15 +6580,13 @@ namespace Poker
         // =========================================================
         // AJOUTER CARTE
         // =========================================================
-        private void AjouterCarte(
-            Paragraph p,
-            TextBox tb,
-            string separateur)
+        private void AjouterCarte(Paragraph p, TextBox tb, string separateur)
         {
             Run r = new Run(tb.Text + separateur);
             r.Foreground = tb.Foreground;
             p.Inlines.Add(r);
         }
+
         // =========================================================
         // 🔥 AJOUTER UNE MAIN DANS LE RICHTEXTBOX
         // =========================================================
@@ -6269,6 +6629,7 @@ namespace Poker
             p.Inlines.Add(r);
             RTB_Historique.Document.Blocks.Add(p);
         }
+
         // =========================================================
         // 🔥 SAUVEGARDER HISTORIQUE TXT
         // =========================================================
@@ -6488,6 +6849,10 @@ namespace Poker
             // =====================================
             return c.ToArgb() & 0xFFFFFF;
         }
+
+        // =========================================================
+        // EFFACE BOARD
+        // =========================================================
         private void Efface_Board()
         {
             TB_F1.Clear();

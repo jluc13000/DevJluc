@@ -1,0 +1,74 @@
+[
+  {
+    "Nom": "Greenhorn",
+    "X": 452,
+    "Y": 804,
+    "Couleur": 12961735
+  },
+  {
+    "Nom": "Beginner",
+    "X": 467,
+    "Y": 808,
+    "Couleur": 15461869
+  },
+  {
+    "Nom": "Gambler",
+    "X": 452,
+    "Y": 804,
+    "Couleur": 9474449
+  },
+  {
+    "Nom": "Pro",
+    "X": 425,
+    "Y": 808,
+    "Couleur": 10066586
+  },
+  {
+    "Nom": "BigFish",
+    "X": 434,
+    "Y": 807,
+    "Couleur": 3618615
+  },
+  {
+    "Nom": "Master",
+    "X": 419,
+    "Y": 806,
+    "Couleur": 11842997
+  },
+  {
+    "Nom": "Champion",
+    "X": 460,
+    "Y": 804,
+    "Couleur": 11448239
+  },
+  {
+    "Nom": "Guru",
+    "X": 431,
+    "Y": 809,
+    "Couleur": 4473924
+  },
+  {
+    "Nom": "Ultimate",
+    "X": 418,
+    "Y": 804,
+    "Couleur": 14474974
+  },
+  {
+    "Nom": "Epic",
+    "X": 428,
+    "Y": 807,
+    "Couleur": 13290443
+  },
+  {
+    "Nom": "Insane",
+    "X": 422,
+    "Y": 810,
+    "Couleur": 13027271
+  },
+  {
+    "Nom": "Legendary",
+    "X": 477,
+    "Y": 815,
+    "Couleur": 10395551
+  }
+]
