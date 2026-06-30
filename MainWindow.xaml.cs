@@ -140,13 +140,18 @@ namespace Poker
 
         // =====================================================
         // TABLEAU DETECTION JOUEUR SE COUCHE
-        // =====================
+        // =====================================================
         private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
 
         // =====================================================
         // TABLEAU DETECTION POSITION BOUTON
         // =====================
         private S_PositionBoutonDetect[] PositionBoutonDetect = new S_PositionBoutonDetect[9];
+
+        // =====================================================
+        // PREMIERE FUSION HISTORIQUE
+        // =====================================================
+        private bool bPremiereFusionHistorique = true;
 
         private bool bPremiereMain = true;
 
@@ -2045,27 +2050,14 @@ namespace Poker
             if (c.Contains("♠")) return Brushes.Black;
             return Brushes.Black;
         }
+        // =========================================================
+        // FERMER
+        // =========================================================
         private void Fermer_Click(object sender, RoutedEventArgs e)
         {
-            if (!bTriggersBoard_Actif &&
-                !bTapisPreFlop_Actif)
-            {
-                this.Close();
+            StopTousModes();
 
-                return;
-            }
-
-            MessageBoxResult rep =
-                MessageBox.Show(
-                    "Une session est active.\nQuitter sans sauvegarder ?",
-                    "Confirmation",
-                    MessageBoxButton.YesNo,
-                    MessageBoxImage.Question);
-
-            if (rep == MessageBoxResult.Yes)
-            {
-                this.Close();
-            }
+            Close();
         }
 
         private string CarteDepuisNumero(int n)
@@ -5851,14 +5843,15 @@ namespace Poker
             bool bFlop3_Lu = false;
             bool bTurn_Lu = false;
             bool bRiver_Lu = false;
-            bool bPremierHistorique = true;
             bool bGris = false;
 
             // =====================================
-            // Nouvelle session
+            // Historique
             // =====================================
 
-            RTB_Historique.Document.Blocks.Clear();
+            // On conserve le contenu actuel du RTB.
+            // Une nouvelle session est créée uniquement
+            // par Vider_Historiques().
 
             try
             {
@@ -5888,28 +5881,25 @@ namespace Poker
                     {
                         bGris = false;
 
-                        // ==========================
-                        // HISTORIQUE
-                        // ==========================
-                        if (bPremierHistorique)
-                        {
-                            RTB_Historique.Document = new FlowDocument();
+                        Ajouter_Historique();
 
-                            bPremierHistorique = false;
+                        if (bPremiereFusionHistorique)
+                        {
+                            Fusion_Historique();
+
+                            bPremiereFusionHistorique = false;
                         }
                         else
                         {
-                            Ajouter_Historique();
-
                             Sauvegarder_Historique_TXT();
 
                             Sauvegarder_Historique_RTF();
 
                             Sauvegarder_Historique_JSON();
-
-                            NbMains += 1;
-                            LbNbParole.Content = NbMains.ToString();
                         }
+
+                        NbMains++;
+                        LbNbParole.Content = NbMains.ToString();
 
                         // ==========================
                         // REMISE A ZERO
@@ -5923,6 +5913,12 @@ namespace Poker
 
                         bTurn_Lu = false;
                         bRiver_Lu = false;
+
+                        // ==========================
+                        // MAIN
+                        // ==========================
+                        TB_M1.Clear();
+                        TB_M2.Clear();
 
                         Reset_Table();
 
@@ -6127,7 +6123,6 @@ namespace Poker
             bool bFlop3_Lu = false;
             bool bTurn_Lu = false;
             bool bRiver_Lu = false;
-            bool bPremierHistorique = true;
             bool bGris = false;
 
             // =====================================
@@ -6167,19 +6162,27 @@ namespace Poker
                         // ==========================
                         // HISTORIQUE
                         // ==========================
-                        if (bPremierHistorique)
-                        {
-                            RTB_Historique.Document = new FlowDocument();
 
-                            bPremierHistorique = false;
-                        }
-                        else
-                        {
-                            Ajouter_Historique();
+                        Ajouter_Historique();
 
-                            NbMains += 1;
-                            LbNbParole.Content = NbMains.ToString();
+                        Sauvegarder_Historique_TXT();
+
+                        try
+                        {
+                            Sauvegarder_Historique_RTF();
                         }
+                        catch (Exception ex)
+                        {
+                            MessageBox.Show(
+                                ex.ToString(),
+                                "Erreur Sauvegarder_Historique_RTF");
+                        }
+
+                        Sauvegarder_Historique_JSON();
+
+                        NbMains += 1;
+
+                        LbNbParole.Content = NbMains.ToString();
 
                         // ==========================
                         // REMISE A ZERO
@@ -6344,6 +6347,11 @@ namespace Poker
 
                 Bt_Tapis_PreFlop.Background = Brushes.White;
             }
+        }
+
+        private void Fusion_Historique()
+        {
+            MessageBox.Show("Fusion Historique");
         }
 
         // =========================================================
@@ -6560,7 +6568,7 @@ namespace Poker
         // =========================================================
         private string Ajouter_Point(string nom)
         {
-            if (nom.StartsWith("."))
+            if (nom.EndsWith("."))
                 return nom;
 
             return nom + ".";
@@ -6571,12 +6579,9 @@ namespace Poker
         // =========================================================
         private string Enlever_Point(string nom)
         {
-            if (nom.StartsWith("."))
-                return nom.Substring(1);
-
-            return nom;
+            return nom.TrimEnd('.');
         }
-        
+
         // =========================================================
         // AJOUTER CARTE
         // =========================================================
@@ -6651,48 +6656,16 @@ namespace Poker
         // =========================================================
         private void Sauvegarder_Historique_RTF()
         {
-            FlowDocument doc;
+            FlowDocument doc = new FlowDocument();
 
-            // =====================================
-            // Charger l'ancien RTF
-            // =====================================
-
-            doc = new FlowDocument();
-
-            if (File.Exists(FichierHistoriqueRTF))
-            {
-                FileInfo fi = new FileInfo(FichierHistoriqueRTF);
-
-                if (fi.Length > 0)
-                {
-                    TextRange tr = new TextRange(doc.ContentStart, doc.ContentEnd);
-
-                    using (FileStream fs = new FileStream(FichierHistoriqueRTF, FileMode.Open, FileAccess.Read))
-                    {
-                        tr.Load( fs, DataFormats.Rtf);
-                    }
-                }
-            }
-            else
-            {
-                doc = new FlowDocument();
-            }
-
-            // =====================================
-            // Ajouter les Paragraph du RTB
-            // =====================================
-
+            // Copier le contenu actuel du RTB
             foreach (Block b in RTB_Historique.Document.Blocks)
             {
                 Block copie = (Block)XamlReader.Parse(XamlWriter.Save(b));
-
                 doc.Blocks.Add(copie);
             }
 
-            // =====================================
             // Enlever les points
-            // =====================================
-
             foreach (Block b in doc.Blocks)
             {
                 if (b is Paragraph p)
@@ -6707,14 +6680,11 @@ namespace Poker
                 }
             }
 
-            // =====================================
-            // Sauvegarder le RTF
-            // =====================================
-            TextRange trRTF = new TextRange(doc.ContentStart, doc.ContentEnd);
+            TextRange tr = new TextRange(doc.ContentStart, doc.ContentEnd);
 
-            using (FileStream fs = new FileStream( FichierHistoriqueRTF, FileMode.Create))
+            using (FileStream fs = new FileStream(FichierHistoriqueRTF, FileMode.Create))
             {
-                trRTF.Save( fs, DataFormats. Rtf);
+                tr.Save(fs, DataFormats.Rtf);
             }
         }
 
@@ -6723,45 +6693,32 @@ namespace Poker
         // =========================================================
         private void Sauvegarder_Historique_JSON()
         {
-            List<MainHistorique> liste;
-
             // =====================================
-            // Charger l'ancien JSON
+            // Nouvelle liste
             // =====================================
 
-            if (File.Exists(FichierHistoriqueJSON))
-            {
-                string ancienJson = File.ReadAllText(FichierHistoriqueJSON);
-
-                if (ancienJson.Trim() != "")
-                {
-                    liste =
-                        System.Text.Json.JsonSerializer.Deserialize<
-                            List<MainHistorique>>(ancienJson);
-
-                    if (liste == null)
-                    {
-                        liste = new List<MainHistorique>();
-                    }
-                }
-                else
-                {
-                    liste = new List<MainHistorique>();
-                }
-            }
-            else
-            {
-                liste = new List<MainHistorique>();
-            }
+            List<MainHistorique> liste =
+                new List<MainHistorique>();
 
             // =====================================
-            // Ajouter les nouvelles mains
+            // Lire le TXT complet
             // =====================================
+
+            if (!File.Exists(FichierHistoriqueTXT))
+                return;
+
             string[] lignes = File.ReadAllLines(FichierHistoriqueTXT);
+
+            // =====================================
+            // Convertir chaque ligne en MainHistorique
+            // =====================================
 
             foreach (string ligne in lignes)
             {
-                string[] cartes = ligne.Split(new char[] { ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                string[] cartes =
+                    ligne.Split(
+                        new char[] { ' ' },
+                        StringSplitOptions.RemoveEmptyEntries);
 
                 MainHistorique h = new MainHistorique();
 
@@ -6792,12 +6749,17 @@ namespace Poker
             // =====================================
             // Sauvegarder le JSON complet
             // =====================================
-            string json = System.Text.Json.JsonSerializer.Serialize( liste, new JsonSerializerOptions
+
+            string json =
+                System.Text.Json.JsonSerializer.Serialize(
+                    liste,
+                    new JsonSerializerOptions
                     {
                         WriteIndented = true,
-                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping});
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                    });
 
-            File.WriteAllText( FichierHistoriqueJSON, json);
+            File.WriteAllText(FichierHistoriqueJSON, json);
         }
 
         // =========================================================
@@ -6821,6 +6783,7 @@ namespace Poker
         // =========================================================
         private void Vider_Historiques()
         {
+            File.WriteAllText(FichierHistoriqueTXT, "");
             File.WriteAllText(FichierHistoriqueRTF, "");
             File.WriteAllText(FichierHistoriqueJSON, "");
 
