@@ -221,6 +221,10 @@ namespace Poker
         private int Sig_M2_Y = 1;
         private int Sig_M2_C = 0;
 
+        // =========================================================
+        // AUTORISATION D'ECRITURE DANS L'HISTORIQUE
+        // =========================================================
+        private bool bAutoriserHistorique = true;
 
         private const string DOSSIER_JSON = @"F:\source\repos\Poker\JSON";
         private static readonly string FichierHistoriqueJSON = Path.Combine(DOSSIER_JSON, "Historique.json");
@@ -5812,27 +5816,24 @@ namespace Poker
         // =========================================================
         private async void Bt_Triggers_Board_Click(object sender, RoutedEventArgs e)
         {
-            // =====================================
-            // STOP
-            // =====================================
-            if (bTriggersBoard)
+            //Vider_Historiques();
+            if (bTriggersBoard_Actif)
             {
                 StopTousModes();
 
                 return;
             }
 
-            // =====================================
-            // START
-            // =====================================
-
             StopTousModes();
-
             Reset_Table();
-
             await Task.Delay(50);
 
-            bTriggersBoard = true;
+            bTriggersBoard_Actif = true;
+
+            // =====================================
+            // Autoriser l'écriture dans l'historique
+            // =====================================
+            bAutoriserHistorique = true;
 
             Bt_Triggers_Board.Background = Brushes.LightGreen;
 
@@ -5844,246 +5845,201 @@ namespace Poker
             bool bTurn_Lu = false;
             bool bRiver_Lu = false;
             bool bGris = false;
-
             // =====================================
-            // Historique
+            // Nouvelle session
             // =====================================
 
-            // On conserve le contenu actuel du RTB.
-            // Une nouvelle session est créée uniquement
-            // par Vider_Historiques().
+            RTB_Historique.Document.Blocks.Clear();
 
-            try
+            while (bTriggersBoard_Actif)
             {
-                bTriggersBoard_Actif = true;
-
-                while (bTriggersBoard)
+                if (JeuEnPause)
                 {
-                    if (JeuEnPause)
-                    {
-                        await Task.Delay(100);
-                        continue;
-                    }
+                    await Task.Delay(100);
+                    continue;
+                }
 
-                    await Task.Delay(1);
+                await Task.Delay(1);
 
-                    CaptureEcran_Ecran1();
+                CaptureEcran_Ecran1();
 
-                    if (LirePixel(1126, 989) == 8421504)
-                    {
-                        bGris = true;
-                    }
+                if (LirePixel(1126, 989) == 8421504)
+                {
+                    bGris = true;
+                }
+
+                // ==========================
+                // RETOUR DEBUT
+                // ==========================
+                if (bGris && LirePixel(1126, 989) == 16646141)
+                {
+                    bGris = false;
 
                     // ==========================
-                    // RETOUR DEBUT
+                    // HISTORIQUE
                     // ==========================
-                    if (bGris && LirePixel(1126, 989) == 16646141)
+                    if (bAutoriserHistorique && TB_M1.Text != "")
                     {
-                        bGris = false;
-
                         Ajouter_Historique();
 
-                        if (bPremiereFusionHistorique)
-                        {
-                            Fusion_Historique();
-
-                            bPremiereFusionHistorique = false;
-                        }
-                        else
-                        {
-                            Sauvegarder_Historique_TXT();
-
-                            Sauvegarder_Historique_RTF();
-
-                            Sauvegarder_Historique_JSON();
-                        }
-
-                        NbMains++;
+                        NbMains += 1;
                         LbNbParole.Content = NbMains.ToString();
+                    }
 
-                        // ==========================
-                        // REMISE A ZERO
-                        // ==========================
-                        bMain1_Lu = false;
-                        bMain2_Lu = false;
+                    // ==========================
+                    // REMISE A ZERO
+                    // ==========================
+                    bMain1_Lu = false;
+                    bMain2_Lu = false;
 
-                        bFlop1_Lu = false;
-                        bFlop2_Lu = false;
-                        bFlop3_Lu = false;
+                    bFlop1_Lu = false;
+                    bFlop2_Lu = false;
+                    bFlop3_Lu = false;
 
-                        bTurn_Lu = false;
-                        bRiver_Lu = false;
+                    bTurn_Lu = false;
+                    bRiver_Lu = false;
 
-                        // ==========================
-                        // MAIN
-                        // ==========================
-                        TB_M1.Clear();
-                        TB_M2.Clear();
+                    Reset_Table();
 
-                        Reset_Table();
+                    continue;
+                }
 
-                        // ==========================
-                        // Arrêt demandé
-                        // ==========================
-                        if (bArretDemande)
-                        {
-                            bArretDemande = false;
+                // ==========================
+                // MAIN 1
+                // ==========================
+                if (!bMain1_Lu &&
+                    Detecter_Presence("Main_1_Presence"))
+                {
+                    TB_M1.Clear();
+                    TB_M2.Clear();
 
-                            bTriggersBoard = false;
+                    Reset_PreFlop();
 
-                            continue;
-                        }
+                    Lire_Main_1();
+
+                    bMain1_Lu = true;
+
+                    continue;
+                }
+
+                // ==========================
+                // MAIN 2
+                // ==========================
+                if (bMain1_Lu &&
+                    !bMain2_Lu &&
+                    Detecter_Presence("Main_2_Presence"))
+                {
+                    Lire_Main_2();
+
+                    bMain2_Lu = true;
+
+                    Calcul_PreFlop();
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 1
+                // ==========================
+                if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
+                {
+                    Lire_Flop_1();
+
+                    bFlop1_Lu = true;
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 2
+                // ==========================
+                if (bFlop1_Lu && !bFlop2_Lu &&
+                    Detecter_Presence("Flop_2_Presence"))
+                {
+                    Lire_Flop_2();
+
+                    bFlop2_Lu = true;
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 3
+                // ==========================
+                if (bFlop2_Lu && !bFlop3_Lu &&
+                    Detecter_Presence("Flop_3_Presence"))
+                {
+                    Lire_Flop_3();
+
+                    bFlop3_Lu = true;
+
+                    Calcul_Flop();
+                    Calcul_Tirages_Flop();
+
+                    continue;
+                }
+                // ==========================
+                // TURN
+                // ==========================
+                if (bFlop3_Lu && !bTurn_Lu)
+                {
+                    // ----- Turn normal -----
+                    if (Detecter_Presence("Turn_Presence"))
+                    {
+                        Lire_Turn();
+
+                        bTurn_Lu = true;
+
+                        Calcul_Turn();
+                        Calcul_Tirages_Turn();
 
                         continue;
                     }
 
-                    // ==========================
-                    // MAIN 1
-                    // ==========================
-                    if (!bMain1_Lu &&
-                        Detecter_Presence("Main_1_Presence"))
+                    // ----- Turn HB -----
+                    if (Detecter_Presence("Turn_HB_Presence"))
                     {
-                        TB_M1.Clear();
-                        TB_M2.Clear();
+                        Lire_Turn_HB();
 
-                        Reset_PreFlop();
+                        bTurn_Lu = true;
 
-                        Lire_Main_1();
+                        Calcul_Turn();
+                        Calcul_Tirages_Turn();
 
-                        bMain1_Lu = true;
+                        continue;
+                    }
+                }
+                // ==========================
+                // RIVER
+                // ==========================
+                if (bTurn_Lu && !bRiver_Lu)
+                {
+                    // ----- River normale -----
+                    if (Detecter_Presence("River_Presence"))
+                    {
+                        Lire_River();
+
+                        bRiver_Lu = true;
+
+                        Calcul_River();
 
                         continue;
                     }
 
-                    // ==========================
-                    // MAIN 2
-                    // ==========================
-                    if (bMain1_Lu &&
-                        !bMain2_Lu &&
-                        Detecter_Presence("Main_2_Presence"))
+                    // ----- River HB -----
+                    if (Detecter_Presence("River_HB_Presence"))
                     {
-                        Lire_Main_2();
+                        Lire_River_HB();
 
-                        bMain2_Lu = true;
+                        bRiver_Lu = true;
 
-                        Calcul_PreFlop();
+                        Calcul_River();
 
                         continue;
-                    }
-                    // ==========================
-                    // FLOP 1
-                    // ==========================
-                    if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
-                    {
-                        Lire_Flop_1();
-
-                        bFlop1_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 2
-                    // ==========================
-                    if (bFlop1_Lu && !bFlop2_Lu &&
-                        Detecter_Presence("Flop_2_Presence"))
-                    {
-                        Lire_Flop_2();
-
-                        bFlop2_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 3
-                    // ==========================
-                    if (bFlop2_Lu && !bFlop3_Lu &&
-                        Detecter_Presence("Flop_3_Presence"))
-                    {
-                        Lire_Flop_3();
-
-                        bFlop3_Lu = true;
-
-                        Calcul_Flop();
-                        Calcul_Tirages_Flop();
-
-                        continue;
-                    }
-                    // ==========================
-                    // TURN
-                    // ==========================
-                    if (bFlop3_Lu && !bTurn_Lu)
-                    {
-                        // ----- Turn normal -----
-                        if (Detecter_Presence("Turn_Presence"))
-                        {
-                            Lire_Turn();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-
-                        // ----- Turn HB -----
-                        if (Detecter_Presence("Turn_HB_Presence"))
-                        {
-                            Lire_Turn_HB();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-                    }
-                    // ==========================
-                    // RIVER
-                    // ==========================
-                    if (bTurn_Lu && !bRiver_Lu)
-                    {
-                        // ----- River normale -----
-                        if (Detecter_Presence("River_Presence"))
-                        {
-                            Lire_River();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
-
-                        // ----- River HB -----
-                        if (Detecter_Presence("River_HB_Presence"))
-                        {
-                            Lire_River_HB();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                bTriggersBoard_Actif = false;
 
-                bTriggersBoard = false;
-
-                Bt_Triggers_Board.Background =
-                    Brushes.White;
-            }
+            Bt_Triggers_Board.Background = Brushes.White;
         }
+
 
         // =========================================================
         // TAPIS PREFLOP
@@ -6197,6 +6153,9 @@ namespace Poker
                         bTurn_Lu = false;
                         bRiver_Lu = false;
 
+                        TB_M1.Clear();
+
+                        TB_M2.Clear();
                         Reset_Table();
 
                         continue;
@@ -6376,6 +6335,10 @@ namespace Poker
         // =========================================================
         private void Ajouter_Historique()
         {
+
+            if (!bAutoriserHistorique || TB_M1.Text == "")
+                return;
+
             Paragraph p = new Paragraph();
 
             p.Margin = new Thickness(0);
@@ -6385,10 +6348,7 @@ namespace Poker
             // Longueur Main
             // =====================================
 
-            int lgMain =
-                TB_M1.Text.Length +
-                1 +
-                TB_M2.Text.Length;
+            int lgMain = TB_M1.Text.Length + 1 + TB_M2.Text.Length;
 
             int nbEspacesMainFlop = 9 - lgMain;
 
@@ -6436,7 +6396,11 @@ namespace Poker
             AjouterCarte(p, TB_T, " ");
             AjouterCarte(p, TB_R, "");
 
+            //MessageBox.Show("Autorise = " + bAutoriserHistorique + "\nM1 = " + TB_M1.Text + "\nBlocks avant = " + RTB_Historique.Document.Blocks.Count);
+
             RTB_Historique.Document.Blocks.Add(p);
+
+            //MessageBox.Show("Blocks après = " + RTB_Historique.Document.Blocks.Count);
 
             RTB_Historique.ScrollToEnd();
         }
@@ -6446,11 +6410,36 @@ namespace Poker
         // =========================================================
         private void StopTousModes()
         {
+            // =====================================
+            // Arrêt de tous les modes
+            // =====================================
+            // Ne plus autoriser l'ajout de nouvelles mains
+            bAutoriserHistorique = false;
+
             bTestBoard = false;
 
             bTapisPreFlop = false;
 
-            bTriggersBoard = false;
+            if (bTriggersBoard_Actif)
+            {
+                bTriggersBoard_Actif = false;
+
+                // =====================================
+                // Ajouter la dernière main affichée
+                // =====================================
+
+                Ajouter_Historique();
+
+                Sauvegarder_Historique_TXT();
+
+                Sauvegarder_Historique_RTF();
+
+                Sauvegarder_Historique_JSON();
+            }
+
+            // =====================================
+            // Remise à zéro des boutons
+            // =====================================
 
             Bt_Test_Board.Background = Brushes.White;
 
@@ -6650,7 +6639,6 @@ namespace Poker
 
             File.WriteAllText(FichierHistoriqueTXT, texte);
         }
-
         // =========================================================
         // 🔥 SAUVEGARDER HISTORIQUE RTF
         // =========================================================
@@ -6658,34 +6646,96 @@ namespace Poker
         {
             FlowDocument doc = new FlowDocument();
 
-            // Copier le contenu actuel du RTB
-            foreach (Block b in RTB_Historique.Document.Blocks)
-            {
-                Block copie = (Block)XamlReader.Parse(XamlWriter.Save(b));
-                doc.Blocks.Add(copie);
-            }
+            // =====================================
+            // Charger l'ancien RTF
+            // =====================================
 
-            // Enlever les points
-            foreach (Block b in doc.Blocks)
+            if (File.Exists(FichierHistoriqueRTF))
             {
-                if (b is Paragraph p)
+                FileInfo fi = new FileInfo(FichierHistoriqueRTF);
+
+                if (fi.Length > 0)
                 {
-                    foreach (Inline i in p.Inlines)
+                    TextRange tr =
+                        new TextRange(
+                            doc.ContentStart,
+                            doc.ContentEnd);
+
+                    using (FileStream fs = new FileStream(
+                        FichierHistoriqueRTF,
+                        FileMode.Open,
+                        FileAccess.Read))
                     {
-                        if (i is Run r)
-                        {
-                            r.Text = r.Text.Replace(".", "");
-                        }
+                        tr.Load(
+                            fs,
+                            DataFormats.Rtf);
                     }
                 }
             }
 
-            TextRange tr = new TextRange(doc.ContentStart, doc.ContentEnd);
+            // =====================================
+            // Ajouter les Paragraph du RTB
+            // =====================================
 
-            using (FileStream fs = new FileStream(FichierHistoriqueRTF, FileMode.Create))
+            foreach (Block b in RTB_Historique.Document.Blocks)
             {
-                tr.Save(fs, DataFormats.Rtf);
+                if (b is Paragraph pSource)
+                {
+                    Paragraph p = new Paragraph();
+
+                    p.Margin = pSource.Margin;
+                    p.LineHeight = pSource.LineHeight;
+                    p.TextAlignment = pSource.TextAlignment;
+
+                    foreach (Inline inline in pSource.Inlines)
+                    {
+                        if (inline is Run r)
+                        {
+                            Run nouveau = new Run();
+
+                            foreach (char c in r.Text)
+                            {
+                                if (c != '.')
+                                    nouveau.Text += c;
+                            }
+
+                            nouveau.Foreground = r.Foreground;
+                            nouveau.FontFamily = r.FontFamily;
+                            nouveau.FontSize = r.FontSize;
+                            nouveau.FontWeight = r.FontWeight;
+                            nouveau.FontStyle = r.FontStyle;
+
+                            p.Inlines.Add(nouveau);
+                        }
+                    }
+
+                    doc.Blocks.Add(p);
+                }
             }
+
+            // =====================================
+            // Sauvegarder
+            // =====================================
+
+            TextRange trRTF =
+                new TextRange(
+                    doc.ContentStart,
+                    doc.ContentEnd);
+
+            using (FileStream fs = new FileStream(
+                FichierHistoriqueRTF,
+                FileMode.Create))
+            {
+                trRTF.Save(
+                    fs,
+                    DataFormats.Rtf);
+            }
+
+            // =====================================
+            // Vider le RTB
+            // =====================================
+
+            RTB_Historique.Document.Blocks.Clear();
         }
 
         // =========================================================
@@ -6693,25 +6743,50 @@ namespace Poker
         // =========================================================
         private void Sauvegarder_Historique_JSON()
         {
-            // =====================================
-            // Nouvelle liste
-            // =====================================
-
-            List<MainHistorique> liste =
-                new List<MainHistorique>();
+            List<MainHistorique> liste;
 
             // =====================================
-            // Lire le TXT complet
+            // Charger l'ancien JSON
             // =====================================
 
-            if (!File.Exists(FichierHistoriqueTXT))
-                return;
+            if (File.Exists(FichierHistoriqueJSON))
+            {
+                string ancienJson =
+                    File.ReadAllText(
+                        FichierHistoriqueJSON);
 
-            string[] lignes = File.ReadAllLines(FichierHistoriqueTXT);
+                if (ancienJson.Trim() != "")
+                {
+                    liste =
+                        System.Text.Json.JsonSerializer.Deserialize<
+                            List<MainHistorique>>(
+                                ancienJson);
+
+                    if (liste == null)
+                    {
+                        liste =
+                            new List<MainHistorique>();
+                    }
+                }
+                else
+                {
+                    liste =
+                        new List<MainHistorique>();
+                }
+            }
+            else
+            {
+                liste =
+                    new List<MainHistorique>();
+            }
 
             // =====================================
-            // Convertir chaque ligne en MainHistorique
+            // Ajouter les nouvelles mains
             // =====================================
+
+            string[] lignes =
+                File.ReadAllLines(
+                    FichierHistoriqueTXT);
 
             foreach (string ligne in lignes)
             {
@@ -6720,7 +6795,8 @@ namespace Poker
                         new char[] { ' ' },
                         StringSplitOptions.RemoveEmptyEntries);
 
-                MainHistorique h = new MainHistorique();
+                MainHistorique h =
+                    new MainHistorique();
 
                 if (cartes.Length > 0)
                     h.M1 = cartes[0];
@@ -6756,10 +6832,15 @@ namespace Poker
                     new JsonSerializerOptions
                     {
                         WriteIndented = true,
-                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                        Encoder =
+                            System.Text.Encodings.Web
+                            .JavaScriptEncoder
+                            .UnsafeRelaxedJsonEscaping
                     });
 
-            File.WriteAllText(FichierHistoriqueJSON, json);
+            File.WriteAllText(
+                FichierHistoriqueJSON,
+                json);
         }
 
         // =========================================================
