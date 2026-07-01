@@ -6046,29 +6046,24 @@ namespace Poker
         // =========================================================
         private async void Bt_Tapis_PreFlop_Click( object sender, RoutedEventArgs e)
         {
-
-            // =====================================
-            // STOP
-            // =====================================
-
-            if (bTapisPreFlop)
+            //Vider_Historiques();
+            if (bTapisPreFlop_Actif)
             {
                 StopTousModes();
 
                 return;
             }
 
-            // =====================================
-            // START
-            // =====================================
-
             StopTousModes();
-
             Reset_Table();
-
             await Task.Delay(50);
 
-            bTapisPreFlop = true;
+            bTapisPreFlop_Actif = true;
+
+            // =====================================
+            // Autoriser l'écriture dans l'historique
+            // =====================================
+            bAutoriserHistorique = true;
 
             Bt_Tapis_PreFlop.Background = Brushes.LightGreen;
 
@@ -6080,232 +6075,199 @@ namespace Poker
             bool bTurn_Lu = false;
             bool bRiver_Lu = false;
             bool bGris = false;
-
             // =====================================
             // Nouvelle session
             // =====================================
 
             RTB_Historique.Document.Blocks.Clear();
 
-            try
+            while (bTapisPreFlop_Actif)
             {
-                bTapisPreFlop_Actif = true;
-
-                while (bTapisPreFlop)
+                if (JeuEnPause)
                 {
-                    if (JeuEnPause)
-                    {
-                        await Task.Delay(100);
-                        continue;
-                    }
+                    await Task.Delay(100);
+                    continue;
+                }
 
-                    await Task.Delay(1);
+                await Task.Delay(1);
 
-                    CaptureEcran_Ecran1();
+                CaptureEcran_Ecran1();
 
-                    if (LirePixel(1126, 989) == 8421504)
-                    {
-                        bGris = true;
-                    }
+                if (LirePixel(1126, 989) == 8421504)
+                {
+                    bGris = true;
+                }
+
+                // ==========================
+                // RETOUR DEBUT
+                // ==========================
+                if (bGris && LirePixel(1126, 989) == 16646141)
+                {
+                    bGris = false;
 
                     // ==========================
-                    // RETOUR DEBUT
+                    // HISTORIQUE
                     // ==========================
-                    if (bGris && LirePixel(1126, 989) == 16646141)
+                    if (bAutoriserHistorique && TB_M1.Text != "")
                     {
-                        bGris = false;
-
-                        // ==========================
-                        // HISTORIQUE
-                        // ==========================
-
                         Ajouter_Historique();
 
-                        Sauvegarder_Historique_TXT();
-
-                        try
-                        {
-                            Sauvegarder_Historique_RTF();
-                        }
-                        catch (Exception ex)
-                        {
-                            MessageBox.Show(
-                                ex.ToString(),
-                                "Erreur Sauvegarder_Historique_RTF");
-                        }
-
-                        Sauvegarder_Historique_JSON();
-
                         NbMains += 1;
-
                         LbNbParole.Content = NbMains.ToString();
+                    }
 
-                        // ==========================
-                        // REMISE A ZERO
-                        // ==========================
-                        bMain1_Lu = false;
-                        bMain2_Lu = false;
+                    // ==========================
+                    // REMISE A ZERO
+                    // ==========================
+                    bMain1_Lu = false;
+                    bMain2_Lu = false;
 
-                        bFlop1_Lu = false;
-                        bFlop2_Lu = false;
-                        bFlop3_Lu = false;
+                    bFlop1_Lu = false;
+                    bFlop2_Lu = false;
+                    bFlop3_Lu = false;
 
-                        bTurn_Lu = false;
-                        bRiver_Lu = false;
+                    bTurn_Lu = false;
+                    bRiver_Lu = false;
 
-                        TB_M1.Clear();
+                    Reset_Table();
 
-                        TB_M2.Clear();
-                        Reset_Table();
+                    continue;
+                }
+
+                // ==========================
+                // MAIN 1
+                // ==========================
+                if (!bMain1_Lu &&
+                    Detecter_Presence("Main_1_Presence"))
+                {
+                    TB_M1.Clear();
+                    TB_M2.Clear();
+
+                    Reset_PreFlop();
+
+                    Lire_Main_1();
+
+                    bMain1_Lu = true;
+
+                    continue;
+                }
+
+                // ==========================
+                // MAIN 2
+                // ==========================
+                if (bMain1_Lu &&
+                    !bMain2_Lu &&
+                    Detecter_Presence("Main_2_Presence"))
+                {
+                    Lire_Main_2();
+
+                    bMain2_Lu = true;
+
+                    Calcul_PreFlop();
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 1
+                // ==========================
+                if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
+                {
+                    Lire_Flop_1();
+
+                    bFlop1_Lu = true;
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 2
+                // ==========================
+                if (bFlop1_Lu && !bFlop2_Lu &&
+                    Detecter_Presence("Flop_2_Presence"))
+                {
+                    Lire_Flop_2();
+
+                    bFlop2_Lu = true;
+
+                    continue;
+                }
+                // ==========================
+                // FLOP 3
+                // ==========================
+                if (bFlop2_Lu && !bFlop3_Lu &&
+                    Detecter_Presence("Flop_3_Presence"))
+                {
+                    Lire_Flop_3();
+
+                    bFlop3_Lu = true;
+
+                    Calcul_Flop();
+                    Calcul_Tirages_Flop();
+
+                    continue;
+                }
+                // ==========================
+                // TURN
+                // ==========================
+                if (bFlop3_Lu && !bTurn_Lu)
+                {
+                    // ----- Turn normal -----
+                    if (Detecter_Presence("Turn_Presence"))
+                    {
+                        Lire_Turn();
+
+                        bTurn_Lu = true;
+
+                        Calcul_Turn();
+                        Calcul_Tirages_Turn();
 
                         continue;
                     }
 
-                    // ==========================
-                    // MAIN 1
-                    // ==========================
-                    if (!bMain1_Lu &&
-                        Detecter_Presence("Main_1_Presence"))
+                    // ----- Turn HB -----
+                    if (Detecter_Presence("Turn_HB_Presence"))
                     {
-                        TB_M1.Clear();
-                        TB_M2.Clear();
+                        Lire_Turn_HB();
 
-                        Reset_PreFlop();
+                        bTurn_Lu = true;
 
-                        Lire_Main_1();
+                        Calcul_Turn();
+                        Calcul_Tirages_Turn();
 
-                        bMain1_Lu = true;
+                        continue;
+                    }
+                }
+                // ==========================
+                // RIVER
+                // ==========================
+                if (bTurn_Lu && !bRiver_Lu)
+                {
+                    // ----- River normale -----
+                    if (Detecter_Presence("River_Presence"))
+                    {
+                        Lire_River();
+
+                        bRiver_Lu = true;
+
+                        Calcul_River();
 
                         continue;
                     }
 
-                    // ==========================
-                    // MAIN 2
-                    // ==========================
-                    if (bMain1_Lu &&
-                        !bMain2_Lu &&
-                        Detecter_Presence("Main_2_Presence"))
+                    // ----- River HB -----
+                    if (Detecter_Presence("River_HB_Presence"))
                     {
-                        Lire_Main_2();
+                        Lire_River_HB();
 
-                        bMain2_Lu = true;
+                        bRiver_Lu = true;
 
-                        Calcul_PreFlop();
+                        Calcul_River();
 
                         continue;
-                    }
-                    // ==========================
-                    // FLOP 1
-                    // ==========================
-                    if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
-                    {
-                        Lire_Flop_1();
-
-                        bFlop1_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 2
-                    // ==========================
-                    if (bFlop1_Lu && !bFlop2_Lu &&
-                        Detecter_Presence("Flop_2_Presence"))
-                    {
-                        Lire_Flop_2();
-
-                        bFlop2_Lu = true;
-
-                        continue;
-                    }
-                    // ==========================
-                    // FLOP 3
-                    // ==========================
-                    if (bFlop2_Lu && !bFlop3_Lu &&
-                        Detecter_Presence("Flop_3_Presence"))
-                    {
-                        Lire_Flop_3();
-
-                        bFlop3_Lu = true;
-
-                        Calcul_Flop();
-                        Calcul_Tirages_Flop();
-
-                        continue;
-                    }
-                    // ==========================
-                    // TURN
-                    // ==========================
-                    if (bFlop3_Lu && !bTurn_Lu)
-                    {
-                        // ----- Turn normal -----
-                        if (Detecter_Presence("Turn_Presence"))
-                        {
-                            Lire_Turn();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-
-                        // ----- Turn HB -----
-                        if (Detecter_Presence("Turn_HB_Presence"))
-                        {
-                            Lire_Turn_HB();
-
-                            bTurn_Lu = true;
-
-                            Calcul_Turn();
-                            Calcul_Tirages_Turn();
-
-                            continue;
-                        }
-                    }
-                    // ==========================
-                    // RIVER
-                    // ==========================
-                    if (bTurn_Lu && !bRiver_Lu)
-                    {
-                        // ----- River normale -----
-                        if (Detecter_Presence("River_Presence"))
-                        {
-                            Lire_River();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
-
-                        // ----- River HB -----
-                        if (Detecter_Presence("River_HB_Presence"))
-                        {
-                            Lire_River_HB();
-
-                            bRiver_Lu = true;
-
-                            Calcul_River();
-
-                            continue;
-                        }
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.ToString());
-            }
-            finally
-            {
-                bTapisPreFlop_Actif = false;
 
-                bTapisPreFlop = false;
-
-                Bt_Tapis_PreFlop.Background = Brushes.White;
-            }
+            Bt_Tapis_PreFlop.Background = Brushes.White;
         }
 
         private void Fusion_Historique()
