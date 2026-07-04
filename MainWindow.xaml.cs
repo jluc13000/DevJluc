@@ -107,7 +107,7 @@ namespace Poker
         }
 
         // STRUCTURE DETECTION MA POSITION
-        public struct S_PositionDetect
+        public struct S_MaPositionDetect
         {
             public string Nom;
             public int X;
@@ -187,6 +187,24 @@ namespace Poker
             public int Couleur;
         }
 
+        // STRUCTURE DETECTION PLUS DE POT
+        public struct S_PlusDePotDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION PUPITRE GRIS
+        public struct S_PupitreGrisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
 
 
 
@@ -213,7 +231,7 @@ namespace Poker
         private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[81];
 
         // TABLEAU DETECTION MA POSITION
-        private S_PositionDetect[] PositionDetect = new S_PositionDetect[9]; 
+        private S_MaPositionDetect[] MaPositionDetect = new S_MaPositionDetect[9]; 
 
         // TABLEAU DETECTION PLACE LIBRE
         private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
@@ -236,10 +254,16 @@ namespace Poker
         // TABLEAU DETECTION NOUVEAU NIVEAU
         private S_NouveauNiveauDetect[] NouveauNiveauDetect = new S_NouveauNiveauDetect[1];
 
+        // TABLEAU DETECTION PLUS DE POT
+        private S_PlusDePotDetect[] PlusDePotDetect = new S_PlusDePotDetect[1];
+
+        // TABLEAU DETECTION PUPITRE GRIS
+        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[1];
+
+
+
         // TABLEAU DETECTION JOUEUR PAROLE
         private S_JoueurParoleDetect[] JoueurParoleDetect = new S_JoueurParoleDetect[9];
-
-
 
         // TABLEAU DETECTION JOUEUR SE COUCHE
         private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
@@ -255,6 +279,8 @@ namespace Poker
 
         // TABLEAU DETECTION JOUEUR A TAPIS
         private S_JoueurATapisDetect[] JoueurATapisDetect = new S_JoueurATapisDetect[9];
+
+        // 752 pixels injectés 
 
         
 
@@ -422,6 +448,7 @@ namespace Poker
             Charger_Position_Bouton_JSON();
             Charger_Publicite_JSON();
             Charger_Plus_De_Jetons_JSON();
+            Charger_Plus_De_Pot_JSON();
             Charger_Felicitation_JSON();
             Charger_Joueur_Parole_JSON();
 
@@ -1129,63 +1156,10 @@ namespace Poker
                 NbParole++;
             }
         }
-        private void Calcul_PreFlop()
-        {
-            bPreFlop_Paire = false;
-            bPreFlop_Pareille = false;
-            bPreFlop_Suite = false;
 
-            Bt_PreFlop_Paire.Background = Blanc;
-            Bt_PreFlop_Pareille.Background = Blanc;
-            Bt_PreFlop_Suite.Background = Blanc;
+        
 
-            string c1 = TB_M1.Text;
-            string c2 = TB_M2.Text;
 
-            if (string.IsNullOrWhiteSpace(c1) ||
-                string.IsNullOrWhiteSpace(c2))
-                return;
-
-            // 🔥 Gestion correcte du 10
-            string val1 = c1.StartsWith("10") ? "T" : c1[0].ToString();
-            string val2 = c2.StartsWith("10") ? "T" : c2[0].ToString();
-
-            char s1 = c1[c1.Length - 1];
-            char s2 = c2[c2.Length - 1];
-
-            string ordre = "23456789TJQKA";
-
-            int i1 = ordre.IndexOf(val1);
-            int i2 = ordre.IndexOf(val2);
-
-            // 🔥 PAIRE
-            if (val1 == val2)
-            {
-                bPreFlop_Paire = true;
-                Bt_PreFlop_Paire.Background = Vert;
-            }
-
-            // 🔥 PAREILLE
-            if (s1 == s2)
-            {
-                bPreFlop_Pareille = true;
-                Bt_PreFlop_Pareille.Background = Vert;
-            }
-
-            // 🔥 SUITE
-            if (Math.Abs(i1 - i2) == 1 ||
-                (val1 == "A" && val2 == "2") ||
-                (val1 == "2" && val2 == "A"))
-            {
-                bPreFlop_Suite = true;
-                Bt_PreFlop_Suite.Background = Vert;
-            }
-        }
-        /************************************
-        **                                 **
-        **              F L O P            **
-        **                                 **
-        ************************************/
         private void Bt_Flop_1_Click(object sender, RoutedEventArgs e)
         {
             AfficherCarte(TB_F1, Bt_Main_2, Bt_Flop_1, 2);
@@ -1203,294 +1177,6 @@ namespace Poker
             // 🔥 Analyse complète du flop
             Calcul_Flop();
         }
-        private void Calcul_Flop()
-        {
-            // =========================================================
-            // 🔥 RESET BOOLEANS
-            // =========================================================
-
-            bFlop_Paire = false;
-            bFlop_2_Paires = false;
-            bFlop_Brelan = false;
-            bFlop_Quinte = false;
-            bFlop_Couleur = false;
-            bFlop_Full = false;
-            bFlop_Carre = false;
-            bFlop_QFlush = false;
-
-            // =========================================================
-            // 🔥 RESET BOUTONS
-            // =========================================================
-
-            Bt_Flop_Paire.Background = Blanc;
-            Bt_Flop_2_Paires.Background = Blanc;
-            Bt_Flop_Brelan.Background = Blanc;
-            Bt_Flop_Quinte.Background = Blanc;
-            Bt_Flop_Couleur.Background = Blanc;
-            Bt_Flop_Full.Background = Blanc;
-            Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1 }))
-            {
-                bFlop_Paire = true;
-                Bt_Flop_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1 }))
-            {
-                bFlop_2_Paires = true;
-                Bt_Flop_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1 }))
-            {
-                bFlop_Brelan = true;
-                Bt_Flop_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2 }))
-            {
-                bFlop_Full = true;
-                Bt_Flop_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1 }))
-            {
-                bFlop_Carre = true;
-                Bt_Flop_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bFlop_Couleur = true;
-                Bt_Flop_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion A bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bFlop_Quinte = true;
-                        Bt_Flop_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-
-            if (bFlop_Quinte && bFlop_Couleur)
-            {
-                bFlop_QFlush = true;
-                Bt_Flop_QFlush.Background = Vert;
-            }
-        }
-        private void Calcul_Tirages_Flop()
-        {
-            // =========================================================
-            // 🔥 RESET
-            // =========================================================
-
-            bTir_Flop_Quinte = false;
-            bTir_Flop_Couleur = false;
-            bTir_Flop_QFlush = false;
-
-            Bt_Tir_Flop_Quinte.Background = Blanc;
-            Bt_Tir_Flop_Couleur.Background = Blanc;
-            Bt_Tir_Flop_QFlush.Background = Blanc;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text
-            };
-
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE COULEUR
-            // 4 cartes même couleur
-            // =========================================================
-
-            bool tirCouleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() == 4);
-
-            if (tirCouleur)
-            {
-                bTir_Flop_Couleur = true;
-                Bt_Tir_Flop_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE
-            // 4 cartes qui se suivent
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite == 4)
-                    {
-                        bTir_Flop_Quinte = true;
-                        Bt_Tir_Flop_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE FLUSH
-            // =========================================================
-
-            if (bTir_Flop_Quinte && bTir_Flop_Couleur)
-            {
-                bTir_Flop_QFlush = true;
-                Bt_Tir_Flop_QFlush.Background = Vert;
-            }
-        }
         /************************************
         **                                 **
         **              T U R N            **
@@ -1504,387 +1190,6 @@ namespace Poker
 
             // 🔥 Analyse Turn
             //Calcul_Turn();
-        }
-        private void Calcul_Turn()
-        {
-            // =========================================================
-            // 🔥 RESET BOOLEANS
-            // =========================================================
-
-            bTurn_Paire = false;
-            bTurn_2_Paires = false;
-            bTurn_Brelan = false;
-            bTurn_Quinte = false;
-            bTurn_Couleur = false;
-            bTurn_Full = false;
-            bTurn_Carre = false;
-            bTurn_QFlush = false;
-
-            // =========================================================
-            // 🔥 RESET BOUTONS
-            // =========================================================
-
-            Bt_Turn_Paire.Background = Blanc;
-            Bt_Turn_2_Paires.Background = Blanc;
-            Bt_Turn_Brelan.Background = Blanc;
-            Bt_Turn_Quinte.Background = Blanc;
-            Bt_Turn_Couleur.Background = Blanc;
-            Bt_Turn_Full.Background = Blanc;
-            Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1 }))
-            {
-                bTurn_Paire = true;
-                Bt_Turn_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1 }))
-            {
-                bTurn_2_Paires = true;
-                Bt_Turn_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1 }))
-            {
-                bTurn_Brelan = true;
-                Bt_Turn_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1 }))
-            {
-                bTurn_Full = true;
-                Bt_Turn_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1 }))
-            {
-                bTurn_Carre = true;
-                Bt_Turn_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bTurn_Couleur = true;
-                Bt_Turn_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion As bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bTurn_Quinte = true;
-                        Bt_Turn_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-
-            if (bTurn_Quinte && bTurn_Couleur)
-            {
-                bTurn_QFlush = true;
-                Bt_Turn_QFlush.Background = Vert;
-            }
-        }
-        private void Calcul_Tirages_Turn()
-        {
-            // =========================================================
-            // 🔥 RESET
-            // =========================================================
-
-            bTir_Turn_Quinte = false;
-            bTir_Turn_Couleur = false;
-            bTir_Turn_QFlush = false;
-
-            Bt_Tir_Turn_Quinte.Background = Blanc;
-            Bt_Tir_Turn_Couleur.Background = Blanc;
-            Bt_Tir_Turn_QFlush.Background = Blanc;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text
-            };
-
-            // =========================================================
-            // 🔥 SECURITE
-            // =========================================================
-
-            if (cartes.Any(c =>
-                string.IsNullOrWhiteSpace(c)))
-            {
-                return;
-            }
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs =
-                new List<int>();
-
-            List<char> couleurs =
-                new List<char>();
-
-            // =========================================================
-            // 🔥 LISTES PAR COULEUR
-            // =========================================================
-
-            List<int> Trefles =
-                new List<int>();
-
-            List<int> Piques =
-                new List<int>();
-
-            List<int> Coeurs =
-                new List<int>();
-
-            List<int> Carreaux =
-                new List<int>();
-
-            string ordre =
-                "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                // =====================================
-                // Valeur
-                // =====================================
-
-                string val =
-                    c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                int v =
-                    ordre.IndexOf(val) + 2;
-
-                // =====================================
-                // Couleur
-                // =====================================
-
-                char suit =
-                    c[c.Length - 1];
-
-                valeurs.Add(v);
-                couleurs.Add(suit);
-
-                // =====================================
-                // Répartition couleur
-                // =====================================
-
-                if (suit == '♣')
-                    Trefles.Add(v);
-
-                if (suit == '♠')
-                    Piques.Add(v);
-
-                if (suit == '♥')
-                    Coeurs.Add(v);
-
-                if (suit == '♦')
-                    Carreaux.Add(v);
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE COULEUR
-            // 4 cartes même couleur
-            // =========================================================
-
-            bool tirCouleur =
-                couleurs
-                .GroupBy(c => c)
-                .Any(g => g.Count() >= 4);
-
-            if (tirCouleur)
-            {
-                bTir_Turn_Couleur = true;
-
-                Bt_Tir_Turn_Couleur.Background =
-                    Vert;
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE
-            // UNIQUEMENT SUITE OUVERTE
-            // =========================================================
-
-            var vals =
-                valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // =====================================
-            // Gestion As bas
-            // =====================================
-
-            if (vals.Contains(14))
-            {
-                vals.Insert(0, 1);
-            }
-
-            int suite = 1;
-
-            for (int i = 1;
-                 i < vals.Count;
-                 i++)
-            {
-                if (vals[i] ==
-                    vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 4)
-                    {
-                        bTir_Turn_Quinte = true;
-
-                        Bt_Tir_Turn_Quinte.Background =
-                            Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE FLUSH
-            // =========================================================
-
-            if (Tirage_Quinte_Special(Trefles) ||
-                Tirage_Quinte_Special(Piques) ||
-                Tirage_Quinte_Special(Coeurs) ||
-                Tirage_Quinte_Special(Carreaux))
-            {
-                bTir_Turn_QFlush = true;
-
-                Bt_Tir_Turn_QFlush.Background =
-                    Vert;
-            }
-            else
-            {
-                bTir_Turn_QFlush = false;
-
-                Bt_Tir_Turn_QFlush.Background =
-                    Blanc;
-            }
         }
         private bool Tirage_Quinte_Special(List<int> valeurs)
         {
@@ -1986,193 +1291,6 @@ namespace Poker
             AfficherCarte_Test(TB_R, Bt_River, 6);
             // 🔥 Analyse River
             //Calcul_River();
-        }
-        private void Calcul_River()
-        {
-            // =========================================================
-            // 🔥 RESET BOOLEANS
-            // =========================================================
-
-            bRiver_Paire = false;
-            bRiver_2_Paires = false;
-            bRiver_Brelan = false;
-            bRiver_Quinte = false;
-            bRiver_Couleur = false;
-            bRiver_Full = false;
-            bRiver_Carre = false;
-            bRiver_QFlush = false;
-
-            // =========================================================
-            // 🔥 RESET BOUTONS
-            // =========================================================
-
-            Bt_River_Paire.Background = Blanc;
-            Bt_River_2_Paires.Background = Blanc;
-            Bt_River_Brelan.Background = Blanc;
-            Bt_River_Quinte.Background = Blanc;
-            Bt_River_Couleur.Background = Blanc;
-            Bt_River_Full.Background = Blanc;
-            Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
-
-            // =========================================================
-            // 🔥 LECTURE DES 7 CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text,
-                TB_R.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1, 1 }))
-            {
-                bRiver_Paire = true;
-                Bt_River_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1, 1 }))
-            {
-                bRiver_2_Paires = true;
-                Bt_River_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1, 1 }))
-            {
-                bRiver_Brelan = true;
-                Bt_River_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1, 1 }))
-            {
-                bRiver_Full = true;
-                Bt_River_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1, 1 }))
-            {
-                bRiver_Carre = true;
-                Bt_River_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bRiver_Couleur = true;
-                Bt_River_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion As bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bRiver_Quinte = true;
-                        Bt_River_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-
-            if (bRiver_Quinte && bRiver_Couleur)
-            {
-                bRiver_QFlush = true;
-                Bt_River_QFlush.Background = Vert;
-            }
         }
         private Brush CouleurCarte(string c)
         {
@@ -2720,37 +1838,6 @@ namespace Poker
             ActiverBoutonPosition((Button)sender);
         }
 
-        // =========================================================
-        // RESET ETATS POKER
-        // =========================================================
-        private void Reset_Etats_Poker()
-        {
-            bMain1_OK = false;
-            bMain2_OK = false;
-
-            bFlop1_OK = false;
-            bFlop2_OK = false;
-            bFlop3_OK = false;
-
-            bTurn_OK = false;
-
-            bRiver_OK = false;
-        }
-
-        // =========================================================
-        // ETAT LECTURE
-        // =========================================================
-
-        private bool bMain1_OK = false;
-        private bool bMain2_OK = false;
-
-        private bool bFlop1_OK = false;
-        private bool bFlop2_OK = false;
-        private bool bFlop3_OK = false;
-
-        private bool bTurn_OK = false;
-
-        private bool bRiver_OK = false;
 
         private void Bt_Bouton_en_5_Click(object sender, RoutedEventArgs e)
         {
@@ -2828,167 +1915,8 @@ namespace Poker
                     bouton.Background = (Brush)FindResource("blanc");
             }
         }
-        /************************************
-        **                                 **
-        **              M E M O            **
-        **                                 **
-        ************************************/
-        private void ChargerRangeTapis(List<string> liste)
-        {
-            RangeTapis.Clear();
 
-            foreach (var main in liste)
-                RangeTapis.Add(main);
 
-            RafraichirAffichage();
-        }
-        private void ActiverMemo(Button boutonActif)
-        {
-            foreach (var b in BoutonsMemo)
-                b.Background = (Brush)FindResource("blanc");
-
-            boutonActif.Background = (Brush)FindResource("orange");
-        }
-        private void Bt_Mem01_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem01);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA","KK"
-            });
-        }
-        private void Bt_Mem02_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem02);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",
-                "AKp"
-            });
-        }
-        private void Bt_Mem03_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem03);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",
-                "AKp",  "AQp",
-                "AK"
-            });
-        }
-        private void Bt_Mem04_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem04);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",
-                "AKp",  "AQp",  "AJp",
-                "AK",   "AQ"
-            });
-        }
-        private void Bt_Mem05_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem05);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",
-                "AKp",  "AQp",  "AJp",  "A10p",
-                "AK",   "AQ",   "AJ",
-                "KQp"
-            });
-        }
-        private void Bt_Mem06_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem06);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",
-                "AK",   "AQ",   "AJ",   "A10",
-                "KQp",  "KJp",
-                "KQ"
-            });
-        }
-        private void Bt_Mem07_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem07);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",
-                "KQp",  "KJp",  "K10p",
-                "KQ"
-            });
-        }
-        private void Bt_Mem08_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem08);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",
-                "KQp",  "KJp",  "K10p",
-                "KQ",   "KJ"
-            });
-        }
-        private void Bt_Mem09_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem09);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",
-                "KQp",  "KJp",  "K10p", "K9p",
-                "KQ",   "KJ",   "K10"
-            });
-        }
-        private void Bt_Mem10_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem10);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",
-                "KQp",  "KJp",  "K10p", "K9p",  "K8p",
-                "KQ",   "KJ",   "K10"
-            });
-        }
-        private void Bt_Mem11_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem11);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",  "A4p",  "A3p",  "A2p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",   "A5",
-                "KQp",  "KJp",  "K10p", "K9p",  "K8p",  "K7p",
-                "KQ",   "KJ",   "K10",  "K9"
-            });
-        }
-        private void Bt_Mem12_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem12);
-            ChargerRangeTapis(new List<string>
-            {
-                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
-                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",  "A4p",  "A3p",  "A2p",
-                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",   "A5",   "A4",
-                "KQp",  "KJp",  "K10p", "K9p",  "K8p",  "K7p",  "K6p",
-                "KQ",   "KJ",   "K10",  "K9",   "QJp"
-            });
-        }
-        private void Bt_Mem13_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverMemo(Bt_Mem13);
-            ChargerRangeTapis(new List<string>
-            {
-
-            });
-        }
         private void Bt_Mise_Click(object sender, RoutedEventArgs e)
         {
             ActiverMise((Button)sender);
@@ -3097,10 +2025,6 @@ namespace Poker
         private void Bt_Bouton_en_Click(object sender, RoutedEventArgs e)
         {
             ActiverBoutonPosition((Button)sender);
-        }
-        private void TB_Ligne_Temps_TextChanged(object sender, TextChangedEventArgs e)
-        {
-
         }
         private string GetMain()
         {
@@ -3391,283 +2315,6 @@ namespace Poker
 
             return false;
         }
-        // =========================================================
-        // DETECTER PLUS DE JETONS
-        // =========================================================
-        private bool Plus_De_Jetons_Detecte()
-        {
-            for (int i = 0; i < PlusDeJetonsDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    PlusDeJetonsDetect[i].X,
-                    PlusDeJetonsDetect[i].Y);
-
-                if (couleur == PlusDeJetonsDetect[i].Couleur)
-                    return true;
-            }
-
-            return false;
-        }
-
-        #region INJECTION
-
-        // =========================================================
-        // 🔥 BOUTON INJECTION
-        // =========================================================
-        private void Bt_Injection_Click(object sender, RoutedEventArgs e)
-        {
-            // =====================================
-            // Lecture presse-papiers
-            // =====================================
-
-            string txt = Clipboard.GetText();
-
-            // =====================================
-            // Rien ?
-            // =====================================
-
-            if (string.IsNullOrWhiteSpace(txt))
-            {
-                MessageBox.Show("Aucune donnée exploitable");
-                return;
-            }
-
-            // =====================================
-            // Affichage brut injection
-            // =====================================
-
-            TB_Injection.Text = txt;
-
-            // =====================================
-            // EXTRACTION
-            // =====================================
-
-            bool okMain1 = Extraire_Main1(txt);
-            bool okMain2 = Extraire_Main2(txt);
-            bool okFlop1 = Extraire_Flop1(txt);
-            bool okFlop2 = Extraire_Flop2(txt);
-            bool okFlop3 = Extraire_Flop3(txt);
-            bool okTurn = Extraire_Turn(txt);
-            bool okTurn_HB = Extraire_Turn_HB(txt);
-            bool okRiver = Extraire_River(txt);
-            bool okRiver_HB = Extraire_River_HB(txt);
-            bool okMain_Board = Extraire_Main_Board(txt);
-            bool okMa_Position = Extraire_Ma_Position(txt);
-            bool okPlaces_Libres = Extraire_Places_Libres(txt);
-            bool okNiveau_Table = Extraire_Niveau_Table(txt);
-            bool okPosition_Bouton = Extraire_Position_Bouton(txt);
-            bool okPublicite = Extraire_Publicite(txt);
-            bool okPlus_De_Jetons = Extraire_Plus_De_Jetons(txt);
-            bool okFelicitation = Extraire_Felicitation(txt);
-            bool okNouveau_Niveau = Extraire_Nouveau_Niveau(txt);
-            bool okJoueur_Parole = Extraire_Joueur_Parole(txt);
-
-            bool okJoueur_A_Tapis = Extraire_Joueur_A_Tapis(txt);
-            bool okJoueur_Reflechit = Extraire_Joueur_Reflechit(txt);
-            bool okJoueur_Relance = Extraire_Joueur_Relance(txt);
-            bool okJoueur_Se_Couche = Extraire_Joueur_Se_Couche(txt);
-            bool okJoueur_Suit = Extraire_Joueur_Suit(txt);
-
-            // =====================================
-            // Aucune donnée reconnue
-            // =====================================
-
-            if (!okMain1 &&
-                !okMain2 &&
-                !okFlop1 &&
-                !okFlop2 &&
-                !okFlop3 &&
-                !okTurn &&
-                !okTurn_HB &&
-                !okRiver &&
-                !okRiver_HB &&
-                !okMain_Board &&
-                !okMa_Position &&
-                !okPlaces_Libres &&
-                !okNiveau_Table &&
-                !okJoueur_Parole &&
-                !okJoueur_A_Tapis &&
-                !okJoueur_Reflechit &&
-                !okJoueur_Relance &&
-                !okJoueur_Se_Couche &&
-                !okJoueur_Suit &&
-                !okPosition_Bouton &&
-                !okPublicite &&
-                !okPlus_De_Jetons &&
-                !okFelicitation &&
-                !okNouveau_Niveau)                
-            {
-                MessageBox.Show("Injection refusée");
-                return;
-            }
-
-            // =====================================
-            // SAUVEGARDE JSON
-            // =====================================
-
-            if (okMain1)
-                Sauver_Main1_JSON();
-
-            if (okMain2)
-                Sauver_Main2_JSON();
-
-            if (okFlop1)
-                Sauver_Flop1_JSON();
-
-            if (okFlop2)
-                Sauver_Flop2_JSON();
-
-            if (okFlop3)
-                Sauver_Flop3_JSON();
-
-            if (okTurn)
-                Sauver_Turn_JSON();
-
-            if (okTurn_HB)
-                Sauver_Turn_HB_JSON();
-
-            if (okRiver)
-                Sauver_River_JSON();
-
-            if (okRiver_HB)
-                Sauver_River_HB_JSON();
-
-            if (okMain_Board)
-                Sauver_Main_Board_JSON();
-
-            if (okMa_Position)
-                Sauver_Ma_Position_JSON();
-
-            if (okPlaces_Libres)
-                Sauver_Places_Libres_JSON();
-
-            if (okNiveau_Table)
-                Sauver_Niveau_Table_JSON();
-
-            if (okPosition_Bouton)
-                Sauver_Position_Bouton_JSON();
-
-            if (okPublicite)
-                Sauver_Publicite_JSON();
-
-            if (okPlus_De_Jetons)
-                Sauver_Plus_De_Jetons_JSON();
-
-            if (okFelicitation)
-                Sauver_Felicitation_JSON();
-
-            if (okNouveau_Niveau)
-                Sauver_Nouveau_Niveau_JSON();
-
-            if (okJoueur_Parole)
-                Sauver_Joueur_Parole_JSON();
-
-
-
-            if (okJoueur_A_Tapis)
-                Sauver_Joueur_A_Tapis_JSON();
-
-            if (okJoueur_Reflechit)
-                Sauver_Joueur_Reflechit_JSON();
-
-            if (okJoueur_Relance)
-                Sauver_Joueur_Relance_JSON();
-
-            if (okJoueur_Se_Couche)
-                Sauver_Joueur_Se_Couche_JSON();
-
-            if (okJoueur_Suit)
-                Sauver_Joueur_Suit_JSON();
-
-            // =====================================
-            // RESULTAT
-            // =====================================
-
-            string msg =
-                "Injection JSON OK\n\n";
-
-            if (okMain1)
-                msg += "Main_1 : 52 cartes\n";
-
-            if (okMain2)
-                msg += "Main_2 : 52 cartes\n";
-
-            if (okFlop1)
-                msg += "Flop_1 : 52 cartes\n";
-
-            if (okFlop2)
-                msg += "Flop_2 : 52 cartes\n";
-
-            if (okFlop3)
-                msg += "Flop_3 : 52 cartes\n";
-
-            if (okTurn)
-                msg += "Turn : 52 cartes\n";
-
-            if (okTurn_HB)
-                msg += "Turn_HB : 104 cartes\n";
-
-            if (okRiver)
-                msg += "River : 52 cartes\n";
-
-            if (okRiver_HB)
-                msg += "River_HB : 104 cartes\n";
-
-            if (okMain_Board)
-                msg += "Main_Board : 81 détecteurs\n";
-
-
-
-
-            if (okJoueur_A_Tapis)
-                msg += "Joueur_A_Tapis : 9 détecteurs\n";
-
-            if (okJoueur_Parole)
-                msg += "Joueur_Parole : 9 détecteurs\n";
-
-            if (okJoueur_Reflechit)
-                msg += "Joueur_Reflechit : 9 détecteur\n";
-
-            if (okJoueur_Relance)
-                msg += "Joueur_Relance : 9 détecteurs\n";
-
-            if (okJoueur_Se_Couche)
-                msg += "Joueur_Se_Couche : 9 détecteurs\n";
-
-            if (okJoueur_Suit)
-                msg += "Joueur_Suit : 9 détecteurs\n";
-
-
-
-
-            if (okMa_Position)
-                msg += "Ma_Position : 9 détecteurs\n";
-
-            if (okPlaces_Libres)
-                msg += "Places_Libres : 9 détecteurs\n";
-
-            if (okNiveau_Table)
-                msg += "Niveau_Table : 12 détecteurs\n";
-
-            if (okPosition_Bouton)
-                msg += "Position_Bouton : 9 détecteurs\n";
-
-            if (okPublicite)
-                msg += "Publicite : 1 détecteur\n";
-
-            if (okPlus_De_Jetons)
-                msg += "Plus_De_Jetons : 1 détecteur\n";
-
-            if (okFelicitation)
-                msg += "Felicitation : 1 détecteur\n";
-
-            if (okNouveau_Niveau)
-                msg += "Nouveau_Niveau : 1 détecteur\n";
-
-
-            MessageBox.Show(msg);
-        }
-
         private bool EstDansRange(string main)
         {
             // match exact
@@ -3684,35 +2331,6 @@ namespace Poker
             }
 
             return false;
-        }
-
-        // =========================================================
-        // 🔥 BOUTON POINTS
-        // =========================================================
-        private void Bt_Points_Click(object sender, RoutedEventArgs e)
-        {
-            bPoints = !bPoints;
-
-            if (bPoints)
-            {
-                Bt_Points.Background = Brushes.LightGreen;
-
-                for (int i = 0; i < 104; i++)
-                {
-                    Turn_HBDetect[i].Nom = Ajouter_Point(Turn_HBDetect[i].Nom);
-                    River_HBDetect[i].Nom = Ajouter_Point(River_HBDetect[i].Nom);
-                }
-            }
-            else
-            {
-                Bt_Points.Background = Brushes.White;
-
-                for (int i = 0; i < 104; i++)
-                {
-                    Turn_HBDetect[i].Nom = Enlever_Point(Turn_HBDetect[i].Nom);
-                    River_HBDetect[i].Nom = Enlever_Point(River_HBDetect[i].Nom);
-                }
-            }
         }
 
         // =========================================================
@@ -3750,7 +2368,7 @@ namespace Poker
         // =========================================================
         // 🔥 CAPTURE ECRAN
         // =========================================================
-        private void CaptureEcran_Ecran1()
+        private void CaptureEcran()
         {
             // =====================================
             // Libération ancienne bitmap
@@ -3874,11 +2492,1000 @@ namespace Poker
             Turn_QFlush_ON();
         }
 
+        // =========================================================
+        // 🔥 EXTRAIRE CARTES
+        // =========================================================
+        private List<string> Extraire_Cartes(string txt)
+        {
+            List<string> cartes = new List<string>();
+            MatchCollection mc = Regex.Matches(txt, @"10[♠♥♦♣]|[2-9AJQKA][♠♥♦♣]");
+
+            foreach (Match m in mc)
+            {
+                cartes.Add(m.Value);
+            }
+
+            return cartes;
+        }
+
+        // =========================================================
+        // LIRE PIXEL
+        // =========================================================
+        private int LirePixel(int x, int y)
+        {
+            // =====================================
+            // SECURITE
+            // =====================================
+            if (Bitmap_Main == null)
+                return 0;
+
+            // =====================================
+            // LECTURE PIXEL
+            // =====================================
+            System.Drawing.Color c =
+                Bitmap_Main.GetPixel(x, y);
+
+            // =====================================
+            // RGB 24 bits
+            // =====================================
+            return c.ToArgb() & 0xFFFFFF;
+        }
+
+        // =========================================================
+        // EFFACE BOARD
+        // =========================================================
+        private void Efface_Board()
+        {
+            TB_F1.Clear();
+            TB_F2.Clear();
+            TB_F3.Clear();
+            TB_T.Clear();
+            TB_R.Clear();
+        }
+
+        #region CALCUL PREFLOP
+
+        // =========================================================
+        // 🔥 CALCUL PREFLOP
+        // =========================================================
+        private void Calcul_PreFlop()
+        {
+            bPreFlop_Paire = false;
+            bPreFlop_Pareille = false;
+            bPreFlop_Suite = false;
+
+            Bt_PreFlop_Paire.Background = Blanc;
+            Bt_PreFlop_Pareille.Background = Blanc;
+            Bt_PreFlop_Suite.Background = Blanc;
+
+            string c1 = TB_M1.Text;
+            string c2 = TB_M2.Text;
+
+            if (string.IsNullOrWhiteSpace(c1) ||
+                string.IsNullOrWhiteSpace(c2))
+                return;
+
+            // 🔥 Gestion correcte du 10
+            string val1 = c1.StartsWith("10") ? "T" : c1[0].ToString();
+            string val2 = c2.StartsWith("10") ? "T" : c2[0].ToString();
+
+            char s1 = c1[c1.Length - 1];
+            char s2 = c2[c2.Length - 1];
+
+            string ordre = "23456789TJQKA";
+
+            int i1 = ordre.IndexOf(val1);
+            int i2 = ordre.IndexOf(val2);
+
+            // 🔥 PAIRE
+            if (val1 == val2)
+            {
+                bPreFlop_Paire = true;
+                Bt_PreFlop_Paire.Background = Vert;
+            }
+
+            // 🔥 PAREILLE
+            if (s1 == s2)
+            {
+                bPreFlop_Pareille = true;
+                Bt_PreFlop_Pareille.Background = Vert;
+            }
+
+            // 🔥 SUITE
+            if (Math.Abs(i1 - i2) == 1 ||
+                (val1 == "A" && val2 == "2") ||
+                (val1 == "2" && val2 == "A"))
+            {
+                bPreFlop_Suite = true;
+                Bt_PreFlop_Suite.Background = Vert;
+            }
+        }
+
         #endregion
 
-        #region CHARGER JSON
+        #region CALCUL FLOP
+
         // =========================================================
-        // 🔥 CHARGER MAIN 1 JSON
+        // 🔥 CALCUL PREFLOP
+        // =========================================================
+        private void Calcul_Flop()
+        {
+            // =========================================================
+            // 🔥 RESET BOOLEANS
+            // =========================================================
+
+            bFlop_Paire = false;
+            bFlop_2_Paires = false;
+            bFlop_Brelan = false;
+            bFlop_Quinte = false;
+            bFlop_Couleur = false;
+            bFlop_Full = false;
+            bFlop_Carre = false;
+            bFlop_QFlush = false;
+
+            // =========================================================
+            // 🔥 RESET BOUTONS
+            // =========================================================
+
+            Bt_Flop_Paire.Background = Blanc;
+            Bt_Flop_2_Paires.Background = Blanc;
+            Bt_Flop_Brelan.Background = Blanc;
+            Bt_Flop_Quinte.Background = Blanc;
+            Bt_Flop_Couleur.Background = Blanc;
+            Bt_Flop_Full.Background = Blanc;
+            Bt_Flop_Carre.Background = Blanc;
+            Bt_Flop_QFlush.Background = Blanc;
+
+            // =========================================================
+            // 🔥 LECTURE CARTES
+            // =========================================================
+
+            List<string> cartes = new List<string>()
+            {
+                TB_M1.Text,
+                TB_M2.Text,
+                TB_F1.Text,
+                TB_F2.Text,
+                TB_F3.Text
+            };
+
+            // 🔒 Sécurité
+            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+                return;
+
+            // =========================================================
+            // 🔥 EXTRACTION VALEURS / COULEURS
+            // =========================================================
+
+            List<int> valeurs = new List<int>();
+            List<char> couleurs = new List<char>();
+
+            string ordre = "23456789TJQKA";
+
+            foreach (string c in cartes)
+            {
+                string val = c.StartsWith("10")
+                    ? "T"
+                    : c[0].ToString();
+
+                char suit = c[c.Length - 1];
+
+                valeurs.Add(ordre.IndexOf(val) + 2);
+                couleurs.Add(suit);
+            }
+
+            // =========================================================
+            // 🔥 COMPTAGE VALEURS
+            // =========================================================
+
+            var groupesValeurs = valeurs
+                .GroupBy(v => v)
+                .Select(g => g.Count())
+                .OrderByDescending(x => x)
+                .ToList();
+
+            // =========================================================
+            // 🔥 PAIRE
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1 }))
+            {
+                bFlop_Paire = true;
+                Bt_Flop_Paire.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 2 PAIRES
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1 }))
+            {
+                bFlop_2_Paires = true;
+                Bt_Flop_2_Paires.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 BRELAN
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1 }))
+            {
+                bFlop_Brelan = true;
+                Bt_Flop_Brelan.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 FULL
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2 }))
+            {
+                bFlop_Full = true;
+                Bt_Flop_Full.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 CARRÉ
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1 }))
+            {
+                bFlop_Carre = true;
+                Bt_Flop_Carre.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 COULEUR
+            // =========================================================
+
+            bool couleur =
+                couleurs.GroupBy(c => c)
+                        .Any(g => g.Count() >= 5);
+
+            if (couleur)
+            {
+                bFlop_Couleur = true;
+                Bt_Flop_Couleur.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 QUINTE
+            // =========================================================
+
+            var vals = valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            // 🔥 Gestion A bas
+            if (vals.Contains(14))
+                vals.Insert(0, 1);
+
+            int suite = 1;
+
+            for (int i = 1; i < vals.Count; i++)
+            {
+                if (vals[i] == vals[i - 1] + 1)
+                {
+                    suite++;
+
+                    if (suite >= 5)
+                    {
+                        bFlop_Quinte = true;
+                        Bt_Flop_Quinte.Background = Vert;
+                    }
+                }
+                else
+                {
+                    suite = 1;
+                }
+            }
+
+            // =========================================================
+            // 🔥 QUINTE FLUSH
+            // =========================================================
+
+            if (bFlop_Quinte && bFlop_Couleur)
+            {
+                bFlop_QFlush = true;
+                Bt_Flop_QFlush.Background = Vert;
+            }
+        }
+        private void Calcul_Tirages_Flop()
+        {
+            // =========================================================
+            // 🔥 RESET
+            // =========================================================
+
+            bTir_Flop_Quinte = false;
+            bTir_Flop_Couleur = false;
+            bTir_Flop_QFlush = false;
+
+            Bt_Tir_Flop_Quinte.Background = Blanc;
+            Bt_Tir_Flop_Couleur.Background = Blanc;
+            Bt_Tir_Flop_QFlush.Background = Blanc;
+
+            // =========================================================
+            // 🔥 LECTURE CARTES
+            // =========================================================
+
+            List<string> cartes = new List<string>()
+            {
+                TB_M1.Text,
+                TB_M2.Text,
+                TB_F1.Text,
+                TB_F2.Text,
+                TB_F3.Text
+            };
+
+            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+                return;
+
+            List<int> valeurs = new List<int>();
+            List<char> couleurs = new List<char>();
+
+            string ordre = "23456789TJQKA";
+
+            foreach (string c in cartes)
+            {
+                string val = c.StartsWith("10")
+                    ? "T"
+                    : c[0].ToString();
+
+                char suit = c[c.Length - 1];
+
+                valeurs.Add(ordre.IndexOf(val) + 2);
+                couleurs.Add(suit);
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE COULEUR
+            // 4 cartes même couleur
+            // =========================================================
+
+            bool tirCouleur =
+                couleurs.GroupBy(c => c)
+                        .Any(g => g.Count() == 4);
+
+            if (tirCouleur)
+            {
+                bTir_Flop_Couleur = true;
+                Bt_Tir_Flop_Couleur.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE QUINTE
+            // 4 cartes qui se suivent
+            // =========================================================
+
+            var vals = valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            if (vals.Contains(14))
+                vals.Insert(0, 1);
+
+            int suite = 1;
+
+            for (int i = 1; i < vals.Count; i++)
+            {
+                if (vals[i] == vals[i - 1] + 1)
+                {
+                    suite++;
+
+                    if (suite == 4)
+                    {
+                        bTir_Flop_Quinte = true;
+                        Bt_Tir_Flop_Quinte.Background = Vert;
+                    }
+                }
+                else
+                {
+                    suite = 1;
+                }
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE QUINTE FLUSH
+            // =========================================================
+
+            if (bTir_Flop_Quinte && bTir_Flop_Couleur)
+            {
+                bTir_Flop_QFlush = true;
+                Bt_Tir_Flop_QFlush.Background = Vert;
+            }
+        }
+
+        #endregion
+
+        #region CALCUL TURN
+
+        // =========================================================
+        // 🔥 CALCUL TURN
+        // =========================================================
+        private void Calcul_Turn()
+        {
+            // =========================================================
+            // 🔥 RESET BOOLEANS
+            // =========================================================
+
+            bTurn_Paire = false;
+            bTurn_2_Paires = false;
+            bTurn_Brelan = false;
+            bTurn_Quinte = false;
+            bTurn_Couleur = false;
+            bTurn_Full = false;
+            bTurn_Carre = false;
+            bTurn_QFlush = false;
+
+            // =========================================================
+            // 🔥 RESET BOUTONS
+            // =========================================================
+
+            Bt_Turn_Paire.Background = Blanc;
+            Bt_Turn_2_Paires.Background = Blanc;
+            Bt_Turn_Brelan.Background = Blanc;
+            Bt_Turn_Quinte.Background = Blanc;
+            Bt_Turn_Couleur.Background = Blanc;
+            Bt_Turn_Full.Background = Blanc;
+            Bt_Turn_Carre.Background = Blanc;
+            Bt_Turn_QFlush.Background = Blanc;
+
+            // =========================================================
+            // 🔥 LECTURE CARTES
+            // =========================================================
+
+            List<string> cartes = new List<string>()
+            {
+                TB_M1.Text,
+                TB_M2.Text,
+
+                TB_F1.Text,
+                TB_F2.Text,
+                TB_F3.Text,
+
+                TB_T.Text
+            };
+
+            // 🔒 Sécurité
+            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+                return;
+
+            // =========================================================
+            // 🔥 EXTRACTION VALEURS / COULEURS
+            // =========================================================
+
+            List<int> valeurs = new List<int>();
+            List<char> couleurs = new List<char>();
+
+            string ordre = "23456789TJQKA";
+
+            foreach (string c in cartes)
+            {
+                string val = c.StartsWith("10")
+                    ? "T"
+                    : c[0].ToString();
+
+                char suit = c[c.Length - 1];
+
+                valeurs.Add(ordre.IndexOf(val) + 2);
+                couleurs.Add(suit);
+            }
+
+            // =========================================================
+            // 🔥 COMPTAGE VALEURS
+            // =========================================================
+
+            var groupesValeurs = valeurs
+                .GroupBy(v => v)
+                .Select(g => g.Count())
+                .OrderByDescending(x => x)
+                .ToList();
+
+            // =========================================================
+            // 🔥 PAIRE
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1 }))
+            {
+                bTurn_Paire = true;
+                Bt_Turn_Paire.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 2 PAIRES
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1 }))
+            {
+                bTurn_2_Paires = true;
+                Bt_Turn_2_Paires.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 BRELAN
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1 }))
+            {
+                bTurn_Brelan = true;
+                Bt_Turn_Brelan.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 FULL
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1 }))
+            {
+                bTurn_Full = true;
+                Bt_Turn_Full.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 CARRÉ
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1 }))
+            {
+                bTurn_Carre = true;
+                Bt_Turn_Carre.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 COULEUR
+            // =========================================================
+
+            bool couleur =
+                couleurs.GroupBy(c => c)
+                        .Any(g => g.Count() >= 5);
+
+            if (couleur)
+            {
+                bTurn_Couleur = true;
+                Bt_Turn_Couleur.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 QUINTE
+            // =========================================================
+
+            var vals = valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            // 🔥 Gestion As bas
+            if (vals.Contains(14))
+                vals.Insert(0, 1);
+
+            int suite = 1;
+
+            for (int i = 1; i < vals.Count; i++)
+            {
+                if (vals[i] == vals[i - 1] + 1)
+                {
+                    suite++;
+
+                    if (suite >= 5)
+                    {
+                        bTurn_Quinte = true;
+                        Bt_Turn_Quinte.Background = Vert;
+                    }
+                }
+                else
+                {
+                    suite = 1;
+                }
+            }
+
+            // =========================================================
+            // 🔥 QUINTE FLUSH
+            // =========================================================
+
+            if (bTurn_Quinte && bTurn_Couleur)
+            {
+                bTurn_QFlush = true;
+                Bt_Turn_QFlush.Background = Vert;
+            }
+        }
+        private void Calcul_Tirages_Turn()
+        {
+            // =========================================================
+            // 🔥 RESET
+            // =========================================================
+
+            bTir_Turn_Quinte = false;
+            bTir_Turn_Couleur = false;
+            bTir_Turn_QFlush = false;
+
+            Bt_Tir_Turn_Quinte.Background = Blanc;
+            Bt_Tir_Turn_Couleur.Background = Blanc;
+            Bt_Tir_Turn_QFlush.Background = Blanc;
+
+            // =========================================================
+            // 🔥 LECTURE CARTES
+            // =========================================================
+
+            List<string> cartes = new List<string>()
+            {
+                TB_M1.Text,
+                TB_M2.Text,
+
+                TB_F1.Text,
+                TB_F2.Text,
+                TB_F3.Text,
+
+                TB_T.Text
+            };
+
+            // =========================================================
+            // 🔥 SECURITE
+            // =========================================================
+
+            if (cartes.Any(c =>
+                string.IsNullOrWhiteSpace(c)))
+            {
+                return;
+            }
+
+            // =========================================================
+            // 🔥 EXTRACTION VALEURS / COULEURS
+            // =========================================================
+
+            List<int> valeurs =
+                new List<int>();
+
+            List<char> couleurs =
+                new List<char>();
+
+            // =========================================================
+            // 🔥 LISTES PAR COULEUR
+            // =========================================================
+
+            List<int> Trefles =
+                new List<int>();
+
+            List<int> Piques =
+                new List<int>();
+
+            List<int> Coeurs =
+                new List<int>();
+
+            List<int> Carreaux =
+                new List<int>();
+
+            string ordre =
+                "23456789TJQKA";
+
+            foreach (string c in cartes)
+            {
+                // =====================================
+                // Valeur
+                // =====================================
+
+                string val =
+                    c.StartsWith("10")
+                    ? "T"
+                    : c[0].ToString();
+
+                int v =
+                    ordre.IndexOf(val) + 2;
+
+                // =====================================
+                // Couleur
+                // =====================================
+
+                char suit =
+                    c[c.Length - 1];
+
+                valeurs.Add(v);
+                couleurs.Add(suit);
+
+                // =====================================
+                // Répartition couleur
+                // =====================================
+
+                if (suit == '♣')
+                    Trefles.Add(v);
+
+                if (suit == '♠')
+                    Piques.Add(v);
+
+                if (suit == '♥')
+                    Coeurs.Add(v);
+
+                if (suit == '♦')
+                    Carreaux.Add(v);
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE COULEUR
+            // 4 cartes même couleur
+            // =========================================================
+
+            bool tirCouleur =
+                couleurs
+                .GroupBy(c => c)
+                .Any(g => g.Count() >= 4);
+
+            if (tirCouleur)
+            {
+                bTir_Turn_Couleur = true;
+
+                Bt_Tir_Turn_Couleur.Background =
+                    Vert;
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE QUINTE
+            // UNIQUEMENT SUITE OUVERTE
+            // =========================================================
+
+            var vals =
+                valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            // =====================================
+            // Gestion As bas
+            // =====================================
+
+            if (vals.Contains(14))
+            {
+                vals.Insert(0, 1);
+            }
+
+            int suite = 1;
+
+            for (int i = 1;
+                 i < vals.Count;
+                 i++)
+            {
+                if (vals[i] ==
+                    vals[i - 1] + 1)
+                {
+                    suite++;
+
+                    if (suite >= 4)
+                    {
+                        bTir_Turn_Quinte = true;
+
+                        Bt_Tir_Turn_Quinte.Background =
+                            Vert;
+                    }
+                }
+                else
+                {
+                    suite = 1;
+                }
+            }
+
+            // =========================================================
+            // 🔥 TIRAGE QUINTE FLUSH
+            // =========================================================
+
+            if (Tirage_Quinte_Special(Trefles) ||
+                Tirage_Quinte_Special(Piques) ||
+                Tirage_Quinte_Special(Coeurs) ||
+                Tirage_Quinte_Special(Carreaux))
+            {
+                bTir_Turn_QFlush = true;
+
+                Bt_Tir_Turn_QFlush.Background =
+                    Vert;
+            }
+            else
+            {
+                bTir_Turn_QFlush = false;
+
+                Bt_Tir_Turn_QFlush.Background =
+                    Blanc;
+            }
+        }
+
+        #endregion
+
+        #region CALCUL RIVER
+
+        // =========================================================
+        // 🔥 CALCUL RIVER
+        // =========================================================
+        private void Calcul_River()
+        {
+            // =========================================================
+            // 🔥 RESET BOOLEANS
+            // =========================================================
+
+            bRiver_Paire = false;
+            bRiver_2_Paires = false;
+            bRiver_Brelan = false;
+            bRiver_Quinte = false;
+            bRiver_Couleur = false;
+            bRiver_Full = false;
+            bRiver_Carre = false;
+            bRiver_QFlush = false;
+
+            // =========================================================
+            // 🔥 RESET BOUTONS
+            // =========================================================
+
+            Bt_River_Paire.Background = Blanc;
+            Bt_River_2_Paires.Background = Blanc;
+            Bt_River_Brelan.Background = Blanc;
+            Bt_River_Quinte.Background = Blanc;
+            Bt_River_Couleur.Background = Blanc;
+            Bt_River_Full.Background = Blanc;
+            Bt_River_Carre.Background = Blanc;
+            Bt_River_QFlush.Background = Blanc;
+
+            // =========================================================
+            // 🔥 LECTURE DES 7 CARTES
+            // =========================================================
+
+            List<string> cartes = new List<string>()
+            {
+                TB_M1.Text,
+                TB_M2.Text,
+
+                TB_F1.Text,
+                TB_F2.Text,
+                TB_F3.Text,
+
+                TB_T.Text,
+                TB_R.Text
+            };
+
+            // 🔒 Sécurité
+            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+                return;
+
+            // =========================================================
+            // 🔥 EXTRACTION VALEURS / COULEURS
+            // =========================================================
+
+            List<int> valeurs = new List<int>();
+            List<char> couleurs = new List<char>();
+
+            string ordre = "23456789TJQKA";
+
+            foreach (string c in cartes)
+            {
+                string val = c.StartsWith("10")
+                    ? "T"
+                    : c[0].ToString();
+
+                char suit = c[c.Length - 1];
+
+                valeurs.Add(ordre.IndexOf(val) + 2);
+                couleurs.Add(suit);
+            }
+
+            // =========================================================
+            // 🔥 COMPTAGE VALEURS
+            // =========================================================
+
+            var groupesValeurs = valeurs
+                .GroupBy(v => v)
+                .Select(g => g.Count())
+                .OrderByDescending(x => x)
+                .ToList();
+
+            // =========================================================
+            // 🔥 PAIRE
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1, 1 }))
+            {
+                bRiver_Paire = true;
+                Bt_River_Paire.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 2 PAIRES
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1, 1 }))
+            {
+                bRiver_2_Paires = true;
+                Bt_River_2_Paires.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 BRELAN
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1, 1 }))
+            {
+                bRiver_Brelan = true;
+                Bt_River_Brelan.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 FULL
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1, 1 }))
+            {
+                bRiver_Full = true;
+                Bt_River_Full.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 CARRÉ
+            // =========================================================
+
+            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1, 1 }))
+            {
+                bRiver_Carre = true;
+                Bt_River_Carre.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 COULEUR
+            // =========================================================
+
+            bool couleur =
+                couleurs.GroupBy(c => c)
+                        .Any(g => g.Count() >= 5);
+
+            if (couleur)
+            {
+                bRiver_Couleur = true;
+                Bt_River_Couleur.Background = Vert;
+            }
+
+            // =========================================================
+            // 🔥 QUINTE
+            // =========================================================
+
+            var vals = valeurs
+                .Distinct()
+                .OrderBy(v => v)
+                .ToList();
+
+            // 🔥 Gestion As bas
+            if (vals.Contains(14))
+                vals.Insert(0, 1);
+
+            int suite = 1;
+
+            for (int i = 1; i < vals.Count; i++)
+            {
+                if (vals[i] == vals[i - 1] + 1)
+                {
+                    suite++;
+
+                    if (suite >= 5)
+                    {
+                        bRiver_Quinte = true;
+                        Bt_River_Quinte.Background = Vert;
+                    }
+                }
+                else
+                {
+                    suite = 1;
+                }
+            }
+
+            // =========================================================
+            // 🔥 QUINTE FLUSH
+            // =========================================================
+
+            if (bRiver_Quinte && bRiver_Couleur)
+            {
+                bRiver_QFlush = true;
+                Bt_River_QFlush.Background = Vert;
+            }
+        }
+
+        #endregion     
+
+        #region CHARGER SAUVER LIRE EXTRAIRE
+        // =========================================================
+        // 🔥 MAIN 1
         // =========================================================
         private void Charger_Main1_JSON()
         {
@@ -3888,614 +3495,6 @@ namespace Poker
             string json = File.ReadAllText(fichier);
             Main1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
         }
-
-        // =========================================================
-        // 🔥 CHARGER MAIN 2 JSON
-        // =========================================================
-        private void Charger_Main2_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
-            if (!File.Exists(fichier))
-                return;
-            string json = File.ReadAllText(fichier);
-            Main2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER FLOP 1 JSON
-        // =========================================================
-        private void Charger_Flop1_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
-            if (!File.Exists(fichier))
-                return;
-            string json = File.ReadAllText(fichier);
-            Flop1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER FLOP 2 JSON
-        // =========================================================
-        private void Charger_Flop2_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-            Flop2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER FLOP 3 JSON
-        // =========================================================
-        private void Charger_Flop3_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-            Flop3Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER TURN JSON
-        // =========================================================
-        private void Charger_Turn_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-            TurnDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER TURN_HB JSON
-        // =========================================================
-        private void Charger_Turn_HB_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
-            if (!File.Exists(fichier))
-                return;
-            string json = File.ReadAllText(fichier);
-            Turn_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER RIVER JSON
-        // =========================================================
-        private void Charger_River_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-            RiverDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER RIVER_HB JSON
-        // =========================================================
-        private void Charger_River_HB_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-            River_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER MAIN BOARD JSON
-        // =========================================================
-        private void Charger_Main_Board_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Main_Board.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            Main_BoardDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER MA POSITION JSON
-        // =========================================================
-        private void Charger_Ma_Position_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PositionDetect = JsonConvert.DeserializeObject<S_PositionDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER PLACES LIBRES JSON
-        // =========================================================
-        private void Charger_Places_Libres_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PlacesLibresDetect = JsonConvert.DeserializeObject<S_PlacesLibresDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NIVEAU TABLE JSON
-        // =========================================================
-        private void Charger_Niveau_Table_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            NiveauTableDetect = JsonConvert.DeserializeObject<S_NiveauTableDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER POSITION BOUTON JSON
-        // =========================================================
-        private void Charger_Position_Bouton_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PositionBoutonDetect = JsonConvert.DeserializeObject<S_PositionBoutonDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER PUBICITE JSON
-        // =========================================================
-        private void Charger_Publicite_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PubliciteDetect = JsonConvert.DeserializeObject<S_PubliciteDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER PLUS DE JETONS JSON
-        // =========================================================
-        private void Charger_Plus_De_Jetons_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Jetons.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PlusDeJetonsDetect = JsonConvert.DeserializeObject<S_PlusDeJetonsDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER PLUS DE JETONS JSON
-        // =========================================================
-        private void Charger_Felicitation_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            FelicitationDetect = JsonConvert.DeserializeObject<S_FelicitationDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER PAROLE JSON
-        // =========================================================
-        private void Charger_Joueur_Parole_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Parole.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurParoleDetect = JsonConvert.DeserializeObject<S_JoueurParoleDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NOUVEAU NIVEAU JSON
-        // =========================================================
-        private void Charger_Nouveau_Niveau_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            NouveauNiveauDetect = JsonConvert.DeserializeObject<S_NouveauNiveauDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NOUVEAU JOUEUR A TAPIS JSON
-        // =========================================================
-        private void Charger_Joueur_A_Tapis_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_A_Tapis.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurATapisDetect = JsonConvert.DeserializeObject<S_JoueurATapisDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NOUVEAU JOUEUR REFLECHIT JSON
-        // =========================================================
-        private void Charger_Joueur_Reflechit_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Reflechit.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurReflechitDetect = JsonConvert.DeserializeObject<S_JoueurReflechitDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NOUVEAU JOUEUR RELANCE JSON
-        // =========================================================
-        private void Charger_Joueur_Relance_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Relance.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurRelanceDetect = JsonConvert.DeserializeObject<S_JoueurRelanceDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER JOUEUR SE COUCHE JSON
-        // =========================================================
-        private void Charger_Joueur_Se_Couche_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurSeCoucheDetect = JsonConvert.DeserializeObject<S_JoueurSeCoucheDetect[]>(json);
-        }
-
-        // =========================================================
-        // 🔥 CHARGER NOUVEAU JOUEUR SUIT JSON
-        // =========================================================
-        private void Charger_Joueur_Suit_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Suit.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            JoueurSuitDetect = JsonConvert.DeserializeObject<S_JoueurSuitDetect[]>(json);
-        }
-
-
-
-
-
-        #endregion
-
-        #region SAUVER JSON
-        // =========================================================
-        // 🔥 SAUVER MAIN 1 JSON
-        // =========================================================
-        private void Sauver_Main1_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string json = JsonConvert.SerializeObject( Main1Detect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER MAIN 2 JSON
-        // =========================================================
-        private void Sauver_Main2_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
-            Directory.CreateDirectory(DOSSIER_JSON); ;
-            string json = JsonConvert.SerializeObject( Main2Detect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER FLOP 1 JSON
-        // =========================================================
-        private void Sauver_Flop1_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string json = JsonConvert.SerializeObject( Flop1Detect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER FLOP 2 JSON
-        // =========================================================
-        private void Sauver_Flop2_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
-            string json = JsonConvert.SerializeObject( Flop2Detect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER FLOP 3 JSON
-        // =========================================================
-        private void Sauver_Flop3_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
-            string json = JsonConvert.SerializeObject( Flop3Detect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER TURN JSON
-        // =========================================================
-        private void Sauver_Turn_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
-            string json = JsonConvert.SerializeObject( TurnDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER TURN HB JSON
-        // =========================================================
-        private void Sauver_Turn_HB_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
-            string json = JsonConvert.SerializeObject( Turn_HBDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER RIVER JSON
-        // =========================================================
-        private void Sauver_River_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
-            string json = JsonConvert.SerializeObject( RiverDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER RIVER HB JSON
-        // =========================================================
-        private void Sauver_River_HB_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            String fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
-            string json = JsonConvert.SerializeObject( River_HBDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER MAIN BOARD
-        // =========================================================
-        private void Sauver_Main_Board_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            String fichier = Path.Combine(DOSSIER_JSON, "Nain_Board.json");
-            string json = JsonConvert.SerializeObject( Main_BoardDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER MA POSITION JSON
-        // =========================================================
-        private void Sauver_Ma_Position_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
-            string json = JsonConvert.SerializeObject( PositionDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER PLACES LIBRES JSON
-        // =========================================================
-        private void Sauver_Places_Libres_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
-            string json = JsonConvert.SerializeObject(PlacesLibresDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER NIVEAU TABLE JSON
-        // =========================================================
-        private void Sauver_Niveau_Table_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
-            string json = JsonConvert.SerializeObject(NiveauTableDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-
-        // =========================================================
-        // 🔥 SAUVER POSITION BOUTON JSON
-        // =========================================================
-        private void Sauver_Position_Bouton_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
-            string json = JsonConvert.SerializeObject(PositionBoutonDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER PUBLICITE JSON
-        // =========================================================
-        private void Sauver_Publicite_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
-            string json = JsonConvert.SerializeObject(PubliciteDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER PLUS DE JETONS JSON
-        // =========================================================
-        private void Sauver_Plus_De_Jetons_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Jetons.json");
-            string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER FELICITATION JSON
-        // =========================================================
-        private void Sauver_Felicitation_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
-            string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER NOUVEAU NIVEAU JSON
-        // =========================================================
-        private void Sauver_Nouveau_Niveau_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
-            string json = JsonConvert.SerializeObject(NouveauNiveauDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR PAROLE JSON
-        // =========================================================
-        private void Sauver_Joueur_Parole_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Parole.json");
-            string json = JsonConvert.SerializeObject(JoueurParoleDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR A TAPIS JSON
-        // =========================================================
-        private void Sauver_Joueur_A_Tapis_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_A_Tapis.json");
-            string json = JsonConvert.SerializeObject(JoueurATapisDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR REFLECHIT JSON
-        // =========================================================
-        private void Sauver_Joueur_Reflechit_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Reflechit.json");
-            string json = JsonConvert.SerializeObject(JoueurReflechitDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR RELANCE JSON
-        // =========================================================
-        private void Sauver_Joueur_Relance_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Relance.json");
-            string json = JsonConvert.SerializeObject(JoueurRelanceDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR SE COUCHE JSON
-        // =========================================================
-        private void Sauver_Joueur_Se_Couche_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
-            string json = JsonConvert.SerializeObject(JoueurSeCoucheDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 SAUVER JOUEUR SUIT JSON
-        // =========================================================
-        private void Sauver_Joueur_Suit_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Suit.json");
-            string json = JsonConvert.SerializeObject(JoueurSuitDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-
-        
-
-        #endregion
-
-        #region EXTRAIRE
-        // =========================================================
-        // 🔥 EXTRAIRE MAIN 1
-        // =========================================================
         private bool Extraire_Main1(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -4592,10 +3591,70 @@ namespace Poker
 
             return true;
         }
-        
+        private void Lire_Main_1()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Main1Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_M1,
+                        Bt_Main_1,
+                        0);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Main1_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string json = JsonConvert.SerializeObject(Main1Detect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
         // =========================================================
-        // 🔥 EXTRAIRE MAIN 2
+        // 🔥 MAIN 2
         // =========================================================
+        private void Charger_Main2_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
+            if (!File.Exists(fichier))
+                return;
+            string json = File.ReadAllText(fichier);
+            Main2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Main2(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -4692,10 +3751,60 @@ namespace Poker
 
             return true;
         }
-        
+        private void Lire_Main_2()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Main2Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_M2, Bt_Main_2, 1);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Main2_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
+            Directory.CreateDirectory(DOSSIER_JSON); ;
+            string json = JsonConvert.SerializeObject(Main2Detect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
         // =========================================================
-        // 🔥 EXTRAIRE FLOP 1
+        // 🔥 FLOP 1
         // =========================================================
+        private void Charger_Flop1_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
+            if (!File.Exists(fichier))
+                return;
+            string json = File.ReadAllText(fichier);
+            Flop1Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Flop1(string txt)
         {
             string[] lignes =
@@ -4760,7 +3869,7 @@ namespace Poker
 
                     string l2 = lignes[i + 1].Trim();
 
-                    if (!l2.StartsWith( "IF PIXEL COLOR EQUALS"))
+                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
                         continue;
 
                     // =====================================
@@ -4793,10 +3902,71 @@ namespace Poker
 
             return true;
         }
+        private void Lire_Flop_1()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop1Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_F1,
+                        Bt_Flop_1,
+                        2);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Flop1_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string json = JsonConvert.SerializeObject(Flop1Detect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE FLOP 2
+        // 🔥 FLOP 2 
         // =========================================================
+        private void Charger_Flop2_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+            Flop2Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Flop2(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -4841,7 +4011,7 @@ namespace Poker
 
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    string nom = ligne.Replace("COMMENT :", "") .Trim();
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
 
                     if (nom == "Flop_2")
                         continue;
@@ -4895,10 +4065,71 @@ namespace Poker
 
             return true;
         }
+        private void Lire_Flop_2()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop2Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante =
+                        carte.Nom;
+
+                    AfficherCarte_Test(
+                        TB_F2,
+                        Bt_Flop_2,
+                        3);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Flop2_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
+            string json = JsonConvert.SerializeObject(Flop2Detect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE FLOP 3
+        // 🔥 FLOP 3
         // =========================================================
+        private void Charger_Flop3_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+            Flop3Detect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Flop3(string txt)
         {
             string[] lignes =
@@ -4990,10 +4221,61 @@ namespace Poker
 
             return true;
         }
+        private void Lire_Flop_3()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Flop3Detect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+
+                    AfficherCarte_Test(TB_F3, Bt_Flop_3, 4);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Flop3_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
+            string json = JsonConvert.SerializeObject(Flop3Detect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE TURN
+        // 🔥 TURN
         // =========================================================
+        private void Charger_Turn_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+            TurnDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Turn(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5079,99 +4361,59 @@ namespace Poker
 
             return true;
         }
-
-        // =========================================================
-        // 🔥 EXTRAIRE RIVER
-        // =========================================================
-        private bool Extraire_River(string txt)
+        private void Lire_Turn()
         {
-            string[] lignes = txt.Split('\n');
+            CarteCourante = "";
 
-            int index = 0;
-
-            bool bRiver = false;
-
-            for (int i = 0; i < lignes.Length; i++)
+            foreach (var carte in TurnDetect)
             {
-                string ligne = lignes[i].Trim();
-
                 // =====================================
-                // COMMENT : River
+                // Sécurité
                 // =====================================
 
-                if (ligne == "COMMENT : River")
-                {
-                    bRiver = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-
-                if (!bRiver)
+                if (string.IsNullOrEmpty(carte.Nom))
                     continue;
 
                 // =====================================
-                // COMMENT : Carte
+                // Lecture pixel
                 // =====================================
 
-                if (ligne.StartsWith("COMMENT :"))
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
                 {
-                    string nom = ligne.Replace("COMMENT :", "").Trim();
+                    CarteCourante = carte.Nom;
+                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
 
-                    if (nom == "River")
-                        continue;
-
-                    if (nom.Length < 2)
-                        continue;
-
-                    // =====================================
-                    // Ligne suivante
-                    // =====================================
-                    if (i + 1 >= lignes.Length)
-                        continue;
-
-                    string l2 = lignes[i + 1].Trim();
-
-                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
-                        continue;
-                    // =====================================
-                    // Découpage
-                    // =====================================
-
-                    string[] t = l2.Split(':');
-
-                    if (t.Length < 5)
-                        continue;
-                    // =====================================
-                    // Extraction
-                    // =====================================
-
-                    RiverDetect[index].Nom = nom;
-
-                    RiverDetect[index].X = int.Parse(t[1]);
-
-                    RiverDetect[index].Y = int.Parse(t[2]);
-
-                    RiverDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
+                    return;
                 }
             }
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 52)
-                return false;
-
-            return true;
+        }
+        private void Sauver_Turn_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
+            string json = JsonConvert.SerializeObject(TurnDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
         }
 
         // =========================================================
-        // 🔥 EXTRAIRE TURN HB
+        // 🔥 TURN_HB
         // =========================================================
+        private void Charger_Turn_HB_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
+            if (!File.Exists(fichier))
+                return;
+            string json = File.ReadAllText(fichier);
+            Turn_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Turn_HB(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5261,10 +4503,199 @@ namespace Poker
 
             return true;
         }
+        private void Lire_Turn_HB()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in Turn_HBDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_Turn_HB_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
+            string json = JsonConvert.SerializeObject(Turn_HBDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE RIVER HB
+        // 🔥 RIVER
         // =========================================================
+        private void Charger_River_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+            RiverDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
+        private bool Extraire_River(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            int index = 0;
+
+            bool bRiver = false;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // COMMENT : River
+                // =====================================
+
+                if (ligne == "COMMENT : River")
+                {
+                    bRiver = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+
+                if (!bRiver)
+                    continue;
+
+                // =====================================
+                // COMMENT : Carte
+                // =====================================
+
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom = ligne.Replace("COMMENT :", "").Trim();
+
+                    if (nom == "River")
+                        continue;
+
+                    if (nom.Length < 2)
+                        continue;
+
+                    // =====================================
+                    // Ligne suivante
+                    // =====================================
+                    if (i + 1 >= lignes.Length)
+                        continue;
+
+                    string l2 = lignes[i + 1].Trim();
+
+                    if (!l2.StartsWith("IF PIXEL COLOR EQUALS"))
+                        continue;
+                    // =====================================
+                    // Découpage
+                    // =====================================
+
+                    string[] t = l2.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+                    // =====================================
+                    // Extraction
+                    // =====================================
+
+                    RiverDetect[index].Nom = nom;
+
+                    RiverDetect[index].X = int.Parse(t[1]);
+
+                    RiverDetect[index].Y = int.Parse(t[2]);
+
+                    RiverDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 52)
+                return false;
+
+            return true;
+        }
+        private void Lire_River()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in RiverDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+                    AfficherCarte_Test(TB_R, Bt_River, 6);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_River_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "River.json");
+            string json = JsonConvert.SerializeObject(RiverDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 RIVER_HB
+        // =========================================================
+        private void Charger_River_HB_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+            River_HBDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_River_HB(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5354,10 +4785,643 @@ namespace Poker
 
             return true;
         }
+        private void Lire_River_HB()
+        {
+            CarteCourante = "";
+
+            foreach (var carte in River_HBDetect)
+            {
+                // =====================================
+                // Sécurité
+                // =====================================
+
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                // =====================================
+                // Lecture pixel
+                // =====================================
+
+                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
+
+                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
+
+                // =====================================
+                // Correspondance EXACTE
+                // =====================================
+
+                if (couleurLue == carte.Couleur)
+                {
+                    CarteCourante = carte.Nom;
+                    AfficherCarte_Test(TB_R, Bt_River, 6);
+
+                    return;
+                }
+            }
+        }
+        private void Sauver_River_HB_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            String fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
+            string json = JsonConvert.SerializeObject(River_HBDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE MAIN BOARD
+        // 🔥 FELICITATION
         // =========================================================
+        private void Charger_Felicitation_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            FelicitationDetect = JsonConvert.DeserializeObject<S_FelicitationDetect[]>(json);
+        }
+        private bool Extraire_Felicitation(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bFelicitation = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Felicitation")
+                {
+                    bFelicitation = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bFelicitation)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    FelicitationDetect[index].Nom = nomCourant;
+                    FelicitationDetect[index].X = int.Parse(t[1]);
+                    FelicitationDetect[index].Y = int.Parse(t[2]);
+                    FelicitationDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Felicitation_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
+            string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR A TAPIS
+        // =========================================================
+        private void Charger_Joueur_A_Tapis_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_A_Tapis.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurATapisDetect = JsonConvert.DeserializeObject<S_JoueurATapisDetect[]>(json);
+        }
+        private bool Extraire_Joueur_A_Tapis(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_A_Tapis = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_A_Tapis")
+                {
+                    bJoueur_A_Tapis = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_A_Tapis)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurATapisDetect[index].Nom = nomCourant;
+                    JoueurATapisDetect[index].X = int.Parse(t[1]);
+                    JoueurATapisDetect[index].Y = int.Parse(t[2]);
+                    JoueurATapisDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_A_Tapis_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_A_Tapis.json");
+            string json = JsonConvert.SerializeObject(JoueurATapisDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR PAROLE
+        // =========================================================
+        private void Charger_Joueur_Parole_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Parole.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurParoleDetect = JsonConvert.DeserializeObject<S_JoueurParoleDetect[]>(json);
+        }
+        private bool Extraire_Joueur_Parole(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueurParole = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Parole")
+                {
+                    bJoueurParole = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueurParole)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurParoleDetect[index].Nom = nomCourant;
+                    JoueurParoleDetect[index].X = int.Parse(t[1]);
+                    JoueurParoleDetect[index].Y = int.Parse(t[2]);
+                    JoueurParoleDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_Parole_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Parole.json");
+            string json = JsonConvert.SerializeObject(JoueurParoleDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR REFLECHIT
+        // =========================================================
+        private void Charger_Joueur_Reflechit_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Reflechit.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurReflechitDetect = JsonConvert.DeserializeObject<S_JoueurReflechitDetect[]>(json);
+        }
+        private bool Extraire_Joueur_Reflechit(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_Reflechit = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Reflechit")
+                {
+                    bJoueur_Reflechit = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_Reflechit)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurReflechitDetect[index].Nom = nomCourant;
+                    JoueurReflechitDetect[index].X = int.Parse(t[1]);
+                    JoueurReflechitDetect[index].Y = int.Parse(t[2]);
+                    JoueurReflechitDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_Reflechit_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Reflechit.json");
+            string json = JsonConvert.SerializeObject(JoueurReflechitDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR RELANCE
+        // =========================================================
+        private void Charger_Joueur_Relance_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Relance.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurRelanceDetect = JsonConvert.DeserializeObject<S_JoueurRelanceDetect[]>(json);
+        }
+        private bool Extraire_Joueur_Relance(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_Relance = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Relance")
+                {
+                    bJoueur_Relance = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_Relance)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurRelanceDetect[index].Nom = nomCourant;
+                    JoueurRelanceDetect[index].X = int.Parse(t[1]);
+                    JoueurRelanceDetect[index].Y = int.Parse(t[2]);
+                    JoueurRelanceDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_Relance_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Relance.json");
+            string json = JsonConvert.SerializeObject(JoueurRelanceDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR SE COUCHE
+        // =========================================================
+        private void Charger_Joueur_Se_Couche_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurSeCoucheDetect = JsonConvert.DeserializeObject<S_JoueurSeCoucheDetect[]>(json);
+        }
+        private bool Extraire_Joueur_Se_Couche(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_Se_Couche = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Se_Couche")
+                {
+                    bJoueur_Se_Couche = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_Se_Couche)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurSeCoucheDetect[index].Nom = nomCourant;
+                    JoueurSeCoucheDetect[index].X = int.Parse(t[1]);
+                    JoueurSeCoucheDetect[index].Y = int.Parse(t[2]);
+                    JoueurSeCoucheDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_Se_Couche_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
+            string json = JsonConvert.SerializeObject(JoueurSeCoucheDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 JOUEUR SUIT
+        // =========================================================
+        private void Charger_Joueur_Suit_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Suit.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JoueurSuitDetect = JsonConvert.DeserializeObject<S_JoueurSuitDetect[]>(json);
+        }
+        private bool Extraire_Joueur_Suit(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJoueur_Suit = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Joueur_Suit")
+                {
+                    bJoueur_Suit = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJoueur_Suit)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JoueurSuitDetect[index].Nom = nomCourant;
+                    JoueurSuitDetect[index].X = int.Parse(t[1]);
+                    JoueurSuitDetect[index].Y = int.Parse(t[2]);
+                    JoueurSuitDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Joueur_Suit_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Suit.json");
+            string json = JsonConvert.SerializeObject(JoueurSuitDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 MAIN BOARD
+        // =========================================================
+        private void Charger_Main_Board_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Main_Board.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            Main_BoardDetect = JsonConvert.DeserializeObject<S_CarteDetect[]>(json);
+        }
         private bool Extraire_Main_Board(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5431,9 +5495,28 @@ namespace Poker
 
             return true;
         }
+        private void Sauver_Main_Board_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            String fichier = Path.Combine(DOSSIER_JSON, "Nain_Board.json");
+            string json = JsonConvert.SerializeObject(Main_BoardDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
         // =========================================================
-        // 🔥 EXTRAIRE MA POSITION
+        // 🔥 MA POSITION
         // =========================================================
+        private void Charger_Ma_Position_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            MaPositionDetect = JsonConvert.DeserializeObject<S_MaPositionDetect[]>(json);
+        }
         private bool Extraire_Ma_Position(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5477,10 +5560,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    PositionDetect[index].Nom = nomCourant;
-                    PositionDetect[index].X = int.Parse(t[1]);
-                    PositionDetect[index].Y = int.Parse(t[2]);
-                    PositionDetect[index].Couleur = int.Parse(t[3]);
+                    MaPositionDetect[index].Nom = nomCourant;
+                    MaPositionDetect[index].X = int.Parse(t[1]);
+                    MaPositionDetect[index].Y = int.Parse(t[2]);
+                    MaPositionDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -5495,75 +5578,28 @@ namespace Poker
 
             return true;
         }
-
-        // =========================================================
-        // 🔥 EXTRAIRE PLACES LIBRES
-        // =========================================================
-        private bool Extraire_Places_Libres(string txt)
+        private void Sauver_Ma_Position_JSON()
         {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bPlaces_Libres = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Places_Libres")
-                {
-                    bPlaces_Libres = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bPlaces_Libres)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    PlacesLibresDetect[index].Nom = nomCourant;
-                    PlacesLibresDetect[index].X = int.Parse(t[1]);
-                    PlacesLibresDetect[index].Y = int.Parse(t[2]);
-                    PlacesLibresDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 9)
-                return false;
-
-            return true;
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Ma_Position.json");
+            string json = JsonConvert.SerializeObject(MaPositionDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
         }
 
         // =========================================================
-        // 🔥 EXTRAIRE NIVEAU TABLE
+        // 🔥 NIVEAU TABLE
         // =========================================================
+        private void Charger_Niveau_Table_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            NiveauTableDetect = JsonConvert.DeserializeObject<S_NiveauTableDetect[]>(json);
+        }
         private bool Extraire_Niveau_Table(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -5625,335 +5661,28 @@ namespace Poker
 
             return true;
         }
-
-        // =========================================================
-        // 🔥 EXTRAIRE JOUEUR SE COUCHE
-        // =========================================================
-        private bool Extraire_Joueur_Se_Couche(string txt)
+        private void Sauver_Niveau_Table_JSON()
         {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bJoueur_Se_Couche = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Joueur_Se_Couche")
-                {
-                    bJoueur_Se_Couche = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bJoueur_Se_Couche)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    JoueurSeCoucheDetect[index].Nom = nomCourant;
-                    JoueurSeCoucheDetect[index].X = int.Parse(t[1]);
-                    JoueurSeCoucheDetect[index].Y = int.Parse(t[2]);
-                    JoueurSeCoucheDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 9)
-                return false;
-
-            return true;
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
+            string json = JsonConvert.SerializeObject(NiveauTableDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
         }
 
         // =========================================================
-        // 🔥 EXTRAIRE POSITION BOUTON
+        // 🔥 NOUVEAU NIVEAU
         // =========================================================
-        private bool Extraire_Position_Bouton(string txt)
+        private void Charger_Nouveau_Niveau_JSON()
         {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bPosition_Bouton = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
+            string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
 
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Position_Bouton")
-                {
-                    bPosition_Bouton = true;
-                    continue;
-                }
+            if (!File.Exists(fichier))
+                return;
 
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bPosition_Bouton)
-                    continue;
+            string json = File.ReadAllText(fichier);
 
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    PositionBoutonDetect[index].Nom = nomCourant;
-                    PositionBoutonDetect[index].X = int.Parse(t[1]);
-                    PositionBoutonDetect[index].Y = int.Parse(t[2]);
-                    PositionBoutonDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 9)
-                return false;
-
-            return true;
+            NouveauNiveauDetect = JsonConvert.DeserializeObject<S_NouveauNiveauDetect[]>(json);
         }
-
-        // =========================================================
-        // 🔥 EXTRAIRE PUBLICITE
-        // =========================================================
-        private bool Extraire_Publicite(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bPublicite = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Publicite")
-                {
-                    bPublicite = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bPublicite)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    PubliciteDetect[index].Nom = nomCourant;
-                    PubliciteDetect[index].X = int.Parse(t[1]);
-                    PubliciteDetect[index].Y = int.Parse(t[2]);
-                    PubliciteDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 1)
-                return false;
-
-            return true;
-        }
-
-        // =========================================================
-        // 🔥 EXTRAIRE PLUS DE JETONS
-        // =========================================================
-        private bool Extraire_Plus_De_Jetons(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bPlus_De_Jetons = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Plus_De_Jetons")
-                {
-                    bPlus_De_Jetons = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bPlus_De_Jetons)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    PlusDeJetonsDetect[index].Nom = nomCourant;
-                    PlusDeJetonsDetect[index].X = int.Parse(t[1]);
-                    PlusDeJetonsDetect[index].Y = int.Parse(t[2]);
-                    PlusDeJetonsDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 1)
-                return false;
-
-            return true;
-        }
-
-        // =========================================================
-        // 🔥 EXTRAIRE FELICITATION
-        // =========================================================
-        private bool Extraire_Felicitation(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bFelicitation = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Felicitation")
-                {
-                    bFelicitation = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bFelicitation)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    FelicitationDetect[index].Nom = nomCourant;
-                    FelicitationDetect[index].X = int.Parse(t[1]);
-                    FelicitationDetect[index].Y = int.Parse(t[2]);
-                    FelicitationDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 1)
-                return false;
-
-            return true;
-        }
-
-        // =========================================================
-        // 🔥 EXTRAIRE NOUVEAU NIVEAU
-        // =========================================================
         private bool Extraire_Nouveau_Niveau(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -6015,15 +5744,33 @@ namespace Poker
 
             return true;
         }
+        private void Sauver_Nouveau_Niveau_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
+            string json = JsonConvert.SerializeObject(NouveauNiveauDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE JOUEUR A TAPIS
+        // 🔥 PUPITRE GRIS
         // =========================================================
-        private bool Extraire_Joueur_A_Tapis(string txt)
+        private void Charger_Puipitre_Gris()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PupitreGrisDetect = JsonConvert.DeserializeObject<S_PupitreGrisDetect[]>(json);
+        }
+        private bool Extraire_Pupitre_Gris(string txt)
         {
             string[] lignes = txt.Split('\n');
             int index = 0;
-            bool bJoueur_A_Tapis = false;
+            bool bPupitre_Gris = false;
             string nomCourant = "";
             for (int i = 0; i < lignes.Length; i++)
             {
@@ -6032,16 +5779,16 @@ namespace Poker
                 // =====================================
                 // DEBUT DU BLOC
                 // =====================================
-                if (ligne == "COMMENT : Joueur_A_Tapis")
+                if (ligne == "COMMENT : Pupitre_Gris")
                 {
-                    bJoueur_A_Tapis = true;
+                    bPupitre_Gris = true;
                     continue;
                 }
 
                 // =====================================
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
-                if (!bJoueur_A_Tapis)
+                if (!bPupitre_Gris)
                     continue;
 
                 // =====================================
@@ -6062,10 +5809,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    JoueurATapisDetect[index].Nom = nomCourant;
-                    JoueurATapisDetect[index].X = int.Parse(t[1]);
-                    JoueurATapisDetect[index].Y = int.Parse(t[2]);
-                    JoueurATapisDetect[index].Couleur = int.Parse(t[3]);
+                    PupitreGrisDetect[index].Nom = nomCourant;
+                    PupitreGrisDetect[index].X = int.Parse(t[1]);
+                    PupitreGrisDetect[index].Y = int.Parse(t[2]);
+                    PupitreGrisDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -6075,20 +5822,38 @@ namespace Poker
             // DONNEES NON CONFORMES
             // =====================================
 
-            if (index != 9)
+            if (index != 1)
                 return false;
 
             return true;
         }
+        private void Sauver_Pupitre_Gris_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
+            string json = JsonConvert.SerializeObject(PupitreGrisDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE JOUEUR PAROLE
+        // 🔥 PLACES LIBRES
         // =========================================================
-        private bool Extraire_Joueur_Parole(string txt)
+        private void Charger_Places_Libres_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PlacesLibresDetect = JsonConvert.DeserializeObject<S_PlacesLibresDetect[]>(json);
+        }
+        private bool Extraire_Places_Libres(string txt)
         {
             string[] lignes = txt.Split('\n');
             int index = 0;
-            bool bJoueurParole = false;
+            bool bPlaces_Libres = false;
             string nomCourant = "";
             for (int i = 0; i < lignes.Length; i++)
             {
@@ -6097,16 +5862,16 @@ namespace Poker
                 // =====================================
                 // DEBUT DU BLOC
                 // =====================================
-                if (ligne == "COMMENT : Joueur_Parole")
+                if (ligne == "COMMENT : Places_Libres")
                 {
-                    bJoueurParole = true;
+                    bPlaces_Libres = true;
                     continue;
                 }
 
                 // =====================================
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
-                if (!bJoueurParole)
+                if (!bPlaces_Libres)
                     continue;
 
                 // =====================================
@@ -6127,10 +5892,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    JoueurParoleDetect[index].Nom = nomCourant;
-                    JoueurParoleDetect[index].X = int.Parse(t[1]);
-                    JoueurParoleDetect[index].Y = int.Parse(t[2]);
-                    JoueurParoleDetect[index].Couleur = int.Parse(t[3]);
+                    PlacesLibresDetect[index].Nom = nomCourant;
+                    PlacesLibresDetect[index].X = int.Parse(t[1]);
+                    PlacesLibresDetect[index].Y = int.Parse(t[2]);
+                    PlacesLibresDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -6145,15 +5910,33 @@ namespace Poker
 
             return true;
         }
+        private void Sauver_Places_Libres_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
+            string json = JsonConvert.SerializeObject(PlacesLibresDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE JOUEUR REFLECHIT
+        // 🔥 PLUS DE JETONS
         // =========================================================
-        private bool Extraire_Joueur_Reflechit(string txt)
+        private void Charger_Plus_De_Jetons_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Jetons.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PlusDeJetonsDetect = JsonConvert.DeserializeObject<S_PlusDeJetonsDetect[]>(json);
+        }
+        private bool Extraire_Plus_De_Jetons(string txt)
         {
             string[] lignes = txt.Split('\n');
             int index = 0;
-            bool bJoueur_Reflechit = false;
+            bool bPlus_De_Jetons = false;
             string nomCourant = "";
             for (int i = 0; i < lignes.Length; i++)
             {
@@ -6162,16 +5945,16 @@ namespace Poker
                 // =====================================
                 // DEBUT DU BLOC
                 // =====================================
-                if (ligne == "COMMENT : Joueur_Reflechit")
+                if (ligne == "COMMENT : Plus_De_Jetons")
                 {
-                    bJoueur_Reflechit = true;
+                    bPlus_De_Jetons = true;
                     continue;
                 }
 
                 // =====================================
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
-                if (!bJoueur_Reflechit)
+                if (!bPlus_De_Jetons)
                     continue;
 
                 // =====================================
@@ -6192,10 +5975,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    JoueurReflechitDetect[index].Nom = nomCourant;
-                    JoueurReflechitDetect[index].X = int.Parse(t[1]);
-                    JoueurReflechitDetect[index].Y = int.Parse(t[2]);
-                    JoueurReflechitDetect[index].Couleur = int.Parse(t[3]);
+                    PlusDeJetonsDetect[index].Nom = nomCourant;
+                    PlusDeJetonsDetect[index].X = int.Parse(t[1]);
+                    PlusDeJetonsDetect[index].Y = int.Parse(t[2]);
+                    PlusDeJetonsDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -6205,20 +5988,38 @@ namespace Poker
             // DONNEES NON CONFORMES
             // =====================================
 
-            if (index != 9)
+            if (index != 1)
                 return false;
 
             return true;
         }
+        private void Sauver_Plus_De_Jetons_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Jetons.json");
+            string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE JOUEUR RELANCE
+        // 🔥 PLUS DE POT
         // =========================================================
-        private bool Extraire_Joueur_Relance(string txt)
+        private void Charger_Plus_De_Pot_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Pot.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PlusDePotDetect = JsonConvert.DeserializeObject<S_PlusDePotDetect[]>(json);
+        }
+        private bool Extraire_Plus_De_Pot(string txt)
         {
             string[] lignes = txt.Split('\n');
             int index = 0;
-            bool bJoueur_Relance = false;
+            bool bPlus_De_Pot = false;
             string nomCourant = "";
             for (int i = 0; i < lignes.Length; i++)
             {
@@ -6227,16 +6028,16 @@ namespace Poker
                 // =====================================
                 // DEBUT DU BLOC
                 // =====================================
-                if (ligne == "COMMENT : Joueur_Relance")
+                if (ligne == "COMMENT : Plus_De_Pot")
                 {
-                    bJoueur_Relance = true;
+                    bPlus_De_Pot = true;
                     continue;
                 }
 
                 // =====================================
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
-                if (!bJoueur_Relance)
+                if (!bPlus_De_Pot)
                     continue;
 
                 // =====================================
@@ -6257,10 +6058,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    JoueurRelanceDetect[index].Nom = nomCourant;
-                    JoueurRelanceDetect[index].X = int.Parse(t[1]);
-                    JoueurRelanceDetect[index].Y = int.Parse(t[2]);
-                    JoueurRelanceDetect[index].Couleur = int.Parse(t[3]);
+                    PlusDePotDetect[index].Nom = nomCourant;
+                    PlusDePotDetect[index].X = int.Parse(t[1]);
+                    PlusDePotDetect[index].Y = int.Parse(t[2]);
+                    PlusDePotDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -6270,20 +6071,38 @@ namespace Poker
             // DONNEES NON CONFORMES
             // =====================================
 
-            if (index != 9)
+            if (index != 1)
                 return false;
 
             return true;
         }
+        private void Sauver_Plus_De_Pot_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Pot.json");
+            string json = JsonConvert.SerializeObject(PlusDePotDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         // =========================================================
-        // 🔥 EXTRAIRE JOUEUR SUIT
+        // 🔥 POSITION BOUTON
         // =========================================================
-        private bool Extraire_Joueur_Suit(string txt)
+        private void Charger_Position_Bouton_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PositionBoutonDetect = JsonConvert.DeserializeObject<S_PositionBoutonDetect[]>(json);
+        }
+        private bool Extraire_Position_Bouton(string txt)
         {
             string[] lignes = txt.Split('\n');
             int index = 0;
-            bool bJoueur_Suit = false;
+            bool bPosition_Bouton = false;
             string nomCourant = "";
             for (int i = 0; i < lignes.Length; i++)
             {
@@ -6292,16 +6111,16 @@ namespace Poker
                 // =====================================
                 // DEBUT DU BLOC
                 // =====================================
-                if (ligne == "COMMENT : Joueur_Suit")
+                if (ligne == "COMMENT : Position_Bouton")
                 {
-                    bJoueur_Suit = true;
+                    bPosition_Bouton = true;
                     continue;
                 }
 
                 // =====================================
                 // PAS ENCORE DANS LE BLOC
                 // =====================================
-                if (!bJoueur_Suit)
+                if (!bPosition_Bouton)
                     continue;
 
                 // =====================================
@@ -6322,10 +6141,10 @@ namespace Poker
                     if (t.Length < 5)
                         continue;
 
-                    JoueurSuitDetect[index].Nom = nomCourant;
-                    JoueurSuitDetect[index].X = int.Parse(t[1]);
-                    JoueurSuitDetect[index].Y = int.Parse(t[2]);
-                    JoueurSuitDetect[index].Couleur = int.Parse(t[3]);
+                    PositionBoutonDetect[index].Nom = nomCourant;
+                    PositionBoutonDetect[index].X = int.Parse(t[1]);
+                    PositionBoutonDetect[index].Y = int.Parse(t[2]);
+                    PositionBoutonDetect[index].Couleur = int.Parse(t[3]);
 
                     index++;
                 }
@@ -6340,395 +6159,1081 @@ namespace Poker
 
             return true;
         }
+        private void Sauver_Position_Bouton_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
+            string json = JsonConvert.SerializeObject(PositionBoutonDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
+        // =========================================================
+        // 🔥 PUBICITE
+        // =========================================================
+        private void Charger_Publicite_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
 
+            if (!File.Exists(fichier))
+                return;
 
+            string json = File.ReadAllText(fichier);
 
+            PubliciteDetect = JsonConvert.DeserializeObject<S_PubliciteDetect[]>(json);
+        }
+        private bool Extraire_Publicite(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPublicite = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Publicite")
+                {
+                    bPublicite = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPublicite)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PubliciteDetect[index].Nom = nomCourant;
+                    PubliciteDetect[index].X = int.Parse(t[1]);
+                    PubliciteDetect[index].Y = int.Parse(t[2]);
+                    PubliciteDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Publicite_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
+            string json = JsonConvert.SerializeObject(PubliciteDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
 
         #endregion
 
-        #region LIRE
+        #region DETECTIONS
+
         // =========================================================
-        // 🔥 LIRE MAIN 1
+        // DETECTER MA POSITION
         // =========================================================
-        private void Lire_Main_1()
+        private int Ma_Position_Detectee()
         {
-            CarteCourante = "";
-
-            foreach (var carte in Main1Detect)
+            for (int i = 0; i < MaPositionDetect.Length; i++)
             {
-                // =====================================
-                // Sécurité
-                // =====================================
+                int couleur = LirePixel(
+                    MaPositionDetect[i].X,
+                    MaPositionDetect[i].Y);
 
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_M1,
-                        Bt_Main_1,
-                        0);
-
-                    return;
-                }
+                if (couleur == MaPositionDetect[i].Couleur)
+                    return i + 1;   // Position 1 à 9
             }
+
+            return 0;               // Non détectée
+        }
+        // =========================================================
+        // DETECTER PLUS DE JETONS
+        // =========================================================
+        private bool Plus_De_Jetons_Detecte()
+        {
+            for (int i = 0; i < PlusDeJetonsDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlusDeJetonsDetect[i].X,
+                    PlusDeJetonsDetect[i].Y);
+
+                if (couleur == PlusDeJetonsDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
+        }
+        // =========================================================
+        // DETECTER PLUS DE POT
+        // =========================================================
+        private bool Plus_De_Pot_Detecte()
+        {
+            for (int i = 0; i < PlusDePotDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlusDePotDetect[i].X,
+                    PlusDePotDetect[i].Y);
+
+                if (couleur == PlusDePotDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
+        }
+        // =========================================================
+        // DETECTER PUPITRE GRIS
+        // =========================================================
+        private bool Pupitre_Gris_Detecte()
+        {
+            for (int i = 0; i < PupitreGrisDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PupitreGrisDetect[i].X,
+                    PupitreGrisDetect[i].Y);
+
+                if (couleur == PupitreGrisDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
         }
 
-        // =========================================================
-        // 🔥 LIRE MAIN 2
-        // =========================================================
-        private void Lire_Main_2()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Main2Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X,  carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_M2, Bt_Main_2, 1);
-
-                    return;
-                }
-            }
-        }
-
-        // =========================================================
-        // 🔥 LIRE FLOP 1
-        // =========================================================
-        private void Lire_Flop_1()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop1Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_F1,
-                        Bt_Flop_1,
-                        2);
-
-                    return;
-                }
-            }
-        }
-        
-        // =========================================================
-        // 🔥 LIRE FLOP 2
-        // =========================================================
-        private void Lire_Flop_2()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop2Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel =
-                    Bitmap_Main.GetPixel(
-                        carte.X,
-                        carte.Y);
-
-                int couleurLue =
-                    (pixel.R << 16) |
-                    (pixel.G << 8) |
-                     pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante =
-                        carte.Nom;
-
-                    AfficherCarte_Test(
-                        TB_F2,
-                        Bt_Flop_2,
-                        3);
-
-                    return;
-                }
-            }
-        }
-
-        // =========================================================
-        // 🔥 LIRE FLOP 3
-        // =========================================================
-        private void Lire_Flop_3()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Flop3Detect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-
-                    AfficherCarte_Test(TB_F3, Bt_Flop_3, 4);
-
-                    return;
-                }
-            }
-        }
-        
-        // =========================================================
-        // 🔥 LIRE TURN
-        // =========================================================
-        private void Lire_Turn()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in TurnDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
-
-                    return;
-                }
-            }
-        }
-        
-        // =========================================================
-        // 🔥 LIRE TURN HB
-        // =========================================================
-        private void Lire_Turn_HB()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in Turn_HBDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-                    AfficherCarte_Test(TB_T, Bt_Turn, 5);
-
-                    return;
-                }
-            }
-        }
-        
-        // =========================================================
-        // 🔥 LIRE RIVER
-        // =========================================================
-        private void Lire_River()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in RiverDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-                    AfficherCarte_Test(TB_R, Bt_River, 6);
-
-                    return;
-                }
-            }
-        }
-        
-        // =========================================================
-        // 🔥 LIRE RIVER HB
-        // =========================================================
-        private void Lire_River_HB()
-        {
-            CarteCourante = "";
-
-            foreach (var carte in River_HBDetect)
-            {
-                // =====================================
-                // Sécurité
-                // =====================================
-
-                if (string.IsNullOrEmpty(carte.Nom))
-                    continue;
-
-                // =====================================
-                // Lecture pixel
-                // =====================================
-
-                System.Drawing.Color pixel = Bitmap_Main.GetPixel(carte.X, carte.Y);
-
-                int couleurLue = (pixel.R << 16) | (pixel.G << 8) | pixel.B;
-
-                // =====================================
-                // Correspondance EXACTE
-                // =====================================
-
-                if (couleurLue == carte.Couleur)
-                {
-                    CarteCourante = carte.Nom;
-                    AfficherCarte_Test(TB_R, Bt_River, 6);
-
-                    return;
-                }
-            }
-        }
-        
         #endregion
 
-        #region BOUTONS TEST8BOARD TRIGGERS_BOARD TAPIS_PREFLOP  
+        #region ETATS        
+        // =========================================================
+        // RESET ETATS POKER
+        // =========================================================
+        private void Reset_Etats_Poker()
+        {
+            bMain1_OK = false;
+            bMain2_OK = false;
+
+            bFlop1_OK = false;
+            bFlop2_OK = false;
+            bFlop3_OK = false;
+
+            bTurn_OK = false;
+
+            bRiver_OK = false;
+        }
+
+        // =========================================================
+        // ETAT LECTURE
+        // =========================================================
+        private bool bMain1_OK = false;
+        private bool bMain2_OK = false;
+        private bool bFlop1_OK = false;
+        private bool bFlop2_OK = false;
+        private bool bFlop3_OK = false;
+        private bool bTurn_OK = false;
+        private bool bRiver_OK = false;
+
+        #endregion
+
+        #region GESTION DES POINTS
+
+        // =========================================================
+        // 🔥 BOUTON POINTS
+        // =========================================================
+        private void Bt_Points_Click(object sender, RoutedEventArgs e)
+        {
+            bPoints = !bPoints;
+
+            if (bPoints)
+            {
+                Bt_Points.Background = Brushes.LightGreen;
+
+                for (int i = 0; i < 104; i++)
+                {
+                    Turn_HBDetect[i].Nom = Ajouter_Point(Turn_HBDetect[i].Nom);
+                    River_HBDetect[i].Nom = Ajouter_Point(River_HBDetect[i].Nom);
+                }
+            }
+            else
+            {
+                Bt_Points.Background = Brushes.White;
+
+                for (int i = 0; i < 104; i++)
+                {
+                    Turn_HBDetect[i].Nom = Enlever_Point(Turn_HBDetect[i].Nom);
+                    River_HBDetect[i].Nom = Enlever_Point(River_HBDetect[i].Nom);
+                }
+            }
+        }
+
+        // =========================================================
+        // 🔥 AJOUTER POINT
+        // =========================================================
+        private string Ajouter_Point(string nom)
+        {
+            if (nom.EndsWith("."))
+                return nom;
+
+            return nom + ".";
+        }
+
+        // =========================================================
+        // 🔥 ENLEVER POINT
+        // =========================================================
+        private string Enlever_Point(string nom)
+        {
+            return nom.TrimEnd('.');
+        }
+
+        #endregion
+
+        #region HISTORIQUE
+        // =========================================================
+        // AJOUTER CARTE
+        // =========================================================
+        private void AjouterCarte(Paragraph p, TextBox tb, string separateur)
+        {
+            Run r = new Run(tb.Text + separateur);
+            r.Foreground = tb.Foreground;
+            p.Inlines.Add(r);
+        }
+
+        // =========================================================
+        // 🔥 AJOUTER UNE MAIN DANS LE RICHTEXTBOX
+        // =========================================================
+        private void Ajouter_Main_RTB()
+        {
+            // =====================================
+            // Ne pas afficher une main sans flop
+            // =====================================
+            if (TB_F1.Text == "")
+                return;
+
+            Paragraph p = new Paragraph();
+            p.Margin = new Thickness(0);
+
+            // =====================================
+            // Colonnes
+            // =====================================
+
+            string main =
+                TB_M1.Text + " " +
+                TB_M2.Text;
+
+            string flop =
+                TB_F1.Text + " " +
+                TB_F2.Text + " " +
+                TB_F3.Text;
+
+            string turnRiver =
+                TB_T.Text + " " +
+                TB_R.Text;
+
+            // =====================================
+            // Ligne complète
+            // =====================================
+
+            string ligne = "  " + main.PadRight(9) + "  " + flop.PadRight(14) + "  " + turnRiver;
+            Run r = new Run(ligne);
+            r.FontFamily = new FontFamily("Consolas");
+            r.Foreground = Brushes.Black;
+            p.Inlines.Add(r);
+            RTB_Historique.Document.Blocks.Add(p);
+        }
+
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE TXT
+        // =========================================================
+        private void Sauvegarder_Historique_TXT()
+        {
+            TextRange tr = new TextRange(
+                RTB_Historique.Document.ContentStart,
+                RTB_Historique.Document.ContentEnd);
+
+            string texte = tr.Text;
+
+            texte = texte.Replace(".", "");
+
+            File.WriteAllText(FichierHistoriqueTXT, texte);
+        }
+
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE RTF
+        // =========================================================
+        private void Sauvegarder_Historique_RTF()
+        {
+            FlowDocument doc = new FlowDocument();
+
+            // =====================================
+            // Charger l'ancien RTF
+            // =====================================
+
+            if (File.Exists(FichierHistoriqueRTF))
+            {
+                FileInfo fi = new FileInfo(FichierHistoriqueRTF);
+
+                if (fi.Length > 0)
+                {
+                    TextRange tr =
+                        new TextRange(
+                            doc.ContentStart,
+                            doc.ContentEnd);
+
+                    using (FileStream fs = new FileStream(
+                        FichierHistoriqueRTF,
+                        FileMode.Open,
+                        FileAccess.Read))
+                    {
+                        tr.Load(
+                            fs,
+                            DataFormats.Rtf);
+                    }
+                }
+            }
+
+            // =====================================
+            // Ajouter les Paragraph du RTB
+            // =====================================
+
+            foreach (Block b in RTB_Historique.Document.Blocks)
+            {
+                if (b is Paragraph pSource)
+                {
+                    Paragraph p = new Paragraph();
+
+                    p.Margin = pSource.Margin;
+                    p.LineHeight = pSource.LineHeight;
+                    p.TextAlignment = pSource.TextAlignment;
+
+                    foreach (Inline inline in pSource.Inlines)
+                    {
+                        if (inline is Run r)
+                        {
+                            Run nouveau = new Run();
+
+                            foreach (char c in r.Text)
+                            {
+                                if (c != '.')
+                                    nouveau.Text += c;
+                            }
+
+                            nouveau.Foreground = r.Foreground;
+                            nouveau.FontFamily = r.FontFamily;
+                            nouveau.FontSize = r.FontSize;
+                            nouveau.FontWeight = r.FontWeight;
+                            nouveau.FontStyle = r.FontStyle;
+
+                            p.Inlines.Add(nouveau);
+                        }
+                    }
+
+                    doc.Blocks.Add(p);
+                }
+            }
+
+            // =====================================
+            // Sauvegarder
+            // =====================================
+
+            TextRange trRTF =
+                new TextRange(
+                    doc.ContentStart,
+                    doc.ContentEnd);
+
+            using (FileStream fs = new FileStream(
+                FichierHistoriqueRTF,
+                FileMode.Create))
+            {
+                trRTF.Save(
+                    fs,
+                    DataFormats.Rtf);
+            }
+
+            // =====================================
+            // Vider le RTB
+            // =====================================
+
+            RTB_Historique.Document.Blocks.Clear();
+        }
+
+        // =========================================================
+        // 🔥 SAUVEGARDER HISTORIQUE JSON
+        // =========================================================
+        private void Sauvegarder_Historique_JSON()
+        {
+            List<MainHistorique> liste;
+
+            // =====================================
+            // Charger l'ancien JSON
+            // =====================================
+
+            if (File.Exists(FichierHistoriqueJSON))
+            {
+                string ancienJson =
+                    File.ReadAllText(
+                        FichierHistoriqueJSON);
+
+                if (ancienJson.Trim() != "")
+                {
+                    liste =
+                        System.Text.Json.JsonSerializer.Deserialize<
+                            List<MainHistorique>>(
+                                ancienJson);
+
+                    if (liste == null)
+                    {
+                        liste =
+                            new List<MainHistorique>();
+                    }
+                }
+                else
+                {
+                    liste =
+                        new List<MainHistorique>();
+                }
+            }
+            else
+            {
+                liste =
+                    new List<MainHistorique>();
+            }
+
+            // =====================================
+            // Ajouter les nouvelles mains
+            // =====================================
+
+            string[] lignes =
+                File.ReadAllLines(
+                    FichierHistoriqueTXT);
+
+            foreach (string ligne in lignes)
+            {
+                string[] cartes =
+                    ligne.Split(
+                        new char[] { ' ' },
+                        StringSplitOptions.RemoveEmptyEntries);
+
+                MainHistorique h =
+                    new MainHistorique();
+
+                if (cartes.Length > 0)
+                    h.M1 = cartes[0];
+
+                if (cartes.Length > 1)
+                    h.M2 = cartes[1];
+
+                if (cartes.Length > 2)
+                    h.F1 = cartes[2];
+
+                if (cartes.Length > 3)
+                    h.F2 = cartes[3];
+
+                if (cartes.Length > 4)
+                    h.F3 = cartes[4];
+
+                if (cartes.Length > 5)
+                    h.T = cartes[5];
+
+                if (cartes.Length > 6)
+                    h.R = cartes[6];
+
+                liste.Add(h);
+            }
+
+            // =====================================
+            // Sauvegarder le JSON complet
+            // =====================================
+
+            string json =
+                System.Text.Json.JsonSerializer.Serialize(
+                    liste,
+                    new JsonSerializerOptions
+                    {
+                        WriteIndented = true,
+                        Encoder =
+                            System.Text.Encodings.Web
+                            .JavaScriptEncoder
+                            .UnsafeRelaxedJsonEscaping
+                    });
+
+            File.WriteAllText(
+                FichierHistoriqueJSON,
+                json);
+        }
+
+        // =========================================================
+        // 🔥 VIDER HISTORIQUES
+        // =========================================================
+        private void Vider_Historiques()
+        {
+            File.WriteAllText(FichierHistoriqueTXT, "");
+            File.WriteAllText(FichierHistoriqueRTF, "");
+            File.WriteAllText(FichierHistoriqueJSON, "");
+
+            RTB_Historique.Document.Blocks.Clear();
+        }
+
+        #endregion
+
+        #region INJECTION
+
+        // =========================================================
+        // 🔥 BOUTON INJECTION
+        // =========================================================
+        private void Bt_Injection_Click(object sender, RoutedEventArgs e)
+        {
+            // =====================================
+            // Lecture presse-papiers
+            // =====================================
+
+            string txt = Clipboard.GetText();
+
+            // =====================================
+            // Rien ?
+            // =====================================
+
+            if (string.IsNullOrWhiteSpace(txt))
+            {
+                MessageBox.Show("Aucune donnée exploitable");
+                return;
+            }
+
+            // =====================================
+            // Affichage brut injection
+            // =====================================
+
+            TB_Injection.Text = txt;
+
+            // =====================================
+            // EXTRACTION
+            // =====================================
+
+            bool okMain1 = Extraire_Main1(txt);
+            bool okMain2 = Extraire_Main2(txt);
+            bool okFlop1 = Extraire_Flop1(txt);
+            bool okFlop2 = Extraire_Flop2(txt);
+            bool okFlop3 = Extraire_Flop3(txt);
+            bool okTurn = Extraire_Turn(txt);
+            bool okTurn_HB = Extraire_Turn_HB(txt);
+            bool okRiver = Extraire_River(txt);
+            bool okRiver_HB = Extraire_River_HB(txt);
+            bool okMain_Board = Extraire_Main_Board(txt);
+            bool okMa_Position = Extraire_Ma_Position(txt);
+            bool okPlaces_Libres = Extraire_Places_Libres(txt);
+            bool okNiveau_Table = Extraire_Niveau_Table(txt);
+            bool okPosition_Bouton = Extraire_Position_Bouton(txt);
+            bool okPublicite = Extraire_Publicite(txt);
+            bool okPlus_De_Jetons = Extraire_Plus_De_Jetons(txt);
+            bool okFelicitation = Extraire_Felicitation(txt);
+            bool okNouveau_Niveau = Extraire_Nouveau_Niveau(txt);
+            bool okPlus_De_Pot = Extraire_Plus_De_Pot(txt);
+            bool okPupitre_Gris = Extraire_Pupitre_Gris(txt);
+
+            bool okJoueur_Parole = Extraire_Joueur_Parole(txt);
+            bool okJoueur_A_Tapis = Extraire_Joueur_A_Tapis(txt);
+            bool okJoueur_Reflechit = Extraire_Joueur_Reflechit(txt);
+            bool okJoueur_Relance = Extraire_Joueur_Relance(txt);
+            bool okJoueur_Se_Couche = Extraire_Joueur_Se_Couche(txt);
+            bool okJoueur_Suit = Extraire_Joueur_Suit(txt);
+
+            // =====================================
+            // Aucune donnée reconnue
+            // =====================================
+
+            if (!okMain1 &&
+                !okMain2 &&
+                !okFlop1 &&
+                !okFlop2 &&
+                !okFlop3 &&
+                !okTurn &&
+                !okTurn_HB &&
+                !okRiver &&
+                !okRiver_HB &&
+                !okMain_Board &&
+                !okMa_Position &&
+                !okPlaces_Libres &&
+                !okNiveau_Table &&
+                !okJoueur_Parole &&
+                !okJoueur_A_Tapis &&
+                !okJoueur_Reflechit &&
+                !okJoueur_Relance &&
+                !okJoueur_Se_Couche &&
+                !okJoueur_Suit &&
+                !okPosition_Bouton &&
+                !okPublicite &&
+                !okPlus_De_Jetons &&
+                !okFelicitation &&
+                !okNouveau_Niveau &&
+                !okPlus_De_Pot &&
+                !okPupitre_Gris)
+            {
+                MessageBox.Show("Injection refusée");
+                return;
+            }
+
+            // =====================================
+            // SAUVEGARDE JSON
+            // =====================================
+
+            if (okMain1)
+                Sauver_Main1_JSON();
+
+            if (okMain2)
+                Sauver_Main2_JSON();
+
+            if (okFlop1)
+                Sauver_Flop1_JSON();
+
+            if (okFlop2)
+                Sauver_Flop2_JSON();
+
+            if (okFlop3)
+                Sauver_Flop3_JSON();
+
+            if (okTurn)
+                Sauver_Turn_JSON();
+
+            if (okTurn_HB)
+                Sauver_Turn_HB_JSON();
+
+            if (okRiver)
+                Sauver_River_JSON();
+
+            if (okRiver_HB)
+                Sauver_River_HB_JSON();
+
+            if (okMain_Board)
+                Sauver_Main_Board_JSON();
+
+            if (okMa_Position)
+                Sauver_Ma_Position_JSON();
+
+            if (okPlaces_Libres)
+                Sauver_Places_Libres_JSON();
+
+            if (okNiveau_Table)
+                Sauver_Niveau_Table_JSON();
+
+            if (okPosition_Bouton)
+                Sauver_Position_Bouton_JSON();
+
+            if (okPublicite)
+                Sauver_Publicite_JSON();
+
+            if (okPlus_De_Jetons)
+                Sauver_Plus_De_Jetons_JSON();
+
+            if (okPlus_De_Pot)
+                Sauver_Plus_De_Pot_JSON();
+
+            if (okPupitre_Gris)
+                Sauver_Pupitre_Gris_JSON();
+
+            if (okFelicitation)
+                Sauver_Felicitation_JSON();
+
+            if (okNouveau_Niveau)
+                Sauver_Nouveau_Niveau_JSON();
+
+
+
+            if (okJoueur_Parole)
+                Sauver_Joueur_Parole_JSON();
+
+            if (okJoueur_A_Tapis)
+                Sauver_Joueur_A_Tapis_JSON();
+
+            if (okJoueur_Reflechit)
+                Sauver_Joueur_Reflechit_JSON();
+
+            if (okJoueur_Relance)
+                Sauver_Joueur_Relance_JSON();
+
+            if (okJoueur_Se_Couche)
+                Sauver_Joueur_Se_Couche_JSON();
+
+            if (okJoueur_Suit)
+                Sauver_Joueur_Suit_JSON();
+
+            // =====================================
+            // RESULTAT
+            // =====================================
+
+            string msg =
+                "Injection JSON OK\n\n";
+
+            if (okMain1)
+                msg += "Main_1 : 52 cartes\n";
+
+            if (okMain2)
+                msg += "Main_2 : 52 cartes\n";
+
+            if (okFlop1)
+                msg += "Flop_1 : 52 cartes\n";
+
+            if (okFlop2)
+                msg += "Flop_2 : 52 cartes\n";
+
+            if (okFlop3)
+                msg += "Flop_3 : 52 cartes\n";
+
+            if (okTurn)
+                msg += "Turn : 52 cartes\n";
+
+            if (okTurn_HB)
+                msg += "Turn_HB : 104 cartes\n";
+
+            if (okRiver)
+                msg += "River : 52 cartes\n";
+
+            if (okRiver_HB)
+                msg += "River_HB : 104 cartes\n";
+
+            if (okMain_Board)
+                msg += "Main_Board : 81 détecteurs\n";
+
+
+
+
+            if (okJoueur_A_Tapis)
+                msg += "Joueur_A_Tapis : 9 détecteurs\n";
+
+            if (okJoueur_Parole)
+                msg += "Joueur_Parole : 9 détecteurs\n";
+
+            if (okJoueur_Reflechit)
+                msg += "Joueur_Reflechit : 9 détecteur\n";
+
+            if (okJoueur_Relance)
+                msg += "Joueur_Relance : 9 détecteurs\n";
+
+            if (okJoueur_Se_Couche)
+                msg += "Joueur_Se_Couche : 9 détecteurs\n";
+
+            if (okJoueur_Suit)
+                msg += "Joueur_Suit : 9 détecteurs\n";
+
+
+
+
+            if (okMa_Position)
+                msg += "Ma_Position : 9 détecteurs\n";
+
+            if (okPlaces_Libres)
+                msg += "Places_Libres : 9 détecteurs\n";
+
+            if (okNiveau_Table)
+                msg += "Niveau_Table : 12 détecteurs\n";
+
+            if (okPosition_Bouton)
+                msg += "Position_Bouton : 9 détecteurs\n";
+
+            if (okPublicite)
+                msg += "Publicite : 1 détecteur\n";
+
+            if (okPlus_De_Jetons)
+                msg += "Plus_De_Jetons : 1 détecteur\n";
+
+            if (okPlus_De_Pot)
+                msg += "Plus_De_Pot : 1 détecteur\n";
+
+            if (okFelicitation)
+                msg += "Felicitation : 1 détecteur\n";
+
+            if (okNouveau_Niveau)
+                msg += "Nouveau_Niveau : 1 détecteur\n";
+
+            if (okPupitre_Gris)
+                msg += "Pupitre_Gris : 1 détecteur\n";
+
+
+            MessageBox.Show(msg);
+        }
+
+
+        #endregion
+
+        #region MEMO
+        // =========================================================
+        // 🔥 MEMO
+        // =========================================================
+        private void ChargerRangeTapis(List<string> liste)
+        {
+            RangeTapis.Clear();
+
+            foreach (var main in liste)
+                RangeTapis.Add(main);
+
+            RafraichirAffichage();
+        }
+        private void ActiverMemo(Button boutonActif)
+        {
+            foreach (var b in BoutonsMemo)
+                b.Background = (Brush)FindResource("blanc");
+
+            boutonActif.Background = (Brush)FindResource("orange");
+        }
+        private void Bt_Mem01_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem01);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA","KK"
+            });
+        }
+        private void Bt_Mem02_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem02);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",
+                "AKp"
+            });
+        }
+        private void Bt_Mem03_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem03);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",
+                "AKp",  "AQp",
+                "AK"
+            });
+        }
+        private void Bt_Mem04_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem04);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",
+                "AKp",  "AQp",  "AJp",
+                "AK",   "AQ"
+            });
+        }
+        private void Bt_Mem05_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem05);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",
+                "AKp",  "AQp",  "AJp",  "A10p",
+                "AK",   "AQ",   "AJ",
+                "KQp"
+            });
+        }
+        private void Bt_Mem06_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem06);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",
+                "AK",   "AQ",   "AJ",   "A10",
+                "KQp",  "KJp",
+                "KQ"
+            });
+        }
+        private void Bt_Mem07_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem07);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",
+                "KQp",  "KJp",  "K10p",
+                "KQ"
+            });
+        }
+        private void Bt_Mem08_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem08);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",
+                "KQp",  "KJp",  "K10p",
+                "KQ",   "KJ"
+            });
+        }
+        private void Bt_Mem09_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem09);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",
+                "KQp",  "KJp",  "K10p", "K9p",
+                "KQ",   "KJ",   "K10"
+            });
+        }
+        private void Bt_Mem10_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem10);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",
+                "KQp",  "KJp",  "K10p", "K9p",  "K8p",
+                "KQ",   "KJ",   "K10"
+            });
+        }
+        private void Bt_Mem11_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem11);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",  "A4p",  "A3p",  "A2p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",   "A5",
+                "KQp",  "KJp",  "K10p", "K9p",  "K8p",  "K7p",
+                "KQ",   "KJ",   "K10",  "K9"
+            });
+        }
+        private void Bt_Mem12_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem12);
+            ChargerRangeTapis(new List<string>
+            {
+                "AA",   "KK",   "QQ",   "JJ",   "1010", "99",   "88",   "77",   "66",   "55",   "44",   "33",   "22",
+                "AKp",  "AQp",  "AJp",  "A10p", "A9p",  "A8p",  "A7p",  "A6p",  "A5p",  "A4p",  "A3p",  "A2p",
+                "AK",   "AQ",   "AJ",   "A10",  "A9",   "A8",   "A7",   "A6",   "A5",   "A4",
+                "KQp",  "KJp",  "K10p", "K9p",  "K8p",  "K7p",  "K6p",
+                "KQ",   "KJ",   "K10",  "K9",   "QJp"
+            });
+        }
+        private void Bt_Mem13_Click(object sender, RoutedEventArgs e)
+        {
+            ActiverMemo(Bt_Mem13);
+            ChargerRangeTapis(new List<string>
+            {
+
+            });
+        }
+
+        #endregion
+
+        #region RESETS
+        // =========================================================
+        // RESET TABLE
+        // =========================================================
+        private void Reset_Table()
+        {
+            // =====================================
+            // BOARD
+            // =====================================
+            TB_F1.Clear();
+            TB_F2.Clear();
+            TB_F3.Clear();
+            TB_T.Clear();
+            TB_R.Clear();
+
+            // =====================================
+            // BOUTONS
+            // =====================================
+            Bt_Flop_1.Background = Brushes.White;
+            Bt_Flop_2.Background = Brushes.White;
+            Bt_Flop_3.Background = Brushes.White;
+            Bt_Turn.Background = Brushes.White;
+            Bt_River.Background = Brushes.White;
+
+            // =====================================
+            // CALCULS
+            // =====================================
+            Reset_Flop();
+            Reset_Tirages_Flop();
+            Reset_Turn();
+            Reset_Tirages_Turn();
+            Reset_River();
+        }
+
+        // =========================================================
+        // RESET PreFlop Flop Turn River
+        // =========================================================
+        private void Reset_PreFlop()
+        {
+            Bt_PreFlop_Paire.Background = Blanc;
+            Bt_PreFlop_Pareille.Background = Blanc;
+            Bt_PreFlop_Suite.Background = Blanc;
+        }
+        private void Reset_Flop()
+        {
+            Bt_Flop_Paire.Background = Blanc;
+            Bt_Flop_2_Paires.Background = Blanc;
+            Bt_Flop_Brelan.Background = Blanc;
+            Bt_Flop_Quinte.Background = Blanc;
+            Bt_Flop_Couleur.Background = Blanc;
+            Bt_Flop_Full.Background = Blanc;
+            Bt_Flop_Carre.Background = Blanc;
+            Bt_Flop_QFlush.Background = Blanc;
+        }
+        private void Reset_Tirages_Flop()
+        {
+            bTir_Flop_Quinte = false;
+            bTir_Flop_Couleur = false;
+            bTir_Flop_QFlush = false;
+
+            Bt_Tir_Flop_Quinte.Background = Blanc;
+            Bt_Tir_Flop_Couleur.Background = Blanc;
+            Bt_Tir_Flop_QFlush.Background = Blanc;
+        }
+        private void Reset_Turn()
+        {
+            Bt_Turn_Paire.Background = Blanc;
+            Bt_Turn_2_Paires.Background = Blanc;
+            Bt_Turn_Brelan.Background = Blanc;
+            Bt_Turn_Quinte.Background = Blanc;
+            Bt_Turn_Couleur.Background = Blanc;
+            Bt_Turn_Full.Background = Blanc;
+            Bt_Turn_Carre.Background = Blanc;
+            Bt_Turn_QFlush.Background = Blanc;
+        }
+        private void Reset_Tirages_Turn()
+        {
+            bTir_Turn_Quinte = false;
+            bTir_Turn_Couleur = false;
+            bTir_Turn_QFlush = false;
+
+            Bt_Tir_Turn_Quinte.Background = Blanc;
+            Bt_Tir_Turn_Couleur.Background = Blanc;
+            Bt_Tir_Turn_QFlush.Background = Blanc;
+        }
+        private void Reset_River()
+        {
+            Bt_River_Paire.Background = Blanc;
+            Bt_River_2_Paires.Background = Blanc;
+            Bt_River_Brelan.Background = Blanc;
+            Bt_River_Quinte.Background = Blanc;
+            Bt_River_Couleur.Background = Blanc;
+            Bt_River_Full.Background = Blanc;
+            Bt_River_Carre.Background = Blanc;
+            Bt_River_QFlush.Background = Blanc;
+        }
 
         // =========================================================
         // RESET ETATS TRIGGER
@@ -6746,6 +7251,76 @@ namespace Poker
 
             bRiver_OK = false;
         }
+
+        #endregion
+
+        #region SE RECAVER
+        // =========================================================
+        // SE RECAVER
+        // =========================================================
+        private void Se_Recaver() // PRIVATE : Visible uniquement ici.
+        {
+            //MessageBox.Show("Se_Recaver");
+            switch (MiseSelectionnee)
+            {
+                case -9: Recave_M(9); break;
+                case -8: Recave_M(8); break;
+                case -6: Recave_M(6); break;
+                case -4: Recave_M(4); break;
+                case -2: Recave_M(2); break;
+
+                case 0:
+                    // Aucun déplacement.
+                    break;
+
+                case 2: Recave_P(2); break;
+                case 4: Recave_P(4); break;
+                case 6: Recave_P(6); break;
+                case 8: Recave_P(8); break;
+                case 10: Recave_P(10); break;
+            }
+
+            // Validation
+            Clic(PlusDeJetonsDetect[0].X, PlusDeJetonsDetect[0].Y);
+        }
+
+        // =========================================================
+        // RECAVE MOINS
+        // =========================================================
+        private void Recave_M(int Nombre) // PRIVATE : Visible uniquement ici.
+        {
+            for (int i = 0; i < Nombre; i++)
+            {
+                Clic(845, 560);
+            }
+        }
+
+        // =========================================================
+        // RECAVE PLUS
+        // =========================================================
+        private void Recave_P(int Nombre) // PRIVATE : Visible uniquement ici.
+        {
+            for (int i = 0; i < Nombre; i++)
+            {
+                Clic(1070, 560);
+            }
+        }
+
+        // =========================================================
+        // CLIC
+        // =========================================================
+        private void Clic(int X, int Y)
+        {
+
+            SetCursorPos(X, Y);
+
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
+        }
+
+        #endregion
+
+        #region TEST_BOARD TRIGGERS_BOARD TAPIS_PREFLOP 
 
         // =========================================================
         // 🔥 TEST_BOARD
@@ -6790,7 +7365,7 @@ namespace Poker
                     // =====================================
                     // Capture écran
                     // =====================================
-                    CaptureEcran_Ecran1();
+                    CaptureEcran();
 
                     // ==========================
                     // PASSAGE AU GRIS
@@ -6941,20 +7516,20 @@ namespace Poker
                 }
                 await Task.Delay(1);
 
-                CaptureEcran_Ecran1();
+                CaptureEcran();
 
-                if (LirePixel(1126, 989) == 8421504)
+                if (Pupitre_Gris_Detecte())
                 {
                     bGris = true;
 
                     // ==========================================
                     // PLUS DE POT
                     // ==========================================
-                    if (LirePixel(958, 422) == 2706446)
+                    if (Plus_De_Pot_Detecte())
                     {
-                        await Task.Delay(5100);
+                        await Task.Delay(5200);
 
-                        CaptureEcran_Ecran1();
+                        CaptureEcran();
 
                         if (Plus_De_Jetons_Detecte())
                         {
@@ -7139,7 +7714,7 @@ namespace Poker
         // =========================================================
         // TAPIS PREFLOP
         // =========================================================
-        private async void Bt_Tapis_PreFlop_Click( object sender, RoutedEventArgs e)
+        private async void Bt_Tapis_PreFlop_Click(object sender, RoutedEventArgs e)
         {
             //Vider_Historiques();
             if (bTapisPreFlop_Actif)
@@ -7185,20 +7760,20 @@ namespace Poker
                 }
                 await Task.Delay(1);
 
-                CaptureEcran_Ecran1();
+                CaptureEcran();
 
-                if (LirePixel(1126, 989) == 8421504)
+                if (Pupitre_Gris_Detecte())
                 {
                     bGris = true;
 
                     // ==========================================
                     // PLUS DE POT
                     // ==========================================
-                    if (LirePixel(958, 422) == 2706446)
+                    if (Plus_De_Pot_Detecte())
                     {
-                        await Task.Delay(5100);
+                        await Task.Delay(5200);
 
-                        CaptureEcran_Ecran1();
+                        CaptureEcran();
 
                         if (Plus_De_Jetons_Detecte())
                         {
@@ -7522,530 +8097,5 @@ namespace Poker
 
         #endregion
 
-        #region RESETS
-
-        // =========================================================
-        // RESETS
-        // =========================================================
-        // =========================================================
-        // RESET TABLE
-        // =========================================================
-        private void Reset_Table()
-        {
-            // =====================================
-            // BOARD
-            // =====================================
-            TB_F1.Clear();
-            TB_F2.Clear();
-            TB_F3.Clear();
-            TB_T.Clear();
-            TB_R.Clear();
-
-            // =====================================
-            // BOUTONS
-            // =====================================
-            Bt_Flop_1.Background = Brushes.White;
-            Bt_Flop_2.Background = Brushes.White;
-            Bt_Flop_3.Background = Brushes.White;
-            Bt_Turn.Background = Brushes.White;
-            Bt_River.Background = Brushes.White;
-
-            // =====================================
-            // CALCULS
-            // =====================================
-            Reset_Flop();
-            Reset_Tirages_Flop();
-            Reset_Turn();
-            Reset_Tirages_Turn();
-            Reset_River();
-        }
-
-        // =========================================================
-        // RESET PreFlop Flop Turn River
-        // =========================================================
-        private void Reset_PreFlop()
-        {
-            Bt_PreFlop_Paire.Background = Blanc;
-            Bt_PreFlop_Pareille.Background = Blanc;
-            Bt_PreFlop_Suite.Background = Blanc;
-        }
-        private void Reset_Flop()
-        {
-            Bt_Flop_Paire.Background = Blanc;
-            Bt_Flop_2_Paires.Background = Blanc;
-            Bt_Flop_Brelan.Background = Blanc;
-            Bt_Flop_Quinte.Background = Blanc;
-            Bt_Flop_Couleur.Background = Blanc;
-            Bt_Flop_Full.Background = Blanc;
-            Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
-        }
-        private void Reset_Tirages_Flop()
-        {
-            bTir_Flop_Quinte = false;
-            bTir_Flop_Couleur = false;
-            bTir_Flop_QFlush = false;
-
-            Bt_Tir_Flop_Quinte.Background = Blanc;
-            Bt_Tir_Flop_Couleur.Background = Blanc;
-            Bt_Tir_Flop_QFlush.Background = Blanc;
-        }
-        private void Reset_Turn()
-        {
-            Bt_Turn_Paire.Background = Blanc;
-            Bt_Turn_2_Paires.Background = Blanc;
-            Bt_Turn_Brelan.Background = Blanc;
-            Bt_Turn_Quinte.Background = Blanc;
-            Bt_Turn_Couleur.Background = Blanc;
-            Bt_Turn_Full.Background = Blanc;
-            Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
-        }
-        private void Reset_Tirages_Turn()
-        {
-            bTir_Turn_Quinte = false;
-            bTir_Turn_Couleur = false;
-            bTir_Turn_QFlush = false;
-
-            Bt_Tir_Turn_Quinte.Background = Blanc;
-            Bt_Tir_Turn_Couleur.Background = Blanc;
-            Bt_Tir_Turn_QFlush.Background = Blanc;
-        }
-        private void Reset_River()
-        {
-            Bt_River_Paire.Background = Blanc;
-            Bt_River_2_Paires.Background = Blanc;
-            Bt_River_Brelan.Background = Blanc;
-            Bt_River_Quinte.Background = Blanc;
-            Bt_River_Couleur.Background = Blanc;
-            Bt_River_Full.Background = Blanc;
-            Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
-        }
-
-        #endregion
-        // =========================================================
-        // 🔥 AJOUTER POINT
-        // =========================================================
-        private string Ajouter_Point(string nom)
-        {
-            if (nom.EndsWith("."))
-                return nom;
-
-            return nom + ".";
-        }
-
-        // =========================================================
-        // 🔥 ENLEVER POINT
-        // =========================================================
-        private string Enlever_Point(string nom)
-        {
-            return nom.TrimEnd('.');
-        }
-
-        // =========================================================
-        // AJOUTER CARTE
-        // =========================================================
-        private void AjouterCarte(Paragraph p, TextBox tb, string separateur)
-        {
-            Run r = new Run(tb.Text + separateur);
-            r.Foreground = tb.Foreground;
-            p.Inlines.Add(r);
-        }
-
-        // =========================================================
-        // 🔥 AJOUTER UNE MAIN DANS LE RICHTEXTBOX
-        // =========================================================
-        private void Ajouter_Main_RTB()
-        {
-            // =====================================
-            // Ne pas afficher une main sans flop
-            // =====================================
-            if (TB_F1.Text == "")
-                return;
-
-            Paragraph p = new Paragraph();
-            p.Margin = new Thickness(0);
-
-            // =====================================
-            // Colonnes
-            // =====================================
-
-            string main =
-                TB_M1.Text + " " +
-                TB_M2.Text;
-
-            string flop =
-                TB_F1.Text + " " +
-                TB_F2.Text + " " +
-                TB_F3.Text;
-
-            string turnRiver =
-                TB_T.Text + " " +
-                TB_R.Text;
-
-            // =====================================
-            // Ligne complète
-            // =====================================
-
-            string ligne = "  " + main.PadRight(9) + "  " + flop.PadRight(14) + "  " + turnRiver;
-            Run r = new Run(ligne);
-            r.FontFamily = new FontFamily("Consolas");
-            r.Foreground = Brushes.Black;
-            p.Inlines.Add(r);
-            RTB_Historique.Document.Blocks.Add(p);
-        }
-
-        // =========================================================
-        // 🔥 SAUVEGARDER HISTORIQUE TXT
-        // =========================================================
-        private void Sauvegarder_Historique_TXT()
-        {
-            TextRange tr = new TextRange(
-                RTB_Historique.Document.ContentStart,
-                RTB_Historique.Document.ContentEnd);
-
-            string texte = tr.Text;
-
-            texte = texte.Replace(".", "");
-
-            File.WriteAllText(FichierHistoriqueTXT, texte);
-        }
-        // =========================================================
-        // 🔥 SAUVEGARDER HISTORIQUE RTF
-        // =========================================================
-        private void Sauvegarder_Historique_RTF()
-        {
-            FlowDocument doc = new FlowDocument();
-
-            // =====================================
-            // Charger l'ancien RTF
-            // =====================================
-
-            if (File.Exists(FichierHistoriqueRTF))
-            {
-                FileInfo fi = new FileInfo(FichierHistoriqueRTF);
-
-                if (fi.Length > 0)
-                {
-                    TextRange tr =
-                        new TextRange(
-                            doc.ContentStart,
-                            doc.ContentEnd);
-
-                    using (FileStream fs = new FileStream(
-                        FichierHistoriqueRTF,
-                        FileMode.Open,
-                        FileAccess.Read))
-                    {
-                        tr.Load(
-                            fs,
-                            DataFormats.Rtf);
-                    }
-                }
-            }
-
-            // =====================================
-            // Ajouter les Paragraph du RTB
-            // =====================================
-
-            foreach (Block b in RTB_Historique.Document.Blocks)
-            {
-                if (b is Paragraph pSource)
-                {
-                    Paragraph p = new Paragraph();
-
-                    p.Margin = pSource.Margin;
-                    p.LineHeight = pSource.LineHeight;
-                    p.TextAlignment = pSource.TextAlignment;
-
-                    foreach (Inline inline in pSource.Inlines)
-                    {
-                        if (inline is Run r)
-                        {
-                            Run nouveau = new Run();
-
-                            foreach (char c in r.Text)
-                            {
-                                if (c != '.')
-                                    nouveau.Text += c;
-                            }
-
-                            nouveau.Foreground = r.Foreground;
-                            nouveau.FontFamily = r.FontFamily;
-                            nouveau.FontSize = r.FontSize;
-                            nouveau.FontWeight = r.FontWeight;
-                            nouveau.FontStyle = r.FontStyle;
-
-                            p.Inlines.Add(nouveau);
-                        }
-                    }
-
-                    doc.Blocks.Add(p);
-                }
-            }
-
-            // =====================================
-            // Sauvegarder
-            // =====================================
-
-            TextRange trRTF =
-                new TextRange(
-                    doc.ContentStart,
-                    doc.ContentEnd);
-
-            using (FileStream fs = new FileStream(
-                FichierHistoriqueRTF,
-                FileMode.Create))
-            {
-                trRTF.Save(
-                    fs,
-                    DataFormats.Rtf);
-            }
-
-            // =====================================
-            // Vider le RTB
-            // =====================================
-
-            RTB_Historique.Document.Blocks.Clear();
-        }
-
-        // =========================================================
-        // 🔥 SAUVEGARDER HISTORIQUE JSON
-        // =========================================================
-        private void Sauvegarder_Historique_JSON()
-        {
-            List<MainHistorique> liste;
-
-            // =====================================
-            // Charger l'ancien JSON
-            // =====================================
-
-            if (File.Exists(FichierHistoriqueJSON))
-            {
-                string ancienJson =
-                    File.ReadAllText(
-                        FichierHistoriqueJSON);
-
-                if (ancienJson.Trim() != "")
-                {
-                    liste =
-                        System.Text.Json.JsonSerializer.Deserialize<
-                            List<MainHistorique>>(
-                                ancienJson);
-
-                    if (liste == null)
-                    {
-                        liste =
-                            new List<MainHistorique>();
-                    }
-                }
-                else
-                {
-                    liste =
-                        new List<MainHistorique>();
-                }
-            }
-            else
-            {
-                liste =
-                    new List<MainHistorique>();
-            }
-
-            // =====================================
-            // Ajouter les nouvelles mains
-            // =====================================
-
-            string[] lignes =
-                File.ReadAllLines(
-                    FichierHistoriqueTXT);
-
-            foreach (string ligne in lignes)
-            {
-                string[] cartes =
-                    ligne.Split(
-                        new char[] { ' ' },
-                        StringSplitOptions.RemoveEmptyEntries);
-
-                MainHistorique h =
-                    new MainHistorique();
-
-                if (cartes.Length > 0)
-                    h.M1 = cartes[0];
-
-                if (cartes.Length > 1)
-                    h.M2 = cartes[1];
-
-                if (cartes.Length > 2)
-                    h.F1 = cartes[2];
-
-                if (cartes.Length > 3)
-                    h.F2 = cartes[3];
-
-                if (cartes.Length > 4)
-                    h.F3 = cartes[4];
-
-                if (cartes.Length > 5)
-                    h.T = cartes[5];
-
-                if (cartes.Length > 6)
-                    h.R = cartes[6];
-
-                liste.Add(h);
-            }
-
-            // =====================================
-            // Sauvegarder le JSON complet
-            // =====================================
-
-            string json =
-                System.Text.Json.JsonSerializer.Serialize(
-                    liste,
-                    new JsonSerializerOptions
-                    {
-                        WriteIndented = true,
-                        Encoder =
-                            System.Text.Encodings.Web
-                            .JavaScriptEncoder
-                            .UnsafeRelaxedJsonEscaping
-                    });
-
-            File.WriteAllText(
-                FichierHistoriqueJSON,
-                json);
-        }
-
-        // =========================================================
-        // 🔥 EXTRAIRE CARTES
-        // =========================================================
-        private List<string> Extraire_Cartes(string txt)
-        {
-            List<string> cartes = new List<string>();
-            MatchCollection mc = Regex.Matches(txt, @"10[♠♥♦♣]|[2-9AJQKA][♠♥♦♣]");
-
-            foreach (Match m in mc)
-            {
-                cartes.Add(m.Value);
-            }
-
-            return cartes;
-        }
-
-        // =========================================================
-        // 🔥 VIDER HISTORIQUES
-        // =========================================================
-        private void Vider_Historiques()
-        {
-            File.WriteAllText(FichierHistoriqueTXT, "");
-            File.WriteAllText(FichierHistoriqueRTF, "");
-            File.WriteAllText(FichierHistoriqueJSON, "");
-
-            RTB_Historique.Document.Blocks.Clear();
-        }
-
-        // =========================================================
-        // LIRE PIXEL
-        // =========================================================
-        private int LirePixel(int x, int y)
-        {
-            // =====================================
-            // SECURITE
-            // =====================================
-            if (Bitmap_Main == null)
-                return 0;
-
-            // =====================================
-            // LECTURE PIXEL
-            // =====================================
-            System.Drawing.Color c =
-                Bitmap_Main.GetPixel(x, y);
-
-            // =====================================
-            // RGB 24 bits
-            // =====================================
-            return c.ToArgb() & 0xFFFFFF;
-        }
-
-        // =========================================================
-        // EFFACE BOARD
-        // =========================================================
-        private void Efface_Board()
-        {
-            TB_F1.Clear();
-            TB_F2.Clear();
-            TB_F3.Clear();
-            TB_T.Clear();
-            TB_R.Clear();
-        }
-
-        // =========================================================
-        // SE RECAVER
-        // =========================================================
-        private void Se_Recaver() // PRIVATE : Visible uniquement ici.
-        {
-            //MessageBox.Show("Se_Recaver");
-            switch (MiseSelectionnee)
-            {
-                case -9: Recave_M(9); break;
-                case -8: Recave_M(8); break;
-                case -6: Recave_M(6); break;
-                case -4: Recave_M(4); break;
-                case -2: Recave_M(2); break;
-
-                case 0:
-                    // Aucun déplacement.
-                    break;
-
-                case 2: Recave_P(2); break;
-                case 4: Recave_P(4); break;
-                case 6: Recave_P(6); break;
-                case 8: Recave_P(8); break;
-                case 10: Recave_P(10); break;
-            }
-
-            // Validation
-            Clic(PlusDeJetonsDetect[0].X, PlusDeJetonsDetect[0].Y);
-        }
-
-        // =========================================================
-        // RECAVE MOINS
-        // =========================================================
-        private void Recave_M(int Nombre) // PRIVATE : Visible uniquement ici.
-        {
-            for (int i = 0; i < Nombre; i++)
-            {
-                Clic(845, 560);
-            }
-        }
-
-        // =========================================================
-        // RECAVE PLUS
-        // =========================================================
-        private void Recave_P(int Nombre) // PRIVATE : Visible uniquement ici.
-        {
-            for (int i = 0; i < Nombre; i++)
-            {
-                Clic(1070, 560);
-            }
-        }
-
-        // =========================================================
-        // CLIC
-        // =========================================================
-        private void Clic(int X, int Y)
-        {
-
-            SetCursorPos(X, Y);
-
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
-        }
-        // =========================================================
-        // PLUS DE JETONS
-        // =========================================================
-        private bool Plus_De_Jetons() // PRIVATE : Visible uniquement ici.
-        {
-            return Detecter_Presence("Plus_De_Jetons");
-        }
     }
 }
