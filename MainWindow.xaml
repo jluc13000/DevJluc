@@ -439,7 +439,7 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Mise"         Width="60"    Height="46"     Margin="347,622,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="8"/>
+        <TextBox x:Name="TB_Mise"         Width="264"    Height="94"     Margin="136,335,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="8"/>
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
@@ -493,7 +493,7 @@
     Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="140,315,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Bench"  Content="benchmark"  Click="Bt_Benchmark_Click"  HorizontalAlignment="Left" Height="20" Margin="330,218,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
-             Margin="136,335,0,339"
+             Margin="136,434,0,339"
              FontSize="14"
              FontWeight="Bold"
              FontFamily="Consolas"

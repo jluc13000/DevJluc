@@ -228,7 +228,7 @@ namespace Poker
         private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
         // TABLEAU DETECTION EVENEMENTIELLE
-        private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[81];
+        private S_CarteDetect[] Main_BoardDetect = new S_CarteDetect[83];
 
         // TABLEAU DETECTION MA POSITION
         private S_MaPositionDetect[] MaPositionDetect = new S_MaPositionDetect[9]; 
@@ -258,7 +258,7 @@ namespace Poker
         private S_PlusDePotDetect[] PlusDePotDetect = new S_PlusDePotDetect[1];
 
         // TABLEAU DETECTION PUPITRE GRIS
-        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[1];
+        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[2];
 
 
 
@@ -440,13 +440,13 @@ namespace Poker
             Charger_River_HB_JSON();
 
             Charger_Main_Board_JSON();
-            Charger_Main_Board_JSON();
 
             Charger_Ma_Position_JSON();
             Charger_Places_Libres_JSON();
             Charger_Niveau_Table_JSON();
             Charger_Position_Bouton_JSON();
             Charger_Publicite_JSON();
+            Charger_Pupitre_Gris_JSON();
             Charger_Plus_De_Jetons_JSON();
             Charger_Plus_De_Pot_JSON();
             Charger_Felicitation_JSON();
@@ -864,7 +864,7 @@ namespace Poker
             // =====================================
             // BOUTON
             // =====================================
-
+            if(!bTestBoard_Actif)
             bt.Background = Orange;
         }
 
@@ -5443,6 +5443,8 @@ namespace Poker
                 if (ligne == "COMMENT : Main_Board_Presence")
                 {
                     bMain_Board = true;
+
+                    MessageBox.Show("bMain_Board = true;");
                     continue;
                 }
 
@@ -5490,15 +5492,18 @@ namespace Poker
             // =====================================
             // DONNEES NON CONFORMES
             // =====================================
-            if (index != 81)
+            if (index != 83)
+            {
+                MessageBox.Show("index != 83");
                 return false;
+            }
 
             return true;
         }
         private void Sauver_Main_Board_JSON()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
-            String fichier = Path.Combine(DOSSIER_JSON, "Nain_Board.json");
+            String fichier = Path.Combine(DOSSIER_JSON, "Main_Board.json");
             string json = JsonConvert.SerializeObject(Main_BoardDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
@@ -5681,7 +5686,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            NouveauNiveauDetect = JsonConvert.DeserializeObject<S_NouveauNiveauDetect[]>(json);
+            PupitreGrisDetect = JsonConvert.DeserializeObject<S_PupitreGrisDetect[]>(json);
         }
         private bool Extraire_Nouveau_Niveau(string txt)
         {
@@ -5755,7 +5760,7 @@ namespace Poker
         // =========================================================
         // 🔥 PUPITRE GRIS
         // =========================================================
-        private void Charger_Puipitre_Gris()
+        private void Charger_Pupitre_Gris_JSON()
         {
             string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
 
@@ -5822,7 +5827,7 @@ namespace Poker
             // DONNEES NON CONFORMES
             // =====================================
 
-            if (index != 1)
+            if (index != 2)
                 return false;
 
             return true;
@@ -6912,7 +6917,7 @@ namespace Poker
                 msg += "River_HB : 104 cartes\n";
 
             if (okMain_Board)
-                msg += "Main_Board : 81 détecteurs\n";
+                msg += "Main_Board : 83 détecteurs\n";
 
 
 
@@ -6966,7 +6971,7 @@ namespace Poker
                 msg += "Nouveau_Niveau : 1 détecteur\n";
 
             if (okPupitre_Gris)
-                msg += "Pupitre_Gris : 1 détecteur\n";
+                msg += "Pupitre_Gris : 2 détecteurs\n";
 
 
             MessageBox.Show(msg);
@@ -7147,6 +7152,8 @@ namespace Poker
             // =====================================
             // BOARD
             // =====================================
+            TB_M1.Clear();
+            TB_M2.Clear();
             TB_F1.Clear();
             TB_F2.Clear();
             TB_F3.Clear();
@@ -7156,6 +7163,8 @@ namespace Poker
             // =====================================
             // BOUTONS
             // =====================================
+            Bt_Main_1.Background = Brushes.White;
+            Bt_Main_2.Background = Brushes.White;
             Bt_Flop_1.Background = Brushes.White;
             Bt_Flop_2.Background = Brushes.White;
             Bt_Flop_3.Background = Brushes.White;
@@ -7165,13 +7174,37 @@ namespace Poker
             // =====================================
             // CALCULS
             // =====================================
+            Reset_PreFlop();
             Reset_Flop();
             Reset_Tirages_Flop();
             Reset_Turn();
             Reset_Tirages_Turn();
             Reset_River();
         }
+        
+        // =========================================================
+        // RESET BOARD
+        // =========================================================
+        private void Reset_Board()
+        {
+            // =====================================
+            // BOARD
+            // =====================================
+            TB_F1.Clear();
+            TB_F2.Clear();
+            TB_F3.Clear();
+            TB_T.Clear();
+            TB_R.Clear();
 
+            //// =====================================
+            //// BOUTONS
+            //// =====================================
+            //Bt_Flop_1.Background = Brushes.White;
+            //Bt_Flop_2.Background = Brushes.White;
+            //Bt_Flop_3.Background = Brushes.White;
+            //Bt_Turn.Background = Brushes.White;
+            //Bt_River.Background = Brushes.White;
+        }
         // =========================================================
         // RESET PreFlop Flop Turn River
         // =========================================================
@@ -7342,13 +7375,22 @@ namespace Poker
             // =====================================
             StopTousModes();
 
-            Reset_Table();
-
             await Task.Delay(50);
 
             bool bGris = false;
 
             bTestBoard = true;
+            // =====================================
+            // BOUTONS
+            // =====================================
+
+            Bt_Main_1.Background = Brushes.White;
+            Bt_Main_2.Background = Brushes.White;
+            Bt_Flop_1.Background = Brushes.White;
+            Bt_Flop_2.Background = Brushes.White;
+            Bt_Flop_3.Background = Brushes.White;
+            Bt_Turn.Background = Brushes.White;
+            Bt_River.Background = Brushes.White;
 
             Bt_Test_Board.Background = Brushes.LightGreen;
 
@@ -7371,7 +7413,7 @@ namespace Poker
                     // PASSAGE AU GRIS
                     // ==========================
 
-                    if (LirePixel(1126, 989) == 8421504)
+                    if (Pupitre_Gris_Detecte())
                     {
                         bGris = true;
                     }
@@ -7381,11 +7423,11 @@ namespace Poker
                     // ==========================
 
                     if (bGris &&
-                        LirePixel(1126, 989) == 16646141)
+                        !Pupitre_Gris_Detecte())
                     {
                         bGris = false;
 
-                        Reset_Table();
+                        Reset_Board();
 
                         continue;
                     }
@@ -7481,7 +7523,6 @@ namespace Poker
             }
 
             StopTousModes();
-            Reset_Table();
             await Task.Delay(50);
 
             bTriggersBoard_Actif = true;
@@ -7542,7 +7583,7 @@ namespace Poker
                 // ==========================
                 // RETOUR DEBUT
                 // ==========================
-                if (bGris && LirePixel(1126, 989) == 16646141)
+                if (bGris && !Pupitre_Gris_Detecte())
                 {
                     bGris = false;
 
@@ -7581,11 +7622,6 @@ namespace Poker
                 if (!bMain1_Lu &&
                     Detecter_Presence("Main_1_Presence"))
                 {
-                    TB_M1.Clear();
-                    TB_M2.Clear();
-
-                    Reset_PreFlop();
-
                     Lire_Main_1();
 
                     bMain1_Lu = true;
@@ -7766,6 +7802,8 @@ namespace Poker
                 {
                     bGris = true;
 
+                    //MessageBox.Show("bGris = true");
+
                     // ==========================================
                     // PLUS DE POT
                     // ==========================================
@@ -7786,14 +7824,16 @@ namespace Poker
                 // ==========================
                 // RETOUR DEBUT
                 // ==========================
-                if (bGris && LirePixel(1126, 989) == 16646141)
+                if (bGris && !Pupitre_Gris_Detecte())
                 {
                     bGris = false;
+
+                    //MessageBox.Show("bGris = false");
 
                     // ==========================
                     // HISTORIQUE
                     // ==========================
-                    if (bAutoriserHistorique && TB_M1.Text != "")
+                    if (bAutoriserHistorique && bMain1_Lu &&  bMain2_Lu)
                     {
                         Ajouter_Historique();
 
@@ -7825,11 +7865,6 @@ namespace Poker
                 if (!bMain1_Lu &&
                     Detecter_Presence("Main_1_Presence"))
                 {
-                    TB_M1.Clear();
-                    TB_M2.Clear();
-
-                    Reset_PreFlop();
-
                     Lire_Main_1();
 
                     bMain1_Lu = true;
@@ -8093,6 +8128,8 @@ namespace Poker
             Bt_Triggers_Board.Background = Brushes.White;
 
             Bt_Tapis_PreFlop.Background = Brushes.White;
+
+            Reset_Table();
         }
 
         #endregion
