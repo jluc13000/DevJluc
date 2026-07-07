@@ -500,7 +500,8 @@
              IsReadOnly="True"
              VerticalScrollBarVisibility="Visible"
              HorizontalScrollBarVisibility="Auto"/>
-        <Button x:Name="Bt_Tapis_PreFlop"  Content="Tapis PréFlop"  Click="Bt_Tapis_PreFlop_Click"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tapis_PreFlop"   Content="Tapis PréFlop"     Click="Bt_Tapis_PreFlop_Click"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_IA"              Content="IA"                Click="Bt_IA_Click"             HorizontalAlignment="Left" Height="20" Margin="260,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>

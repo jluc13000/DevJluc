@@ -289,15 +289,15 @@ namespace Poker
         // =========================================================
         private int MiseSelectionnee = 0;
 
-        // =====================================================
-        // PREMIERE FUSION HISTORIQUE
-        // =====================================================
-        private bool bPremiereFusionHistorique = true;
+        //// =====================================================
+        //// PREMIERE FUSION HISTORIQUE
+        //// =====================================================
+        //private bool bPremiereFusionHistorique = true;
 
-        private bool bPremiereMain = true;
+        //private bool bPremiereMain = true;
 
-        private int Signature_Main1 = 0;
-        private int Signature_Main2 = 0;
+        //private int Signature_Main1 = 0;
+        //private int Signature_Main2 = 0;
 
         private string Carte, Memo_Max_Suit, Main1, Main2, Flop1, Flop2, Flop3, Turn, River, M, M1_Val, M2_Val;
         private string ActionForcee = null;
@@ -318,49 +318,45 @@ namespace Poker
         private bool bTurn_Paire, bTurn_2_Paires, bTurn_Brelan, bTurn_Quinte, bTurn_Couleur, bTurn_Full, bTurn_Carre, bTurn_QFlush;
         private bool bRiver_Paire, bRiver_2_Paires, bRiver_Brelan, bRiver_Quinte, bRiver_Couleur, bRiver_Full, bRiver_Carre, bRiver_QFlush;
 
-        private bool bSe_Recare;
-        private bool NM9, NM8, NM6, NM2, NM0, NP2, NP4, NP6, NP8, NP10;
-        private bool bPosition_1, bPosition_2, bPosition_3, bPosition_4, bPosition_5, bPosition_6, bPosition_7, bPosition_8, bPosition_9;
-        private bool bGrenhorn, bBeginner, bGambler, bPro, bBigFish, bMaster, bChampion, bGuru, bUltimate, bEpic, bInsane, bLegendary;
+        //private bool bSe_Recare;
+        //private bool NM9, NM8, NM6, NM2, NM0, NP2, NP4, NP6, NP8, NP10;
+        //private bool bPosition_1, bPosition_2, bPosition_3, bPosition_4, bPosition_5, bPosition_6, bPosition_7, bPosition_8, bPosition_9;
+        //private bool bGrenhorn, bBeginner, bGambler, bPro, bBigFish, bMaster, bChampion, bGuru, bUltimate, bEpic, bInsane, bLegendary;
 
-        private bool ss, bBouton_en_1, bBouton_en_2, bBouton_en_3, bBouton_en_4, bBouton_en_5, bBouton_en_6, bBouton_en_7, bBouton_en_8, bBouton_en_9;
+        //private bool ss, bBouton_en_1, bBouton_en_2, bBouton_en_3, bBouton_en_4, bBouton_en_5, bBouton_en_6, bBouton_en_7, bBouton_en_8, bBouton_en_9;
 
-        private int NbDoublon_Flop1;
-        private int NbDoublon_Flop2;
-        private int NbDoublon_Flop3;
+        //private int NbDoublon_Flop1;
+        //private int NbDoublon_Flop2;
+        //private int NbDoublon_Flop3;
 
-        private int NbDoublon_Turn;
-        private int NbDoublon_River;
+        //private int NbDoublon_Turn;
+        //private int NbDoublon_River;
         //----------------------------------------------------------
-        private bool bTriggersBoard = false; 
-        private bool bTriggersBoard_Actif = false;
-
-        private bool bTapisPreFlop = false;
-        private bool bTapisPreFlop_Actif = false;
-
-        private bool bTestBoard = false;
         private bool bTestBoard_Actif = false;
+        private bool bTriggersBoard_Actif = false;
+        private bool bTapisPreFlop_Actif = false;
+        private bool bIA_Actif = false;
         //----------------------------------------------------------
 
         private bool bPoints = true;
 
         private System.Drawing.Bitmap Bitmap_Main;
 
-        private string Main_Board_Presence = "";
+        //private string Main_Board_Presence = "";
 
-        private int NbTurnNormal = 0;
-        private int NbTurnHB = 0;
+        //private int NbTurnNormal = 0;
+        //private int NbTurnHB = 0;
 
-        private int NbRiverNormal = 0;
-        private int NbRiverHB = 0;
+        //private int NbRiverNormal = 0;
+        //private int NbRiverHB = 0;
 
-        private int Sig_M1_X = 1;
-        private int Sig_M1_Y = 1;
-        private int Sig_M1_C = 0;
+        //private int Sig_M1_X = 1;
+        //private int Sig_M1_Y = 1;
+        //private int Sig_M1_C = 0;
 
-        private int Sig_M2_X = 1;
-        private int Sig_M2_Y = 1;
-        private int Sig_M2_C = 0;
+        //private int Sig_M2_X = 1;
+        //private int Sig_M2_Y = 1;
+        //private int Sig_M2_C = 0;
 
         // =========================================================
         // AUTORISATION D'ECRITURE DANS L'HISTORIQUE
@@ -369,8 +365,8 @@ namespace Poker
 
         private const string DOSSIER_JSON = @"F:\source\repos\Poker\JSON";
         private static readonly string FichierHistoriqueJSON = Path.Combine(DOSSIER_JSON, "Historique.json");
-        private List<MainHistorique> Historique = new List<MainHistorique>();
-        private bool bArretDemande = false;
+        //private List<MainHistorique> Historique = new List<MainHistorique>();
+        //private bool bArretDemande = false;
 
         // Délai entre l'appui et le relâchement du clic (ms)
         private int DelaiClic = 0;
@@ -5832,6 +5828,9 @@ namespace Poker
 
             return true;
         }
+
+        
+
         private void Sauver_Pupitre_Gris_JSON()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -6699,6 +6698,97 @@ namespace Poker
 
             RTB_Historique.Document.Blocks.Clear();
         }
+        // =========================================================
+        // AFFICHAGE HISTORIQUE
+        // =========================================================
+        private void Affiche_Mise(string texte)
+        {
+            Paragraph p = new Paragraph();
+
+            p.Margin = new Thickness(0);
+            p.LineHeight = 1;
+
+            p.Inlines.Add(new Run(texte));
+
+            RTB_Historique.Document.Blocks.Add(p);
+
+            RTB_Historique.ScrollToEnd();
+        }
+
+        // =========================================================
+        // AJOUTER HISTORIQUE
+        // =========================================================
+        private void Ajouter_Historique()
+        {
+
+            if (!bAutoriserHistorique || TB_M1.Text == "")
+                return;
+
+            Paragraph p = new Paragraph();
+
+            p.Margin = new Thickness(0);
+            p.LineHeight = 1;
+
+            // =====================================
+            // Longueur Main
+            // =====================================
+
+            int lgMain = TB_M1.Text.Length + 1 + TB_M2.Text.Length;
+
+            int nbEspacesMainFlop = 9 - lgMain;
+
+            if (nbEspacesMainFlop < 2)
+                nbEspacesMainFlop = 2;
+
+            // =====================================
+            // Longueur Flop
+            // =====================================
+
+            int lgFlop =
+                TB_F1.Text.Length +
+                1 +
+                TB_F2.Text.Length +
+                1 +
+                TB_F3.Text.Length;
+
+            int nbEspacesFlopTurn = 14 - lgFlop;
+
+            if (nbEspacesFlopTurn < 2)
+                nbEspacesFlopTurn = 2;
+
+            // =====================================
+            // Main
+            // =====================================
+
+            AjouterCarte(p, TB_M1, " ");
+            AjouterCarte(p, TB_M2, new string(' ', nbEspacesMainFlop));
+
+            // =====================================
+            // Flop
+            // =====================================
+
+            AjouterCarte(p, TB_F1, " ");
+            AjouterCarte(p, TB_F2, " ");
+            AjouterCarte(
+                p,
+                TB_F3,
+                new string(' ', nbEspacesFlopTurn));
+
+            // =====================================
+            // Turn River
+            // =====================================
+
+            AjouterCarte(p, TB_T, " ");
+            AjouterCarte(p, TB_R, "");
+
+            //MessageBox.Show("Autorise = " + bAutoriserHistorique + "\nM1 = " + TB_M1.Text + "\nBlocks avant = " + RTB_Historique.Document.Blocks.Count);
+
+            RTB_Historique.Document.Blocks.Add(p);
+
+            //MessageBox.Show("Blocks après = " + RTB_Historique.Document.Blocks.Count);
+
+            RTB_Historique.ScrollToEnd();
+        }
 
         #endregion
 
@@ -7149,37 +7239,9 @@ namespace Poker
         // =========================================================
         private void Reset_Table()
         {
-            // =====================================
-            // BOARD
-            // =====================================
-            TB_M1.Clear();
-            TB_M2.Clear();
-            TB_F1.Clear();
-            TB_F2.Clear();
-            TB_F3.Clear();
-            TB_T.Clear();
-            TB_R.Clear();
-
-            // =====================================
-            // BOUTONS
-            // =====================================
-            Bt_Main_1.Background = Brushes.White;
-            Bt_Main_2.Background = Brushes.White;
-            Bt_Flop_1.Background = Brushes.White;
-            Bt_Flop_2.Background = Brushes.White;
-            Bt_Flop_3.Background = Brushes.White;
-            Bt_Turn.Background = Brushes.White;
-            Bt_River.Background = Brushes.White;
-
-            // =====================================
-            // CALCULS
-            // =====================================
-            Reset_PreFlop();
-            Reset_Flop();
-            Reset_Tirages_Flop();
-            Reset_Turn();
-            Reset_Tirages_Turn();
-            Reset_River();
+            Reset_Board();
+            Reset_Boutons();
+            Reset_Calculs();
         }
         
         // =========================================================
@@ -7187,24 +7249,48 @@ namespace Poker
         // =========================================================
         private void Reset_Board()
         {
-            // =====================================
-            // BOARD
-            // =====================================
+            TB_M1.Clear();
+            TB_M2.Clear();
+
             TB_F1.Clear();
             TB_F2.Clear();
             TB_F3.Clear();
+
             TB_T.Clear();
             TB_R.Clear();
-
-            //// =====================================
-            //// BOUTONS
-            //// =====================================
-            //Bt_Flop_1.Background = Brushes.White;
-            //Bt_Flop_2.Background = Brushes.White;
-            //Bt_Flop_3.Background = Brushes.White;
-            //Bt_Turn.Background = Brushes.White;
-            //Bt_River.Background = Brushes.White;
         }
+        // =========================================================
+        // RESET BOUTONS
+        // =========================================================
+        private void Reset_Boutons()
+        {
+            Bt_Main_1.Background = Brushes.White;
+            Bt_Main_2.Background = Brushes.White;
+
+            Bt_Flop_1.Background = Brushes.White;
+            Bt_Flop_2.Background = Brushes.White;
+            Bt_Flop_3.Background = Brushes.White;
+
+            Bt_Turn.Background = Brushes.White;
+            Bt_River.Background = Brushes.White;
+        }
+
+        // =========================================================
+        // RESET CALCULS
+        // =========================================================
+        private void Reset_Calculs()
+        {
+            Reset_PreFlop();
+
+            Reset_Flop();
+            Reset_Tirages_Flop();
+
+            Reset_Turn();
+            Reset_Tirages_Turn();
+
+            Reset_River();
+        }
+
         // =========================================================
         // RESET PreFlop Flop Turn River
         // =========================================================
@@ -7353,7 +7439,7 @@ namespace Poker
 
         #endregion
 
-        #region TEST_BOARD TRIGGERS_BOARD TAPIS_PREFLOP 
+        #region TEST_BOARD TRIGGERS_BOARD TAPIS_PREFLOP IA
 
         // =========================================================
         // 🔥 TEST_BOARD
@@ -7363,7 +7449,7 @@ namespace Poker
             // =====================================
             // STOP
             // =====================================
-            if (bTestBoard)
+            if (bTestBoard_Actif)
             {
                 StopTousModes();
 
@@ -7379,7 +7465,7 @@ namespace Poker
 
             bool bGris = false;
 
-            bTestBoard = true;
+            bTestBoard_Actif = true;
             // =====================================
             // BOUTONS
             // =====================================
@@ -7402,7 +7488,7 @@ namespace Poker
                 // BOUCLE
                 // =====================================
 
-                while (bTestBoard)
+                while (bTestBoard_Actif)
                 {
                     // =====================================
                     // Capture écran
@@ -7502,8 +7588,6 @@ namespace Poker
             {
                 bTestBoard_Actif = false;
 
-                bTestBoard = false;
-
                 Bt_Test_Board.Background =
                     Brushes.White;
             }
@@ -7542,10 +7626,10 @@ namespace Poker
             bool bTurn_Lu = false;
             bool bRiver_Lu = false;
             bool bGris = false;
+
             // =====================================
             // Nouvelle session
             // =====================================
-
             RTB_Historique.Document.Blocks.Clear();
 
             while (bTriggersBoard_Actif)
@@ -7989,102 +8073,30 @@ namespace Poker
 
             Bt_Tapis_PreFlop.Background = Brushes.White;
         }
+        // =========================================================
+        // IA
+        // =========================================================
+        private async void Bt_IA_Click(object sender, RoutedEventArgs e)
+        {
+            //Vider_Historiques();
+            if (bIA_Actif)
+            {
+                StopTousModes();
 
+                return;
+            }
+
+            StopTousModes();
+            await Task.Delay(50);
+
+            bIA_Actif = true;
+
+            // TODO : IA
+        }
+        #endregion
         private void Fusion_Historique()
         {
             MessageBox.Show("Fusion Historique");
-        }
-
-        // =========================================================
-        // AFFICHAGE HISTORIQUE
-        // =========================================================
-        private void Affiche_Mise(string texte)
-        {
-            Paragraph p = new Paragraph();
-
-            p.Margin = new Thickness(0);
-            p.LineHeight = 1;
-
-            p.Inlines.Add(new Run(texte));
-
-            RTB_Historique.Document.Blocks.Add(p);
-
-            RTB_Historique.ScrollToEnd();
-        }
-
-        // =========================================================
-        // AJOUTER HISTORIQUE
-        // =========================================================
-        private void Ajouter_Historique()
-        {
-
-            if (!bAutoriserHistorique || TB_M1.Text == "")
-                return;
-
-            Paragraph p = new Paragraph();
-
-            p.Margin = new Thickness(0);
-            p.LineHeight = 1;
-
-            // =====================================
-            // Longueur Main
-            // =====================================
-
-            int lgMain = TB_M1.Text.Length + 1 + TB_M2.Text.Length;
-
-            int nbEspacesMainFlop = 9 - lgMain;
-
-            if (nbEspacesMainFlop < 2)
-                nbEspacesMainFlop = 2;
-
-            // =====================================
-            // Longueur Flop
-            // =====================================
-
-            int lgFlop =
-                TB_F1.Text.Length +
-                1 +
-                TB_F2.Text.Length +
-                1 +
-                TB_F3.Text.Length;
-
-            int nbEspacesFlopTurn = 14 - lgFlop;
-
-            if (nbEspacesFlopTurn < 2)
-                nbEspacesFlopTurn = 2;
-
-            // =====================================
-            // Main
-            // =====================================
-
-            AjouterCarte(p, TB_M1, " ");
-            AjouterCarte(p, TB_M2, new string(' ', nbEspacesMainFlop));
-
-            // =====================================
-            // Flop
-            // =====================================
-
-            AjouterCarte(p, TB_F1, " ");
-            AjouterCarte(p, TB_F2, " ");
-            AjouterCarte(
-                p,
-                TB_F3,
-                new string(' ', nbEspacesFlopTurn));
-
-            // =====================================
-            // Turn River
-            // =====================================
-
-            AjouterCarte(p, TB_T, " ");
-            AjouterCarte(p, TB_R, "");
-
-            //MessageBox.Show("Autorise = " + bAutoriserHistorique + "\nM1 = " + TB_M1.Text + "\nBlocks avant = " + RTB_Historique.Document.Blocks.Count);
-
-            RTB_Historique.Document.Blocks.Add(p);
-
-            //MessageBox.Show("Blocks après = " + RTB_Historique.Document.Blocks.Count);
-
-            RTB_Historique.ScrollToEnd();
         }
 
         // =========================================================
@@ -8092,47 +8104,26 @@ namespace Poker
         // =========================================================
         private void StopTousModes()
         {
-            // =====================================
-            // Arrêt de tous les modes
-            // =====================================
-            // Ne plus autoriser l'ajout de nouvelles mains
-            bAutoriserHistorique = false;
-
-            bTestBoard = false;
-
-            bTapisPreFlop = false;
-
-            if (bTriggersBoard_Actif)
+            if (bTriggersBoard_Actif || bTapisPreFlop_Actif)
             {
-                bTriggersBoard_Actif = false;
-
-                // =====================================
-                // Ajouter la dernière main affichée
-                // =====================================
-
-                Ajouter_Historique();
-
                 Sauvegarder_Historique_TXT();
-
                 Sauvegarder_Historique_RTF();
-
                 Sauvegarder_Historique_JSON();
             }
 
-            // =====================================
-            // Remise à zéro des boutons
-            // =====================================
+            bAutoriserHistorique = false;
+
+            bTestBoard_Actif = false;
+            bTriggersBoard_Actif = false;
+            bTapisPreFlop_Actif = false;
 
             Bt_Test_Board.Background = Brushes.White;
-
             Bt_Triggers_Board.Background = Brushes.White;
-
             Bt_Tapis_PreFlop.Background = Brushes.White;
 
             Reset_Table();
         }
 
-        #endregion
 
     }
 }
