@@ -92,7 +92,7 @@
         <Button x:Name="Bt_Rand_T"                  Content="T"                 Click="Bt_Rand_T_Click"                                                     Height="20"     Margin="366,583,27,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Rand_R"                  Content="R"                 Click="Bt_Rand_R_Click"                                                     Height="20"     Margin="383,583,10,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Rand_MTFR"               Content="MTFR"              Click="Bt_Rand_MTFR_Click"                                                  Height="20"     Margin="332,602,44,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}" />
-        <Button x:Name="Bt_Se_Recare"               Content="Se Recare"         Click="Bt_Se_Recare_Click"          HorizontalAlignment="Left"              Height="20"     Margin="6,623,0,0"      VerticalAlignment="Top"     Width="60"                  FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Se_Recave"               Content="Se Recave"         Click="Bt_Se_Recave_Click"          HorizontalAlignment="Left"              Height="20"     Margin="6,623,0,0"      VerticalAlignment="Top"     Width="60"                  FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Position_1"              Content="1"                 Click="Bt_Position_1_Click"         HorizontalAlignment="Left"              Height="17"     Margin="4,140,0,0"      VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}" />
         <Button x:Name="Bt_Position_2"              Content="2"                 Click="Bt_Position_2_Click"         HorizontalAlignment="Left"              Height="17"     Margin="32,140,0,0"     VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
@@ -222,7 +222,7 @@
         <Button x:Name="Bt_Tir_Turn_Couleur"        Content="Col"               Click="Bt_Tir_Turn_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Tir_Turn_QFlush"         Content="QF"                Click="Bt_Tir_Turn_QFlush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
 
-        <Button x:Name="Bt_Je_suis_a_table"         Content=""                  Click="Bt_Je_suis_a_table_Click"    HorizontalAlignment="Left"              Height="17"     Margin="256,140,0,0"    VerticalAlignment="Top"     Width="9"   FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Je_suis_a_table"         Content=""                  Click="Bt_Je_suis_a_table_Click"    HorizontalAlignment="Left"              Height="17"     Margin="256,140,0,0"    VerticalAlignment="Top"     Width="11"   FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Un_Joueur_en_1"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,29,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Un_Joueur_en_2"          Content=""                  Click="Bt_Un_Joueur_Click"          HorizontalAlignment="Left"              Height="11"     Margin="257,41,0,0"     VerticalAlignment="Top"     Width="10"  FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
@@ -302,7 +302,7 @@
             Click="Bt_Parole_Passe_Click"       
             HorizontalAlignment="Left"              
             Height="20"     
-            Margin="145,255,0,0"    
+            Margin="138,255,0,0"    
             VerticalAlignment="Top"     
             Width="60"  FontSize="9"                        
             FontWeight="Bold"   
@@ -316,27 +316,27 @@
             HorizontalContentAlignment="Center"/>
 
         <!-- CALL -->
-        <Button x:Name="Bt_Call"
-            Content="Call"              
-            Click="Bt_Call_Click"         
+        <Button x:Name="Bt_Suivre"
+            Content="Suivre"              
+            Click="Bt_Suivre_Click"         
             HorizontalAlignment="Left"
             Height="20"
-            Margin="205,255,0,0"
+            Margin="198,255,0,0"
             VerticalAlignment="Top"
-            Width="60"
+            Width="37"
             FontSize="9"
             FontWeight="Bold"
             Style="{StaticResource FlatButton}"/>
 
         <!-- RAISE -->
-        <Button x:Name="Bt_Raise"
-            Content="Raise"
-            Click="Bt_Raise_Click"
+        <Button x:Name="Bt_Relancer"
+            Content="Relancer"
+            Click="Bt_Relancer_Click"
             HorizontalAlignment="Left"
             Height="20"
-            Margin="265,255,0,0"
+            Margin="235,255,0,0"
             VerticalAlignment="Top"
-            Width="60"
+            Width="50"
             FontSize="9"
             FontWeight="Bold"
             Style="{StaticResource FlatButton}"/>
@@ -360,9 +360,9 @@
         Click="Bt_Tapis_Click"
         HorizontalAlignment="Left"
         Height="20"
-        Margin="325,255,0,0"
+        Margin="285,255,0,0"
         VerticalAlignment="Top"
-        Width="60"
+        Width="39"
         FontSize="9"
         FontWeight="Bold"
         Style="{StaticResource FlatButton}"/>
@@ -439,13 +439,13 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Mise"         Width="264"    Height="94"     Margin="136,335,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="8"/>
+        <TextBox x:Name="TB_Mise"         Width="264"    Height="173"     Margin="136,320,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
 
         <!-- TextBlock -->
-        <TextBlock x:Name="T_Blind1"                Width="36"      Height="13"         Margin="58,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Blind3"                Width="36"      Height="13"         Margin="185,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Care_Min"              Width="44"      Height="13"         Margin="95,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Care_Max"              Width="44"      Height="13"         Margin="140,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Blinde_1"                Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Blinde_2"                Height="13"     Margin="180,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Cave_Min"              Width="43"      Height="13"         Margin="93,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Cave_Max"              Width="44"      Height="13"         Margin="136,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Call_Max"              Width="56"      Height="13"         Margin="207,240,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"/>
         <TextBlock x:Name="T_Raise_Max"             Width="56"      Height="13"         Margin="266,240,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"><Run Language="fr-fr" /></TextBlock>
         <TextBlock x:Name="T_Stak_Depart_Joueur1"   Width="71"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
@@ -457,13 +457,13 @@
         <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="71"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="71"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="71"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Care_Min_Copy"         Width="44"      Height="13"         Margin="140,190,0,0"    HorizontalAlignment="Left"      TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="140,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Care_Min_Copy"         Width="44"      Height="13"         Margin="136,190,0,0"    HorizontalAlignment="Left"      TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="136,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
 
         <!-- Label -->
-        <Label Content="      Binds           Care Min Care Max" HorizontalAlignment="Left" Height="21" Margin="57,153,0,0" VerticalAlignment="Top" Width="165" FontSize="10" FontStyle="Italic"/>
-        <Label Content="POT"        HorizontalAlignment="Left" Height="21" Margin="83,184,0,0"  VerticalAlignment="Top" Width="32" FontSize="10" FontStyle="Italic"/>
-        <Label Content="Mes Chips"  HorizontalAlignment="Left" Height="21" Margin="57,197,0,0"  VerticalAlignment="Top" Width="57" FontSize="10"    FontStyle="Italic"/>
+        <Label Content="       Bindes            Cave Min   Cave Max" HorizontalAlignment="Left" Height="20" Margin="57,157,0,0" VerticalAlignment="Top" Width="165" FontSize="9" FontStyle="Italic"/>
+        <Label Content="POT"        HorizontalAlignment="Left" Height="21" Margin="106,184,0,0"  VerticalAlignment="Top" Width="30" FontSize="10" FontStyle="Italic"/>
+        <Label Content="Mes Jetons"  HorizontalAlignment="Left" Height="22" Margin="77,196,0,0"  VerticalAlignment="Top" Width="57"    FontStyle="Italic" FontSize="10"/>
         <Label  Content="Tirages"   HorizontalAlignment="Left" Height="23" Margin="0,645,0,0"   VerticalAlignment="Top" Width="50" FontSize="9"     FontWeight="Bold"/>
         <Label x:Name="LbRandomStatus"
             Height="22"
@@ -490,10 +490,10 @@
         <Button
     x:Name="Bt_Test_Board"
     Content="Test Board"
-    Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="140,315,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+    Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="320,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Bench"  Content="benchmark"  Click="Bt_Benchmark_Click"  HorizontalAlignment="Left" Height="20" Margin="330,218,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
-             Margin="136,434,0,339"
+             Margin="136,493,0,334"
              FontSize="14"
              FontWeight="Bold"
              FontFamily="Consolas"
@@ -502,6 +502,17 @@
              HorizontalScrollBarVisibility="Auto"/>
         <Button x:Name="Bt_Tapis_PreFlop"   Content="Tapis PréFlop"     Click="Bt_Tapis_PreFlop_Click"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_IA"              Content="IA"                Click="Bt_IA_Click"             HorizontalAlignment="Left" Height="20" Margin="260,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Manuel"
+            Content="Manuel"
+            Click="Bt_Manuel_Click"
+            HorizontalAlignment="Left"
+            Height="20"
+            Margin="324,255,0,0"
+            VerticalAlignment="Top"
+            Width="76"
+            FontSize="9"
+            FontWeight="Bold"
+            Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>

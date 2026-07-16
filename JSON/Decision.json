@@ -1,0 +1,62 @@
+[
+  {
+    "Nom": "Se_Coucher",
+    "X": 1200,
+    "Y": 890,
+    "Couleur": 11862018
+  },
+  {
+    "Nom": "Se_Coucher",
+    "X": 1200,
+    "Y": 890,
+    "Couleur": 13810688
+  },
+  {
+    "Nom": "Parole",
+    "X": 1350,
+    "Y": 890,
+    "Couleur": 14900738
+  },
+  {
+    "Nom": "Parole",
+    "X": 1350,
+    "Y": 890,
+    "Couleur": 14402048
+  },
+  {
+    "Nom": "Tapis",
+    "X": 1500,
+    "Y": 980,
+    "Couleur": 13549824
+  },
+  {
+    "Nom": "Tapis",
+    "X": 1500,
+    "Y": 990,
+    "Couleur": 11075841
+  },
+  {
+    "Nom": "Relancer",
+    "X": 1500,
+    "Y": 940,
+    "Couleur": 5479963
+  },
+  {
+    "Nom": "Relancer",
+    "X": 1500,
+    "Y": 940,
+    "Couleur": 13612800
+  },
+  {
+    "Nom": "Suivre",
+    "X": 1500,
+    "Y": 890,
+    "Couleur": 7841760
+  },
+  {
+    "Nom": "Suivre",
+    "X": 1500,
+    "Y": 980,
+    "Couleur": 13549824
+  }
+]
