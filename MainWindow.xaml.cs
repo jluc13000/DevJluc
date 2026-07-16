@@ -6622,6 +6622,7 @@ namespace Poker
         // =========================================================
         private bool Decision_Autorisee()
         {
+
             // ==========================
             // MODE MANUEL
             // ==========================
@@ -6631,7 +6632,7 @@ namespace Poker
             // ==========================
             // PHASE JAUNE
             // ==========================
-            if (!bAutoriserHistorique)
+            if (!bAutoriserHistorique && !bTapisPreFlop_Actif)
                 return false;
 
             // ==========================
