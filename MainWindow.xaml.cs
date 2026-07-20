@@ -73,8 +73,53 @@ namespace Poker
             public int Couleur;
         }
 
+        // STRUCTURE DETECTION AUCUNE TABLE
+        public struct S_AucuneTableDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION DECISION
+        public struct S_DecisionDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION FELICITATION
+        public struct S_FelicitationDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION FIREFOX GGS VISIBLE
+        public struct S_FirefoxGGSVisibleDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         // STRUCTURE DETECTION JOUEUR A TAPIS
         public struct S_JoueurATapisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION JOUEUR PAROLE
+        public struct S_JoueurParoleDetect
         {
             public string Nom;
             public int X;
@@ -118,17 +163,8 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION MA POSITION
-        public struct S_SuisJeAssisDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-        
-        // STRUCTURE DETECTION PLACES LIBRES
-        public struct S_PlacesLibresDetect
+        // STRUCTURE DETECTION MAIN BOARD
+        public struct S_MainBoardDetect
         {
             public string Nom;
             public int X;
@@ -138,6 +174,42 @@ namespace Poker
 
         // STRUCTURE DETECTION NIVEAU TABLE
         public struct S_NiveauTableDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION NOUVEAU NIVEAU
+        public struct S_NouveauNiveauDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION PLACES LIBRES
+        public struct S_PlacesLibresDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION PLUS DE JETONS
+        public struct S_PlusDeJetonsDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE DETECTION PLUS DE POT
+        public struct S_PlusDePotDetect
         {
             public string Nom;
             public int X;
@@ -163,51 +235,6 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PLUS DE JETONS
-        public struct S_PlusDeJetonsDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE DETECTION FELICITATION
-        public struct S_FelicitationDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE DETECTION NOUVEAU NIVEAU
-        public struct S_NouveauNiveauDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE DETECTION JOUEUR PAROLE
-        public struct S_JoueurParoleDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE DETECTION PLUS DE POT
-        public struct S_PlusDePotDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
         // STRUCTURE DETECTION PUPITRE GRIS
         public struct S_PupitreGrisDetect
         {
@@ -217,8 +244,8 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION DECISION
-        public struct S_DecisionDetect
+        // STRUCTURE DETECTION SUIS JE ASSIS
+        public struct S_SuisJeAssisDetect
         {
             public string Nom;
             public int X;
@@ -226,19 +253,22 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION MAIN BOARD
-        public struct S_MainBoardDetect
+        // STRUCTURE DETECTION TABLE PRETE
+        public struct S_TablePreteDetect
         {
             public string Nom;
             public int X;
             public int Y;
             public int Couleur;
         }
+
+
 
         private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
 
         private const string FichierHistoriqueRTF = @"F:\source\repos\Poker\Historique.rtf";
 
+        // 572 pixels injectés 
         // TABLEAU DETECTION CARTES
         private S_CarteDetect[] Main1Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Main2Detect = new S_CarteDetect[52];
@@ -253,46 +283,30 @@ namespace Poker
         private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
         private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
-        // TABLEAU DETECTION EVENEMENTIELLE
-        private S_MainBoardDetect[] MainBoardDetect = new S_MainBoardDetect[80];
-
-        // TABLEAU DETECTION MA POSITION
-        private S_SuisJeAssisDetect[] SuisJeAssisDetect = new S_SuisJeAssisDetect[9]; 
-
-        // TABLEAU DETECTION PLACE LIBRE
-        private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
-
-        // TABLEAU DETECTION NIVEAU TABLE
-        private S_NiveauTableDetect[] NiveauTableDetect = new S_NiveauTableDetect[12];
-
-        // TABLEAU DETECTION POSITION BOUTON
-        private S_PositionBoutonDetect[] PositionBoutonDetect = new S_PositionBoutonDetect[9];
-
-        // TABLEAU DETECTION PUBLCITE
-        private S_PubliciteDetect[] PubliciteDetect = new S_PubliciteDetect[1];
-
-        // TABLEAU DETECTION PLUS DE JETONS
-        private S_PlusDeJetonsDetect[] PlusDeJetonsDetect = new S_PlusDeJetonsDetect[1];
-
-        // TABLEAU DETECTION FELICITATION
-        private S_FelicitationDetect[] FelicitationDetect = new S_FelicitationDetect[1];
-
-        // TABLEAU DETECTION NOUVEAU NIVEAU
-        private S_NouveauNiveauDetect[] NouveauNiveauDetect = new S_NouveauNiveauDetect[1];
-
-        // TABLEAU DETECTION PLUS DE POT
-        private S_PlusDePotDetect[] PlusDePotDetect = new S_PlusDePotDetect[1];
-
-        // TABLEAU DETECTION PUPITRE GRIS
-        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[2];
+        // 206 pixels injectés 
+        // TABLEAU DETECTION AUCUNE TABLE
+        private S_AucuneTableDetect[] AucuneTableDetect = new S_AucuneTableDetect[1];
 
         // TABLEAU DETECTION DECISION
         private S_DecisionDetect[] DecisionDetect = new S_DecisionDetect[10];
 
+        // TABLEAU DETECTION FELICITATION
+        private S_FelicitationDetect[] FelicitationDetect = new S_FelicitationDetect[1];
 
+        // TABLEAU DETECTION FIREFOX GGS VISIBLE
+        private S_FirefoxGGSVisibleDetect[] FirefoxGGSVisibleDetect = new S_FirefoxGGSVisibleDetect[1];
+
+        // TABLEAU DETECTION JOUEUR A TAPIS
+        private S_JoueurATapisDetect[] JoueurATapisDetect = new S_JoueurATapisDetect[9];
 
         // TABLEAU DETECTION JOUEUR PAROLE
         private S_JoueurParoleDetect[] JoueurParoleDetect = new S_JoueurParoleDetect[9];
+
+        // TABLEAU DETECTION JOUEUR REFLECHIT
+        private S_JoueurReflechitDetect[] JoueurReflechitDetect = new S_JoueurReflechitDetect[9];
+
+        // TABLEAU DETECTION JOUEUR RELANCE
+        private S_JoueurRelanceDetect[] JoueurRelanceDetect = new S_JoueurRelanceDetect[9];
 
         // TABLEAU DETECTION JOUEUR SE COUCHE
         private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
@@ -300,18 +314,42 @@ namespace Poker
         // TABLEAU DETECTION JOUEUR Suit
         private S_JoueurSuitDetect[] JoueurSuitDetect = new S_JoueurSuitDetect[9];
 
-        // TABLEAU DETECTION JOUEUR RELANCE
-        private S_JoueurRelanceDetect[] JoueurRelanceDetect = new S_JoueurRelanceDetect[9];
+        // TABLEAU DETECTION EVENEMENTIELLE
+        private S_MainBoardDetect[] MainBoardDetect = new S_MainBoardDetect[80];
 
-        // TABLEAU DETECTION JOUEUR REFLECHIT
-        private S_JoueurReflechitDetect[] JoueurReflechitDetect = new S_JoueurReflechitDetect[9];
+        // TABLEAU DETECTION NIVEAU TABLE
+        private S_NiveauTableDetect[] NiveauTableDetect = new S_NiveauTableDetect[12];
 
-        // TABLEAU DETECTION JOUEUR A TAPIS
-        private S_JoueurATapisDetect[] JoueurATapisDetect = new S_JoueurATapisDetect[9];
+        // TABLEAU DETECTION NOUVEAU NIVEAU
+        private S_NouveauNiveauDetect[] NouveauNiveauDetect = new S_NouveauNiveauDetect[1];
 
-        // 752 pixels injectés 
+        // TABLEAU DETECTION PLACE LIBRE
+        private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
 
-        
+        // TABLEAU DETECTION PLUS DE JETONS
+        private S_PlusDeJetonsDetect[] PlusDeJetonsDetect = new S_PlusDeJetonsDetect[1];
+
+        // TABLEAU DETECTION PLUS DE POT
+        private S_PlusDePotDetect[] PlusDePotDetect = new S_PlusDePotDetect[1];
+
+        // TABLEAU DETECTION POSITION BOUTON
+        private S_PositionBoutonDetect[] PositionBoutonDetect = new S_PositionBoutonDetect[9];
+
+        // TABLEAU DETECTION PUBLCITE
+        private S_PubliciteDetect[] PubliciteDetect = new S_PubliciteDetect[1];
+
+        // TABLEAU DETECTION PUPITRE GRIS
+        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[2];
+
+        // TABLEAU DETECTION SUIS JE ASSIS
+        private S_SuisJeAssisDetect[] SuisJeAssisDetect = new S_SuisJeAssisDetect[9];
+
+        // TABLEAU DETECTION TABLE PRETE
+        private S_TablePreteDetect[] TablePreteDetect = new S_TablePreteDetect[1];
+
+        // TOTAL : 778 pixels injectés 
+
+
 
         // =========================================================
         // MISE SELECTIONNEE
@@ -508,27 +546,30 @@ namespace Poker
             Charger_River_JSON();
             Charger_River_HB_JSON();
 
-            Charger_Main_Board_JSON();
-
-            Charger_Suis_Je_Assis_JSON();
-            Charger_Places_Libres_JSON();
-            Charger_Niveau_Table_JSON();
-            Charger_Position_Bouton_JSON();
-            Charger_Publicite_JSON();
-            Charger_Pupitre_Gris_JSON();
+            Charger_Aucune_Table_JSON();
             Charger_Decision_JSON();
-            Charger_Plus_De_Jetons_JSON();
-            Charger_Plus_De_Pot_JSON();
             Charger_Felicitation_JSON();
+            Charger_Firefox_GGS_Visible_JSON();
 
+            Charger_Joueur_A_Tapis_JSON();
             Charger_Joueur_Parole_JSON();
+            Charger_Joueur_Reflechit_JSON();
+            Charger_Joueur_Relance_JSON();
             Charger_Joueur_Se_Couche_JSON();
             Charger_Joueur_Suit_JSON();
-            Charger_Joueur_Relance_JSON();
-            Charger_Joueur_Reflechit_JSON();
-            Charger_Joueur_A_Tapis_JSON();
 
-            
+            Charger_Main_Board_JSON();
+            Charger_Niveau_Table_JSON();
+            Charger_Places_Libres_JSON();
+            Charger_Position_Bouton_JSON();
+            Charger_Plus_De_Jetons_JSON();
+            Charger_Plus_De_Pot_JSON();
+            Charger_Publicite_JSON();
+            Charger_Pupitre_Gris_JSON();
+            Charger_Suis_Je_Assis_JSON();
+            Charger_Table_Prete_JSON();
+
+
 
             // 🔥 Variables
             DebutSession = DateTime.Now;
@@ -4909,6 +4950,173 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 AUCUNE TABLE
+        // =========================================================
+        private void Charger_Aucune_Table_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Aucune_Table.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            DecisionDetect = JsonConvert.DeserializeObject<S_DecisionDetect[]>(json);
+        }
+        private bool Extraire_Aucune_Table(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bAucune_Table = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Aucune_Table")
+                {
+                    bAucune_Table = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bAucune_Table)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    AucuneTableDetect[index].Nom = nomCourant;
+                    AucuneTableDetect[index].X = int.Parse(t[1]);
+                    AucuneTableDetect[index].Y = int.Parse(t[2]);
+                    AucuneTableDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Aucune_Table_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Aucune_Table.json");
+            string json = JsonConvert.SerializeObject(AucuneTableDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 DECISION
+        // =========================================================
+        private void Charger_Decision_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Decision.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            DecisionDetect = JsonConvert.DeserializeObject<S_DecisionDetect[]>(json);
+        }
+        private bool Extraire_Decision(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bDecision = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Decision")
+                {
+                    bDecision = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bDecision)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    DecisionDetect[index].Nom = nomCourant;
+                    DecisionDetect[index].X = int.Parse(t[1]);
+                    DecisionDetect[index].Y = int.Parse(t[2]);
+                    DecisionDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 10)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Decision_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Decision.json");
+            string json = JsonConvert.SerializeObject(DecisionDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
         // 🔥 FELICITATION
         // =========================================================
         private void Charger_Felicitation_JSON()
@@ -4988,6 +5196,89 @@ namespace Poker
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
             string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 FIREFOX GGS VISIBLE
+        // =========================================================
+        private void Charger_Firefox_GGS_Visible_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Firefox_GGS_Visible.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            FirefoxGGSVisibleDetect = JsonConvert.DeserializeObject<S_FirefoxGGSVisibleDetect[]>(json);
+        }
+        private bool Extraire_Firefox_GGS_Visible(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bFirefoxGGSVisible = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Firefox_GGS_Visible")
+                {
+                    bFirefoxGGSVisible = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bFirefoxGGSVisible)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    FirefoxGGSVisibleDetect[index].Nom = nomCourant;
+                    FirefoxGGSVisibleDetect[index].X = int.Parse(t[1]);
+                    FirefoxGGSVisibleDetect[index].Y = int.Parse(t[2]);
+                    FirefoxGGSVisibleDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Firefox_GGS_Visible_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Firefox_GGS_Visible.json");
+            string json = JsonConvert.SerializeObject(FirefoxGGSVisibleDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
 
@@ -5588,89 +5879,6 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 SUIS JE ASSIS
-        // =========================================================
-        private void Charger_Suis_Je_Assis_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Suis_Je_Assis.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            SuisJeAssisDetect = JsonConvert.DeserializeObject<S_SuisJeAssisDetect[]>(json);
-        }
-        private bool Extraire_Suis_Je_Assis(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bSuis_Je_Assis = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Suis_Je_Assis")
-                {
-                    bSuis_Je_Assis = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bSuis_Je_Assis)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    SuisJeAssisDetect[index].Nom = nomCourant;
-                    SuisJeAssisDetect[index].X = int.Parse(t[1]);
-                    SuisJeAssisDetect[index].Y = int.Parse(t[2]);
-                    SuisJeAssisDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 9)
-                return false;
-
-            return true;
-        }
-        private void Sauver_Suis_Je_Assis_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Suis_Je_Assis.json");
-            string json = JsonConvert.SerializeObject(SuisJeAssisDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
         // 🔥 NIVEAU TABLE
         // =========================================================
         private void Charger_Niveau_Table_JSON()
@@ -5833,182 +6041,6 @@ namespace Poker
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
             string json = JsonConvert.SerializeObject(NouveauNiveauDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 PUPITRE GRIS
-        // =========================================================
-        private void Charger_Pupitre_Gris_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            PupitreGrisDetect = JsonConvert.DeserializeObject<S_PupitreGrisDetect[]>(json);
-        }
-        private bool Extraire_Pupitre_Gris(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bPupitre_Gris = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Pupitre_Gris")
-                {
-                    bPupitre_Gris = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bPupitre_Gris)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    PupitreGrisDetect[index].Nom = nomCourant;
-                    PupitreGrisDetect[index].X = int.Parse(t[1]);
-                    PupitreGrisDetect[index].Y = int.Parse(t[2]);
-                    PupitreGrisDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 2)
-                return false;
-
-            return true;
-        }
-        private void Sauver_Pupitre_Gris_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
-            string json = JsonConvert.SerializeObject(PupitreGrisDetect, Formatting.Indented);
-            File.WriteAllText(fichier, json);
-        }
-
-        // =========================================================
-        // 🔥 DECISION
-        // =========================================================
-        private void Charger_Decision_JSON()
-        {
-            string fichier = Path.Combine(DOSSIER_JSON, "Decision.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json = File.ReadAllText(fichier);
-
-            DecisionDetect = JsonConvert.DeserializeObject<S_DecisionDetect[]>(json);
-        }
-        private bool Extraire_Decision(string txt)
-        {
-            string[] lignes = txt.Split('\n');
-            int index = 0;
-            bool bDecision = false;
-            string nomCourant = "";
-            for (int i = 0; i < lignes.Length; i++)
-            {
-                string ligne = lignes[i].Trim();
-
-                // =====================================
-                // DEBUT DU BLOC
-                // =====================================
-                if (ligne == "COMMENT : Decision")
-                {
-                    bDecision = true;
-                    continue;
-                }
-
-                // =====================================
-                // PAS ENCORE DANS LE BLOC
-                // =====================================
-                if (!bDecision)
-                    continue;
-
-                // =====================================
-                // COMMENT :
-                // =====================================
-                if (ligne.StartsWith("COMMENT :"))
-                {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
-                    continue;
-                }
-
-                // =====================================
-                // IF PIXEL COLOR EQUALS
-                // =====================================
-                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
-                {
-                    string[] t = ligne.Split(':');
-                    if (t.Length < 5)
-                        continue;
-
-                    DecisionDetect[index].Nom = nomCourant;
-                    DecisionDetect[index].X = int.Parse(t[1]);
-                    DecisionDetect[index].Y = int.Parse(t[2]);
-                    DecisionDetect[index].Couleur = int.Parse(t[3]);
-
-                    index++;
-                }
-            }
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 10)
-                return false;
-
-            return true;
-        
-
-            // =====================================
-            // DONNEES NON CONFORMES
-            // =====================================
-
-            if (index != 4)
-                return false;
-
-            return true;
-        }
-        private void Sauver_Decision_JSON()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Decision.json");
-            string json = JsonConvert.SerializeObject(DecisionDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
 
@@ -6345,6 +6377,89 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 PUPITRE GRIS
+        // =========================================================
+        private void Charger_Pupitre_Gris_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PupitreGrisDetect = JsonConvert.DeserializeObject<S_PupitreGrisDetect[]>(json);
+        }
+        private bool Extraire_Pupitre_Gris(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPupitre_Gris = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Pupitre_Gris")
+                {
+                    bPupitre_Gris = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPupitre_Gris)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PupitreGrisDetect[index].Nom = nomCourant;
+                    PupitreGrisDetect[index].X = int.Parse(t[1]);
+                    PupitreGrisDetect[index].Y = int.Parse(t[2]);
+                    PupitreGrisDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 2)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Pupitre_Gris_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
+            string json = JsonConvert.SerializeObject(PupitreGrisDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
         // 🔥 PUBICITE
         // =========================================================
         private void Charger_Publicite_JSON()
@@ -6427,6 +6542,171 @@ namespace Poker
             File.WriteAllText(fichier, json);
         }
 
+        // =========================================================
+        // 🔥 SUIS JE ASSIS
+        // =========================================================
+        private void Charger_Suis_Je_Assis_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Suis_Je_Assis.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            SuisJeAssisDetect = JsonConvert.DeserializeObject<S_SuisJeAssisDetect[]>(json);
+        }
+        private bool Extraire_Suis_Je_Assis(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bSuis_Je_Assis = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Suis_Je_Assis")
+                {
+                    bSuis_Je_Assis = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bSuis_Je_Assis)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    SuisJeAssisDetect[index].Nom = nomCourant;
+                    SuisJeAssisDetect[index].X = int.Parse(t[1]);
+                    SuisJeAssisDetect[index].Y = int.Parse(t[2]);
+                    SuisJeAssisDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Suis_Je_Assis_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Suis_Je_Assis.json");
+            string json = JsonConvert.SerializeObject(SuisJeAssisDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 TABLE PRETE
+        // =========================================================
+        private void Charger_Table_Prete_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Table_Prete.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            TablePreteDetect = JsonConvert.DeserializeObject<S_TablePreteDetect[]>(json);
+        }
+        private bool Extraire_Table_Prete(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bTable_Prete = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Table_Prete")
+                {
+                    bTable_Prete = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bTable_Prete)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    TablePreteDetect[index].Nom = nomCourant;
+                    TablePreteDetect[index].X = int.Parse(t[1]);
+                    TablePreteDetect[index].Y = int.Parse(t[2]);
+                    TablePreteDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Table_Prete_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Table_Prete.json");
+            string json = JsonConvert.SerializeObject(TablePreteDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
 
         #endregion
 
@@ -7171,66 +7451,74 @@ namespace Poker
             // EXTRACTION
             // =====================================
 
-            bool okMain1 = Extraire_Main1(txt);
-            bool okMain2 = Extraire_Main2(txt);
-            bool okFlop1 = Extraire_Flop1(txt);
-            bool okFlop2 = Extraire_Flop2(txt);
-            bool okFlop3 = Extraire_Flop3(txt);
-            bool okTurn = Extraire_Turn(txt);
-            bool okTurn_HB = Extraire_Turn_HB(txt);
-            bool okRiver = Extraire_River(txt);
-            bool okRiver_HB = Extraire_River_HB(txt);
-            bool okMain_Board = Extraire_Main_Board(txt);
-            bool okSuis_Je_Assis = Extraire_Suis_Je_Assis(txt);
-            bool okPlaces_Libres = Extraire_Places_Libres(txt);
-            bool okNiveau_Table = Extraire_Niveau_Table(txt);
-            bool okPosition_Bouton = Extraire_Position_Bouton(txt);
-            bool okPublicite = Extraire_Publicite(txt);
-            bool okPlus_De_Jetons = Extraire_Plus_De_Jetons(txt);
-            bool okFelicitation = Extraire_Felicitation(txt);
-            bool okNouveau_Niveau = Extraire_Nouveau_Niveau(txt);
-            bool okPlus_De_Pot = Extraire_Plus_De_Pot(txt);
-            bool okPupitre_Gris = Extraire_Pupitre_Gris(txt);
-            bool okDecision = Extraire_Decision(txt);
+            bool okMain1                = Extraire_Main1(txt);
+            bool okMain2                = Extraire_Main2(txt);
+            bool okFlop1                = Extraire_Flop1(txt);
+            bool okFlop2                = Extraire_Flop2(txt);
+            bool okFlop3                = Extraire_Flop3(txt);
+            bool okTurn                 = Extraire_Turn(txt);
+            bool okTurn_HB              = Extraire_Turn_HB(txt);
+            bool okRiver                = Extraire_River(txt);
+            bool okRiver_HB             = Extraire_River_HB(txt);
 
-            bool okJoueur_Parole = Extraire_Joueur_Parole(txt);
-            bool okJoueur_A_Tapis = Extraire_Joueur_A_Tapis(txt);
-            bool okJoueur_Reflechit = Extraire_Joueur_Reflechit(txt);
-            bool okJoueur_Relance = Extraire_Joueur_Relance(txt);
-            bool okJoueur_Se_Couche = Extraire_Joueur_Se_Couche(txt);
-            bool okJoueur_Suit = Extraire_Joueur_Suit(txt);
+
+            bool okAucune_Table         = Extraire_Aucune_Table(txt);
+            bool okDecision             = Extraire_Decision(txt);
+            bool okFelicitation         = Extraire_Felicitation(txt);
+            bool okFirefox_GGS_Visible  = Extraire_Firefox_GGS_Visible(txt);
+            bool okJoueur_A_Tapis       = Extraire_Joueur_A_Tapis(txt);
+            bool okJoueur_Parole        = Extraire_Joueur_Parole(txt);
+            bool okJoueur_Reflechit     = Extraire_Joueur_Reflechit(txt);
+            bool okJoueur_Relance       = Extraire_Joueur_Relance(txt);
+            bool okJoueur_Se_Couche     = Extraire_Joueur_Se_Couche(txt);
+            bool okJoueur_Suit          = Extraire_Joueur_Suit(txt);
+            bool okMain_Board           = Extraire_Main_Board(txt);
+            bool okNiveau_Table         = Extraire_Niveau_Table(txt);
+            bool okNouveau_Niveau       = Extraire_Nouveau_Niveau(txt);
+            bool okPlaces_Libres        = Extraire_Places_Libres(txt);
+            bool okPosition_Bouton      = Extraire_Position_Bouton(txt);
+            bool okPlus_De_Jetons       = Extraire_Plus_De_Jetons(txt);
+            bool okPlus_De_Pot          = Extraire_Plus_De_Pot(txt);
+            bool okPublicite            = Extraire_Publicite(txt);
+            bool okPupitre_Gris         = Extraire_Pupitre_Gris(txt);
+            bool okSuis_Je_Assis        = Extraire_Suis_Je_Assis(txt);
+            bool okTable_Prete          = Extraire_Table_Prete(txt);
 
             // =====================================
             // Aucune donnée reconnue
             // =====================================
 
-            if (!okMain1 &&
-                !okMain2 &&
-                !okFlop1 &&
-                !okFlop2 &&
-                !okFlop3 &&
-                !okTurn &&
-                !okTurn_HB &&
-                !okRiver &&
+            if (!okMain1                &&
+                !okMain2                &&
+                !okFlop1                &&
+                !okFlop2                &&
+                !okFlop3                &&
+                !okTurn                 &&
+                !okTurn_HB              &&
+                !okRiver                &&
                 !okRiver_HB &&
-                !okMain_Board &&
-                !okSuis_Je_Assis &&
-                !okPlaces_Libres &&
-                !okNiveau_Table &&
-                !okJoueur_Parole &&
-                !okJoueur_A_Tapis &&
-                !okJoueur_Reflechit &&
-                !okJoueur_Relance &&
-                !okJoueur_Se_Couche &&
-                !okJoueur_Suit &&
-                !okPosition_Bouton &&
-                !okPublicite &&
-                !okPlus_De_Jetons &&
-                !okFelicitation &&
-                !okNouveau_Niveau &&
-                !okPlus_De_Pot &&
-                !okPupitre_Gris &&
-                !okDecision)
+
+                !okAucune_Table         &&
+                !okDecision             &&
+                !okMain_Board           &&
+                !okFelicitation         &&
+                !okFirefox_GGS_Visible  &&
+                !okNiveau_Table         &&
+                !okNouveau_Niveau       &&
+                !okJoueur_A_Tapis       &&
+                !okJoueur_Parole        &&
+                !okJoueur_Reflechit     &&
+                !okJoueur_Relance       &&
+                !okJoueur_Se_Couche     &&
+                !okJoueur_Suit          &&
+                !okPlaces_Libres        &&
+                !okPosition_Bouton      &&
+                !okPlus_De_Jetons       &&
+                !okPlus_De_Pot          &&
+                !okPublicite            &&
+                !okPupitre_Gris         &&
+                !okSuis_Je_Assis        &&
+                !okTable_Prete)
 
             // =====================================
             // SAUVEGARDE JSON
@@ -7263,32 +7551,9 @@ namespace Poker
             if (okRiver_HB)
                 Sauver_River_HB_JSON();
 
-            if (okMain_Board)
-                Sauver_Main_Board_JSON();
 
-            if (okSuis_Je_Assis)
-                Sauver_Suis_Je_Assis_JSON();
-
-            if (okPlaces_Libres)
-                Sauver_Places_Libres_JSON();
-
-            if (okNiveau_Table)
-                Sauver_Niveau_Table_JSON();
-
-            if (okPosition_Bouton)
-                Sauver_Position_Bouton_JSON();
-
-            if (okPublicite)
-                Sauver_Publicite_JSON();
-
-            if (okPlus_De_Jetons)
-                Sauver_Plus_De_Jetons_JSON();
-
-            if (okPlus_De_Pot)
-                Sauver_Plus_De_Pot_JSON();
-
-            if (okPupitre_Gris)
-                Sauver_Pupitre_Gris_JSON();
+            if (okAucune_Table)
+                Sauver_Aucune_Table_JSON();
 
             if (okDecision)
                 Sauver_Decision_JSON();
@@ -7296,14 +7561,14 @@ namespace Poker
             if (okFelicitation)
                 Sauver_Felicitation_JSON();
 
-            if (okNouveau_Niveau)
-                Sauver_Nouveau_Niveau_JSON();
-
-            if (okJoueur_Parole)
-                Sauver_Joueur_Parole_JSON();
+            if (okFirefox_GGS_Visible)
+                Sauver_Firefox_GGS_Visible_JSON();
 
             if (okJoueur_A_Tapis)
                 Sauver_Joueur_A_Tapis_JSON();
+
+            if (okJoueur_Parole)
+                Sauver_Joueur_Parole_JSON();
 
             if (okJoueur_Reflechit)
                 Sauver_Joueur_Reflechit_JSON();
@@ -7316,6 +7581,40 @@ namespace Poker
 
             if (okJoueur_Suit)
                 Sauver_Joueur_Suit_JSON();
+
+            if (okMain_Board)
+                Sauver_Main_Board_JSON();
+
+            if (okNiveau_Table)
+                Sauver_Niveau_Table_JSON();
+
+            if (okNouveau_Niveau)
+                Sauver_Nouveau_Niveau_JSON();
+
+            if (okPlaces_Libres)
+                Sauver_Places_Libres_JSON();
+
+            if (okPosition_Bouton)
+                Sauver_Position_Bouton_JSON();
+
+            if (okPlus_De_Jetons)
+                Sauver_Plus_De_Jetons_JSON();
+
+            if (okPlus_De_Pot)
+                Sauver_Plus_De_Pot_JSON();
+
+            if (okPublicite)
+                Sauver_Publicite_JSON();
+
+            if (okPupitre_Gris)
+                Sauver_Pupitre_Gris_JSON();
+
+            if (okSuis_Je_Assis)
+                Sauver_Suis_Je_Assis_JSON();
+
+            if (okTable_Prete)
+                Sauver_Table_Prete_JSON();
+
 
             // =====================================
             // RESULTAT
@@ -7351,6 +7650,19 @@ namespace Poker
             if (okRiver_HB)
                 msg += "River_HB : 104 cartes\n";
 
+
+            if (okAucune_Table)
+                msg += "Aucune_Table : 1 détecteur\n";
+
+            if (okDecision)
+                msg += "Decision : 10 détecteurs\n";
+
+            if (okFelicitation)
+                msg += "Felicitation : 1 détecteur\n";
+
+            if (okFirefox_GGS_Visible)
+                msg += "Firefox_GGS_Visible : 1 détecteur\n";
+
             if (okMain_Board)
                 msg += "Main_Board : 80 détecteurs\n";
 
@@ -7372,20 +7684,17 @@ namespace Poker
             if (okJoueur_Suit)
                 msg += "Joueur_Suit : 9 détecteurs\n";
 
-            if (okSuis_Je_Assis)
-                msg += "Suis_Je_Assis : 9 détecteurs\n";
+            if (okNiveau_Table)
+                msg += "Niveau_Table : 12 détecteurs\n";
+
+            if (okNouveau_Niveau)
+                msg += "Nouveau_Niveau : 1 détecteur\n";
 
             if (okPlaces_Libres)
                 msg += "Places_Libres : 9 détecteurs\n";
 
-            if (okNiveau_Table)
-                msg += "Niveau_Table : 12 détecteurs\n";
-
             if (okPosition_Bouton)
                 msg += "Position_Bouton : 9 détecteurs\n";
-
-            if (okPublicite)
-                msg += "Publicite : 1 détecteur\n";
 
             if (okPlus_De_Jetons)
                 msg += "Plus_De_Jetons : 1 détecteur\n";
@@ -7393,17 +7702,17 @@ namespace Poker
             if (okPlus_De_Pot)
                 msg += "Plus_De_Pot : 1 détecteur\n";
 
-            if (okFelicitation)
-                msg += "Felicitation : 1 détecteur\n";
-
-            if (okNouveau_Niveau)
-                msg += "Nouveau_Niveau : 1 détecteur\n";
+            if (okPublicite)
+                msg += "Publicite : 1 détecteur\n";
 
             if (okPupitre_Gris)
                 msg += "Pupitre_Gris : 2 détecteurs\n";
 
-            if (okDecision)
-                msg += "Decision : 10 détecteurs\n";
+            if (okSuis_Je_Assis)
+                msg += "Suis_Je_Assis : 9 détecteurs\n";
+
+            if (okTable_Prete)
+                msg += "Table_Prete : 1 détecteur\n";
 
 
             MessageBox.Show(msg);
