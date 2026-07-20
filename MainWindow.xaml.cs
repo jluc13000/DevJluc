@@ -531,7 +531,7 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
-
+            _ = Test_Absence_Table();
             LbNbTapis.Content = "0";
 
             Charger_Main1_JSON();
@@ -4961,7 +4961,7 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            DecisionDetect = JsonConvert.DeserializeObject<S_DecisionDetect[]>(json);
+            AucuneTableDetect = JsonConvert.DeserializeObject<S_AucuneTableDetect[]>(json);
         }
         private bool Extraire_Aucune_Table(string txt)
         {
@@ -9049,6 +9049,109 @@ namespace Poker
 
             Bt_IA.Background = Brushes.White;
         }
+        #endregion
+
+        #region VALIDATION_MOTEUR
+        // =========================================================
+        // 🔥 VALIDATION MOTEUR
+        // =========================================================
+        private bool bAbsenceTable = false;
+        private DateTime HeureAbsence;
+
+        // =========================================================
+        // TEST ABSENCE TABLE
+        // =========================================================
+        private async Task Test_Absence_Table()
+        {
+            while (true)
+            {
+                CaptureEcran();
+                Debug("Capture");
+
+                Absence_Table();
+
+                await Task.Delay(1000);
+            }
+        }
+
+        // =========================================================
+        // AUCUNE TABLE
+        // Retourne true si aucune table n'est présente
+        // =========================================================
+        private bool Aucune_Table()
+        {
+            return Lire_Aucune_Table();
+        }
+
+        // =========================================================
+        // ABSENCE TABLE
+        // Retourne true si la table est absente depuis plus de 7.5 s
+        // =========================================================
+        private bool Absence_Table()
+        {
+            // La table est présente
+            if (!Aucune_Table())
+            {
+                Voyant_Validation_Moteur.Background = Brushes.LimeGreen;
+
+                if (bAbsenceTable)
+                {
+                    bAbsenceTable = false;
+                    Debug("Table revenue");
+                }
+
+                return false;
+            }
+
+            // Première détection
+            if (!bAbsenceTable)
+            {
+                bAbsenceTable = true;
+                HeureAbsence = DateTime.Now;
+
+                Voyant_Validation_Moteur.Background = Brushes.Red;
+
+                Debug("Début absence table");
+
+                return false;
+            }
+
+            // Timeout atteint ?
+            if ((DateTime.Now - HeureAbsence).TotalSeconds >= 7.5)
+            {
+                Voyant_Validation_Moteur.Background = Brushes.Red;
+
+                Debug("Absence > 7.5 secondes");
+
+                bAbsenceTable = false;
+
+                return true;
+            }
+
+            return false;
+        }
+        
+        // =========================================================
+        // LIRE AUCUNE TABLE
+        // =========================================================
+        private bool Lire_Aucune_Table()
+        {
+            for (int i = 0; i < AucuneTableDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    AucuneTableDetect[i].X,
+                    AucuneTableDetect[i].Y);
+                Debug($"Lu={couleur:X8}  Attendu={AucuneTableDetect[i].Couleur:X8}");
+                if (couleur == AucuneTableDetect[i].Couleur)
+                    return false;
+            }
+
+            return true;
+        }
+        // ---------------------------------------------------------
+        // Validation_Moteur()
+        // ---------------------------------------------------------
+
         #endregion
         private void Fusion_Historique()
         {
