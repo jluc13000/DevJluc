@@ -15,8 +15,8 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using static Poker.MainWindow;
 using System.Runtime.InteropServices;
+
 namespace Poker
 {
     public class MainHistorique
@@ -64,7 +64,7 @@ namespace Poker
 
         private int Nb_Mains_Testees = 0;
 
-        // STRUCTURE DETECTION CARTE
+        // STRUCTURE CARTE
         public struct S_CarteDetect
         {
             public string Nom;
@@ -73,7 +73,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION AUCUNE TABLE
+        // STRUCTURE AUCUNE TABLE
         public struct S_AucuneTableDetect
         {
             public string Nom;
@@ -82,7 +82,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION DECISION
+        // STRUCTURE DECISION
         public struct S_DecisionDetect
         {
             public string Nom;
@@ -91,7 +91,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION FELICITATION
+        // STRUCTURE FELICITATION
         public struct S_FelicitationDetect
         {
             public string Nom;
@@ -100,7 +100,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION FIREFOX GGS VISIBLE
+        // STRUCTURE FIREFOX GGS VISIBLE
         public struct S_FirefoxGGSVisibleDetect
         {
             public string Nom;
@@ -109,7 +109,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR A TAPIS
+        // STRUCTURE JOUEUR A TAPIS
         public struct S_JoueurATapisDetect
         {
             public string Nom;
@@ -118,7 +118,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR PAROLE
+        // STRUCTURE JOUEUR PAROLE
         public struct S_JoueurParoleDetect
         {
             public string Nom;
@@ -127,7 +127,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR REFLECHIT
+        // STRUCTURE JOUEUR REFLECHIT
         public struct S_JoueurReflechitDetect
         {
             public string Nom;
@@ -136,7 +136,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR RELANCE
+        // STRUCTURE JOUEUR RELANCE
         public struct S_JoueurRelanceDetect
         {
             public string Nom;
@@ -145,7 +145,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR SE COUCHE
+        // STRUCTURE JOUEUR SE COUCHE
         public struct S_JoueurSeCoucheDetect
         {
             public string Nom;
@@ -154,7 +154,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION JOUEUR SUIT
+        // STRUCTURE JOUEUR SUIT
         public struct S_JoueurSuitDetect
         {
             public string Nom;
@@ -163,7 +163,16 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION MAIN BOARD
+        // STRUCTURE GAGNE
+        public struct S_GagneDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        // STRUCTURE MAIN BOARD
         public struct S_MainBoardDetect
         {
             public string Nom;
@@ -172,7 +181,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION NIVEAU TABLE
+        // STRUCTURE NIVEAU TABLE
         public struct S_NiveauTableDetect
         {
             public string Nom;
@@ -181,7 +190,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION NOUVEAU NIVEAU
+        // STRUCTURE NOUVEAU NIVEAU
         public struct S_NouveauNiveauDetect
         {
             public string Nom;
@@ -190,7 +199,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PLACES LIBRES
+        // STRUCTURE PLACES LIBRES
         public struct S_PlacesLibresDetect
         {
             public string Nom;
@@ -199,7 +208,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PLUS DE JETONS
+        // STRUCTURE PLUS DE JETONS
         public struct S_PlusDeJetonsDetect
         {
             public string Nom;
@@ -208,7 +217,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PLUS DE POT
+        // STRUCTURE PLUS DE POT
         public struct S_PlusDePotDetect
         {
             public string Nom;
@@ -217,7 +226,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION POSITION BOUTON
+        // STRUCTURE POSITION BOUTON
         public struct S_PositionBoutonDetect
         {
             public string Nom;
@@ -226,7 +235,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PUBLICITE
+        // STRUCTURE PUBLICITE
         public struct S_PubliciteDetect
         {
             public string Nom;
@@ -235,7 +244,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION PUPITRE GRIS
+        // STRUCTURE PUPITRE GRIS
         public struct S_PupitreGrisDetect
         {
             public string Nom;
@@ -244,7 +253,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION SUIS JE ASSIS
+        // STRUCTURE SUIS JE ASSIS
         public struct S_SuisJeAssisDetect
         {
             public string Nom;
@@ -253,7 +262,7 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE DETECTION TABLE PRETE
+        // STRUCTURE TABLE PRETE
         public struct S_TablePreteDetect
         {
             public string Nom;
@@ -261,7 +270,6 @@ namespace Poker
             public int Y;
             public int Couleur;
         }
-
 
 
         private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
@@ -283,7 +291,7 @@ namespace Poker
         private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
         private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
-        // 206 pixels injectés 
+        // 216 pixels injectés 
         // TABLEAU DETECTION AUCUNE TABLE
         private S_AucuneTableDetect[] AucuneTableDetect = new S_AucuneTableDetect[1];
 
@@ -311,11 +319,14 @@ namespace Poker
         // TABLEAU DETECTION JOUEUR SE COUCHE
         private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
 
-        // TABLEAU DETECTION JOUEUR Suit
+        // TABLEAU DETECTION JOUEUR SUIT
         private S_JoueurSuitDetect[] JoueurSuitDetect = new S_JoueurSuitDetect[9];
 
+        // TABLEAU DETECTION GAGNE
+        private S_GagneDetect[] GagneDetect = new S_GagneDetect[9];
+
         // TABLEAU DETECTION EVENEMENTIELLE
-        private S_MainBoardDetect[] MainBoardDetect = new S_MainBoardDetect[80];
+        private S_MainBoardDetect[] MainBoardDetect = new S_MainBoardDetect[81];
 
         // TABLEAU DETECTION NIVEAU TABLE
         private S_NiveauTableDetect[] NiveauTableDetect = new S_NiveauTableDetect[12];
@@ -347,9 +358,7 @@ namespace Poker
         // TABLEAU DETECTION TABLE PRETE
         private S_TablePreteDetect[] TablePreteDetect = new S_TablePreteDetect[1];
 
-        // TOTAL : 778 pixels injectés 
-
-
+        // TOTAL : 788 pixels injectés 
 
         // =========================================================
         // MISE SELECTIONNEE
@@ -401,7 +410,7 @@ namespace Poker
         // Temps laissé au joueur pour reprendre
         // le contrôle avant le clic automatique
         // -------------------------------------
-        private const int DELAI_PRISE_CONTROLE = 3500;
+        private const int DELAI_PRISE_CONTROLE = 4500;
 
         // -------------------------------------
         // Attente de disparition du bouton
@@ -461,13 +470,30 @@ namespace Poker
         private bool bFlop_Paire, bFlop_2_Paires, bFlop_Brelan, bFlop_Quinte, bFlop_Couleur, bFlop_Full, bFlop_Carre, bFlop_QFlush;
         private bool bTurn_Paire, bTurn_2_Paires, bTurn_Brelan, bTurn_Quinte, bTurn_Couleur, bTurn_Full, bTurn_Carre, bTurn_QFlush;
         private bool bRiver_Paire, bRiver_2_Paires, bRiver_Brelan, bRiver_Quinte, bRiver_Couleur, bRiver_Full, bRiver_Carre, bRiver_QFlush;
-        
+
+        //----------------------------------------------------------
+        // MOTEUR
+        //----------------------------------------------------------
+        private bool bSuperviseurVert_Actif = false;
+
+        //----------------------------------------------------------
+        // MODES
         //----------------------------------------------------------
         private bool bTestBoard_Actif = false;
         private bool bTriggersBoard_Actif = false;
         private bool bTapisPreFlop_Actif = false;
         private bool bIA_Actif = false;
         //----------------------------------------------------------
+
+        //----------------------------------------------------------
+        // Validation Flop
+        //----------------------------------------------------------
+        private string Flop_1 = "";
+        private string Flop_2 = "";
+        private string Flop_3 = "";
+        //----------------------------------------------------------
+
+
 
         private bool bPoints = true;
 
@@ -496,7 +522,6 @@ namespace Poker
         List<Button> BoutonsPosition = new List<Button>();
         List<Button> BoutonsPlaceDisponible = new List<Button>();
         List<Button> BoutonsBoutonPosition = new List<Button>();
-
         List<Button> BoutonsJoueur_Mise = new List<Button>();
         List<Button> BoutonsBouton_en = new List<Button>();
 
@@ -531,7 +556,7 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
-            _ = Test_Absence_Table();
+            _ = Superviseur_Poker();
             LbNbTapis.Content = "0";
 
             Charger_Main1_JSON();
@@ -558,6 +583,7 @@ namespace Poker
             Charger_Joueur_Se_Couche_JSON();
             Charger_Joueur_Suit_JSON();
 
+            Charger_Gagne_JSON();
             Charger_Main_Board_JSON();
             Charger_Niveau_Table_JSON();
             Charger_Places_Libres_JSON();
@@ -568,8 +594,6 @@ namespace Poker
             Charger_Pupitre_Gris_JSON();
             Charger_Suis_Je_Assis_JSON();
             Charger_Table_Prete_JSON();
-
-
 
             // 🔥 Variables
             DebutSession = DateTime.Now;
@@ -862,7 +886,6 @@ namespace Poker
             );
         }
 
-
         // Carte tirée (tirage complet de la main)
         struct CarteTirage
         {
@@ -1064,19 +1087,18 @@ namespace Poker
                 LbRandomStatus.Foreground = Brushes.White;
             }
         }
+
         /************************************
         **                                 **
         **              M A I N            **
         **                                 **
         ************************************/
-
         private void Bt_Main_1_Click(object sender, RoutedEventArgs e)
         {
             // =========================================================
             // 🔥 RESET TIRAGES
             // À mettre dans Bt_Main_1_Click()
             // =========================================================
-            Bt_Doublon.Background = Blanc;
 
             bTir_Flop_Quinte = false;
             bTir_Flop_Couleur = false;
@@ -1278,6 +1300,11 @@ namespace Poker
             }
         }
 
+        /************************************
+        **                                 **
+        **              F L O P            **
+        **                                 **
+        ************************************/
         private void Bt_Flop_1_Click(object sender, RoutedEventArgs e)
         {
             AfficherCarte(TB_F1, Bt_Main_2, Bt_Flop_1, 2);
@@ -1295,12 +1322,12 @@ namespace Poker
             // 🔥 Analyse complète du flop
             Calcul_Flop();
         }
+
         /************************************
         **                                 **
         **              T U R N            **
         **                                 **
         ************************************/
-
         private void Bt_Turn_Click(object sender, RoutedEventArgs e)
         {
             //AfficherCarte(TB_T, Bt_Flop_3, Bt_Turn, 5);
@@ -1396,12 +1423,12 @@ namespace Poker
 
             return false;
         }
+
         /************************************
         **                                 **
         **             R I V E R           **
         **                                 **
         ************************************/
-
         private void Bt_River_Click(object sender, RoutedEventArgs e)
         {
             //AfficherCarte(TB_R, Bt_Turn, Bt_River, 6);
@@ -1418,6 +1445,7 @@ namespace Poker
             if (c.Contains("♠")) return Brushes.Black;
             return Brushes.Black;
         }
+
         // =========================================================
         // FERMER
         // =========================================================
@@ -1811,6 +1839,7 @@ namespace Poker
                 AppliquerNiveauMise();
             }
         }
+
         private void Bt_Joueur1_Fold_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Joueur2_Fold_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Joueur3_Fold_Click(object sender, RoutedEventArgs e) { }
@@ -1828,6 +1857,7 @@ namespace Poker
         private void Bt_Joueur7_Tapis_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Joueur8_Tapis_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Joueur9_Tapis_Click(object sender, RoutedEventArgs e) { }
+
         private void Bt_Gagne_en_1_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Gagne_en_2_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Gagne_en_3_Click(object sender, RoutedEventArgs e) { }
@@ -1895,10 +1925,6 @@ namespace Poker
             Bt_Bouton_en_8.Background = (Brush)FindResource("blanc");
             Bt_Bouton_en_9.Background = (Brush)FindResource("blanc");
         }
-        private void Bt_Doublon_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
         private void Bt_Pause_Click(object sender, RoutedEventArgs e)
         {
             JeuEnPause = true;
@@ -1937,6 +1963,7 @@ namespace Poker
             boutonActif.Background = (Brush)FindResource("jaune");
             Bt_Pas_de_Bouton.Background = (Brush)FindResource("blanc");
         }
+
         private void Bt_Bouton_en_1_Click(object sender, RoutedEventArgs e)
         {
             ActiverBoutonPosition((Button)sender);
@@ -1974,13 +2001,8 @@ namespace Poker
         {
             ActiverBoutonPosition((Button)sender);
         }
-        private void ActiverPosition(Button boutonActif)
-        {
-            foreach (var b in BoutonsPosition)
-                b.Background = (Brush)FindResource("blanc");
 
-            boutonActif.Background = (Brush)FindResource("bleu");
-        }
+        
         private void Bt_Position_1_Click(object sender, RoutedEventArgs e)
         {
             ActiverPosition((Button)sender);
@@ -2017,6 +2039,7 @@ namespace Poker
         {
             ActiverPosition((Button)sender);
         }
+
         private void RafraichirAffichage()
         {
             foreach (var kvp in BoutonsRange)
@@ -2056,13 +2079,7 @@ namespace Poker
                 Bt_Je_suis_a_table.Background = (Brush)FindResource("blanc");
             }
         }
-        private void ActiverNiveauTable(Button boutonActif)
-        {
-            foreach (var b in BoutonsNiveauTable)
-                b.Background = (Brush)FindResource("blanc");
 
-            boutonActif.Background = (Brush)FindResource("bleu");
-        }
         // Methode de basculement des couleurs pour Bt_Un_Joueur gold && Bt_PaceDisponible vert
         private void BasculerEtatBouton(Button bouton, Brush couleurActive)
         {
@@ -2080,10 +2097,8 @@ namespace Poker
                 BasculerEtatBouton(btn, (Brush)FindResource("vert"));
             }
         }
-        private void Bt_NiveauTable_Click(object sender, RoutedEventArgs e)
-        {
-            ActiverNiveauTable((Button)sender);
-        }
+       
+
         private void Bt_Auto_M9_Click(object sender, RoutedEventArgs e)
         {
             ActiverAutoMise((Button)sender);
@@ -2124,10 +2139,7 @@ namespace Poker
         {
             ActiverAutoMise((Button)sender);
         }
-        private void Bt_Benchmark_Click(object sender, RoutedEventArgs e)
-        {
 
-        }
         private void Bt_Un_Joueur_Click(object sender, RoutedEventArgs e)
         {
             if (sender is Button btn)
@@ -2653,17 +2665,6 @@ namespace Poker
             return c.ToArgb() & 0xFFFFFF;
         }
 
-        // =========================================================
-        // EFFACE BOARD
-        // =========================================================
-        private void Efface_Board()
-        {
-            TB_F1.Clear();
-            TB_F2.Clear();
-            TB_F3.Clear();
-            TB_T.Clear();
-            TB_R.Clear();
-        }
 
         #region CALCUL PREFLOP
 
@@ -3605,7 +3606,7 @@ namespace Poker
 
         #endregion     
 
-        #region CHARGER SAUVER LIRE EXTRAIRE
+        #region CHARGER EXTRAIRE LIRE SAUVER FERMER
         // =========================================================
         // 🔥 MAIN 1
         // =========================================================
@@ -5115,6 +5116,119 @@ namespace Poker
             string json = JsonConvert.SerializeObject(DecisionDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        private bool Decision()
+        {
+            switch (ActionForcee)
+            {
+                case "PAROLE":
+
+                    // Parole disponible
+                    if (Decision_Detecte("Parole"))
+                        return true;
+
+                    // Sinon se coucher
+                    if (Decision_Detecte("Se_Coucher"))
+                        return true;
+
+                    break;
+
+                case "SUIVRE":
+
+                    if (Decision_Detecte("Suivre"))
+                        return true;
+
+                    break;
+
+                case "RELANCER":
+
+                    if (Decision_Detecte("Relancer"))
+                        return true;
+
+                    break;
+
+                case "TAPIS":
+
+                    if (Decision_Detecte("Tapis"))
+                        return true;
+
+                    break;
+            }
+
+            return false;
+        }
+        private bool Decision_Detecte(string nom)
+        {
+            for (int i = 0; i < DecisionDetect.Length; i++)
+            {
+                if (DecisionDetect[i].Nom != nom)
+                    continue;
+
+                int couleur = LirePixel(
+                    DecisionDetect[i].X,
+                    DecisionDetect[i].Y);
+
+                if (couleur == DecisionDetect[i].Couleur)
+                {
+
+                    Clic(
+                        DecisionDetect[i].X,
+                        DecisionDetect[i].Y);
+
+                    bAttente_Disparition = true;
+                    Nom_Bouton_Attente = nom;
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private bool Bouton_Decision_Present(string nom)
+        {
+            for (int i = 0; i < DecisionDetect.Length; i++)
+            {
+                if (DecisionDetect[i].Nom != nom)
+                    continue;
+
+                return LirePixel(
+                    DecisionDetect[i].X,
+                    DecisionDetect[i].Y) == DecisionDetect[i].Couleur;
+            }
+
+            return false;
+        }
+        private bool Mode_Decision()
+        {
+            for (int i = 0; i < DecisionDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    DecisionDetect[i].X,
+                    DecisionDetect[i].Y);
+
+                if (couleur == DecisionDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
+        }
+        private bool Decision_Autorisee()
+        {
+            // ==========================
+            // MODE MANUEL
+            // ==========================
+            if (bModeManuel)
+                return false;
+
+            // ==========================
+            // DELAI PRISE DE CONTROLE
+            // ==========================
+            double temps = (DateTime.Now - Heure_Decision).TotalMilliseconds;
+
+            if (temps < DELAI_PRISE_CONTROLE)
+                return false;
+
+            return true;
+        }
 
         // =========================================================
         // 🔥 FELICITATION
@@ -5197,6 +5311,26 @@ namespace Poker
             string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
             string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
+        }
+        private bool Fermer_Felicitation()
+        {
+            for (int i = 0; i < FelicitationDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    FelicitationDetect[i].X,
+                    FelicitationDetect[i].Y);
+
+                if (couleur == PubliciteDetect[i].Couleur)
+                {
+                    Clic(
+                        FelicitationDetect[i].X,
+                        FelicitationDetect[i].Y);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // =========================================================
@@ -5781,6 +5915,103 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 GAGNE
+        // =========================================================
+        private void Charger_Gagne_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Gagne.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            GagneDetect = JsonConvert.DeserializeObject<S_GagneDetect[]>(json);
+        }
+        private bool Extraire_Gagne(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bGagne = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Gagne")
+                {
+                    bGagne = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bGagne)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    GagneDetect[index].Nom = nomCourant;
+                    GagneDetect[index].X = int.Parse(t[1]);
+                    GagneDetect[index].Y = int.Parse(t[2]);
+                    GagneDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Gagne_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Gagne.json");
+            string json = JsonConvert.SerializeObject(GagneDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+        private int J_Ai_Gagne()
+        {
+            for (int i = 0; i < GagneDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    GagneDetect[i].X,
+                    GagneDetect[i].Y);
+
+                if (couleur == GagneDetect[i].Couleur)
+                    return i + 1;      // Siège gagnant
+            }
+
+            return 0;                  // Aucun gagnant détecté
+        }
+
+        // =========================================================
         // 🔥 MAIN BOARD
         // =========================================================
         private void Charger_Main_Board_JSON()
@@ -5863,7 +6094,7 @@ namespace Poker
             // =====================================
             // DONNEES NON CONFORMES
             // =====================================
-            if (index != 80)
+            if (index != 81)
             {
                 return false;
             }
@@ -5960,6 +6191,30 @@ namespace Poker
             string json = JsonConvert.SerializeObject(NiveauTableDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        //private int Niveau_Table()
+        //{
+        //    for (int i = 0; i < NiveauTableDetect.Length; i++)
+        //    {
+        //        int couleur = LirePixel(
+        //            NiveauTableDetect[i].X,
+        //            NiveauTableDetect[i].Y);
+
+        //        if (couleur == NiveauTableDetect[i].Couleur)
+        //            return i + 1;     // 1 à 12
+        //    }
+
+        //    return 0;                 // Non détecté
+        //}
+
+        //private void Lire_Niveau_Table()
+        //{
+        //    ResetNiveauTable();
+
+        //    int niveau = Niveau_Table();
+
+        //    if (niveau >= 1 && niveau <= 12)
+        //        ActiverNiveauTable(BoutonsNiveauTable[niveau - 1]);
+        //}
 
         // =========================================================
         // 🔥 NOUVEAU NIVEAU
@@ -6209,7 +6464,22 @@ namespace Poker
             string json = JsonConvert.SerializeObject(PlusDeJetonsDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        private bool Plus_De_Jetons()
+        {
+            for (int i = 0; i < PlusDeJetonsDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlusDeJetonsDetect[i].X,
+                    PlusDeJetonsDetect[i].Y);
 
+                if (couleur == PlusDeJetonsDetect[i].Couleur)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
         // =========================================================
         // 🔥 PLUS DE POT
         // =========================================================
@@ -6291,6 +6561,20 @@ namespace Poker
             string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Pot.json");
             string json = JsonConvert.SerializeObject(PlusDePotDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
+        }
+        private bool Plus_De_Pot()
+        {
+            for (int i = 0; i < PlusDePotDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlusDePotDetect[i].X,
+                    PlusDePotDetect[i].Y);
+
+                if (couleur == PlusDePotDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
         }
 
         // =========================================================
@@ -6458,6 +6742,20 @@ namespace Poker
             string json = JsonConvert.SerializeObject(PupitreGrisDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        private bool Pupitre_Gris()
+        {
+            for (int i = 0; i < PupitreGrisDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PupitreGrisDetect[i].X,
+                    PupitreGrisDetect[i].Y);
+
+                if (couleur == PupitreGrisDetect[i].Couleur)
+                    return true;
+            }
+
+            return false;
+        }
 
         // =========================================================
         // 🔥 PUBICITE
@@ -6540,6 +6838,26 @@ namespace Poker
             string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
             string json = JsonConvert.SerializeObject(PubliciteDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
+        }
+        private bool Fermer_Publicite()
+        {
+            for (int i = 0; i < PubliciteDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PubliciteDetect[i].X,
+                    PubliciteDetect[i].Y);
+
+                if (couleur == PubliciteDetect[i].Couleur)
+                {
+                    Clic(
+                        PubliciteDetect[i].X,
+                        PubliciteDetect[i].Y);
+
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         // =========================================================
@@ -6624,6 +6942,30 @@ namespace Poker
             string json = JsonConvert.SerializeObject(SuisJeAssisDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        private int Suis_Je_Assis()
+        {
+            for (int i = 0; i < SuisJeAssisDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    SuisJeAssisDetect[i].X,
+                    SuisJeAssisDetect[i].Y);
+
+                if (couleur == SuisJeAssisDetect[i].Couleur)
+                    return i + 1;   // Position 1 à 9
+            }
+
+            return 0;               // Non détectée
+        }
+        //private void Lire_Ma_Position()
+        //{
+        //    ResetPosition();
+
+        //    int position = Suis_Je_Assis();
+
+        //    if (position >= 1 && position <= 9)
+        //        ActiverPosition(BoutonsPosition[position - 1]);
+        //}
+
 
         // =========================================================
         // 🔥 TABLE PRETE
@@ -6710,224 +7052,11 @@ namespace Poker
 
         #endregion
 
-        #region DETECTIONS
-
-        // =========================================================
-        // DETECTER SUIS JE ASSIS
-        // =========================================================
-        private int Suis_Je_Assis_Detecte()
-        {
-            for (int i = 0; i < SuisJeAssisDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    SuisJeAssisDetect[i].X,
-                    SuisJeAssisDetect[i].Y);
-
-                if (couleur == SuisJeAssisDetect[i].Couleur)
-                    return i + 1;   // Position 1 à 9
-            }
-
-            return 0;               // Non détectée
-        }
-        // =========================================================
-        // DETECTER PLUS DE JETONS
-        // =========================================================
-        private bool Plus_De_Jetons_Detecte()
-        {
-            for (int i = 0; i < PlusDeJetonsDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    PlusDeJetonsDetect[i].X,
-                    PlusDeJetonsDetect[i].Y);
-
-                if (couleur == PlusDeJetonsDetect[i].Couleur)
-                    return true;
-            }
-
-            return false;
-        }
-        // =========================================================
-        // DETECTER PLUS DE POT
-        // =========================================================
-        private bool Plus_De_Pot_Detecte()
-        {
-            for (int i = 0; i < PlusDePotDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    PlusDePotDetect[i].X,
-                    PlusDePotDetect[i].Y);
-
-                if (couleur == PlusDePotDetect[i].Couleur)
-                    return true;
-            }
-
-            return false;
-        }
-        // =========================================================
-        // DETECTER PUPITRE GRIS
-        // =========================================================
-        private bool Pupitre_Gris_Detecte()
-        {
-            for (int i = 0; i < PupitreGrisDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    PupitreGrisDetect[i].X,
-                    PupitreGrisDetect[i].Y);
-
-                if (couleur == PupitreGrisDetect[i].Couleur)
-                    return true;
-            }
-
-            return false;
-        }
-        #endregion
-
         #region DECISION
         // =========================================================
         // 🔥 DECISION
         // =========================================================
-        // =========================================================
-        // 🔥 DECISION
-        // =========================================================
-        private bool Decision()
-        {
-            switch (ActionForcee)
-            {
-                case "PAROLE":
 
-                    // Parole disponible
-                    if (Decision_Detecte("Parole"))
-                        return true;
-
-                    // Sinon se coucher
-                    if (Decision_Detecte("Se_Coucher"))
-                        return true;
-
-                    break;
-
-                case "SUIVRE":
-
-                    if (Decision_Detecte("Suivre"))
-                        return true;
-
-                    break;
-
-                case "RELANCER":
-
-                    if (Decision_Detecte("Relancer"))
-                        return true;
-
-                    break;
-
-                case "TAPIS":
-
-                    if (Decision_Detecte("Tapis"))
-                        return true;
-
-                    break;
-            }
-
-            return false;
-        }
-        // =========================================================
-        // 🔥 DETECTER DECISION
-        // =========================================================
-        private bool Decision_Detecte(string nom)
-        {
-            for (int i = 0; i < DecisionDetect.Length; i++)
-            {
-                if (DecisionDetect[i].Nom != nom)
-                    continue;
-
-                int couleur = LirePixel(
-                    DecisionDetect[i].X,
-                    DecisionDetect[i].Y);
-
-                if (couleur == DecisionDetect[i].Couleur)
-                {
-
-                    Clic(
-                        DecisionDetect[i].X,
-                        DecisionDetect[i].Y);
-
-                    bAttente_Disparition = true;
-                    Nom_Bouton_Attente = nom;
-
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        // =========================================================
-        // BOUTON DECISION PRESENT
-        // =========================================================
-        private bool Bouton_Decision_Present(string nom)
-        {
-            for (int i = 0; i < DecisionDetect.Length; i++)
-            {
-                if (DecisionDetect[i].Nom != nom)
-                    continue;
-
-                return LirePixel(
-                    DecisionDetect[i].X,
-                    DecisionDetect[i].Y) == DecisionDetect[i].Couleur;
-            }
-
-            return false;
-        }
-
-        // =========================================================
-        // MODE DECISION
-        // =========================================================
-        private bool Mode_Decision()
-        {
-            for (int i = 0; i < DecisionDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    DecisionDetect[i].X,
-                    DecisionDetect[i].Y);
-
-                if (couleur == DecisionDetect[i].Couleur)
-                    return true;
-            }
-
-            return false;
-        }
-
-
-        // =========================================================
-        // 🔥 DECISION AUTORISEE
-        // =========================================================
-        private bool Decision_Autorisee()
-        {
-
-            // ==========================
-            // MODE MANUEL
-            // ==========================
-            if (bModeManuel)
-                return false;
-
-            // ==========================
-            // PHASE JAUNE
-            // ==========================
-            if (!bAutoriserHistorique && !bTapisPreFlop_Actif)
-                return false;
-
-            // ==========================
-            // DELAI PRISE DE CONTROLE
-            // ==========================
-            double temps = (DateTime.Now - Heure_Decision).TotalMilliseconds;
-
-            if (temps < DELAI_PRISE_CONTROLE)
-            {
-                return false;
-            }
-
-
-            return true;
-        }
         // =========================================================
         // BOUTON MANUEL
         // =========================================================
@@ -7472,6 +7601,7 @@ namespace Poker
             bool okJoueur_Relance       = Extraire_Joueur_Relance(txt);
             bool okJoueur_Se_Couche     = Extraire_Joueur_Se_Couche(txt);
             bool okJoueur_Suit          = Extraire_Joueur_Suit(txt);
+            bool okGagne                = Extraire_Gagne(txt);
             bool okMain_Board           = Extraire_Main_Board(txt);
             bool okNiveau_Table         = Extraire_Niveau_Table(txt);
             bool okNouveau_Niveau       = Extraire_Nouveau_Niveau(txt);
@@ -7496,7 +7626,7 @@ namespace Poker
                 !okTurn                 &&
                 !okTurn_HB              &&
                 !okRiver                &&
-                !okRiver_HB &&
+                !okRiver_HB             &&
 
                 !okAucune_Table         &&
                 !okDecision             &&
@@ -7511,6 +7641,7 @@ namespace Poker
                 !okJoueur_Relance       &&
                 !okJoueur_Se_Couche     &&
                 !okJoueur_Suit          &&
+                !okGagne                &&
                 !okPlaces_Libres        &&
                 !okPosition_Bouton      &&
                 !okPlus_De_Jetons       &&
@@ -7581,6 +7712,9 @@ namespace Poker
 
             if (okJoueur_Suit)
                 Sauver_Joueur_Suit_JSON();
+
+            if (okGagne)
+                Sauver_Gagne_JSON();
 
             if (okMain_Board)
                 Sauver_Main_Board_JSON();
@@ -7664,7 +7798,7 @@ namespace Poker
                 msg += "Firefox_GGS_Visible : 1 détecteur\n";
 
             if (okMain_Board)
-                msg += "Main_Board : 80 détecteurs\n";
+                msg += "Main_Board : 81 détecteurs\n";
 
             if (okJoueur_A_Tapis)
                 msg += "Joueur_A_Tapis : 9 détecteurs\n";
@@ -7683,6 +7817,9 @@ namespace Poker
 
             if (okJoueur_Suit)
                 msg += "Joueur_Suit : 9 détecteurs\n";
+
+            if (okGagne)
+                msg += "Gagne : 9 détecteurs\n";
 
             if (okNiveau_Table)
                 msg += "Niveau_Table : 12 détecteurs\n";
@@ -8080,6 +8217,8 @@ namespace Poker
             }
         }
 
+        
+
         // =========================================================
         // CLIC
         // =========================================================
@@ -8154,7 +8293,7 @@ namespace Poker
                     // PASSAGE AU GRIS
                     // ==========================
 
-                    if (Pupitre_Gris_Detecte())
+                    if (Pupitre_Gris())
                     {
                         bGris = true;
                     }
@@ -8164,7 +8303,7 @@ namespace Poker
                     // ==========================
 
                     if (bGris &&
-                        !Pupitre_Gris_Detecte())
+                        !Pupitre_Gris())
                     {
                         bGris = false;
 
@@ -8253,23 +8392,74 @@ namespace Poker
         // =========================================================
         private async void Bt_Triggers_Board_Click(object sender, RoutedEventArgs e)
         {
-            //Vider_Historiques();
             if (bTriggersBoard_Actif)
             {
                 StopTousModes();
-
                 return;
             }
 
             StopTousModes();
-            Reset_Table();
-            await Task.Delay(50);
 
             bTriggersBoard_Actif = true;
 
+            await Superviseur_Poker();
+        }
+
+        // =========================================================
+        // TAPIS PREFLOP
+        // =========================================================
+        private async void Bt_Tapis_PreFlop_Click(object sender, RoutedEventArgs e)
+        {
+            if (bTapisPreFlop_Actif)
+            {
+                StopTousModes();
+                return;
+            }
+
+            StopTousModes();
+
+            bTapisPreFlop_Actif = true;
+
+            await Superviseur_Poker();
+        }
+
+        // =========================================================
+        // IA
+        // =========================================================
+        private async void Bt_IA_Click(object sender, RoutedEventArgs e)
+        {
+            if (bIA_Actif)
+            {
+                StopTousModes();
+                return;
+            }
+
+            StopTousModes();
+
+            bIA_Actif = true;
+
+            await Superviseur_Poker();
+        }
+        #endregion
+
+        #region SUPERVISEUR POKER
+        // =========================================================
+        // 🔥 SUPERVISEUR POKER
+        // =========================================================
+        private async Task Superviseur_Poker()
+        {
+
+            //Vider_Historiques();
+            Reset_Table();
+            await Task.Delay(50);
+
             // =====================================
-            // JAUNE
+            // INITIALISATION
             // =====================================
+            Validation_Moteur_Rouge();
+
+            Recherche_Place_Off();      // <-- ajout
+
             Reset_Lecture_Board();
 
             bGris = false;
@@ -8278,16 +8468,52 @@ namespace Poker
 
             bAutoriserHistorique = false;
 
-            Bt_Triggers_Board.Background = Brushes.Gold;
+            
+
+            // =====================================
+            // COULEUR MODE ACTIF
+            // =====================================
+            if (bTriggersBoard_Actif)
+                Bt_Triggers_Board.Background = Brushes.Gold;
+
+            if (bTapisPreFlop_Actif)
+                Bt_Tapis_PreFlop.Background = Brushes.Gold;
+
+            if (bIA_Actif)
+                Bt_IA.Background = Brushes.Gold;
 
             // =====================================
             // Nouvelle session
             // =====================================
-
             RTB_Historique.Document.Blocks.Clear();
 
-            while (bTriggersBoard_Actif)
+            while (true)
             {
+                if (Aucune_Table())
+                {
+                    bSuperviseurVert_Actif = false;
+
+                    Reset_Table();
+                    ResetPosition();
+                    ResetNiveauTable();
+
+                    await Task.Delay(50);
+
+                    continue;
+                }
+
+                if (!bSuperviseurVert_Actif)
+                {
+                    if (Validation_Flop())
+                    {
+                        bSuperviseurVert_Actif = true;
+
+                        Validation_Moteur_Vert();
+
+                        //Lire_Niveau_Table();
+                        //Lire_Ma_Position();
+                    }
+                }
                 if (JeuEnPause)
                 {
                     await Task.Delay(100);
@@ -8300,29 +8526,72 @@ namespace Poker
                 CaptureEcran();
 
                 // ==========================================
+                // MODE DECISION
+                // ==========================================
+                bool modeDecision = Mode_Decision();
+
+                if (modeDecision && !bAttente_Decision)
+                {
+                    bAttente_Decision = true;
+                    Heure_Decision = DateTime.Now;
+                }
+
+                if (!modeDecision)
+                {
+                    bAttente_Decision = false;
+                }
+
+                // ==========================================
+                // ATTENTE DISPARITION DU BOUTON CLIQUE
+                // ==========================================
+                if (bAttente_Disparition)
+                {
+                    if (!Bouton_Decision_Present(Nom_Bouton_Attente))
+                    {
+                        bAttente_Disparition = false;
+                        Nom_Bouton_Attente = "";
+                    }
+                }
+
+                // ==========================================
+                // DECISION
+                // ==========================================
+                if (modeDecision &&
+                    !bAttente_Disparition &&
+                    Decision_Autorisee())
+                {
+                    ActionForcee = Action_Mode_Actif();
+
+                    if (Decision())
+                    {
+                        continue;
+                    }
+                }
+
+                // ==========================================
                 // PRIORITE ABSOLUE : PLUS DE JETONS
                 // ==========================================
-                if (Plus_De_Jetons_Detecte())
+                if (Plus_De_Jetons())
                 {
                     Se_Recaver();
-
                     continue;
                 }
 
-                if (Pupitre_Gris_Detecte())
+                // ==========================================
+                // PUPITRE GRIS
+                // ==========================================
+                if (Pupitre_Gris())
                 {
                     bGris = true;
 
                     // ==========================================
                     // PLUS DE POT
                     // ==========================================
-                    if (Plus_De_Pot_Detecte())
+                    if (Plus_De_Pot())
                     {
-                        // Première détection uniquement
                         if (!bAttente_Recave)
                         {
                             bAttente_Recave = true;
-
                             Heure_Recave = DateTime.Now;
                         }
                     }
@@ -8331,7 +8600,7 @@ namespace Poker
                 // ==========================
                 // RETOUR DEBUT
                 // ==========================
-                if (bGris && !Pupitre_Gris_Detecte())
+                if (bGris && !Pupitre_Gris())
                 {
                     bGris = false;
 
@@ -8387,305 +8656,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
-                    Lire_Flop_1();
-
-                    bFlop1_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 2
-                // ==========================
-                if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
-                {
-                    Lire_Flop_2();
-
-                    bFlop2_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 3
-                // ==========================
-                if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
-                {
-                    Lire_Flop_3();
-
-                    bFlop3_Lu = true;
-
-                    Calcul_Flop();
-                    Calcul_Tirages_Flop();
-
-                    // ==========================
-                    // Attente du Turn
-                    // ==========================
-                    // ==========================
-                    // Passage au vert
-                    // ==========================
-                    if (!bAutoriserHistorique)
-                    {
-                        bAutoriserHistorique = true;
-
-                        Bt_Triggers_Board.Background = Brushes.LightGreen;
-                    }
-
-                    continue;
-                }
-
-                // ==========================
-                // TURN
-                // ==========================
-                if (bFlop3_Lu && !bTurn_Lu)
-                {
-                    // ----- Turn normal -----
-                    if (Detecter_Presence("Turn_Presence"))
-                    {
-
-                        Lire_Turn();
-
-                        bTurn_Lu = true;
-
-                        Calcul_Turn();
-                        Calcul_Tirages_Turn();
-
-                        continue;
-                    }
-
-                    // ----- Turn HB -----
-                    if (Detecter_Presence("Turn_HB_Presence"))
-                    {
-                        Lire_Turn_HB();
-
-                        bTurn_Lu = true;
-
-                        Calcul_Turn();
-                        Calcul_PreFlop();
-                        Calcul_Tirages_Turn();
-
-                        continue;
-                    }
-                }
-
-                // ==========================
-                // RIVER
-                // ==========================
-                if (bTurn_Lu && !bRiver_Lu)
-                {
-                    // ----- River normale -----
-                    if (Detecter_Presence("River_Presence"))
-                    {
-                        Lire_River();
-
-                        bRiver_Lu = true;
-
-                        Calcul_River();
-
-                        continue;
-                    }
-
-                    // ----- River HB -----
-                    if (Detecter_Presence("River_HB_Presence"))
-                    {
-                        Lire_River_HB();
-
-                        bRiver_Lu = true;
-
-                        Calcul_River();
-
-                        continue;
-                    }
-                }
-            }
-
-            Bt_Triggers_Board.Background = Brushes.White;
-        }
-
-        // =========================================================
-        // TAPIS PREFLOP
-        // =========================================================
-        private async void Bt_Tapis_PreFlop_Click(object sender, RoutedEventArgs e)
-        {
-            //Vider_Historiques();
-            if (bTapisPreFlop_Actif)
-            {
-                StopTousModes();
-
-                return;
-            }
-
-            StopTousModes();
-            Reset_Table();
-            await Task.Delay(50);
-
-            bTapisPreFlop_Actif = true;
-
-            // =====================================
-            // JAUNE
-            // =====================================
-            Reset_Lecture_Board();
-
-            bGris = false;
-
-            bAttente_Recave = false;
-
-            bAutoriserHistorique = false;
-
-            Bt_Tapis_PreFlop.Background = Brushes.Gold;
-
-            // =====================================
-            // Nouvelle session
-            // =====================================
-
-            RTB_Historique.Document.Blocks.Clear();
-
-            while (bTapisPreFlop_Actif)
-            {
-                if (JeuEnPause)
-                {
-                    await Task.Delay(100);
-
-                    continue;
-                }
-
-                await Task.Delay(1);
-
-                CaptureEcran();
-
-                CaptureEcran();
-
-                // ==========================================
-                // MODE DECISION
-                // ==========================================
-                bool modeDecision = Mode_Decision();
-
-                if (modeDecision && !bAttente_Decision)
-                {
-                    bAttente_Decision = true;
-                    Heure_Decision = DateTime.Now;
-                }
-
-                if (!modeDecision)
-                {
-                    bAttente_Decision = false;
-                }
-
-                // ==========================================
-                // ATTENTE DISPARITION DU BOUTON CLIQUE
-                // ==========================================
-                if (bAttente_Disparition)
-                {
-                    if (!Bouton_Decision_Present(Nom_Bouton_Attente))
-                    {
-                        bAttente_Disparition = false;
-                        Nom_Bouton_Attente = "";
-                    }
-                }
-
-                // ==========================================
-                // DECISION
-                // ==========================================
-                if (modeDecision &&
-                    !bAttente_Disparition &&
-                    Decision_Autorisee())
-                {
-                    ActionForcee = "PAROLE";
-
-                    if (Decision())
-                    {
-                        continue;
-                    }
-                }
-
-                // ==========================================
-                // PRIORITE ABSOLUE : PLUS DE JETONS
-                // ==========================================
-                if (Plus_De_Jetons_Detecte())
-                {
-                    Se_Recaver();
-                    continue;
-                }
-
-                // ==========================================
-                // PUPITRE GRIS
-                // ==========================================
-                if (Pupitre_Gris_Detecte())
-                {
-                    bGris = true;
-
-                    // ==========================================
-                    // PLUS DE POT
-                    // ==========================================
-                    if (Plus_De_Pot_Detecte())
-                    {
-                        if (!bAttente_Recave)
-                        {
-                            bAttente_Recave = true;
-                            Heure_Recave = DateTime.Now;
-                        }
-                    }
-                }
-
-                // ==========================
-                // RETOUR DEBUT
-                // ==========================
-                if (bGris && !Pupitre_Gris_Detecte())
-                {
-                    bGris = false;
-
-                    // ==========================
-                    // HISTORIQUE
-                    // ==========================
-                    if (bAutoriserHistorique && bMain1_Lu &&  bMain2_Lu)
-                    {
-                        Ajouter_Historique();
-
-                        NbMains += 1;
-                        LbNbParole.Content = NbMains.ToString();
-                    }
-
-                    // ==========================
-                    // REMISE A ZERO
-                    // ==========================
-                    Reset_Lecture_Board();
-
-                    Reset_Table();
-
-                    continue;
-                }
-
-                // ==========================
-                // MAIN 1
-                // ==========================
-                if (!bMain1_Lu && Detecter_Presence("Main_1_Presence"))
-                {
-                    Lire_Main_1();
-
-                    bMain1_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // MAIN 2
-                // ==========================
-                if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
-                {
-                    Lire_Main_2();
-
-                    bMain2_Lu = true;
-
-                    Calcul_PreFlop();
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 1
-                // ==========================
-                if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
-                {
+                    await Task.Delay(5);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -8728,7 +8699,14 @@ namespace Poker
                     {
                         bAutoriserHistorique = true;
 
-                        Bt_Tapis_PreFlop.Background = Brushes.LightGreen;
+                        if (bTriggersBoard_Actif)
+                            Bt_Triggers_Board.Background = Brushes.LightGreen;
+
+                        if (bTapisPreFlop_Actif)
+                            Bt_Tapis_PreFlop.Background = Brushes.LightGreen;
+
+                        if (bIA_Actif)
+                            Bt_IA.Background = Brushes.LightGreen;
                     }
 
                     continue;
@@ -8796,283 +8774,177 @@ namespace Poker
                     }
                 }
             }
+            // =====================================
+            // FIN
+            // =====================================
+            if (bTriggersBoard_Actif)
+                Bt_Triggers_Board.Background = Brushes.White;
 
-            Bt_Tapis_PreFlop.Background = Brushes.White;
-        }
+            if (bTapisPreFlop_Actif)
+                Bt_Tapis_PreFlop.Background = Brushes.White;
 
-        // =========================================================
-        // IA
-        // =========================================================
-        private async void Bt_IA_Click(object sender, RoutedEventArgs e)
-        {
-            //Vider_Historiques();
             if (bIA_Actif)
-            {
-                StopTousModes();
-
-                return;
-            }
-
-            StopTousModes();
-            Reset_Table();
-
-            await Task.Delay(50);
-
-            bIA_Actif = true;
-
-            // =====================================
-            // JAUNE
-            // =====================================
-            Reset_Lecture_Board();
-
-            bGris = false;
-
-            bAttente_Recave = false;
-
-            bAutoriserHistorique = false;
-
-            Bt_IA.Background = Brushes.Gold;
-
-            // =====================================
-            // Nouvelle session
-            // =====================================
-
-            RTB_Historique.Document.Blocks.Clear();
-
-            while (bIA_Actif)
-            {
-                if (JeuEnPause)
-                {
-                    await Task.Delay(100);
-
-                    continue;
-                }
-
-                await Task.Delay(1);
-
-                CaptureEcran();
-
-                // ==========================================
-                // PRIORITE ABSOLUE : PLUS DE JETONS
-                // ==========================================
-                if (Plus_De_Jetons_Detecte())
-                {
-                    Se_Recaver();
-
-                    continue;
-                }
-
-                if (Pupitre_Gris_Detecte())
-                {
-                    bGris = true;
-
-                    // ==========================================
-                    // PLUS DE POT
-                    // ==========================================
-                    if (Plus_De_Pot_Detecte())
-                    {
-                        // Première détection uniquement
-                        if (!bAttente_Recave)
-                        {
-                            bAttente_Recave = true;
-
-                            Heure_Recave = DateTime.Now;
-                        }
-                    }
-                }
-
-
-                // ==========================
-                // RETOUR DEBUT
-                // ==========================
-                if (bGris && !Pupitre_Gris_Detecte())
-                {
-                    bGris = false;
-
-                    // ==========================
-                    // HISTORIQUE
-                    // ==========================
-                    if (bAutoriserHistorique && bMain1_Lu && bMain2_Lu)
-                    {
-                        Ajouter_Historique();
-
-                        NbMains += 1;
-                        LbNbParole.Content = NbMains.ToString();
-                    }
-
-                    // ==========================
-                    // REMISE A ZERO
-                    // ==========================
-                    Reset_Lecture_Board();
-
-                    Reset_Table();
-
-                    continue;
-                }
-
-                // ==========================
-                // MAIN 1
-                // ==========================
-                if (!bMain1_Lu && Detecter_Presence("Main_1_Presence"))
-                {
-                    Lire_Main_1();
-
-                    bMain1_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // MAIN 2
-                // ==========================
-                if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
-                {
-                    Lire_Main_2();
-
-                    bMain2_Lu = true;
-
-                    Calcul_PreFlop();
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 1
-                // ==========================
-                if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
-                {
-                    Lire_Flop_1();
-
-                    bFlop1_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 2
-                // ==========================
-                if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
-                {
-                    Lire_Flop_2();
-
-                    bFlop2_Lu = true;
-
-                    continue;
-                }
-
-                // ==========================
-                // FLOP 3
-                // ==========================
-                if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
-                {
-                    Lire_Flop_3();
-
-                    bFlop3_Lu = true;
-
-                    Calcul_Flop();
-                    Calcul_Tirages_Flop();
-
-                    // ==========================
-                    // Passage au vert
-                    // ==========================
-                    if (!bAutoriserHistorique)
-                    {
-                        bAutoriserHistorique = true;
-
-                        Bt_IA.Background = Brushes.LightGreen;
-                    }
-
-                    continue;
-                }
-
-                // ==========================
-                // TURN
-                // ==========================
-                if (bFlop3_Lu && !bTurn_Lu)
-                {
-                    // ----- Turn normal -----
-                    if (Detecter_Presence("Turn_Presence"))
-                    {
-                        Lire_Turn();
-
-                        bTurn_Lu = true;
-
-                        Calcul_Turn();
-                        Calcul_Tirages_Turn();
-
-                        continue;
-                    }
-
-                    // ----- Turn HB -----
-                    if (Detecter_Presence("Turn_HB_Presence"))
-                    {
-                        Lire_Turn_HB();
-
-                        bTurn_Lu = true;
-
-                        Calcul_Turn();
-                        Calcul_Tirages_Turn();
-
-                        continue;
-                    }
-                }
-                // ==========================
-                // RIVER
-                // ==========================
-                if (bTurn_Lu && !bRiver_Lu)
-                {
-                    // ----- River normale -----
-                    if (Detecter_Presence("River_Presence"))
-                    {
-                        Lire_River();
-
-                        bRiver_Lu = true;
-
-                        Calcul_River();
-
-                        continue;
-                    }
-
-                    // ----- River HB -----
-                    if (Detecter_Presence("River_HB_Presence"))
-                    {
-                        Lire_River_HB();
-
-                        bRiver_Lu = true;
-
-                        Calcul_River();
-
-                        continue;
-                    }
-                }
-            }
-
-            Bt_IA.Background = Brushes.White;
+                Bt_IA.Background = Brushes.White;
         }
-        #endregion
+        private bool Validation_Flop()
+        {
+            // =====================================
+            // Remise à zéro
+            // =====================================
+            Flop_1 = "";
+            Flop_2 = "";
+            Flop_3 = "";
 
-        #region VALIDATION_MOTEUR
+            // =====================================
+            // FLOP 1
+            // =====================================
+            if (Detecter_Presence("Flop_1_Presence"))
+            {
+                Lire_Flop_1_Validation();
+            }
+
+            // =====================================
+            // FLOP 2
+            // =====================================
+            if (Detecter_Presence("Flop_2_Presence"))
+            {
+                Lire_Flop_2_Validation();
+            }
+
+            // =====================================
+            // FLOP 3
+            // =====================================
+            if (Detecter_Presence("Flop_3_Presence"))
+            {
+                Lire_Flop_3_Validation();
+            }
+
+            // =====================================
+            // VALIDATION
+            // =====================================
+            if (Flop_1 != "" &&
+                Flop_2 != "" &&
+                Flop_3 != "")
+            {
+                Debug("Validation_Flop OK - 3 cartes reconnues");
+                return true;
+            }
+
+            return false;
+        }
+        // =========================================================
+        // LIRE FLOP 1 (VALIDATION)
+        // =========================================================
+        private void Lire_Flop_1_Validation()
+        {
+            Flop_1 = "";
+
+            foreach (var carte in Flop1Detect)
+            {
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                if (couleurLue == carte.Couleur)
+                {
+                    Flop_1 = carte.Nom;
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // LIRE FLOP 2 (VALIDATION)
+        // =========================================================
+        private void Lire_Flop_2_Validation()
+        {
+            Flop_2 = "";
+
+            foreach (var carte in Flop2Detect)
+            {
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                if (couleurLue == carte.Couleur)
+                {
+                    Flop_2 = carte.Nom;
+                    return;
+                }
+            }
+        }
+        // =========================================================
+        // LIRE FLOP 3 (VALIDATION)
+        // =========================================================
+        private void Lire_Flop_3_Validation()
+        {
+            Flop_3 = "";
+
+            foreach (var carte in Flop3Detect)
+            {
+                if (string.IsNullOrEmpty(carte.Nom))
+                    continue;
+
+                System.Drawing.Color pixel =
+                    Bitmap_Main.GetPixel(
+                        carte.X,
+                        carte.Y);
+
+                int couleurLue =
+                    (pixel.R << 16) |
+                    (pixel.G << 8) |
+                     pixel.B;
+
+                if (couleurLue == carte.Couleur)
+                {
+                    Flop_3 = carte.Nom;
+                    return;
+                }
+            }
+        }
+        private void Validation_Moteur_Rouge()
+        {
+            Voyant_Validation_Moteur.Background = Brushes.Red;
+            Voyant_Validation_Moteur.Foreground = Brushes.White;
+        }
+
+        private void Validation_Moteur_Vert()
+        {
+            Voyant_Validation_Moteur.Background = Brushes.LightGreen;
+            Voyant_Validation_Moteur.Foreground = Brushes.Black;
+        }
+        private void Recherche_Place_Off()
+        {
+            Voyant_Recherche_Place.Visibility = Visibility.Collapsed;
+        }
+
+        private void Recherche_Place_On()
+        {
+            Voyant_Recherche_Place.Background = Brushes.Orange;
+            Voyant_Recherche_Place.Visibility = Visibility.Visible;
+        }
         // =========================================================
         // 🔥 VALIDATION MOTEUR
         // =========================================================
         private bool bAbsenceTable = false;
         private DateTime HeureAbsence;
-
-        // =========================================================
-        // TEST ABSENCE TABLE
-        // =========================================================
-        private async Task Test_Absence_Table()
-        {
-            while (true)
-            {
-                CaptureEcran();
-                Debug("Capture");
-
-                Absence_Table();
-
-                await Task.Delay(1000);
-            }
-        }
 
         // =========================================================
         // AUCUNE TABLE
@@ -9097,7 +8969,7 @@ namespace Poker
                 if (bAbsenceTable)
                 {
                     bAbsenceTable = false;
-                    Debug("Table revenue");
+                    //Debug("Table revenue");
                 }
 
                 return false;
@@ -9111,7 +8983,7 @@ namespace Poker
 
                 Voyant_Validation_Moteur.Background = Brushes.Red;
 
-                Debug("Début absence table");
+                //Debug("Début absence table");
 
                 return false;
             }
@@ -9121,7 +8993,7 @@ namespace Poker
             {
                 Voyant_Validation_Moteur.Background = Brushes.Red;
 
-                Debug("Absence > 7.5 secondes");
+                //Debug("Absence > 7.5 secondes");
 
                 bAbsenceTable = false;
 
@@ -9141,29 +9013,68 @@ namespace Poker
                 int couleur = LirePixel(
                     AucuneTableDetect[i].X,
                     AucuneTableDetect[i].Y);
-                Debug($"Lu={couleur:X8}  Attendu={AucuneTableDetect[i].Couleur:X8}");
                 if (couleur == AucuneTableDetect[i].Couleur)
                     return false;
             }
 
             return true;
         }
+        private string Action_Mode_Actif()
+        {
+            if (bTriggersBoard_Actif)
+                return "PAROLE";
+
+            if (bTapisPreFlop_Actif)
+                return "PAROLE"; //Action_Tapis();
+
+            if (bIA_Actif)
+                return "PAROLE"; // Action_IA();
+
+            return "PAROLE";
+        }
+        private void StopSuperviseur()
+        {
+            bSuperviseurVert_Actif = false;
+
+            bAutoriserHistorique = false;
+
+            Reset_Table();
+        }
+        private void ResetPosition()
+        {
+            foreach (var b in BoutonsPosition)
+                b.Background = (Brush)FindResource("blanc");
+        }
+
+        private void ResetNiveauTable()
+        {
+            foreach (var b in BoutonsNiveauTable)
+                b.Background = (Brush)FindResource("blanc");
+        }
+        private void ActiverPosition(Button boutonActif)
+        {
+            ResetPosition();
+            boutonActif.Background = (Brush)FindResource("bleu");
+        }
+
+        private void ActiverNiveauTable(Button boutonActif)
+        {
+            ResetNiveauTable();
+            boutonActif.Background = (Brush)FindResource("bleu");
+        }
+
         // ---------------------------------------------------------
         // Validation_Moteur()
         // ---------------------------------------------------------
 
         #endregion
-        private void Fusion_Historique()
-        {
-            MessageBox.Show("Fusion Historique");
-        }
 
         // =========================================================
         // 🔥 STOP TOUS MODES
         // =========================================================
         private void StopTousModes()
         {
-            if (bTriggersBoard_Actif || bTapisPreFlop_Actif)
+            if (bTriggersBoard_Actif || bTapisPreFlop_Actif || bIA_Actif)
             {
                 Sauvegarder_Historique_TXT();
                 Sauvegarder_Historique_RTF();
@@ -9175,33 +9086,16 @@ namespace Poker
             bTestBoard_Actif = false;
             bTriggersBoard_Actif = false;
             bTapisPreFlop_Actif = false;
+            bIA_Actif = false;
 
             Bt_Test_Board.Background = Brushes.White;
             Bt_Triggers_Board.Background = Brushes.White;
             Bt_Tapis_PreFlop.Background = Brushes.White;
+            Bt_IA.Background = Brushes.White;
 
             Reset_Table();
         }
-
-        // =========================================================
-        // STABILISATION BOARD
-        // =========================================================
-        private void Stabilisation_Board()
-        {
-            bFlop1_Present = Detecter_Presence("Flop_1_Presence");
-            bFlop2_Present = Detecter_Presence("Flop_2_Presence");
-            bFlop3_Present = Detecter_Presence("Flop_3_Presence");
-        }
-
-        // =========================================================
-        // BOARD STABILISÉ ?
-        // =========================================================
-        private bool Board_Stabilise()
-        {
-            return bFlop1_Present &&
-                   bFlop2_Present &&
-                   bFlop3_Present;
-        }
+       
         // =========================================================
         // DEBUG
         // =========================================================
