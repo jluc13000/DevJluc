@@ -475,6 +475,7 @@ namespace Poker
         // MOTEUR
         //----------------------------------------------------------
         private bool bSuperviseurVert_Actif = false;
+        private bool bSuperviseurActif = false;
 
         //----------------------------------------------------------
         // MODES
@@ -6191,30 +6192,32 @@ namespace Poker
             string json = JsonConvert.SerializeObject(NiveauTableDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
-        //private int Niveau_Table()
-        //{
-        //    for (int i = 0; i < NiveauTableDetect.Length; i++)
-        //    {
-        //        int couleur = LirePixel(
-        //            NiveauTableDetect[i].X,
-        //            NiveauTableDetect[i].Y);
+        private int Niveau_Table()
+        {
+            for (int i = 0; i < NiveauTableDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    NiveauTableDetect[i].X,
+                    NiveauTableDetect[i].Y);
 
-        //        if (couleur == NiveauTableDetect[i].Couleur)
-        //            return i + 1;     // 1 à 12
-        //    }
+                if (couleur == NiveauTableDetect[i].Couleur)
+                    return i + 1;     // 1 à 12
+            }
 
-        //    return 0;                 // Non détecté
-        //}
+            return 0;                 // Non détecté
+        }
 
-        //private void Lire_Niveau_Table()
-        //{
-        //    ResetNiveauTable();
+        private void Lire_Niveau_Table()
+        {
+            ResetNiveauTable();
 
-        //    int niveau = Niveau_Table();
+            int niveau = Niveau_Table();
 
-        //    if (niveau >= 1 && niveau <= 12)
-        //        ActiverNiveauTable(BoutonsNiveauTable[niveau - 1]);
-        //}
+            //Debug("Niveau Table = " + niveau);
+
+            if (niveau >= 1 && niveau <= 12)
+                ActiverNiveauTable(BoutonsNiveauTable[niveau - 1]);
+        }
 
         // =========================================================
         // 🔥 NOUVEAU NIVEAU
@@ -6956,15 +6959,20 @@ namespace Poker
 
             return 0;               // Non détectée
         }
-        //private void Lire_Ma_Position()
-        //{
-        //    ResetPosition();
+        private void Lire_Ma_Position()
+        {
+            ResetPosition();
 
-        //    int position = Suis_Je_Assis();
+            int position = Suis_Je_Assis();
 
-        //    if (position >= 1 && position <= 9)
-        //        ActiverPosition(BoutonsPosition[position - 1]);
-        //}
+            //if (position == 0)
+            //    Debug("Position : NON DETECTEE");
+            //else
+            //    Debug("Position : " + position);
+
+            if (position >= 1 && position <= 9)
+                ActiverPosition(BoutonsPosition[position - 1]);
+        }
 
 
         // =========================================================
@@ -8243,6 +8251,7 @@ namespace Poker
             // =====================================
             // STOP
             // =====================================
+            bSuperviseurActif = false;
             if (bTestBoard_Actif)
             {
                 StopTousModes();
@@ -8381,10 +8390,11 @@ namespace Poker
             finally
             {
                 bTestBoard_Actif = false;
-
+                bSuperviseurActif = false;
                 Bt_Test_Board.Background =
                     Brushes.White;
             }
+            bSuperviseurActif = false;
         }
 
         // =========================================================
@@ -8489,10 +8499,27 @@ namespace Poker
 
             while (true)
             {
+
+                await Task.Delay(1);
+
+                if (!bSuperviseurActif)
+                    continue;
+
+                CaptureEcran();
+
+                // ==========================================
+                // PRIORITE ABSOLUE : PLUS DE JETONS
+                // ==========================================
+                if (Plus_De_Jetons())
+                {
+                    Se_Recaver();
+                    continue;
+                }
+
                 if (Aucune_Table())
                 {
                     bSuperviseurVert_Actif = false;
-
+                    Validation_Moteur_Rouge();
                     Reset_Table();
                     ResetPosition();
                     ResetNiveauTable();
@@ -8510,8 +8537,8 @@ namespace Poker
 
                         Validation_Moteur_Vert();
 
-                        //Lire_Niveau_Table();
-                        //Lire_Ma_Position();
+                        Lire_Niveau_Table();
+                        Lire_Ma_Position();
                     }
                 }
                 if (JeuEnPause)
@@ -8521,9 +8548,6 @@ namespace Poker
                     continue;
                 }
 
-                await Task.Delay(1);
-
-                CaptureEcran();
 
                 // ==========================================
                 // MODE DECISION
@@ -8568,14 +8592,7 @@ namespace Poker
                     }
                 }
 
-                // ==========================================
-                // PRIORITE ABSOLUE : PLUS DE JETONS
-                // ==========================================
-                if (Plus_De_Jetons())
-                {
-                    Se_Recaver();
-                    continue;
-                }
+                
 
                 // ==========================================
                 // PUPITRE GRIS
@@ -8645,6 +8662,8 @@ namespace Poker
                     Lire_Main_2();
 
                     bMain2_Lu = true;
+
+                    Lire_Ma_Position();
 
                     Calcul_PreFlop();
 
@@ -8826,7 +8845,7 @@ namespace Poker
                 Flop_2 != "" &&
                 Flop_3 != "")
             {
-                Debug("Validation_Flop OK - 3 cartes reconnues");
+                //Debug("Validation_Flop OK - 3 cartes reconnues");
                 return true;
             }
 
