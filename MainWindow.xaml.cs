@@ -9094,7 +9094,8 @@ namespace Poker
         // =========================================================
         private void StopTousModes()
         {
-            if (bTriggersBoard_Actif || bTapisPreFlop_Actif || bIA_Actif)
+            // Sauvegarder uniquement s'il y a un historique
+            if (RTB_Historique.Document.Blocks.Count > 0)
             {
                 Sauvegarder_Historique_TXT();
                 Sauvegarder_Historique_RTF();
@@ -9115,7 +9116,7 @@ namespace Poker
 
             Reset_Table();
         }
-       
+
         // =========================================================
         // DEBUG
         // =========================================================
