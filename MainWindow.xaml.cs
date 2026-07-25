@@ -8458,7 +8458,7 @@ namespace Poker
         // =========================================================
         private async Task Superviseur_Poker()
         {
-
+            bSuperviseurActif = true;
             //Vider_Historiques();
             Reset_Table();
             await Task.Delay(50);
@@ -8675,7 +8675,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
-                    await Task.Delay(5);
+                    await Task.Delay(6);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -8688,7 +8688,7 @@ namespace Poker
                 // ==========================
                 if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
                 {
-                    await Task.Delay(5);
+                    await Task.Delay(6);
                     Lire_Flop_2();
 
                     bFlop2_Lu = true;
@@ -8701,6 +8701,7 @@ namespace Poker
                 // ==========================
                 if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
                 {
+                    await Task.Delay(6);
                     Lire_Flop_3();
 
                     bFlop3_Lu = true;
