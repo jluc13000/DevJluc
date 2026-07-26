@@ -538,6 +538,8 @@ namespace Poker
         bool flashGO = false;
         int compteurFlashGO = 0;
 
+        private bool bDebug = false;
+
         // Carte sélectionnée manuellement (clic sur la grille 52 cartes)
         private string CarteCourante = "";
 
@@ -557,7 +559,11 @@ namespace Poker
         public MainWindow()
         {
             InitializeComponent();
+
+            Mode_Debug_OFF();
+
             _ = Superviseur_Poker();
+
             LbNbTapis.Content = "0";
 
             Charger_Main1_JSON();
@@ -8239,6 +8245,8 @@ namespace Poker
             mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
         }
 
+       
+
         #endregion
 
         #region TEST_BOARD TRIGGERS_BOARD TAPIS_PREFLOP IA
@@ -9116,14 +9124,285 @@ namespace Poker
 
             Reset_Table();
         }
+        private void Mode_Developpeur()
+        {
+            Visibility v = bDebug ? Visibility.Visible : Visibility.Collapsed;
+
+            // Exemples
+            //LbDebug.Visibility = v;
+            //RTB_Debug.Visibility = v;
+            //Bt_Benchmark.Visibility = v;
+            //LbChrono.Visibility = v;
+
+            // Tu ajouteras ici tous les contrôles
+            // que tu veux masquer en mode utilisateur.
+        }
+        // =========================================================
+        // 🔥 BOUTON DEBUG
+        // =========================================================
+
+        // =========================================================
+        // 🔥 BOUTON DEBUG
+        // =========================================================
+        // =========================================================
+        // 🔥 BOUTON DEBUG
+        // =========================================================
+        private void Bt_Debug_Click(object sender, RoutedEventArgs e)
+        {
+            bDebug = !bDebug;
+
+            if (bDebug)
+                Mode_Debug_ON();
+            else
+                Mode_Debug_OFF();
+        }
+        private void Mode_Debug_OFF()
+        {
+            Bt_Debug.Background = Brushes.White;
+
+            //RTB Agrandissement
+            RTB_Historique.Margin = new Thickness(136, 350, 0, 334);
+
+            // Supprimer les points si besoin
+            if (!bPoints)
+                Bt_Points_Click(null, null);
+
+            // Le bouton Points disparaît
+            Bt_Points.Visibility = Visibility.Collapsed;
+
+            // Zone Debug masquée
+            TB_Debug.Visibility = Visibility.Collapsed;
+
+            Bt_Injection.Visibility = Visibility.Collapsed;
+
+            Bt_Test_Board.Visibility = Visibility.Collapsed;
+
+            // Tirages Aléatoires
+            Bt_Rand_M.Visibility = Visibility.Collapsed;
+            Bt_Rand_F.Visibility = Visibility.Collapsed;
+            Bt_Rand_T.Visibility = Visibility.Collapsed;
+            Bt_Rand_R.Visibility = Visibility.Collapsed;
+            Bt_Rand_MTFR.Visibility = Visibility.Collapsed;
+
+            Bt_Je_suis_a_table.Visibility = Visibility.Collapsed;
+            Bt_Pas_de_Bouton.Visibility = Visibility.Collapsed;
+
+            // Joueurs présents
+            Bt_Un_Joueur_en_1.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_2.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_3.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_4.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_5.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_6.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_7.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_8.Visibility = Visibility.Collapsed;
+            Bt_Un_Joueur_en_9.Visibility = Visibility.Collapsed;
+
+            // Bouton Dealer
+            Bt_Bouton_en_1.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_2.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_3.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_4.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_5.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_6.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_7.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_8.Visibility = Visibility.Collapsed;
+            Bt_Bouton_en_9.Visibility = Visibility.Collapsed;
+
+            // Places disponibles
+            Bt_PlaceDisponible_1.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_2.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_3.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_4.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_5.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_6.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_7.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_8.Visibility = Visibility.Collapsed;
+            Bt_PlaceDisponible_9.Visibility = Visibility.Collapsed;
+
+            // Fold
+            Bt_Joueur1_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur2_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur3_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur4_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur5_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur6_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur7_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur8_Fold.Visibility = Visibility.Collapsed;
+            Bt_Joueur9_Fold.Visibility = Visibility.Collapsed;
+
+            // Mise
+            Bt_Joueur1_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur2_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur3_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur4_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur5_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur6_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur7_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur8_Mise.Visibility = Visibility.Collapsed;
+            Bt_Joueur9_Mise.Visibility = Visibility.Collapsed;
+
+            // Tapis
+            Bt_Joueur1_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur2_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur3_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur4_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur5_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur6_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur7_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur8_Tapis.Visibility = Visibility.Collapsed;
+            Bt_Joueur9_Tapis.Visibility = Visibility.Collapsed;
+
+            // Stack départ
+            T_Stak_Depart_Joueur1.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur2.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur3.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur4.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur5.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur6.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur7.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur8.Visibility = Visibility.Collapsed;
+            T_Stak_Depart_Joueur9.Visibility = Visibility.Collapsed;
+
+            // Gain
+            Bt_Gagne_en_1.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_2.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_3.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_4.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_5.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_6.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_7.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_8.Visibility = Visibility.Collapsed;
+            Bt_Gagne_en_9.Visibility = Visibility.Collapsed;
+        }
+
+        private void Mode_Debug_ON()
+        {
+            Bt_Debug.Background = Brushes.LightGreen;
+
+            //RTB Réduction
+            RTB_Historique.Margin = new Thickness(136, 462, 0, 334);
+
+            // Remettre les points si besoin
+            if (bPoints)
+                Bt_Points_Click(null, null);
+
+            // Le bouton Points est visible et vert
+            Bt_Points.Visibility = Visibility.Visible;
+            Bt_Points.Background = Brushes.LightGreen;
+
+            // Zone Debug
+            TB_Debug.Visibility = Visibility.Visible;
+
+            Bt_Injection.Visibility = Visibility.Visible;
+
+            Bt_Test_Board.Visibility = Visibility.Visible;
+
+            Bt_Rand_M.Visibility = Visibility.Visible;
+            Bt_Rand_F.Visibility = Visibility.Visible;
+            Bt_Rand_T.Visibility = Visibility.Visible;
+            Bt_Rand_R.Visibility = Visibility.Visible;
+            Bt_Rand_MTFR.Visibility = Visibility.Visible;
+
+            Bt_Je_suis_a_table.Visibility = Visibility.Visible;
+            Bt_Pas_de_Bouton.Visibility = Visibility.Visible;
+
+            // Joueurs présents
+            Bt_Un_Joueur_en_1.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_2.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_3.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_4.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_5.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_6.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_7.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_8.Visibility = Visibility.Visible;
+            Bt_Un_Joueur_en_9.Visibility = Visibility.Visible;
+
+            // Bouton Dealer
+            Bt_Bouton_en_1.Visibility = Visibility.Visible;
+            Bt_Bouton_en_2.Visibility = Visibility.Visible;
+            Bt_Bouton_en_3.Visibility = Visibility.Visible;
+            Bt_Bouton_en_4.Visibility = Visibility.Visible;
+            Bt_Bouton_en_5.Visibility = Visibility.Visible;
+            Bt_Bouton_en_6.Visibility = Visibility.Visible;
+            Bt_Bouton_en_7.Visibility = Visibility.Visible;
+            Bt_Bouton_en_8.Visibility = Visibility.Visible;
+            Bt_Bouton_en_9.Visibility = Visibility.Visible;
+
+            // Places disponibles
+            Bt_PlaceDisponible_1.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_2.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_3.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_4.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_5.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_6.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_7.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_8.Visibility = Visibility.Visible;
+            Bt_PlaceDisponible_9.Visibility = Visibility.Visible;
+
+            // Fold
+            Bt_Joueur1_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur2_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur3_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur4_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur5_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur6_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur7_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur8_Fold.Visibility = Visibility.Visible;
+            Bt_Joueur9_Fold.Visibility = Visibility.Visible;
+
+            // Mise
+            Bt_Joueur1_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur2_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur3_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur4_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur5_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur6_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur7_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur8_Mise.Visibility = Visibility.Visible;
+            Bt_Joueur9_Mise.Visibility = Visibility.Visible;
+
+            // Tapis
+            Bt_Joueur1_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur2_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur3_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur4_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur5_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur6_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur7_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur8_Tapis.Visibility = Visibility.Visible;
+            Bt_Joueur9_Tapis.Visibility = Visibility.Visible;
+
+            // Stack départ
+            T_Stak_Depart_Joueur1.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur2.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur3.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur4.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur5.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur6.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur7.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur8.Visibility = Visibility.Visible;
+            T_Stak_Depart_Joueur9.Visibility = Visibility.Visible;
+
+            // Gain
+            Bt_Gagne_en_1.Visibility = Visibility.Visible;
+            Bt_Gagne_en_2.Visibility = Visibility.Visible;
+            Bt_Gagne_en_3.Visibility = Visibility.Visible;
+            Bt_Gagne_en_4.Visibility = Visibility.Visible;
+            Bt_Gagne_en_5.Visibility = Visibility.Visible;
+            Bt_Gagne_en_6.Visibility = Visibility.Visible;
+            Bt_Gagne_en_7.Visibility = Visibility.Visible;
+            Bt_Gagne_en_8.Visibility = Visibility.Visible;
+            Bt_Gagne_en_9.Visibility = Visibility.Visible;
+        }
 
         // =========================================================
         // DEBUG
         // =========================================================
         private void Debug(string message)
         {
-            TB_Mise.AppendText(message + "\r\n");
-            TB_Mise.ScrollToEnd();
+            TB_Debug.AppendText(message + "\r\n");
+            TB_Debug.ScrollToEnd();
         }
     }
 }

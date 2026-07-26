@@ -439,7 +439,7 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Mise"         Width="264"    Height="112"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
+        <TextBox x:Name="TB_Debug"         Width="264"    Height="112"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blinde_1"                Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
@@ -448,7 +448,7 @@
         <TextBlock x:Name="T_Cave_Max"              Width="44"      Height="13"         Margin="136,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Call_Max"              Width="56"      Height="13"         Margin="207,240,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"/>
         <TextBlock x:Name="T_Raise_Max"             Width="56"      Height="13"         Margin="266,240,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"><Run Language="fr-fr" /></TextBlock>
-        <TextBlock x:Name="T_Stak_Depart_Joueur1"   Width="71"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur1"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="MISES"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="ATTENTE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="LECTURE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
@@ -491,7 +491,7 @@
     Content="Test Board"
     Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="320,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
-             Margin="136,462,0,334"
+             Margin="136,350,0,334"
              FontSize="14"
              FontWeight="Bold"
              FontFamily="Consolas"
@@ -530,6 +530,7 @@
                VerticalAlignment="Center"
                TextAlignment="Center"/>
         </Border>
+        <Button x:Name="Bt_Debug" Content="Debug" HorizontalAlignment="Left" Height="20" Margin="345,623,0,0" VerticalAlignment="Top" Width="53" Click="Bt_Debug_Click" FontWeight="Bold" Style="{StaticResource FlatButton}" />
     </Grid>
 </Window>
 
