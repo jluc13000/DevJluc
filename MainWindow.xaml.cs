@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
@@ -15,10 +17,13 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Runtime.InteropServices;
+using static Poker.MainWindow;
 
 namespace Poker
 {
+
+
+
     public class MainHistorique
     {
         public string M1 { get; set; }
@@ -45,6 +50,15 @@ namespace Poker
 
     public partial class MainWindow : Window
     {
+        // -------------------------------------
+        // Temps laissé au joueur pour reprendre
+        // le contrôle avant le clic automatique
+        // Réglable par l'utilisateur
+        // Valeur par défaut : 3500 ms
+        // -------------------------------------
+        private int DELAI_PRISE_CONTROLE = 3500;
+
+
         // =========================================================
         // API WINDOWS SOURIS
         // =========================================================
@@ -262,7 +276,6 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE TABLE PRETE
         public struct S_TablePreteDetect
         {
             public string Nom;
@@ -271,6 +284,12 @@ namespace Poker
             public int Couleur;
         }
 
+        // STRUCTURE PREFERENCES UTILISATEUR
+        public struct S_PreferencesUtilisateurDetect
+        {
+            public bool ModeDebug;
+            public int DelaiPriseControle;
+        }
 
         private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
 
@@ -358,7 +377,13 @@ namespace Poker
         // TABLEAU DETECTION TABLE PRETE
         private S_TablePreteDetect[] TablePreteDetect = new S_TablePreteDetect[1];
 
+        // TABLEAU DETECTION PREFERENCES UTILISATEUR
+        private S_PreferencesUtilisateurDetect PreferencesUtilisateur;
+
         // TOTAL : 788 pixels injectés 
+
+
+
 
         // =========================================================
         // MISE SELECTIONNEE
@@ -406,11 +431,7 @@ namespace Poker
         private DateTime Heure_Decision;
         private int Delai_Decision = 0;
 
-        // -------------------------------------
-        // Temps laissé au joueur pour reprendre
-        // le contrôle avant le clic automatique
-        // -------------------------------------
-        private const int DELAI_PRISE_CONTROLE = 4500;
+        
 
         // -------------------------------------
         // Attente de disparition du bouton
@@ -495,7 +516,8 @@ namespace Poker
         //----------------------------------------------------------
 
 
-
+        private bool bMemoDebug;
+        private int bMemoDelai;
         private bool bPoints = true;
 
         private System.Drawing.Bitmap Bitmap_Main;
@@ -560,10 +582,22 @@ namespace Poker
         {
             InitializeComponent();
 
-            Mode_Debug_OFF();
+            // =====================================
+            // Chargement des préférences utilisateur
+            // =====================================
+            // Les préférences sont chargées par Superviseur_Poker()
 
-            _ = Superviseur_Poker();
+            // =====================================
+            // Application du mode Debug
+            // =====================================
+            if (bDebug)
+                Mode_Debug_ON();
+            else
+                Mode_Debug_OFF();
 
+            // =====================================
+            // Chargement des JSON
+            // =====================================
             LbNbTapis.Content = "0";
 
             Charger_Main1_JSON();
@@ -602,22 +636,37 @@ namespace Poker
             Charger_Suis_Je_Assis_JSON();
             Charger_Table_Prete_JSON();
 
-            // 🔥 Variables
+            // =====================================
+            // Variables
+            // =====================================
             DebutSession = DateTime.Now;
 
-            // 🔥 Timer principal
+            // =====================================
+            // Timer principal
+            // =====================================
             timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += Timer_Tick;
             timer.Start();
 
-            // 🔥 Gestion pause automatique (réduction / reprise)
+            // =====================================
+            // Gestion pause automatique
+            // =====================================
             this.StateChanged += Window_StateChanged;
 
+            // =====================================
+            // Combo Random
+            // =====================================
             for (int i = 0; i <= 12; i++)
             {
                 CbRandom.Items.Add(i);
             }
+
+            // =====================================
+            // Démarrage lorsque la fenêtre est prête
+            // =====================================
+            this.Loaded += MainWindow_Loaded;
+
 
             CbRandom.SelectedIndex = 0;
             MettreAJourIndicateurRandom();
@@ -856,6 +905,8 @@ namespace Poker
 
             if (Bt_Joueur2_Mise.Background == blanc)
                 Bt_Joueur_Mise_Click(Bt_Joueur2_Mise, null);
+
+
         }
 
         private void ToggleRangeTapis(string main)
@@ -1459,6 +1510,12 @@ namespace Poker
         private void Fermer_Click(object sender, RoutedEventArgs e)
         {
             StopTousModes();
+
+            // Sauvegarde des préférences
+            PreferencesUtilisateur.ModeDebug = bDebug;
+            PreferencesUtilisateur.DelaiPriseControle = DELAI_PRISE_CONTROLE;
+
+            Sauver_Preferences_Utilisateur_JSON();
 
             Close();
         }
@@ -6212,7 +6269,6 @@ namespace Poker
 
             return 0;                 // Non détecté
         }
-
         private void Lire_Niveau_Table()
         {
             ResetNiveauTable();
@@ -6667,6 +6723,76 @@ namespace Poker
             string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
             string json = JsonConvert.SerializeObject(PositionBoutonDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
+        // 🔥 PREFERENCES UTILISATEUR
+        // =========================================================
+        private void Charger_Preferences_Utilisateur_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Preferences_Utilisateur.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PreferencesUtilisateur =
+                JsonConvert.DeserializeObject<S_PreferencesUtilisateurDetect>(json);
+
+            // =====================================
+            // Recopie dans les variables de travail
+            // =====================================
+            bDebug = PreferencesUtilisateur.ModeDebug;
+            DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
+        }
+        private bool Extraire_Preferences_Utilisateur(string txt)
+        {
+            bool modeDebugTrouve = false;
+            bool delaiTrouve = false;
+
+            foreach (string ligneBrute in txt.Split('\n'))
+            {
+                string ligne = ligneBrute.Trim();
+
+                if (ligne.StartsWith("COMMENT : \"ModeDebug\":"))
+                {
+                    string valeur = ligne.Replace("COMMENT : \"ModeDebug\":", "").Trim();
+
+                    bDebug = bool.Parse(valeur);
+
+                    modeDebugTrouve = true;
+                }
+
+                if (ligne.StartsWith("COMMENT : \"DelaiPriseControle\":"))
+                {
+                    string valeur = ligne.Replace("COMMENT : \"DelaiPriseControle\":", "").Trim();
+
+                    DELAI_PRISE_CONTROLE = int.Parse(valeur);
+
+                    delaiTrouve = true;
+                }
+            }
+
+            return modeDebugTrouve && delaiTrouve;
+        }
+        private async Task Sauver_Preferences_Utilisateur_JSON()
+        {
+            PreferencesUtilisateur.ModeDebug = bDebug;
+            PreferencesUtilisateur.DelaiPriseControle = DELAI_PRISE_CONTROLE;
+
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier = Path.Combine(DOSSIER_JSON, "Preferences_Utilisateur.json");
+
+            string json = JsonConvert.SerializeObject(
+                PreferencesUtilisateur,
+                Formatting.Indented);
+
+            await Task.Run(() =>
+            {
+                File.WriteAllText(fichier, json);
+            });
         }
 
         // =========================================================
@@ -7623,6 +7749,7 @@ namespace Poker
             bool okPosition_Bouton      = Extraire_Position_Bouton(txt);
             bool okPlus_De_Jetons       = Extraire_Plus_De_Jetons(txt);
             bool okPlus_De_Pot          = Extraire_Plus_De_Pot(txt);
+            bool okPreferences_Utilisateur  = Extraire_Preferences_Utilisateur(txt);
             bool okPublicite            = Extraire_Publicite(txt);
             bool okPupitre_Gris         = Extraire_Pupitre_Gris(txt);
             bool okSuis_Je_Assis        = Extraire_Suis_Je_Assis(txt);
@@ -7659,7 +7786,8 @@ namespace Poker
                 !okPlaces_Libres        &&
                 !okPosition_Bouton      &&
                 !okPlus_De_Jetons       &&
-                !okPlus_De_Pot          &&
+                !okPlus_De_Pot &&
+                !okPreferences_Utilisateur &&
                 !okPublicite            &&
                 !okPupitre_Gris         &&
                 !okSuis_Je_Assis        &&
@@ -7750,6 +7878,9 @@ namespace Poker
 
             if (okPlus_De_Pot)
                 Sauver_Plus_De_Pot_JSON();
+
+            if (okPreferences_Utilisateur)
+                Sauver_Preferences_Utilisateur_JSON();
 
             if (okPublicite)
                 Sauver_Publicite_JSON();
@@ -7843,6 +7974,9 @@ namespace Poker
 
             if (okPlaces_Libres)
                 msg += "Places_Libres : 9 détecteurs\n";
+
+            if (okPreferences_Utilisateur)
+                msg += "Préférences_Utilisateur : 2 Préférences\n";
 
             if (okPosition_Bouton)
                 msg += "Position_Bouton : 9 détecteurs\n";
@@ -8441,6 +8575,18 @@ namespace Poker
             await Superviseur_Poker();
         }
 
+        private void Sl_Delai_Decision_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+            if (!IsLoaded)
+                return;
+
+            DELAI_PRISE_CONTROLE = Convert.ToInt32(e.NewValue * 1000);
+
+            T_Delai_Decision.Text = Sl_Delai_Decision.Value + " s";
+
+        }
+
         // =========================================================
         // IA
         // =========================================================
@@ -8466,30 +8612,47 @@ namespace Poker
         // =========================================================
         private async Task Superviseur_Poker()
         {
+            // =====================================
+            // Superviseur actif
+            // =====================================
             bSuperviseurActif = true;
-            //Vider_Historiques();
+
+            // =====================================
+            // Chargement des préférences utilisateur
+            // =====================================
+            Charger_Preferences_Utilisateur_JSON();
+
+            bDebug = PreferencesUtilisateur.ModeDebug;
+            DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
+
+            // =====================================
+            // Application des préférences
+            // =====================================
+            Sl_Delai_Decision.Value = DELAI_PRISE_CONTROLE / 1000.0;
+
+            if (bDebug)
+                Mode_Debug_ON();
+            else
+                Mode_Debug_OFF();
+
+            // =====================================
+            // Initialisation
+            // =====================================
             Reset_Table();
             await Task.Delay(50);
 
-            // =====================================
-            // INITIALISATION
-            // =====================================
             Validation_Moteur_Rouge();
 
-            Recherche_Place_Off();      // <-- ajout
+            Recherche_Place_Off();
 
             Reset_Lecture_Board();
 
             bGris = false;
-
             bAttente_Recave = false;
-
             bAutoriserHistorique = false;
 
-            
-
             // =====================================
-            // COULEUR MODE ACTIF
+            // Couleur mode actif
             // =====================================
             if (bTriggersBoard_Actif)
                 Bt_Triggers_Board.Background = Brushes.Gold;
@@ -8523,7 +8686,7 @@ namespace Poker
                     Se_Recaver();
                     continue;
                 }
-
+                
                 if (Aucune_Table())
                 {
                     bSuperviseurVert_Actif = false;
@@ -8814,6 +8977,21 @@ namespace Poker
             if (bIA_Actif)
                 Bt_IA.Background = Brushes.White;
         }
+
+        private void Appliquer_Preferences_Utilisateur()
+        {
+            bDebug = PreferencesUtilisateur.ModeDebug;
+            DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
+
+            Sl_Delai_Decision.Value = DELAI_PRISE_CONTROLE / 1000.0;
+
+            if (bDebug)
+                Mode_Debug_ON();
+            else
+                Mode_Debug_OFF();
+        }
+
+
         private bool Validation_Flop()
         {
             // =====================================
@@ -9124,31 +9302,21 @@ namespace Poker
 
             Reset_Table();
         }
-        private void Mode_Developpeur()
+
+        // =========================================================
+        // 🔥 FENÊTRE CHARGÉE
+        // =========================================================
+        private async void MainWindow_Loaded(object sender, RoutedEventArgs e)
         {
-            Visibility v = bDebug ? Visibility.Visible : Visibility.Collapsed;
-
-            // Exemples
-            //LbDebug.Visibility = v;
-            //RTB_Debug.Visibility = v;
-            //Bt_Benchmark.Visibility = v;
-            //LbChrono.Visibility = v;
-
-            // Tu ajouteras ici tous les contrôles
-            // que tu veux masquer en mode utilisateur.
+            await Superviseur_Poker();
         }
-        // =========================================================
-        // 🔥 BOUTON DEBUG
-        // =========================================================
 
-        // =========================================================
-        // 🔥 BOUTON DEBUG
-        // =========================================================
         // =========================================================
         // 🔥 BOUTON DEBUG
         // =========================================================
         private void Bt_Debug_Click(object sender, RoutedEventArgs e)
         {
+
             bDebug = !bDebug;
 
             if (bDebug)
@@ -9156,6 +9324,7 @@ namespace Poker
             else
                 Mode_Debug_OFF();
         }
+
         private void Mode_Debug_OFF()
         {
             Bt_Debug.Background = Brushes.White;

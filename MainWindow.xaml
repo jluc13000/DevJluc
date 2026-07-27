@@ -302,7 +302,7 @@
             Click="Bt_Parole_Passe_Click"       
             HorizontalAlignment="Left"              
             Height="20"     
-            Margin="138,255,0,0"    
+            Margin="138,260,0,0"    
             VerticalAlignment="Top"     
             Width="60"  FontSize="9"                        
             FontWeight="Bold"   
@@ -310,7 +310,7 @@
         <Label x:Name="LbNbParole"                  
             Content="0"                                                     
             HorizontalAlignment="Left"                              
-            Margin="140,275,0,0"    
+            Margin="140,277,0,0"    
             VerticalAlignment="Top"     
             Width="60"  FontSize="10"       
             HorizontalContentAlignment="Center"/>
@@ -321,7 +321,7 @@
             Click="Bt_Suivre_Click"         
             HorizontalAlignment="Left"
             Height="20"
-            Margin="198,255,0,0"
+            Margin="198,260,0,0"
             VerticalAlignment="Top"
             Width="37"
             FontSize="9"
@@ -334,7 +334,7 @@
             Click="Bt_Relancer_Click"
             HorizontalAlignment="Left"
             Height="20"
-            Margin="235,255,0,0"
+            Margin="235,260,0,0"
             VerticalAlignment="Top"
             Width="50"
             FontSize="9"
@@ -344,7 +344,7 @@
         <Label x:Name="LbMH"
        Content="Main/h: 0"
        HorizontalAlignment="Left"
-       Margin="235,275,0,0"
+       Margin="235,277,0,0"
        VerticalAlignment="Top"
        Width="70"
        Height="20"
@@ -360,9 +360,9 @@
         Click="Bt_Tapis_Click"
         HorizontalAlignment="Left"
         Height="20"
-        Margin="285,255,0,0"
+        Margin="285,260,0,0"
         VerticalAlignment="Top"
-        Width="39"
+        Width="32"
         FontSize="9"
         FontWeight="Bold"
         Style="{StaticResource FlatButton}"/>
@@ -371,19 +371,18 @@
         <Label x:Name="LbTemps"
        Content="00:00:00"
        HorizontalAlignment="Left"
-       Margin="325,230,0,0"
+       Margin="335,197,0,0"
        VerticalAlignment="Top"
-       Width="60"
-       FontSize="10"
+       Width="69"
        Background="White"
        Foreground="Black"
-       HorizontalContentAlignment="Center"/>
+       HorizontalContentAlignment="Center" RenderTransformOrigin="0.539,4.378" Height="29" FontWeight="Bold" FontSize="14"/>
 
         <!-- Compteur Tapis -->
         <Label x:Name="LbNbTapis"
        Content="0"
        HorizontalAlignment="Left"
-       Margin="325,275,0,0"
+       Margin="325,277,0,0"
        VerticalAlignment="Top"
        Width="56"
        FontSize="10"
@@ -446,8 +445,8 @@
         <TextBlock x:Name="T_Blinde_2"                Height="13"     Margin="180,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Cave_Min"              Width="43"      Height="13"         Margin="93,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Cave_Max"              Width="44"      Height="13"         Margin="136,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Call_Max"              Width="56"      Height="13"         Margin="207,240,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"/>
-        <TextBlock x:Name="T_Raise_Max"             Width="56"      Height="13"         Margin="266,240,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10"><Run Language="fr-fr" /></TextBlock>
+        <TextBlock x:Name="T_Call_Max"              Width="26"      Height="13"         Margin="380,295,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Raise_Max"             Width="26"      Height="13"         Margin="380,308,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"><Run Language="fr-fr" /></TextBlock>
         <TextBlock x:Name="T_Stak_Depart_Joueur1"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="MISES"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="ATTENTE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
@@ -489,7 +488,7 @@
         <Button
     x:Name="Bt_Test_Board"
     Content="Test Board"
-    Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="320,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+    Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
              Margin="136,350,0,334"
              FontSize="14"
@@ -499,38 +498,85 @@
              VerticalScrollBarVisibility="Visible"
              HorizontalScrollBarVisibility="Auto"/>
         <Button x:Name="Bt_Tapis_PreFlop"   Content="Tapis PréFlop"     Click="Bt_Tapis_PreFlop_Click"  HorizontalAlignment="Left" Height="20" Margin="200,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_IA"              Content="IA"                Click="Bt_IA_Click"             HorizontalAlignment="Left" Height="20" Margin="260,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_IA"              Content="IA"                Click="Bt_IA_Click"             HorizontalAlignment="Left" Height="20" Margin="260,295,0,0" VerticalAlignment="Top" Width="29"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Manuel"
             Content="Manuel"
             Click="Bt_Manuel_Click"
             HorizontalAlignment="Left"
             Height="20"
-            Margin="324,255,0,0"
+            Margin="317,260,0,0"
             VerticalAlignment="Top"
-            Width="76"
+            Width="83"
             FontSize="9"
             FontWeight="Bold"
             Style="{StaticResource FlatButton}"/>
-        <Label Content="Validation Moteur" HorizontalAlignment="Left" Height="24" Margin="262,0,0,0" VerticalAlignment="Top" Width="91" FontSize="10"/>
-        <Label x:Name="Voyant_Validation_Moteur" Content="" HorizontalAlignment="Left" Height="20" Margin="355,4,0,0" VerticalAlignment="Top" Width="45"/>
+
+
+
+        <Label Content="Validation Moteur" 
+               HorizontalAlignment="Left" 
+               Height="24" 
+               Margin="262,0,0,0" 
+               VerticalAlignment="Top" 
+               Width="91" 
+               FontSize="10"/>
+
+        <Label x:Name="Voyant_Validation_Moteur" 
+               Content="" 
+               HorizontalAlignment="Left" 
+               Height="20" 
+               Margin="355,4,0,0" 
+               VerticalAlignment="Top" 
+               Width="45"/>
+
         <Border x:Name="Voyant_Recherche_Place"
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
-        Margin="140,315,0,0"
-        Width="182"
+        Margin="141,315,0,0"
+        Width="148"
         Height="22"
         Background="Orange"
         BorderBrush="Black"
         BorderThickness="1">
 
-            <TextBlock Text="Recherche d'une place"
-               FontSize="8"
-               FontWeight="Bold"
+        <TextBlock x:Name="TB_Recherche_Place"
+               Text="Recherche Place"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
-               TextAlignment="Center"/>
+               FontWeight="Bold"
+               FontSize="10"/>
         </Border>
+
         <Button x:Name="Bt_Debug" Content="Debug" HorizontalAlignment="Left" Height="20" Margin="345,623,0,0" VerticalAlignment="Top" Width="53" Click="Bt_Debug_Click" FontWeight="Bold" Style="{StaticResource FlatButton}" />
+
+        <Slider x:Name="Sl_Delai_Decision"
+            Minimum="0"
+            Maximum="12"
+            Value="3.5"
+            TickFrequency="0.5"
+            SmallChange="0.5"
+            LargeChange="0.5"
+            IsSnapToTickEnabled="True"
+            Height="18"
+            Margin="136,240,36,0"
+            VerticalAlignment="Top"
+            ValueChanged="Sl_Delai_Decision_ValueChanged"/>
+
+        <TextBlock Text="Temps de réflexion"
+            Margin="329,226,0,0"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            FontSize="9"
+            FontWeight="Bold"/>
+        <TextBlock x:Name="T_Delai_Decision"
+           Text="3,5 s"
+           Width="29"
+           Margin="380,242,0,0"
+           HorizontalAlignment="Left"
+           VerticalAlignment="Top"
+           FontSize="10"
+           FontWeight="Bold"/>
+
     </Grid>
 </Window>
 
