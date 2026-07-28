@@ -57,7 +57,7 @@ namespace Poker
         // Valeur par défaut : 3500 ms
         // -------------------------------------
         private int DELAI_PRISE_CONTROLE = 3500;
-
+        private int NbPreferences = 0;
 
         // =========================================================
         // API WINDOWS SOURIS
@@ -6456,12 +6456,10 @@ namespace Poker
             if (place == 0)
                 return;
 
-            Debug($"Place libre détectée : {place}");
 
             Cliquer_Place(place);
 
             await Task.Delay(1500);
-            Debug("Fin S_Assoir_A_Table");
             // Retour au superviseur
         }
         private void Cliquer_Place(int place)
@@ -6813,7 +6811,8 @@ namespace Poker
             bool modeDebugTrouve = false;
             bool delaiTrouve = false;
             bool changerPlaceTrouve = false;
-
+            NbPreferences = 0;
+            
             foreach (string ligneBrute in txt.Split('\n'))
             {
                 string ligne = ligneBrute.Trim();
@@ -6825,6 +6824,7 @@ namespace Poker
                     bDebug = bool.Parse(valeur);
 
                     modeDebugTrouve = true;
+                    NbPreferences++;
                 }
 
                 if (ligne.StartsWith("COMMENT : \"DelaiPriseControle\":"))
@@ -6834,6 +6834,7 @@ namespace Poker
                     DELAI_PRISE_CONTROLE = int.Parse(valeur);
 
                     delaiTrouve = true;
+                    NbPreferences++;
                 }
 
                 if (ligne.StartsWith("COMMENT : \"ChangerDePlace\":"))
@@ -6843,12 +6844,10 @@ namespace Poker
                     bChangerDePlace = bool.Parse(valeur);
 
                     changerPlaceTrouve = true;
+                    NbPreferences++;
                 }
             }
-
-            return modeDebugTrouve &&
-                   delaiTrouve &&
-                   changerPlaceTrouve;
+            return modeDebugTrouve || delaiTrouve || changerPlaceTrouve;
         }
         private void Sauver_Preferences_Utilisateur_JSON()
         {
@@ -7168,11 +7167,6 @@ namespace Poker
             ResetPosition();
 
             int position = Suis_Je_Assis();
-
-            //if (position == 0)
-            //    Debug("Position : NON DETECTEE");
-            //else
-            //    Debug("Position : " + position);
 
             if (position >= 1 && position <= 9)
                 ActiverPosition(BoutonsPosition[position - 1]);
@@ -8048,7 +8042,7 @@ namespace Poker
                 msg += "Places_Libres : 9 détecteurs\n";
 
             if (okPreferences_Utilisateur)
-                msg += "Préférences_Utilisateur : 3 Préférences\n";
+                msg += "Préférences_Utilisateur : " + NbPreferences + " Préférences\n";
 
             if (okPosition_Bouton)
                 msg += "Position_Bouton : 9 détecteurs\n";
@@ -9165,7 +9159,6 @@ namespace Poker
                 Flop_2 != "" &&
                 Flop_3 != "")
             {
-                //Debug("Validation_Flop OK - 3 cartes reconnues");
                 return true;
             }
 
@@ -9308,7 +9301,6 @@ namespace Poker
                 if (bAbsenceTable)
                 {
                     bAbsenceTable = false;
-                    //Debug("Table revenue");
                 }
 
                 return false;
@@ -9322,8 +9314,6 @@ namespace Poker
 
                 Voyant_Validation_Moteur.Background = Brushes.Red;
 
-                //Debug("Début absence table");
-
                 return false;
             }
 
@@ -9331,8 +9321,6 @@ namespace Poker
             if ((DateTime.Now - HeureAbsence).TotalSeconds >= 7.5)
             {
                 Voyant_Validation_Moteur.Background = Brushes.Red;
-
-                //Debug("Absence > 7.5 secondes");
 
                 bAbsenceTable = false;
 
