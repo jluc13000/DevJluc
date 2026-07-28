@@ -1,4 +1,5 @@
 {
-  "ModeDebug": false,
-  "DelaiPriseControle": 2000
+  "ModeDebug": true,
+  "DelaiPriseControle": 7000,
+  "ChangerDePlace": true
 }
