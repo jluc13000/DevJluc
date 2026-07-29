@@ -577,6 +577,7 @@
            FontSize="10"
            FontWeight="Bold"/>
         <Button x:Name="Bt_Changer_De_Place"              Content="Changer De Place"                Click="Changer_De_Place_Click"             HorizontalAlignment="Left" Height="20" Margin="289,295,0,0" VerticalAlignment="Top" Width="76"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Test"              Content="TEST"                Click="Test_Click"             HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="76"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>

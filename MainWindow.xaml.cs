@@ -17,7 +17,9 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using System.Media;
 using static Poker.MainWindow;
+
 
 namespace Poker
 {
@@ -57,6 +59,11 @@ namespace Poker
         // Valeur par défaut : 3500 ms
         // -------------------------------------
         private int DELAI_PRISE_CONTROLE = 3500;
+
+        private int NIVEAU_MISE = -8;
+
+        private int MEMO = 6;
+
         private int NbPreferences = 0;
 
         // =========================================================
@@ -76,11 +83,12 @@ namespace Poker
         private const uint MOUSEEVENTF_LEFTDOWN = 0x0002;
         private const uint MOUSEEVENTF_LEFTUP = 0x0004;
 
-        private int Nb_Mains_Testees = 0;
 
         private const string FichierHistoriqueTXT = @"F:\source\repos\Poker\Historique.txt";
 
         private const string FichierHistoriqueRTF = @"F:\source\repos\Poker\Historique.rtf";
+
+        private const string DOSSIER_SONS = @"F:\source\repos\Poker\Sons\";
 
         #region STRUCTURES
         // STRUCTURE CARTE
@@ -295,8 +303,10 @@ namespace Poker
             public bool ModeDebug;
             public int DelaiPriseControle;
             public bool ChangerDePlace;
+            public bool SeRecave;
+            public int NiveauMise;
+            public int Memo;
         }
-        private bool bChangerDePlace;
         #endregion
 
         #region DETECTIONS
@@ -450,6 +460,21 @@ namespace Poker
 
         private bool bModeDecision = false;
 
+        // Délai entre l'appui et le relâchement du clic (ms)
+        private int DelaiClic = 0;
+
+        private bool bChangerDePlace;
+
+        private bool bSeRecaver;
+
+
+        private int Nb_Mains_Testees = 0;
+
+        // -------------------------------------
+        // SON CALCULS
+        // -------------------------------------
+        private const int DELAI_TEST_LECTURE = 2000;
+
         // =========================================================
         // CARTES
         // =========================================================
@@ -531,8 +556,7 @@ namespace Poker
         private const string DOSSIER_JSON = @"F:\source\repos\Poker\JSON";
         private static readonly string FichierHistoriqueJSON = Path.Combine(DOSSIER_JSON, "Historique.json");
 
-        // Délai entre l'appui et le relâchement du clic (ms)
-        private int DelaiClic = 0;
+        
 
         HashSet<string> RangeTapis = new HashSet<string>();
         HashSet<string> RangeRelance = new HashSet<string>();
@@ -2732,7 +2756,44 @@ namespace Poker
         }
 
         #endregion
+        private void JouerSon()
+        {
+            if (bPreFlop_Suite && bPreFlop_Pareille)
+            {
+                JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
+            }
+            else
+            {
+                if (bPreFlop_Suite)
+                    JouerFichierSon(DOSSIER_SONS + "Suite.wav");
 
+                if (bPreFlop_Pareille)
+                    JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
+            }
+
+            if (bPreFlop_Paire)
+                JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        }
+        // =========================================================
+        // 🔥 JOUER UN FICHIER SON
+        // =========================================================
+        private void JouerFichierSon(string fichier)
+        {
+            try
+            {
+                string chemin = Path.Combine("Sons", fichier);
+
+                if (!File.Exists(chemin))
+                    return;
+
+                SoundPlayer player = new SoundPlayer(chemin);
+                player.PlaySync();      // Attend la fin du son
+            }
+            catch
+            {
+                // Ignorer les erreurs sonores
+            }
+        }
         #region CALCUL FLOP
 
         // =========================================================
@@ -6261,8 +6322,6 @@ namespace Poker
 
             int niveau = Niveau_Table();
 
-            //Debug("Niveau Table = " + niveau);
-
             if (niveau >= 1 && niveau <= 12)
                 ActiverNiveauTable(BoutonsNiveauTable[niveau - 1]);
         }
@@ -6470,8 +6529,6 @@ namespace Poker
             int x = PlacesLibresDetect[place - 1].X;
             int y = PlacesLibresDetect[place - 1].Y;
 
-            Debug($"🖱 Clic place {place} ({x},{y})");
-
             Clic(x, y);
         }
 
@@ -6577,17 +6634,13 @@ namespace Poker
         {
             if (Bt_Se_Recave.Background.Equals((Brush)FindResource("blanc")))
             {
-                // 🔵 activation
                 Bt_Se_Recave.Background = (Brush)FindResource("bleu");
+                bSeRecaver = true;
             }
             else
             {
-                // ⚪ désactivation
                 Bt_Se_Recave.Background = (Brush)FindResource("blanc");
-
-                // 🔥 FORCER AUTO OFF
-                autoActif = false;
-                Bt_Auto.Background = (Brush)FindResource("blanc");
+                bSeRecaver = false;
             }
         }
         // =========================================================
@@ -6805,6 +6858,9 @@ namespace Poker
             bDebug = PreferencesUtilisateur.ModeDebug;
             DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
             bChangerDePlace = PreferencesUtilisateur.ChangerDePlace;
+            bSeRecaver = PreferencesUtilisateur.SeRecave;
+            NIVEAU_MISE = PreferencesUtilisateur.NiveauMise;
+            MEMO = PreferencesUtilisateur.Memo;
         }
         private bool Extraire_Preferences_Utilisateur(string txt)
         {
@@ -6846,6 +6902,32 @@ namespace Poker
                     changerPlaceTrouve = true;
                     NbPreferences++;
                 }
+                if (ligne.StartsWith("COMMENT : \"SeRecave\":"))
+                {
+                    string valeur = ligne.Replace("COMMENT : \"SeRecave\":", "").Trim();
+
+                    bSeRecaver = bool.Parse(valeur);
+
+                    NbPreferences++;
+                }
+
+                if (ligne.StartsWith("COMMENT : \"NiveauMise\":"))
+                {
+                    string valeur = ligne.Replace("COMMENT : \"NiveauMise\":", "").Trim();
+
+                    NIVEAU_MISE = int.Parse(valeur);
+
+                    NbPreferences++;
+                }
+
+                if (ligne.StartsWith("COMMENT : \"Memo\":"))
+                {
+                    string valeur = ligne.Replace("COMMENT : \"Memo\":", "").Trim();
+
+                    MEMO = int.Parse(valeur);
+
+                    NbPreferences++;
+                }
             }
             return modeDebugTrouve || delaiTrouve || changerPlaceTrouve;
         }
@@ -6854,6 +6936,10 @@ namespace Poker
             PreferencesUtilisateur.ModeDebug = bDebug;
             PreferencesUtilisateur.DelaiPriseControle = DELAI_PRISE_CONTROLE;
             PreferencesUtilisateur.ChangerDePlace = bChangerDePlace;
+
+            PreferencesUtilisateur.SeRecave = bSeRecaver;
+            PreferencesUtilisateur.NiveauMise = NIVEAU_MISE;
+            PreferencesUtilisateur.Memo = MEMO;
 
             Directory.CreateDirectory(DOSSIER_JSON);
 
@@ -8097,6 +8183,7 @@ namespace Poker
         }
         private void Bt_Mem01_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 1;
             ActiverMemo(Bt_Mem01);
             ChargerRangeTapis(new List<string>
             {
@@ -8105,6 +8192,7 @@ namespace Poker
         }
         private void Bt_Mem02_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 2;
             ActiverMemo(Bt_Mem02);
             ChargerRangeTapis(new List<string>
             {
@@ -8114,6 +8202,7 @@ namespace Poker
         }
         private void Bt_Mem03_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 3;
             ActiverMemo(Bt_Mem03);
             ChargerRangeTapis(new List<string>
             {
@@ -8124,6 +8213,7 @@ namespace Poker
         }
         private void Bt_Mem04_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 4;
             ActiverMemo(Bt_Mem04);
             ChargerRangeTapis(new List<string>
             {
@@ -8134,6 +8224,7 @@ namespace Poker
         }
         private void Bt_Mem05_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 5;
             ActiverMemo(Bt_Mem05);
             ChargerRangeTapis(new List<string>
             {
@@ -8145,6 +8236,7 @@ namespace Poker
         }
         private void Bt_Mem06_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 6;
             ActiverMemo(Bt_Mem06);
             ChargerRangeTapis(new List<string>
             {
@@ -8157,6 +8249,7 @@ namespace Poker
         }
         private void Bt_Mem07_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 7;
             ActiverMemo(Bt_Mem07);
             ChargerRangeTapis(new List<string>
             {
@@ -8169,6 +8262,7 @@ namespace Poker
         }
         private void Bt_Mem08_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 8;
             ActiverMemo(Bt_Mem08);
             ChargerRangeTapis(new List<string>
             {
@@ -8181,6 +8275,7 @@ namespace Poker
         }
         private void Bt_Mem09_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 9;
             ActiverMemo(Bt_Mem09);
             ChargerRangeTapis(new List<string>
             {
@@ -8193,6 +8288,7 @@ namespace Poker
         }
         private void Bt_Mem10_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 10;
             ActiverMemo(Bt_Mem10);
             ChargerRangeTapis(new List<string>
             {
@@ -8208,6 +8304,7 @@ namespace Poker
 
         private void Bt_Mem11_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 11;
             ActiverMemo(Bt_Mem11);
             ChargerRangeTapis(new List<string>
             {
@@ -8220,6 +8317,7 @@ namespace Poker
         }
         private void Bt_Mem12_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 12;
             ActiverMemo(Bt_Mem12);
             ChargerRangeTapis(new List<string>
             {
@@ -8232,6 +8330,7 @@ namespace Poker
         }
         private void Bt_Mem13_Click(object sender, RoutedEventArgs e)
         {
+            MEMO = 13;
             ActiverMemo(Bt_Mem13);
             ChargerRangeTapis(new List<string>
             {
@@ -8625,8 +8724,6 @@ namespace Poker
 
             // Interface
             Bt_Triggers_Board.Background = Brushes.Yellow;
-
-            Debug("🟡 Mode Triggers Board ACTIVÉ");
         }
 
         // =========================================================
@@ -8649,8 +8746,6 @@ namespace Poker
 
             // Interface
             Bt_Tapis_PreFlop.Background = Brushes.Yellow;
-
-            Debug("🟡 Mode Tapis PreFlop ACTIVÉ");
         }
 
 
@@ -8674,8 +8769,6 @@ namespace Poker
 
             // Interface
             Bt_IA.Background = Brushes.Yellow;
-
-            Debug("🟡 Mode IA ACTIVÉ");
         }
 
         private void Rafraichir_Boutons_Modes()
@@ -8712,25 +8805,33 @@ namespace Poker
             // =====================================
             Charger_Preferences_Utilisateur_JSON();
 
-            bDebug = PreferencesUtilisateur.ModeDebug;
-            DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
-            bChangerDePlace = PreferencesUtilisateur.ChangerDePlace;
-
             // =====================================
             // Application des préférences
             // =====================================
+
+            // Delai Décision
             Sl_Delai_Decision.Value = DELAI_PRISE_CONTROLE / 1000.0;
 
+            // Debug
             if (bDebug)
                 Mode_Debug_ON();
             else
                 Mode_Debug_OFF();
 
-            // =====================================
             // Changer de place
-            // =====================================
-            Bt_Changer_De_Place.Background =
-                bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
+            Bt_Changer_De_Place.Background = bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
+
+            // Se RecaverBt_Se_Recave.Background =
+            Bt_Se_Recave.Background =
+                bSeRecaver
+                    ? (Brush)FindResource("bleu")
+                    : (Brush)FindResource("blanc");
+
+            // Niveau Mise
+            Appliquer_Niveau_Mise(PreferencesUtilisateur.NiveauMise);
+
+            // Niveau Memo
+            Appliquer_Niveau_Memo(PreferencesUtilisateur.Memo);
 
             // =====================================
             // Initialisation
@@ -8769,6 +8870,8 @@ namespace Poker
             {
                 await Task.Delay(1);
 
+                CaptureEcran();
+
                 // =====================================
                 // Un mode actif ?
                 // =====================================
@@ -8786,8 +8889,6 @@ namespace Poker
 
                 if (!bSuperviseurActif)
                     continue;
-
-                CaptureEcran();
 
                 // ==========================================
                 // PRIORITE ABSOLUE : PLUS DE JETONS
@@ -8948,6 +9049,8 @@ namespace Poker
                     Lire_Ma_Position();
 
                     Calcul_PreFlop();
+
+                    JouerSon();
 
                     continue;
                 }
@@ -9117,6 +9220,86 @@ namespace Poker
                 bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
 
             Sauver_Preferences_Utilisateur_JSON();
+        }
+        private void Appliquer_Niveau_Mise(int niveau)
+        {
+            switch (niveau)
+            {
+                case -9: ActiverMise(Bt_M9); break;
+                case -8: ActiverMise(Bt_M8); break;
+                case -6: ActiverMise(Bt_M6); break;
+                case -4: ActiverMise(Bt_M4); break;
+                case -2: ActiverMise(Bt_M2); break;
+
+                case 0: ActiverMise(Bt_0); break;
+
+                case 2: ActiverMise(Bt_P2); break;
+                case 4: ActiverMise(Bt_P4); break;
+                case 6: ActiverMise(Bt_P6); break;
+                case 8: ActiverMise(Bt_P8); break;
+                case 10: ActiverMise(Bt_P10); break;
+            }
+        }
+        // =========================================================
+        // 🔥 APPLIQUER MEMO
+        // =========================================================
+        private void Appliquer_Niveau_Memo(int memo)
+        {
+            switch (memo)
+            {
+                case 1: Bt_Mem01_Click(null, null);  break;
+                case 2: Bt_Mem02_Click(null, null); break;
+                case 3: Bt_Mem03_Click(null, null); break;
+                case 4: Bt_Mem04_Click(null, null); break;
+                case 5: Bt_Mem05_Click(null, null); break;
+                case 6: Bt_Mem06_Click(null, null); break;
+                case 7: Bt_Mem07_Click(null, null); break;
+                case 8: Bt_Mem08_Click(null, null); break;
+                case 9: Bt_Mem09_Click(null, null); break;
+                case 10: Bt_Mem10_Click(null, null); break;
+                case 11: Bt_Mem11_Click(null, null); break;
+                case 12: Bt_Mem12_Click(null, null); break;
+                case 13: Bt_Mem13_Click(null, null); break;
+            }
+        }
+
+        private async void Test_Click(object sender, RoutedEventArgs e)
+        {
+            Debug("=== TEST PLACE LIBRE ===");
+
+            Stopwatch chrono = Stopwatch.StartNew();
+
+            while (true)
+            {
+                int place = Place_Libre();
+
+                if (place != 0)
+                {
+                    chrono.Stop();
+
+                    Debug($"Place {place} détectée après {chrono.ElapsedMilliseconds} ms");
+
+                    break;
+                }
+
+                await Task.Delay(10);
+            }
+        }
+        private int Nombre_Places_Libres()
+        {
+            int nb = 0;
+
+            for (int i = 0; i < PlacesLibresDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlacesLibresDetect[i].X,
+                    PlacesLibresDetect[i].Y);
+
+                if (couleur == PlacesLibresDetect[i].Couleur)
+                    nb++;
+            }
+
+            return nb;
         }
 
         private bool Validation_Flop()
@@ -9694,7 +9877,8 @@ namespace Poker
             if (Keyboard.Modifiers == ModifierKeys.Control &&
                 e.Key == Key.F12)
             {
-                Environment.Exit(0);
+                bSuperviseurActif = false;
+                Close();
             }
         }
 
