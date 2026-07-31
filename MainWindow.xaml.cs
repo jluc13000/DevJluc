@@ -5,9 +5,11 @@ using System.Diagnostics;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Media;
 using System.Runtime.InteropServices;
 using System.Text.Json;
 using System.Text.RegularExpressions;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,7 +19,6 @@ using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
-using System.Media;
 using static Poker.MainWindow;
 
 
@@ -193,7 +194,7 @@ namespace Poker
         // STRUCTURE GAGNE
         public struct S_GagneDetect
         {
-            public string Nom;
+            public int Nom;
             public int X;
             public int Y;
             public int Couleur;
@@ -461,12 +462,13 @@ namespace Poker
         private bool bModeDecision = false;
 
         // Délai entre l'appui et le relâchement du clic (ms)
-        private int DelaiClic = 0;
+        //private int DelaiClic = 10;
 
         private bool bChangerDePlace;
 
         private bool bSeRecaver;
 
+        DateTime debutPub = DateTime.MinValue;
 
         private int Nb_Mains_Testees = 0;
 
@@ -2841,11 +2843,10 @@ namespace Poker
         // JOUER SONS
         // =====================================
         private void JouerSon()
-        {
+        { 
             // =====================================
             // Préflop
             // =====================================
-
             if (bPreFlop_Suite && bPreFlop_Pareille)
             {
                 JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
@@ -2865,7 +2866,6 @@ namespace Poker
             // =====================================
             // Combinaisons
             // =====================================
-
             if (bFlop_QFlush || bTurn_QFlush || bRiver_QFlush)
                 JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
 
@@ -2914,6 +2914,7 @@ namespace Poker
                 JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
             }
         }
+
         // =========================================================
         // 🔥 JOUER UN FICHIER SON
         // =========================================================
@@ -2927,7 +2928,7 @@ namespace Poker
                     return;
 
                 SoundPlayer player = new SoundPlayer(chemin);
-                player.PlaySync();      // Attend la fin du son
+                player.Play();          // Lecture asynchrone
             }
             catch
             {
@@ -6242,7 +6243,8 @@ namespace Poker
             string[] lignes = txt.Split('\n');
             int index = 0;
             bool bGagne = false;
-            string nomCourant = "";
+            int nomCourant = 0;
+
             for (int i = 0; i < lignes.Length; i++)
             {
                 string ligne = lignes[i].Trim();
@@ -6267,7 +6269,7 @@ namespace Poker
                 // =====================================
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    nomCourant = int.Parse(ligne.Replace("COMMENT :", "").Trim());
                     continue;
                 }
 
@@ -6292,12 +6294,9 @@ namespace Poker
             // =====================================
             // DONNEES NON CONFORMES
             // =====================================
-
-            if (index != 9)
-                return false;
-
-            return true;
+            return index == 9;
         }
+
         private void Sauver_Gagne_JSON()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -6314,10 +6313,12 @@ namespace Poker
                     GagneDetect[i].Y);
 
                 if (couleur == GagneDetect[i].Couleur)
-                    return i + 1;      // Siège gagnant
+                {
+                    return i + 1;
+                }
             }
 
-            return 0;                  // Aucun gagnant détecté
+            return 0;
         }
 
         // =========================================================
@@ -6828,6 +6829,7 @@ namespace Poker
 
             return false;
         }
+
         private void Bt_Se_Recave_Click(object sender, RoutedEventArgs e)
         {
             if (Bt_Se_Recave.Background.Equals((Brush)FindResource("blanc")))
@@ -8047,13 +8049,11 @@ namespace Poker
             // =====================================
             // Lecture presse-papiers
             // =====================================
-
             string txt = Clipboard.GetText();
 
             // =====================================
             // Rien ?
             // =====================================
-
             if (string.IsNullOrWhiteSpace(txt))
             {
                 MessageBox.Show("Aucune donnée exploitable");
@@ -8063,13 +8063,11 @@ namespace Poker
             // =====================================
             // Affichage brut injection
             // =====================================
-
             TB_Injection.Text = txt;
 
             // =====================================
             // EXTRACTION
             // =====================================
-
             bool okMain1                = Extraire_Main1(txt);
             bool okMain2                = Extraire_Main2(txt);
             bool okFlop1                = Extraire_Flop1(txt);
@@ -8079,7 +8077,6 @@ namespace Poker
             bool okTurn_HB              = Extraire_Turn_HB(txt);
             bool okRiver                = Extraire_River(txt);
             bool okRiver_HB             = Extraire_River_HB(txt);
-
 
             bool okAucune_Table         = Extraire_Aucune_Table(txt);
             bool okDecision             = Extraire_Decision(txt);
@@ -8146,101 +8143,69 @@ namespace Poker
             // =====================================
             // SAUVEGARDE JSON
             // =====================================
-
             if (okMain1)
                 Sauver_Main1_JSON();
-
             if (okMain2)
                 Sauver_Main2_JSON();
-
             if (okFlop1)
                 Sauver_Flop1_JSON();
-
             if (okFlop2)
                 Sauver_Flop2_JSON();
-
             if (okFlop3)
                 Sauver_Flop3_JSON();
-
             if (okTurn)
                 Sauver_Turn_JSON();
-
             if (okTurn_HB)
                 Sauver_Turn_HB_JSON();
-
             if (okRiver)
                 Sauver_River_JSON();
-
             if (okRiver_HB)
                 Sauver_River_HB_JSON();
 
-
             if (okAucune_Table)
                 Sauver_Aucune_Table_JSON();
-
             if (okDecision)
                 Sauver_Decision_JSON();
-
             if (okFelicitation)
                 Sauver_Felicitation_JSON();
-
             if (okFirefox_GGS_Visible)
                 Sauver_Firefox_GGS_Visible_JSON();
-
             if (okJoueur_A_Tapis)
                 Sauver_Joueur_A_Tapis_JSON();
-
             if (okJoueur_Parole)
                 Sauver_Joueur_Parole_JSON();
-
             if (okJoueur_Reflechit)
                 Sauver_Joueur_Reflechit_JSON();
-
             if (okJoueur_Relance)
                 Sauver_Joueur_Relance_JSON();
-
             if (okJoueur_Se_Couche)
                 Sauver_Joueur_Se_Couche_JSON();
-
             if (okJoueur_Suit)
                 Sauver_Joueur_Suit_JSON();
-
             if (okGagne)
                 Sauver_Gagne_JSON();
-
             if (okMain_Board)
                 Sauver_Main_Board_JSON();
-
             if (okNiveau_Table)
                 Sauver_Niveau_Table_JSON();
-
             if (okNouveau_Niveau)
                 Sauver_Nouveau_Niveau_JSON();
-
             if (okPlaces_Libres)
                 Sauver_Places_Libres_JSON();
-
             if (okPosition_Bouton)
                 Sauver_Position_Bouton_JSON();
-
             if (okPlus_De_Jetons)
                 Sauver_Plus_De_Jetons_JSON();
-
             if (okPlus_De_Pot)
                 Sauver_Plus_De_Pot_JSON();
-
             if (okPreferences_Utilisateur)
                 Sauver_Preferences_Utilisateur_JSON();
-
             if (okPublicite)
                 Sauver_Publicite_JSON();
-
             if (okPupitre_Gris)
                 Sauver_Pupitre_Gris_JSON();
-
             if (okSuis_Je_Assis)
                 Sauver_Suis_Je_Assis_JSON();
-
             if (okTable_Prete)
                 Sauver_Table_Prete_JSON();
 
@@ -8248,107 +8213,73 @@ namespace Poker
             // =====================================
             // RESULTAT
             // =====================================
-
             string msg =
                 "Injection JSON OK\n\n";
-
             if (okMain1)
                 msg += "Main_1 : 52 cartes\n";
-
             if (okMain2)
                 msg += "Main_2 : 52 cartes\n";
-
             if (okFlop1)
                 msg += "Flop_1 : 52 cartes\n";
-
             if (okFlop2)
                 msg += "Flop_2 : 52 cartes\n";
-
             if (okFlop3)
                 msg += "Flop_3 : 52 cartes\n";
-
             if (okTurn)
                 msg += "Turn : 52 cartes\n";
-
             if (okTurn_HB)
                 msg += "Turn_HB : 104 cartes\n";
-
             if (okRiver)
                 msg += "River : 52 cartes\n";
-
             if (okRiver_HB)
                 msg += "River_HB : 104 cartes\n";
 
-
             if (okAucune_Table)
                 msg += "Aucune_Table : 1 détecteur\n";
-
             if (okDecision)
                 msg += "Decision : 10 détecteurs\n";
-
             if (okFelicitation)
                 msg += "Felicitation : 1 détecteur\n";
-
             if (okFirefox_GGS_Visible)
                 msg += "Firefox_GGS_Visible : 1 détecteur\n";
-
             if (okMain_Board)
                 msg += "Main_Board : 82 détecteurs\n";
-
             if (okJoueur_A_Tapis)
                 msg += "Joueur_A_Tapis : 9 détecteurs\n";
-
             if (okJoueur_Parole)
                 msg += "Joueur_Parole : 9 détecteurs\n";
-
             if (okJoueur_Reflechit)
                 msg += "Joueur_Reflechit : 9 détecteur\n";
-
             if (okJoueur_Relance)
                 msg += "Joueur_Relance : 9 détecteurs\n";
-
             if (okJoueur_Se_Couche)
                 msg += "Joueur_Se_Couche : 9 détecteurs\n";
-
             if (okJoueur_Suit)
                 msg += "Joueur_Suit : 9 détecteurs\n";
-
             if (okGagne)
                 msg += "Gagne : 9 détecteurs\n";
-
             if (okNiveau_Table)
                 msg += "Niveau_Table : 12 détecteurs\n";
-
             if (okNouveau_Niveau)
                 msg += "Nouveau_Niveau : 1 détecteur\n";
-
             if (okPlaces_Libres)
                 msg += "Places_Libres : 9 détecteurs\n";
-
             if (okPreferences_Utilisateur)
                 msg += "Préférences_Utilisateur : " + NbPreferences + " Préférences\n";
-
             if (okPosition_Bouton)
                 msg += "Position_Bouton : 9 détecteurs\n";
-
             if (okPlus_De_Jetons)
                 msg += "Plus_De_Jetons : 1 détecteur\n";
-
             if (okPlus_De_Pot)
                 msg += "Plus_De_Pot : 1 détecteur\n";
-
             if (okPublicite)
                 msg += "Publicite : 1 détecteur\n";
-
             if (okPupitre_Gris)
                 msg += "Pupitre_Gris : 2 détecteurs\n";
-
             if (okSuis_Je_Assis)
                 msg += "Suis_Je_Assis : 9 détecteurs\n";
-
             if (okTable_Prete)
                 msg += "Table_Prete : 1 détecteur\n";
-
 
             MessageBox.Show(msg);
         }
@@ -8697,9 +8628,7 @@ namespace Poker
                 case -4: Recave_M(4); break;
                 case -2: Recave_M(2); break;
 
-                case 0:
-                    // Aucun déplacement.
-                    break;
+                case 0: break; // Aucun déplacement.
 
                 case 2: Recave_P(2); break;
                 case 4: Recave_P(4); break;
@@ -8734,21 +8663,26 @@ namespace Poker
             }
         }
 
-        
+        // Délai entre l'appui et le relâchement du clic (ms)
+        private int DelaiClic = 10;
 
         // =========================================================
         // CLIC
         // =========================================================
         private void Clic(int X, int Y)
         {
-
             SetCursorPos(X, Y);
 
-            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
-            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
-        }
+            Thread.Sleep(DelaiClic);
 
-       
+            mouse_event(MOUSEEVENTF_LEFTDOWN, 0, 0, 0, UIntPtr.Zero);
+
+            Thread.Sleep(DelaiClic);
+
+            mouse_event(MOUSEEVENTF_LEFTUP, 0, 0, 0, UIntPtr.Zero);
+
+            Thread.Sleep(DelaiClic);
+        }
 
         #endregion
 
@@ -8992,8 +8926,6 @@ namespace Poker
         #endregion
 
         #region SUPERVISEUR POKER
-
-
         // =========================================================
         // 🔥 SUPERVISEUR POKER
         // =========================================================
@@ -9026,10 +8958,7 @@ namespace Poker
             Bt_Changer_De_Place.Background = bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
 
             // Se RecaverBt_Se_Recave.Background =
-            Bt_Se_Recave.Background =
-                bSeRecaver
-                    ? (Brush)FindResource("bleu")
-                    : (Brush)FindResource("blanc");
+            Bt_Se_Recave.Background = bSeRecaver ? (Brush)FindResource("bleu") : (Brush)FindResource("blanc");
 
             // Niveau Mise
             Appliquer_Niveau_Mise(PreferencesUtilisateur.NiveauMise);
@@ -9076,6 +9005,27 @@ namespace Poker
 
                 CaptureEcran();
 
+                // ==========================================
+                // PRIORITE ABSOLUE : FERMER LES PUBLICITÉS
+                // ==========================================
+                if (Fermer_Publicite())
+                {
+                    if (debutPub == DateTime.MinValue)
+                        debutPub = DateTime.Now;
+
+                    if ((DateTime.Now - debutPub).TotalSeconds > 5)
+                    {
+                        Debug("⚠️ Publicité bloquée.");
+                        StopTousModes();
+                        break;
+                    }
+
+                    await Task.Delay(100);
+                    continue;
+                }
+
+                debutPub = DateTime.MinValue;
+
                 // =====================================
                 // Un mode actif ?
                 // =====================================
@@ -9087,7 +9037,21 @@ namespace Poker
                     if (Suis_Je_Assis() == 0)
                     {
                         await S_Assoir_A_Table();
-                        //continue;
+                    }
+
+                    // =====================================
+                    // Assis : le mode est opérationnel
+                    // =====================================
+                    if (Suis_Je_Assis() != 0)
+                    {
+                        if (bTriggersBoard_Actif)
+                            Bt_Triggers_Board.Background = Brushes.LimeGreen;
+
+                        if (bTapisPreFlop_Actif)
+                            Bt_Tapis_PreFlop.Background = Brushes.LimeGreen;
+
+                        if (bIA_Actif)
+                            Bt_IA.Background = Brushes.LimeGreen;
                     }
                 }
 
@@ -9101,6 +9065,47 @@ namespace Poker
                 {
                     Se_Recaver();
                     continue;
+                }
+
+                // ==========================================
+                // J'AI GAGNÉ
+                // ==========================================
+                if (bSeRecaver)
+                {
+                    int maPlace = Suis_Je_Assis();
+                    int gagnant = J_Ai_Gagne();
+
+                    if (maPlace != 0 && gagnant == maPlace)
+                    {
+                        Debug("🏆 J'ai gagné - Je quitte la table.");
+
+                        // Quitter la table
+                        Clic(890, 190);
+                        await Task.Delay(100);
+                        Clic(890, 240);
+                        await Task.Delay(600);
+
+                        // Attendre que MA place redevienne libre
+                        while (Place_Libre() != maPlace)
+                        {
+                            await Task.Delay(20);
+                            CaptureEcran();
+                        }
+
+                        Debug("Ma place est libre.");
+
+                        // Reprendre MA place
+                        Cliquer_Place(maPlace);
+
+                        // Laisser PokerTeam réagir
+                        await Task.Delay(20);
+
+                        // Nouvelle capture
+                        CaptureEcran();
+
+                        // Retour immédiat au superviseur
+                        continue;
+                    }
                 }
 
                 if (Aucune_Table())
@@ -9389,17 +9394,6 @@ namespace Poker
                         continue;
                     }
                 }
-                // =====================================
-                // FIN
-                // =====================================
-                if (bTriggersBoard_Actif)
-                    Bt_Triggers_Board.Background = Brushes.White;
-
-                if (bTapisPreFlop_Actif)
-                    Bt_Tapis_PreFlop.Background = Brushes.White;
-
-                if (bIA_Actif)
-                    Bt_IA.Background = Brushes.White;
             }
         }
         
