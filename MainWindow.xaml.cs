@@ -2900,9 +2900,19 @@ namespace Poker
             if (bTir_Flop_Couleur || bTir_Turn_Couleur)
                 JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
 
-            if (bTir_Flop_Quinte || bTir_Flop_Ventrale ||
-                bTir_Turn_Quinte || bTir_Turn_Ventrale)
+            // =====================================
+            // Tirages Quinte
+            // =====================================
+
+            // Priorité au tirage ouvert
+            if (bTir_Flop_Quinte || bTir_Turn_Quinte)
+            {
                 JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
+            }
+            else if (bTir_Flop_Ventrale || bTir_Turn_Ventrale)
+            {
+                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
+            }
         }
         // =========================================================
         // 🔥 JOUER UN FICHIER SON
