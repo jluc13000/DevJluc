@@ -441,13 +441,15 @@
         <TextBox x:Name="TB_Debug"         Width="264"    Height="112"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
 
         <!-- TextBlock -->
-        <TextBlock x:Name="T_Blinde_1"                Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Blinde_2"                Height="13"     Margin="180,176,189,0"     TextWrapping="Wrap"                     VerticalAlignment="Top"                             FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Cave_Min"              Width="43"      Height="13"         Margin="93,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
-        <TextBlock x:Name="T_Cave_Max"              Width="44"      Height="13"         Margin="136,176,0,0"    TextWrapping="Wrap"                     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
+        <TextBlock x:Name="T_Blinde_1"              Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
+        <TextBlock x:Name="T_Blinde_2"                              Height="13"         Margin="95,176,0,0"   TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" Width="40" FontWeight="Bold"/>
+        <TextBlock x:Name="T_Cave_Min"              Width="44"      Height="13"         Margin="136,176,0,0"    TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
+        <TextBlock x:Name="T_Cave_Max"              Width="40"      Height="13"         Margin="181,176,0,0"    TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
+        <TextBlock x:Name="T_Frais"                                 Height="13"         Margin="181,204,0,0"  TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" Width="40" FontWeight="Bold"/>
+
         <TextBlock x:Name="T_Call_Max"              Width="26"      Height="13"         Margin="380,295,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Raise_Max"             Width="26"      Height="13"         Margin="380,308,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"><Run Language="fr-fr" /></TextBlock>
-        <TextBlock x:Name="T_Stak_Depart_Joueur1"      Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur1"                   Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="MISES"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="ATTENTE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="LECTURE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
@@ -460,7 +462,7 @@
         <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="136,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
 
         <!-- Label -->
-        <Label Content="       Bindes            Cave Min   Cave Max" HorizontalAlignment="Left" Height="20" Margin="57,157,0,0" VerticalAlignment="Top" Width="165" FontSize="9" FontStyle="Italic"/>
+        <Label Content="       Blindes           Cave Min   Cave Max" HorizontalAlignment="Left" Height="20" Margin="57,157,0,0" VerticalAlignment="Top" Width="165" FontSize="9" FontStyle="Italic"/>
         <Label Content="POT"        HorizontalAlignment="Left" Height="21" Margin="106,184,0,0"  VerticalAlignment="Top" Width="30" FontSize="10" FontStyle="Italic"/>
         <Label Content="Mes Jetons"  HorizontalAlignment="Left" Height="22" Margin="77,196,0,0"  VerticalAlignment="Top" Width="57"    FontStyle="Italic" FontSize="10"/>
         <Label  Content="Tirages"   HorizontalAlignment="Left" Height="23" Margin="0,645,0,0"   VerticalAlignment="Top" Width="50" FontSize="9"     FontWeight="Bold"/>
@@ -539,7 +541,7 @@
         BorderBrush="Black"
         BorderThickness="1">
 
-        <TextBlock x:Name="TB_Recherche_Place"
+            <TextBlock x:Name="TB_Recherche_Place"
                Text="Recherche Place"
                HorizontalAlignment="Center"
                VerticalAlignment="Center"
@@ -576,8 +578,164 @@
            VerticalAlignment="Top"
            FontSize="10"
            FontWeight="Bold"/>
-        <Button x:Name="Bt_Changer_De_Place"              Content="Changer De Place"                Click="Changer_De_Place_Click"             HorizontalAlignment="Left" Height="20" Margin="289,295,0,0" VerticalAlignment="Top" Width="76"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Test"              Content="TEST"                Click="Test_Click"             HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="76"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Label Content="Frais" HorizontalAlignment="Left" Height="20" Margin="186,187,0,0" VerticalAlignment="Top" Width="33" FontSize="8"/>
+        <Image Height="100" Width="100"/>
+
+        <Image x:Name="Mon_Avatar_1"
+           Source="Images/Mon_Avatar.png"
+            Visibility="Visible"   
+           HorizontalAlignment="Left"
+           Height="40"
+           Margin="7,50,0,0"
+           VerticalAlignment="Top"
+           Width="34"
+           RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+        <Image x:Name="Mon_Avatar_2" 
+               Source="Images/Mon_Avatar.png" 
+               HorizontalAlignment="Left" 
+               Height="43" Margin="17,3,0,0" 
+               VerticalAlignment="Top" 
+               Width="39" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+
+        <Image x:Name="Mon_Avatar_3"
+           Source="Images/Mon_Avatar.png" 
+               HorizontalAlignment="Left" 
+               Height="43" 
+               Margin="78,3,0,0" 
+               VerticalAlignment="Top" 
+               Width="34" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_4" 
+           Source="Images/Mon_Avatar.png"
+               HorizontalAlignment="Left" 
+               Height="42" 
+               Margin="152,3,0,0" 
+               VerticalAlignment="Top" 
+               Width="33" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_5"
+           Source="Images/Mon_Avatar.png" 
+               HorizontalAlignment="Left" 
+               Height="43" 
+               Margin="203,3,0,0" 
+               VerticalAlignment="Top" 
+               Width="38" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_6"
+           Source="Images/Mon_Avatar.png" 
+               HorizontalAlignment="Left" 
+               Height="40" 
+               Margin="217,46,0,0" 
+               VerticalAlignment="Top" 
+               Width="38" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_7" 
+           Source="Images/Mon_Avatar.png"
+               HorizontalAlignment="Left" 
+               Height="40" 
+               Margin="175,84,0,0" 
+               VerticalAlignment="Top" 
+               Width="34" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_8" 
+           Source="Images/Mon_Avatar.png"
+               HorizontalAlignment="Left" 
+               Height="39" 
+               Margin="111,85,0,0" 
+               VerticalAlignment="Top" 
+               Width="33" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
+        <Image x:Name="Mon_Avatar_9"
+           Source="Images/Mon_Avatar.png" 
+               HorizontalAlignment="Left" 
+               Height="40" 
+               Margin="48,84,0,0" 
+               VerticalAlignment="Top" 
+               Width="33" 
+               RenderTransformOrigin="-0.683,0.353">
+            <Image.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.512"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="-0.159"/>
+                </TransformGroup>
+            </Image.RenderTransform>
+        </Image>
 
     </Grid>
 </Window>

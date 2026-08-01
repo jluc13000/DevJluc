@@ -1,27 +1,27 @@
 [
   {
     "Nom": "Se_Coucher",
-    "X": 1200,
+    "X": 1180,
     "Y": 890,
-    "Couleur": 11862018
+    "Couleur": 11796481
   },
   {
     "Nom": "Se_Coucher",
-    "X": 1200,
-    "Y": 890,
-    "Couleur": 13810688
+    "X": 1201,
+    "Y": 889,
+    "Couleur": 14468352
   },
   {
     "Nom": "Parole",
-    "X": 1350,
+    "X": 1332,
     "Y": 890,
-    "Couleur": 14900738
+    "Couleur": 14834948
   },
   {
     "Nom": "Parole",
-    "X": 1350,
+    "X": 1332,
     "Y": 890,
-    "Couleur": 14402048
+    "Couleur": 14336768
   },
   {
     "Nom": "Tapis",
@@ -56,7 +56,7 @@
   {
     "Nom": "Suivre",
     "X": 1500,
-    "Y": 980,
-    "Couleur": 13549824
+    "Y": 890,
+    "Couleur": 13810690
   }
 ]

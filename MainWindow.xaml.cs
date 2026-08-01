@@ -67,6 +67,8 @@ namespace Poker
 
         private int NbPreferences = 0;
 
+        private Image[] ImagesMonAvatar;
+
         // =========================================================
         // API WINDOWS SOURIS
         // =========================================================
@@ -90,6 +92,7 @@ namespace Poker
         private const string FichierHistoriqueRTF = @"F:\source\repos\Poker\Historique.rtf";
 
         private const string DOSSIER_SONS = @"F:\source\repos\Poker\Sons\";
+
 
         #region STRUCTURES
         // STRUCTURE CARTE
@@ -303,7 +306,6 @@ namespace Poker
         {
             public bool ModeDebug;
             public int DelaiPriseControle;
-            public bool ChangerDePlace;
             public bool SeRecave;
             public int NiveauMise;
             public int Memo;
@@ -606,11 +608,29 @@ namespace Poker
 
         // Paquet de cartes (0..51)
         List<int> Paquet = new List<int>();
-
         public MainWindow()
         {
             InitializeComponent();
+
+            ImagesMonAvatar = new[]
+            {
+                Mon_Avatar_1,
+                Mon_Avatar_2,
+                Mon_Avatar_3,
+                Mon_Avatar_4,
+                Mon_Avatar_5,
+                Mon_Avatar_6,
+                Mon_Avatar_7,
+                Mon_Avatar_8,
+                Mon_Avatar_9
+            };
+
+            // Tous cachés au démarrage
+            foreach (Image img in ImagesMonAvatar)
+                img.Visibility = Visibility.Hidden;
+
             PreviewKeyDown += MainWindow_PreviewKeyDown;
+
 
             // =====================================
             // Chargement des préférences utilisateur
@@ -912,7 +932,19 @@ namespace Poker
                 Bt_Auto_P6,
                 Bt_Auto_P8
             };
-
+            
+            //ImagesMonAvatar = new[]
+            //{
+            //    Mon_Avatar_1,
+            //    Mon_Avatar_2,
+            //    Mon_Avatar_3,
+            //    Mon_Avatar_4,
+            //    Mon_Avatar_5,
+            //    Mon_Avatar_6,
+            //    Mon_Avatar_7,
+            //    Mon_Avatar_8,
+            //    Mon_Avatar_9
+            //};
             // 👉 Appliquer Memo07 au démarrage
             //Bt_Mem07_Click(null, null);
 
@@ -2843,76 +2875,62 @@ namespace Poker
         // JOUER SONS
         // =====================================
         private void JouerSon()
-        { 
+        {
             // =====================================
-            // Préflop
-            // =====================================
-            if (bPreFlop_Suite && bPreFlop_Pareille)
-            {
-                JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
-            }
-            else
-            {
-                if (bPreFlop_Suite)
-                    JouerFichierSon(DOSSIER_SONS + "Suite.wav");
-
-                if (bPreFlop_Pareille)
-                    JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
-            }
-
-            if (bPreFlop_Paire)
-                JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-
-            // =====================================
-            // Combinaisons
-            // =====================================
-            if (bFlop_QFlush || bTurn_QFlush || bRiver_QFlush)
-                JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-
-            if (bFlop_Carre || bTurn_Carre || bRiver_Carre)
-                JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-
-            if (bFlop_Full || bTurn_Full || bRiver_Full)
-                JouerFichierSon(DOSSIER_SONS + "Full.wav");
-
-            if (bFlop_Couleur || bTurn_Couleur || bRiver_Couleur)
-                JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-
-            if (bFlop_Quinte || bTurn_Quinte || bRiver_Quinte)
-                JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-
-            if (bFlop_Brelan || bTurn_Brelan || bRiver_Brelan)
-                JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-
-            if (bFlop_2_Paires || bTurn_2_Paires || bRiver_2_Paires)
-                JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-
-            if (bFlop_Paire || bTurn_Paire || bRiver_Paire)
-                JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-
-            // =====================================
-            // Tirages
+            // Préflop : une seule annonce
             // =====================================
 
-            if (bTir_Flop_QFlush || bTir_Turn_QFlush)
-                JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
-
-            if (bTir_Flop_Couleur || bTir_Turn_Couleur)
-                JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
+            if (bPreFlop_Suite && bPreFlop_Pareille)    JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
+            else if (bPreFlop_Suite)                    JouerFichierSon(DOSSIER_SONS + "Suite.wav");
+            else if (bPreFlop_Pareille)                 JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
+            else if (bPreFlop_Paire)                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
 
             // =====================================
-            // Tirages Quinte
+            // Flop : plusieurs annonces
             // =====================================
 
-            // Priorité au tirage ouvert
-            if (bTir_Flop_Quinte || bTir_Turn_Quinte)
-            {
-                JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
-            }
-            else if (bTir_Flop_Ventrale || bTir_Turn_Ventrale)
-            {
-                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
-            }
+            if (bFlop_QFlush)                           JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            if (bFlop_Carre)                            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            if (bFlop_Full)                             JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            if (bFlop_Couleur)                          JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            if (bFlop_Quinte)                           JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            if (bFlop_Brelan)                           JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            if (bFlop_2_Paires)                         JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            if (bFlop_Paire)                            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+            if (bTir_Flop_QFlush)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
+            if (bTir_Flop_Couleur)                      JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
+            if (bTir_Flop_Quinte)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
+            else if (bTir_Flop_Ventrale)                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
+
+            // =====================================
+            // Turn : plusieurs annonces
+            // =====================================
+
+            if (bTurn_QFlush)                           JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            if (bTurn_Carre)                            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            if (bTurn_Full)                             JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            if (bTurn_Couleur)                          JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            if (bTurn_Quinte)                           JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            if (bTurn_Brelan)                           JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            if (bTurn_2_Paires)                         JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            if (bTurn_Paire)                            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+            if (bTir_Turn_QFlush)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
+            if (bTir_Turn_Couleur)                      JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
+            if (bTir_Turn_Quinte)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
+            else if (bTir_Turn_Ventrale)                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
+
+            // =====================================
+            // River : une seule annonce
+            // =====================================
+
+            if (bRiver_QFlush)                          JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            else if (bRiver_Carre)                      JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            else if (bRiver_Full)                       JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            else if (bRiver_Couleur)                    JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            else if (bRiver_Quinte)                     JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            else if (bRiver_Brelan)                     JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            else if (bRiver_2_Paires)                   JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            else if (bRiver_Paire)                      JouerFichierSon(DOSSIER_SONS + "Paire.wav");
         }
 
         // =========================================================
@@ -2928,13 +2946,14 @@ namespace Poker
                     return;
 
                 SoundPlayer player = new SoundPlayer(chemin);
-                player.Play();          // Lecture asynchrone
+                player.PlaySync();
             }
             catch
             {
-                // Ignorer les erreurs sonores
             }
         }
+
+
         #region CALCUL FLOP
 
         // =========================================================
@@ -6296,7 +6315,6 @@ namespace Poker
             // =====================================
             return index == 9;
         }
-
         private void Sauver_Gagne_JSON()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -6522,7 +6540,111 @@ namespace Poker
             int niveau = Niveau_Table();
 
             if (niveau >= 1 && niveau <= 12)
+            {
                 ActiverNiveauTable(BoutonsNiveauTable[niveau - 1]);
+                AfficherInformationsTable(niveau);
+            }
+        }
+        private void AfficherInformationsTable(int niveau)
+        {
+            switch (niveau)
+            {
+                case 1:     // Greenhorn
+                    T_Blinde_1.Text = "1";
+                    T_Blinde_2.Text = "2";
+                    T_Cave_Min.Text = "20";
+                    T_Cave_Max.Text = "400";
+                    T_Frais.Text = "1";
+                    break;
+
+                case 2:     // Beginner
+                    T_Blinde_1.Text = "5";
+                    T_Blinde_2.Text = "10";
+                    T_Cave_Min.Text = "100";
+                    T_Cave_Max.Text = "2000";
+                    T_Frais.Text    = "5";
+                    break;
+
+                case 3:     // Gambler
+                    T_Blinde_1.Text = "25";
+                    T_Blinde_2.Text = "50";
+                    T_Cave_Min.Text = "500";
+                    T_Cave_Max.Text = "10000";
+                    T_Frais.Text    = "25";
+                    break;
+
+                case 4:     // Pro
+                    T_Blinde_1.Text = "100";
+                    T_Blinde_2.Text = "200";
+                    T_Cave_Min.Text = "2000";
+                    T_Cave_Max.Text = "40000";
+                    T_Frais.Text    = "100";
+                    break;
+
+                case 5:     // BigFish
+                    T_Blinde_1.Text = "500";
+                    T_Blinde_2.Text = "1000";
+                    T_Cave_Min.Text = "10000";
+                    T_Cave_Max.Text = "200000";
+                    T_Frais.Text    = "500";
+                    break;
+
+                case 6:     // Master
+                    T_Blinde_1.Text = "1000";
+                    T_Blinde_2.Text = "2000";
+                    T_Cave_Min.Text = "20000";
+                    T_Cave_Max.Text = "400000";
+                    T_Frais.Text    = "1000";
+                    break;
+
+                case 7:     // Champion
+                    T_Blinde_1.Text = "5000";
+                    T_Blinde_2.Text = "10000";
+                    T_Cave_Min.Text = "100000";
+                    T_Cave_Max.Text = "2000000";
+                    T_Frais.Text    = "5000";
+                    break;
+
+                case 8:     // Guru
+                    T_Blinde_1.Text = "25000";
+                    T_Blinde_2.Text = "50000";
+                    T_Cave_Min.Text = "500000";
+                    T_Cave_Max.Text = "10000000";
+                    T_Frais.Text    = "25000";
+                    break;
+
+                case 9:     // Ultimate
+                    T_Blinde_1.Text = "100000";
+                    T_Blinde_2.Text = "200000";
+                    T_Cave_Min.Text = "2M";
+                    T_Cave_Max.Text = "40M";
+                    T_Frais.Text    = "100000";
+                    break;
+
+                case 10:    // Insane
+                    T_Blinde_1.Text = "1M";
+                    T_Blinde_2.Text = "2M";
+                    T_Cave_Min.Text = "20M";
+                    T_Cave_Max.Text = "400M";
+                    T_Frais.Text    = "1M";
+                    break;
+
+                case 11:    // Legendary
+                    T_Blinde_1.Text = "2M";
+                    T_Blinde_2.Text = "4M";
+                    T_Cave_Min.Text = "40M";
+                    T_Cave_Max.Text = "800M";
+                    T_Frais.Text    = "2M";
+                    break;
+
+                default:
+                    T_Blinde_1.Text = "";
+                    T_Blinde_2.Text = "";
+                    T_Cave_Min.Text = "";
+                    T_Cave_Max.Text = "";
+                    T_Frais.Text    = "";
+                    break;
+            }
         }
 
         // =========================================================
@@ -6829,7 +6951,6 @@ namespace Poker
 
             return false;
         }
-
         private void Bt_Se_Recave_Click(object sender, RoutedEventArgs e)
         {
             if (Bt_Se_Recave.Background.Equals((Brush)FindResource("blanc")))
@@ -7057,7 +7178,6 @@ namespace Poker
             // =====================================
             bDebug = PreferencesUtilisateur.ModeDebug;
             DELAI_PRISE_CONTROLE = PreferencesUtilisateur.DelaiPriseControle;
-            bChangerDePlace = PreferencesUtilisateur.ChangerDePlace;
             bSeRecaver = PreferencesUtilisateur.SeRecave;
             NIVEAU_MISE = PreferencesUtilisateur.NiveauMise;
             MEMO = PreferencesUtilisateur.Memo;
@@ -7090,16 +7210,6 @@ namespace Poker
                     DELAI_PRISE_CONTROLE = int.Parse(valeur);
 
                     delaiTrouve = true;
-                    NbPreferences++;
-                }
-
-                if (ligne.StartsWith("COMMENT : \"ChangerDePlace\":"))
-                {
-                    string valeur = ligne.Replace("COMMENT : \"ChangerDePlace\":", "").Trim();
-
-                    bChangerDePlace = bool.Parse(valeur);
-
-                    changerPlaceTrouve = true;
                     NbPreferences++;
                 }
                 if (ligne.StartsWith("COMMENT : \"SeRecave\":"))
@@ -7135,8 +7245,6 @@ namespace Poker
         {
             PreferencesUtilisateur.ModeDebug = bDebug;
             PreferencesUtilisateur.DelaiPriseControle = DELAI_PRISE_CONTROLE;
-            PreferencesUtilisateur.ChangerDePlace = bChangerDePlace;
-
             PreferencesUtilisateur.SeRecave = bSeRecaver;
             PreferencesUtilisateur.NiveauMise = NIVEAU_MISE;
             PreferencesUtilisateur.Memo = MEMO;
@@ -7454,10 +7562,37 @@ namespace Poker
 
             int position = Suis_Je_Assis();
 
-            if (position >= 1 && position <= 9)
-                ActiverPosition(BoutonsPosition[position - 1]);
-        }
+            // Toujours mettre à jour l'avatar
+            AfficherMonAvatar(position);
 
+            if (position >= 1 && position <= 9)
+            {
+                ActiverPosition(BoutonsPosition[position - 1]);
+            }
+        }
+        private void AfficherMonAvatar(int position)
+        {
+            Image[] avatars =
+            {
+                Mon_Avatar_1,
+                Mon_Avatar_2,
+                Mon_Avatar_3,
+                Mon_Avatar_4,
+                Mon_Avatar_5,
+                Mon_Avatar_6,
+                Mon_Avatar_7,
+                Mon_Avatar_8,
+                Mon_Avatar_9
+            };
+
+            // Masquer tous les avatars
+            for (int i = 0; i < avatars.Length; i++)
+                avatars[i].Visibility = Visibility.Hidden;
+
+            // Afficher uniquement celui de la position
+            if (position >= 1 && position <= 9)
+                avatars[position - 1].Visibility = Visibility.Visible;
+        }
 
         // =========================================================
         // 🔥 TABLE PRETE
@@ -8954,8 +9089,6 @@ namespace Poker
             else
                 Mode_Debug_OFF();
 
-            // Changer de place
-            Bt_Changer_De_Place.Background = bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
 
             // Se RecaverBt_Se_Recave.Background =
             Bt_Se_Recave.Background = bSeRecaver ? (Brush)FindResource("bleu") : (Brush)FindResource("blanc");
@@ -9031,18 +9164,23 @@ namespace Poker
                 // =====================================
                 if (Un_Mode_Actif())
                 {
+                    int maPlace = Suis_Je_Assis();
+
                     // =====================================
                     // Pas assis ?
                     // =====================================
-                    if (Suis_Je_Assis() == 0)
+                    if (maPlace == 0)
                     {
                         await S_Assoir_A_Table();
+
+                        CaptureEcran();
+                        maPlace = Suis_Je_Assis();
                     }
 
                     // =====================================
                     // Assis : le mode est opérationnel
                     // =====================================
-                    if (Suis_Je_Assis() != 0)
+                    if (maPlace != 0)
                     {
                         if (bTriggersBoard_Actif)
                             Bt_Triggers_Board.Background = Brushes.LimeGreen;
@@ -9077,8 +9215,6 @@ namespace Poker
 
                     if (maPlace != 0 && gagnant == maPlace)
                     {
-                        Debug("🏆 J'ai gagné - Je quitte la table.");
-
                         // Quitter la table
                         Clic(890, 190);
                         await Task.Delay(100);
@@ -9091,8 +9227,6 @@ namespace Poker
                             await Task.Delay(20);
                             CaptureEcran();
                         }
-
-                        Debug("Ma place est libre.");
 
                         // Reprendre MA place
                         Cliquer_Place(maPlace);
@@ -9417,15 +9551,7 @@ namespace Poker
                 Mode_Debug_OFF();
         }
 
-        private void Changer_De_Place_Click(object sender, RoutedEventArgs e)
-        {
-            bChangerDePlace = !bChangerDePlace;
-
-            Bt_Changer_De_Place.Background =
-                bChangerDePlace ? Brushes.LimeGreen : Brushes.White;
-
-            Sauver_Preferences_Utilisateur_JSON();
-        }
+        
         private void Appliquer_Niveau_Mise(int niveau)
         {
             switch (niveau)
@@ -9468,28 +9594,6 @@ namespace Poker
             }
         }
 
-        private async void Test_Click(object sender, RoutedEventArgs e)
-        {
-            Debug("=== TEST PLACE LIBRE ===");
-
-            Stopwatch chrono = Stopwatch.StartNew();
-
-            while (true)
-            {
-                int place = Place_Libre();
-
-                if (place != 0)
-                {
-                    chrono.Stop();
-
-                    Debug($"Place {place} détectée après {chrono.ElapsedMilliseconds} ms");
-
-                    break;
-                }
-
-                await Task.Delay(10);
-            }
-        }
         private int Nombre_Places_Libres()
         {
             int nb = 0;
