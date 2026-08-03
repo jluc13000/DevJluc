@@ -20,12 +20,11 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static Poker.MainWindow;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TextBox;
 
 
 namespace Poker
 {
-
-
 
     public class MainHistorique
     {
@@ -36,6 +35,57 @@ namespace Poker
         public string F3 { get; set; }
         public string T { get; set; }
         public string R { get; set; }
+    }
+
+    public class Carte
+    {
+        public int Valeur;
+        public char Couleur;
+        public bool EstMain;   // true = M1/M2, false = Board
+    }
+
+    public class Jeu
+    {
+        // 0 = Rien
+        // 1 = Paire
+        // 2 = Deux Paires
+        // 3 = Brelan
+        // 4 = Quinte
+        // 5 = Couleur
+        // 6 = Full
+        // 7 = Carré
+        // 8 = Quinte Flush
+        public int Force = 0;
+
+        // Valeur de la combinaison
+        // Ex : As pour une couleur As haute
+        // Ex : As pour un brelan d'As
+        // Ex : 10 pour une quinte 10-J-Q-K-A
+        public int Qualite = 0;
+
+        // Nombre de cartes de ma main
+        // participant à la combinaison
+        public int Participation = 0;
+
+        // Les 5 cartes de la quinte détectée
+        public List<Carte> CartesQuinte = new List<Carte>();
+    }
+
+    public class Tirage
+    {
+        public bool Quinte;
+        public bool Ventrale;
+        public bool Couleur;
+        public bool QuinteFlush;
+
+        // 0, 1 ou 2 cartes de ma main
+        public int Participation;
+
+        // Tirage max ?
+        public bool Max;
+
+        // Carte la plus haute de ma main
+        public int CarteHaute;
     }
     // =========================================================
     // GOODGAME STUDIOS
@@ -68,6 +118,8 @@ namespace Poker
         private int NbPreferences = 0;
 
         private Image[] ImagesMonAvatar;
+
+        private bool bAttendrePosition = false;
 
         // =========================================================
         // API WINDOWS SOURIS
@@ -390,7 +442,7 @@ namespace Poker
         private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[2];
 
         // TABLEAU DETECTION SUIS JE ASSIS
-        private S_SuisJeAssisDetect[] SuisJeAssisDetect = new S_SuisJeAssisDetect[9];
+        private S_SuisJeAssisDetect[] SuisJeAssisDetect = new S_SuisJeAssisDetect[18];
 
         // TABLEAU DETECTION TABLE PRETE
         private S_TablePreteDetect[] TablePreteDetect = new S_TablePreteDetect[1];
@@ -608,9 +660,21 @@ namespace Poker
 
         // Paquet de cartes (0..51)
         List<int> Paquet = new List<int>();
+
+        private Jeu JeuPreFlop = new Jeu();
+        private Jeu JeuFlop = new Jeu();
+        private Jeu JeuTurn = new Jeu();
+        private Jeu JeuRiver = new Jeu();
+
+        // =========================================================
+        // 🔥 TABLE DES CARTES EN COURS
+        // =========================================================
+        private List<Carte> TableCartes = new List<Carte>();
+
         public MainWindow()
         {
             InitializeComponent();
+
 
             ImagesMonAvatar = new[]
             {
@@ -1234,11 +1298,11 @@ namespace Poker
 
             Bt_Tir_Flop_Quinte.Background = Blanc;
             Bt_Tir_Flop_Couleur.Background = Blanc;
-            Bt_Tir_Flop_QFlush.Background = Blanc;
+            Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
 
             Bt_Tir_Turn_Quinte.Background = Blanc;
             Bt_Tir_Turn_Couleur.Background = Blanc;
-            Bt_Tir_Turn_QFlush.Background = Blanc;
+            Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
             NbMains++;
 
 
@@ -1288,36 +1352,36 @@ namespace Poker
 
 
             // 🔥 RESET affichage boutons PréFlop Flop Turn River
-            Bt_PreFlop_Paire.Background = Blanc;
-            Bt_PreFlop_Pareille.Background = Blanc;
+            Bt_PreFlop_Paire.Background         = Blanc;
+            Bt_PreFlop_Pareille.Background      = Blanc;
 
-            Bt_Flop_Paire.Background = Blanc;
-            Bt_Flop_2_Paires.Background = Blanc;
-            Bt_Flop_Brelan.Background = Blanc;
-            Bt_Flop_Quinte.Background = Blanc;
-            Bt_Flop_Couleur.Background = Blanc;
-            Bt_Flop_Full.Background = Blanc;
-            Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
+            Bt_Flop_Paire.Background            = Blanc;
+            Bt_Flop_2_Paires.Background         = Blanc;
+            Bt_Flop_Brelan.Background           = Blanc;
+            Bt_Flop_Quinte.Background           = Blanc;
+            Bt_Flop_Couleur.Background          = Blanc;
+            Bt_Flop_Full.Background             = Blanc;
+            Bt_Flop_Carre.Background            = Blanc;
+            Bt_Flop_Quinte_Flush.Background     = Blanc;
 
 
-            Bt_Turn_Paire.Background = Blanc;
-            Bt_Turn_2_Paires.Background = Blanc;
-            Bt_Turn_Brelan.Background = Blanc;
-            Bt_Turn_Quinte.Background = Blanc;
-            Bt_Turn_Couleur.Background = Blanc;
-            Bt_Turn_Full.Background = Blanc;
-            Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
+            Bt_Turn_Paire.Background            = Blanc;
+            Bt_Turn_2_Paires.Background         = Blanc;
+            Bt_Turn_Brelan.Background           = Blanc;
+            Bt_Turn_Quinte.Background           = Blanc;
+            Bt_Turn_Couleur.Background          = Blanc;
+            Bt_Turn_Full.Background             = Blanc;
+            Bt_Turn_Carre.Background            = Blanc;
+            Bt_Turn_Quinte_Flush.Background     = Blanc;
 
-            Bt_River_Paire.Background = Blanc;
-            Bt_River_2_Paires.Background = Blanc;
-            Bt_River_Brelan.Background = Blanc;
-            Bt_River_Quinte.Background = Blanc;
-            Bt_River_Couleur.Background = Blanc;
-            Bt_River_Full.Background = Blanc;
-            Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
+            Bt_River_Paire.Background           = Blanc;
+            Bt_River_2_Paires.Background        = Blanc;
+            Bt_River_Brelan.Background          = Blanc;
+            Bt_River_Quinte.Background          = Blanc;
+            Bt_River_Couleur.Background         = Blanc;
+            Bt_River_Full.Background            = Blanc;
+            Bt_River_Carre.Background           = Blanc;
+            Bt_River_Quinte_Flush.Background    = Blanc;
 
 
             AfficherCarte(TB_M1, null, Bt_Main_1, 0);
@@ -1444,7 +1508,7 @@ namespace Poker
             AfficherCarte(TB_F3, Bt_Flop_2, Bt_Flop_3, 4);
 
             // 🔥 Analyse complète du flop
-            Calcul_Flop();
+            //Calcul_Flop();
         }
 
         /************************************
@@ -1669,8 +1733,8 @@ namespace Poker
             AfficherDepuisTirage(4, TB_F3, Bt_Flop_3);
 
             // 🔥 Recalcul FLOP
-            Calcul_Flop();
-            Calcul_Tirages_Flop();
+            //Calcul_Flop();
+            //Calcul_Tirages_Flop();
 
             // 🔥 Reset visuel
             Bt_Main_2.Background = Blanc;
@@ -1707,8 +1771,8 @@ namespace Poker
             AfficherDepuisTirage(5, TB_T, Bt_Turn);
 
             // 🔥 Recalcul TURN
-            Calcul_Turn();
-            Calcul_Tirages_Turn();
+            //Calcul_Turn();
+            //Calcul_Tirages_Turn();
 
             // 🔥 Reset visuel
             Bt_Flop_3.Background = Blanc;
@@ -1734,7 +1798,7 @@ namespace Poker
             // 🔥 Réaffichage River
             AfficherDepuisTirage(6, TB_R, Bt_River);
             // 🔥 Recalcul RIVER
-            Calcul_River();
+            //Calcul_River();
             // 🔥 Reset visuel
             Bt_Turn.Background = Blanc;
             Bt_Rand_T.Background = Blanc;
@@ -1776,7 +1840,7 @@ namespace Poker
             Bt_Flop_Couleur.Background = Blanc;
             Bt_Flop_Full.Background = Blanc;
             Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
+            Bt_Flop_Quinte_Flush.Background = Blanc;
             // =========================================================
             // 🔥 RESET TURN
             // =========================================================
@@ -1796,7 +1860,7 @@ namespace Poker
             Bt_Turn_Couleur.Background = Blanc;
             Bt_Turn_Full.Background = Blanc;
             Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
+            Bt_Turn_Quinte_Flush.Background = Blanc;
             // =========================================================
             // 🔥 RESET RIVER
             // =========================================================
@@ -1816,7 +1880,7 @@ namespace Poker
             Bt_River_Couleur.Background = Blanc;
             Bt_River_Full.Background = Blanc;
             Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
+            Bt_River_Quinte_Flush.Background = Blanc;
             // =========================================================
             // 🔥 RESET TIRAGE
             // =========================================================
@@ -1850,11 +1914,11 @@ namespace Poker
             // 🔥 CALCULS AUTOMATIQUES
             // =========================================================
             Calcul_PreFlop();
-            Calcul_Flop();
-            Calcul_Tirages_Flop();
-            Calcul_Turn();
-            Calcul_Tirages_Turn();
-            Calcul_River();
+            //Calcul_Flop();
+            //Calcul_Tirages_Flop();
+            //Calcul_Turn();
+            //Calcul_Tirages_Turn();
+            //Calcul_River();
             // =========================================================
             // 🔥 RESET BOUTONS CARTES
             // =========================================================
@@ -1982,7 +2046,7 @@ namespace Poker
         private void Bt_Flop_Couleur_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Flop_Full_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Flop_Carre_Click(object sender, RoutedEventArgs e) { }
-        private void Bt_Flop_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Flop_Quinte_Flush_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Turn_Paire_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Turn_2_Paires_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Turn_Brelan_Click(object sender, RoutedEventArgs e) { }
@@ -1990,7 +2054,7 @@ namespace Poker
         private void Bt_Turn_Couleur_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Turn_Full_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Turn_Carre_Click(object sender, RoutedEventArgs e) { }
-        private void Bt_Turn_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Turn_Quinte_Flush_Click(object sender, RoutedEventArgs e) { }
         private void Bt_River_Paire_Click(object sender, RoutedEventArgs e) { }
         private void Bt_River_2_Paires_Click(object sender, RoutedEventArgs e) { }
         private void Bt_River_Brelan_Click(object sender, RoutedEventArgs e) { }
@@ -1998,13 +2062,13 @@ namespace Poker
         private void Bt_River_Couleur_Click(object sender, RoutedEventArgs e) { }
         private void Bt_River_Full_Click(object sender, RoutedEventArgs e) { }
         private void Bt_River_Carre_Click(object sender, RoutedEventArgs e) { }
-        private void Bt_River_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_River_Quinte_Flush_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Tir_Flop_Quinte_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Tir_Flop_Couleur_Click(object sender, RoutedEventArgs e) { }
-        private void Bt_Tir_Flop_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Flop_Quinte_Flush_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Tir_Turn_Quinte_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Tir_Turn_Couleur_Click(object sender, RoutedEventArgs e) { }
-        private void Bt_Tir_Turn_QFlush_Click(object sender, RoutedEventArgs e) { }
+        private void Bt_Tir_Turn_Quinte_Flush_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Passe_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Parole_Click(object sender, RoutedEventArgs e) { }
         private void Bt_Relance_Click(object sender, RoutedEventArgs e) { }
@@ -2022,6 +2086,24 @@ namespace Poker
             Bt_Bouton_en_7.Background = (Brush)FindResource("blanc");
             Bt_Bouton_en_8.Background = (Brush)FindResource("blanc");
             Bt_Bouton_en_9.Background = (Brush)FindResource("blanc");
+        }
+        // =========================================================
+        // 🔥 CONVERTIT "A♠" EN CARTE
+        // =========================================================
+        private Carte CreerCarte(string texteCarte, bool estMain)
+        {
+            string ordre = "23456789TJQKA";
+
+            string valeurTexte = texteCarte.StartsWith("10")
+                ? "T"
+                : texteCarte.Substring(0, texteCarte.Length - 1);
+
+            return new Carte
+            {
+                Valeur = ordre.IndexOf(valeurTexte) + 2,
+                Couleur = texteCarte[texteCarte.Length - 1],
+                EstMain = estMain
+            };
         }
         private void Bt_Pause_Click(object sender, RoutedEventArgs e)
         {
@@ -2622,7 +2704,7 @@ namespace Poker
         {
             Bt_Tir_Flop_Quinte.IsEnabled = false;
             Bt_Tir_Flop_Couleur.IsEnabled = false;
-            Bt_Tir_Flop_QFlush.IsEnabled = false;
+            Bt_Tir_Flop_Quinte_Flush.IsEnabled = false;
         }
 
         // =====================================
@@ -2632,7 +2714,7 @@ namespace Poker
         {
             Bt_Tir_Turn_Quinte.IsEnabled = false;
             Bt_Tir_Turn_Couleur.IsEnabled = false;
-            Bt_Tir_Turn_QFlush.IsEnabled = false;
+            Bt_Tir_Turn_Quinte_Flush.IsEnabled = false;
         }
         // =====================================
         // ALLUMER FLOP QUINTE
@@ -2653,7 +2735,7 @@ namespace Poker
         // =====================================
         private void Flop_QFlush_ON()
         {
-            Bt_Tir_Flop_QFlush.IsEnabled = true;
+            Bt_Tir_Flop_Quinte_Flush.IsEnabled = true;
         }
         // =====================================
         // ALLUMER TURN QUINTE
@@ -2672,9 +2754,9 @@ namespace Poker
         // =====================================
         // ALLUMER TURN QFLUSH
         // =====================================
-        private void Turn_QFlush_ON()
+        private void Turn_Quinte_Flush_ON()
         {
-            Bt_Tir_Turn_QFlush.IsEnabled = true;
+            Bt_Tir_Turn_Quinte_Flush.IsEnabled = true;
         }
         // =====================================
         // TEST MANUEL
@@ -2687,7 +2769,7 @@ namespace Poker
             Flop_Quinte_ON();
             Flop_Couleur_ON();
 
-            Turn_QFlush_ON();
+            Turn_Quinte_Flush_ON();
         }
 
         // =========================================================
@@ -2729,7 +2811,448 @@ namespace Poker
             // =====================================
             return c.ToArgb() & 0xFFFFFF;
         }
+        // =====================================
+        // JOUER SONS
+        // =====================================
+        private void JouerSon()
+        {
+            // =====================================
+            // Préflop : une seule annonce
+            // =====================================
 
+            if (bPreFlop_Suite && bPreFlop_Pareille) JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
+            else if (bPreFlop_Suite) JouerFichierSon(DOSSIER_SONS + "Suite.wav");
+            else if (bPreFlop_Pareille) JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
+            else if (bPreFlop_Paire) JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+
+            // =====================================
+            // Flop : plusieurs annonces
+            // =====================================
+
+            if (bFlop_QFlush) JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            if (bFlop_Carre) JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            if (bFlop_Full) JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            if (bFlop_Couleur) JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            if (bFlop_Quinte) JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            if (bFlop_Brelan) JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            if (bFlop_2_Paires) JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            if (bFlop_Paire) JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+            if (bTir_Flop_QFlush) JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
+            if (bTir_Flop_Couleur) JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
+            if (bTir_Flop_Quinte) JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
+            else if (bTir_Flop_Ventrale) JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
+
+            // =====================================
+            // Turn : plusieurs annonces
+            // =====================================
+
+            if (bTurn_QFlush) JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            if (bTurn_Carre) JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            if (bTurn_Full) JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            if (bTurn_Couleur) JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            if (bTurn_Quinte) JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            if (bTurn_Brelan) JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            if (bTurn_2_Paires) JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            if (bTurn_Paire) JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+            if (bTir_Turn_QFlush) JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
+            if (bTir_Turn_Couleur) JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
+            if (bTir_Turn_Quinte) JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
+            else if (bTir_Turn_Ventrale) JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
+
+            // =====================================
+            // River : une seule annonce
+            // =====================================
+
+            if (bRiver_QFlush) JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+            else if (bRiver_Carre) JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+            else if (bRiver_Full) JouerFichierSon(DOSSIER_SONS + "Full.wav");
+            else if (bRiver_Couleur) JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+            else if (bRiver_Quinte) JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+            else if (bRiver_Brelan) JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+            else if (bRiver_2_Paires) JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+            else if (bRiver_Paire) JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        }
+
+        // =========================================================
+        // 🔥 JOUER UN FICHIER SON
+        // =========================================================
+        private void JouerFichierSon(string fichier)
+        {
+            try
+            {
+                string chemin = Path.Combine("Sons", fichier);
+
+                if (!File.Exists(chemin))
+                    return;
+
+                SoundPlayer player = new SoundPlayer(chemin);
+                player.PlaySync();
+            }
+            catch
+            {
+            }
+        }
+        // =========================================================
+        // 🔥 PAREILLE
+        // =========================================================
+        private void Calcul_Moteur_Pareille(
+            List<Carte> cartes,
+            ref bool bPareille,
+            Button bouton)
+        {
+            bPareille = false;
+
+            if (cartes.Count < 2)
+                return;
+
+            if (cartes[0].Couleur == cartes[1].Couleur)
+            {
+                bPareille = true;
+                bouton.Background = Vert;
+            }
+        }
+        // =========================================================
+        // 🔥 SUITE
+        // =========================================================
+        private void Calcul_Moteur_Suite(
+            List<Carte> cartes,
+            ref bool bSuite,
+            Button bouton)
+        {
+            bSuite = false;
+
+            if (cartes.Count < 2)
+                return;
+
+            int v1 = cartes[0].Valeur;
+            int v2 = cartes[1].Valeur;
+
+            if (Math.Abs(v1 - v2) == 1 ||
+                (v1 == 14 && v2 == 2) ||
+                (v1 == 2 && v2 == 14))
+            {
+                bSuite = true;
+                bouton.Background = Vert;
+            }
+        }
+        // =========================================================
+        // 🔥 PAIRE
+        // =========================================================
+        private void Calcul_Moteur_Paire( List<Carte> cartes, Jeu jeu, ref bool bPaire, Button bouton)
+        {
+            // RESET
+            bPaire = false;
+
+            jeu.Force = 0;
+            jeu.Qualite = 0;
+            jeu.Participation = 0;
+
+            // RECHERCHE D'UNE PAIRE
+            var groupe = cartes
+                .GroupBy(c => c.Valeur)
+                .FirstOrDefault(g => g.Count() == 2);
+
+            if (groupe == null)
+                return;
+
+            // =====================================
+            // PAS UNE SIMPLE PAIRE
+            // (Brelan ou Carré)
+            // =====================================
+            if (cartes
+                .GroupBy(c => c.Valeur)
+                .Any(g => g.Count() >= 3))
+                return;
+
+            // =====================================
+            // PAIRE TROUVEE
+            // =====================================
+            bPaire = true;
+
+            jeu.Force = Math.Max(jeu.Force, 1);
+
+            // Valeur de la paire
+            jeu.Qualite = groupe.Key;
+
+            // Nombre de cartes de ma main
+            jeu.Participation = groupe.Count(c => c.EstMain);
+
+            // Affichage
+            bouton.Background = Vert;
+        }
+
+        // =========================================================
+        // 🔥 2 PAIRES
+        // =========================================================
+        private void Calcul_Moteur_DeuxPaires( List<Carte> cartes, Jeu jeu, ref bool bDeuxPaires, Button bouton)
+        {
+            // RESET
+            bDeuxPaires = false;
+
+            // RECHERCHE DES PAIRES
+            var paires = cartes
+                .GroupBy(c => c.Valeur)
+                .Where(g => g.Count() == 2)
+                .OrderByDescending(g => g.Key)
+                .ToList();
+
+            if (paires.Count != 2)
+                return;
+
+            // 2 PAIRES TROUVEES
+            bDeuxPaires = true;
+
+            jeu.Force = Math.Max(jeu.Force, 2);
+
+            // Qualité = valeur de la plus forte paire
+            jeu.Qualite = paires[0].Key;
+
+            // Participation
+            jeu.Participation =
+                paires.Sum(g => g.Count(c => c.EstMain));
+
+            bouton.Background = Vert;
+        }
+
+        // =========================================================
+        // 🔥 BRELAN
+        // =========================================================
+        private void Calcul_Moteur_Brelan( List<Carte> cartes, Jeu jeu, ref bool bBrelan, Button bouton)
+        {
+            // RESET
+            bBrelan = false;
+
+            // RECHERCHE DU BRELAN
+            var brelan = cartes
+                .GroupBy(c => c.Valeur)
+                .FirstOrDefault(g => g.Count() == 3);
+
+            if (brelan == null)
+                return;
+
+            // Pas un Full
+            if (cartes
+                .GroupBy(c => c.Valeur)
+                .Any(g => g.Count() == 2))
+                return;
+
+            // =====================================
+            // BRELAN TROUVE
+            // =====================================
+            bBrelan = true;
+
+            jeu.Force = Math.Max(jeu.Force, 3);
+
+            // Valeur du brelan
+            jeu.Qualite = brelan.Key;
+
+            // Nombre de cartes de ma main
+            jeu.Participation =
+                brelan.Count(c => c.EstMain);
+
+            bouton.Background = Vert;
+        }
+
+        // =========================================================
+        // 🔥 QUINTE
+        // =========================================================
+        private void Calcul_Moteur_Quinte( List<Carte> cartes, Jeu jeu, ref bool bQuinte, ref bool bQuinteFlush, Button btQuinte, Button btQuinteFlush)
+        {
+            // RESET
+            bQuinte = false;
+            bQuinteFlush = false;
+
+            jeu.CartesQuinte.Clear();
+
+            // La force, qualité et participation
+            // sont déjà à 0 si Jeu vient d'être créé,
+            // mais on peut les remettre à zéro
+            // si cette méthode est réutilisée.
+            jeu.Force = 0;
+            jeu.Qualite = 0;
+            jeu.Participation = 0;
+
+            // Trier les cartes par valeur
+            var cartesTriees = cartes
+                .OrderBy(c => c.Valeur)
+                .ToList();
+
+            // Gestion de l'As bas
+            List<Carte> travail = cartesTriees.ToList();
+
+            if (travail.Any(c => c.Valeur == 14))
+            {
+                travail.Insert(0, new Carte
+                {
+                    Valeur = 1,
+                    Couleur = travail.First(c => c.Valeur == 14).Couleur,
+                    EstMain = travail.First(c => c.Valeur == 14).EstMain
+                });
+            }
+
+            // Recherche d'une quinte
+            int suite = 1;
+
+            for (int i = 1; i < travail.Count; i++)
+            {
+                // Même valeur (ex : deux As), on ignore
+                if (travail[i].Valeur == travail[i - 1].Valeur)
+                    continue;
+
+                // Carte consécutive
+                if (travail[i].Valeur == travail[i - 1].Valeur + 1)
+                {
+                    suite++;
+
+                    if (suite == 5)
+                    {
+                        // Quinte trouvée
+                        bQuinte = true;
+
+                        // Les étapes suivantes rempliront :
+                        // - jeu.CartesQuinte
+                        // - jeu.Force
+                        // - jeu.Qualite
+                        // - jeu.Participation
+                        // - Quinte Flush
+
+                        break;
+                    }
+                }
+                else
+                {
+                    // On repart de 1
+                    suite = 1;
+                }
+            }
+            if (bQuinte)
+            {
+                // FORCE
+                jeu.Force = Math.Max(jeu.Force, 4);
+
+                // QUALITE Plus haute carte de la quinte (A2345 => 5)
+                jeu.Qualite = jeu.CartesQuinte.Max(c => c.Valeur);
+
+                if (jeu.Qualite == 14 &&
+                    jeu.CartesQuinte.Any(c => c.Valeur == 2))
+                {
+                    jeu.Qualite = 5;
+                }
+
+                // PARTICIPATION
+                jeu.Participation =
+                    jeu.CartesQuinte.Count(c => c.EstMain);
+
+                // AFFICHAGE
+                btQuinte.Background = Vert;
+            }
+
+        }
+
+        // =========================================================
+        // 🔥 COULEUR
+        // =========================================================
+        private void Calcul_Moteur_Couleur( List<Carte> cartes, Jeu jeu, ref bool bCouleur, Button bouton)
+        {
+            // RESET
+            bCouleur = false;
+
+            // RECHERCHE D'UNE COULEUR
+            var couleur = cartes
+                .GroupBy(c => c.Couleur)
+                .FirstOrDefault(g => g.Count() >= 5);
+
+            if (couleur == null)
+                return;
+
+            // COULEUR TROUVEE
+            bCouleur = true;
+
+            jeu.Force = Math.Max(jeu.Force, 5);
+
+            // Carte la plus haute de la couleur
+            jeu.Qualite = couleur.Max(c => c.Valeur);
+
+            // Nombre de cartes de ma main
+            jeu.Participation =
+                couleur.Count(c => c.EstMain);
+
+            bouton.Background = Vert;
+        }
+
+        // =========================================================
+        // 🔥 FULL
+        // =========================================================
+        private void Calcul_Moteur_Full( List<Carte> cartes, Jeu jeu, ref bool bFull, Button bouton)
+        {
+            // RESET
+            bFull = false;
+
+            // RECHERCHE
+            var brelan = cartes
+                .GroupBy(c => c.Valeur)
+                .FirstOrDefault(g => g.Count() == 3);
+
+            var paire = cartes
+                .GroupBy(c => c.Valeur)
+                .FirstOrDefault(g => g.Count() == 2);
+
+            if (brelan == null || paire == null)
+                return;
+
+            // FULL TROUVE
+            bFull = true;
+
+            jeu.Force = Math.Max(jeu.Force, 6);
+
+            // Valeur du brelan
+            jeu.Qualite = brelan.Key;
+
+            // Participation
+            jeu.Participation =
+                brelan.Count(c => c.EstMain) +
+                paire.Count(c => c.EstMain);
+
+            bouton.Background = Vert;
+        }
+
+        // =========================================================
+        // 🔥 CARRE
+        // =========================================================
+        private void Calcul_Moteur_Carre( List<Carte> cartes, Jeu jeu, ref bool bCarre, Button bouton)
+        {
+            // RESET
+            bCarre = false;
+
+            // RECHERCHE DU CARRE
+            var carre = cartes
+                .GroupBy(c => c.Valeur)
+                .FirstOrDefault(g => g.Count() == 4);
+
+            if (carre == null)
+                return;
+
+            // CARRE TROUVE
+            bCarre = true;
+
+            jeu.Force = Math.Max(jeu.Force, 7);
+
+            // Valeur du carré
+            jeu.Qualite = carre.Key;
+
+            // Nombre de cartes de ma main
+            jeu.Participation =
+                carre.Count(c => c.EstMain);
+
+            bouton.Background = Vert;
+        }
+
+        
+
+
+
+
+        //#endregion
 
         #region CALCUL PREFLOP
 
@@ -2738,6 +3261,17 @@ namespace Poker
         // =========================================================
         private void Calcul_PreFlop()
         {
+            // =========================================================
+            // 🔥 NOUVELLE MAIN
+            // =========================================================
+            TableCartes.Clear();
+
+            TableCartes.Add(CreerCarte(TB_M1.Text, true));
+            TableCartes.Add(CreerCarte(TB_M2.Text, true));
+
+            JeuPreFlop = new Jeu();
+            
+
             bPreFlop_Paire = false;
             bPreFlop_Pareille = false;
             bPreFlop_Suite = false;
@@ -2791,11 +3325,11 @@ namespace Poker
             Bt_Flop_Couleur.Background = Blanc;
             Bt_Flop_Full.Background = Blanc;
             Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
+            Bt_Flop_Quinte_Flush.Background = Blanc;
 
             Bt_Tir_Flop_Quinte.Background = Blanc;
             Bt_Tir_Flop_Couleur.Background = Blanc;
-            Bt_Tir_Flop_QFlush.Background = Blanc;
+            Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
 
             Bt_Tir_Turn_Quinte.Content = "Q";
 
@@ -2809,11 +3343,11 @@ namespace Poker
             Bt_Turn_Couleur.Background = Blanc;
             Bt_Turn_Full.Background = Blanc;
             Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
+            Bt_Turn_Quinte_Flush.Background = Blanc;
 
             Bt_Tir_Turn_Quinte.Background = Blanc;
             Bt_Tir_Turn_Couleur.Background = Blanc;
-            Bt_Tir_Turn_QFlush.Background = Blanc;
+            Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
 
             // =========================================================
             // 🔥 RESET BOUTONS RIVER
@@ -2825,312 +3359,72 @@ namespace Poker
             Bt_River_Couleur.Background = Blanc;
             Bt_River_Full.Background = Blanc;
             Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
+            Bt_River_Quinte_Flush.Background = Blanc;
 
-            string c1 = TB_M1.Text;
-            string c2 = TB_M2.Text;
 
-            if (string.IsNullOrWhiteSpace(c1) ||
-                string.IsNullOrWhiteSpace(c2))
+            if (TableCartes.Count < 2)
                 return;
 
-            // 🔥 Gestion correcte du 10
-            string val1 = c1.StartsWith("10") ? "T" : c1[0].ToString();
-            string val2 = c2.StartsWith("10") ? "T" : c2[0].ToString();
-
-            char s1 = c1[c1.Length - 1];
-            char s2 = c2[c2.Length - 1];
-
-            string ordre = "23456789TJQKA";
-
-            int i1 = ordre.IndexOf(val1);
-            int i2 = ordre.IndexOf(val2);
-
+            // =========================================================
             // 🔥 PAIRE
-            if (val1 == val2)
-            {
-                bPreFlop_Paire = true;
-                Bt_PreFlop_Paire.Background = Vert;
-            }
+            // =========================================================
+            Calcul_Moteur_Paire( TableCartes, JeuPreFlop, ref bPreFlop_Paire, Bt_PreFlop_Paire);
 
+            // =========================================================
             // 🔥 PAREILLE
-            if (s1 == s2)
-            {
-                bPreFlop_Pareille = true;
-                Bt_PreFlop_Pareille.Background = Vert;
-            }
+            // =========================================================
+            Calcul_Moteur_Pareille( TableCartes, ref bPreFlop_Pareille, Bt_PreFlop_Pareille);
 
+            // =========================================================
             // 🔥 SUITE
-            if (Math.Abs(i1 - i2) == 1 ||
-                (val1 == "A" && val2 == "2") ||
-                (val1 == "2" && val2 == "A"))
-            {
-                bPreFlop_Suite = true;
-                Bt_PreFlop_Suite.Background = Vert;
-            }
+            // =========================================================
+            Calcul_Moteur_Suite( TableCartes, ref bPreFlop_Suite, Bt_PreFlop_Suite);
+            //Debug_Jeu("PRE FLOP", JeuPreFlop);
         }
 
         #endregion
-        // =====================================
-        // JOUER SONS
-        // =====================================
-        private void JouerSon()
-        {
-            // =====================================
-            // Préflop : une seule annonce
-            // =====================================
-
-            if (bPreFlop_Suite && bPreFlop_Pareille)    JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
-            else if (bPreFlop_Suite)                    JouerFichierSon(DOSSIER_SONS + "Suite.wav");
-            else if (bPreFlop_Pareille)                 JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
-            else if (bPreFlop_Paire)                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-
-            // =====================================
-            // Flop : plusieurs annonces
-            // =====================================
-
-            if (bFlop_QFlush)                           JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-            if (bFlop_Carre)                            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-            if (bFlop_Full)                             JouerFichierSon(DOSSIER_SONS + "Full.wav");
-            if (bFlop_Couleur)                          JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-            if (bFlop_Quinte)                           JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-            if (bFlop_Brelan)                           JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-            if (bFlop_2_Paires)                         JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-            if (bFlop_Paire)                            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            if (bTir_Flop_QFlush)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
-            if (bTir_Flop_Couleur)                      JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
-            if (bTir_Flop_Quinte)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
-            else if (bTir_Flop_Ventrale)                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
-
-            // =====================================
-            // Turn : plusieurs annonces
-            // =====================================
-
-            if (bTurn_QFlush)                           JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-            if (bTurn_Carre)                            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-            if (bTurn_Full)                             JouerFichierSon(DOSSIER_SONS + "Full.wav");
-            if (bTurn_Couleur)                          JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-            if (bTurn_Quinte)                           JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-            if (bTurn_Brelan)                           JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-            if (bTurn_2_Paires)                         JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-            if (bTurn_Paire)                            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            if (bTir_Turn_QFlush)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte Flush.wav");
-            if (bTir_Turn_Couleur)                      JouerFichierSon(DOSSIER_SONS + "Tirage Couleur.wav");
-            if (bTir_Turn_Quinte)                       JouerFichierSon(DOSSIER_SONS + "Tirage Quinte.wav");
-            else if (bTir_Turn_Ventrale)                JouerFichierSon(DOSSIER_SONS + "Ventrale.wav");
-
-            // =====================================
-            // River : une seule annonce
-            // =====================================
-
-            if (bRiver_QFlush)                          JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-            else if (bRiver_Carre)                      JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-            else if (bRiver_Full)                       JouerFichierSon(DOSSIER_SONS + "Full.wav");
-            else if (bRiver_Couleur)                    JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-            else if (bRiver_Quinte)                     JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-            else if (bRiver_Brelan)                     JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-            else if (bRiver_2_Paires)                   JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-            else if (bRiver_Paire)                      JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-        }
-
-        // =========================================================
-        // 🔥 JOUER UN FICHIER SON
-        // =========================================================
-        private void JouerFichierSon(string fichier)
-        {
-            try
-            {
-                string chemin = Path.Combine("Sons", fichier);
-
-                if (!File.Exists(chemin))
-                    return;
-
-                SoundPlayer player = new SoundPlayer(chemin);
-                player.PlaySync();
-            }
-            catch
-            {
-            }
-        }
-
 
         #region CALCUL FLOP
 
         // =========================================================
-        // 🔥 CALCUL PREFLOP
+        // 🔥 CALCUL FLOP
         // =========================================================
         private void Calcul_Flop()
         {
-            bPreFlop_Paire = false;
-            bPreFlop_Pareille = false;
-            bPreFlop_Suite = false;
-
-            bFlop_Paire = false;
-            bFlop_2_Paires = false;
-            bFlop_Brelan = false;
-            bFlop_Quinte = false;
-            bFlop_Couleur = false;
-            bFlop_Full = false;
-            bFlop_Carre = false;
-            bFlop_QFlush = false;
-
+            Initialiser_bFlop();
 
             // =========================================================
-            // 🔥 LECTURE CARTES
+            // 🔥 AJOUT DES CARTES DU FLOP
             // =========================================================
-
-            List<string> cartes = new List<string>()
+            if (TableCartes.Count == 2)
             {
-                TB_M1.Text,
-                TB_M2.Text,
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text
-            };
+                TableCartes.Add(CreerCarte(TB_F1.Text, false));
+                TableCartes.Add(CreerCarte(TB_F2.Text, false));
+                TableCartes.Add(CreerCarte(TB_F3.Text, false));
+            }
 
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+            // =========================================================
+            // 🔥 SECURITE
+            // =========================================================
+            if (TableCartes.Count != 5)
                 return;
 
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
+            JeuFlop = new Jeu();
 
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
+            Calcul_Moteur_Paire( TableCartes, JeuFlop, ref bFlop_Paire, Bt_Flop_Paire);
+            Calcul_Moteur_DeuxPaires( TableCartes, JeuFlop, ref bFlop_2_Paires, Bt_Flop_2_Paires);
+            Calcul_Moteur_Brelan( TableCartes, JeuFlop, ref bFlop_Brelan, Bt_Flop_Brelan);
+            Calcul_Moteur_Couleur( TableCartes, JeuFlop, ref bFlop_Couleur, Bt_Flop_Couleur);
+            Calcul_Moteur_Full( TableCartes, JeuFlop, ref bFlop_Full, Bt_Flop_Full);
+            Calcul_Moteur_Carre(TableCartes, JeuFlop, ref bFlop_Carre, Bt_Flop_Carre);
 
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1 }))
-            {
-                bFlop_Paire = true;
-                Bt_Flop_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1 }))
-            {
-                bFlop_2_Paires = true;
-                Bt_Flop_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1 }))
-            {
-                bFlop_Brelan = true;
-                Bt_Flop_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2 }))
-            {
-                bFlop_Full = true;
-                Bt_Flop_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1 }))
-            {
-                bFlop_Carre = true;
-                Bt_Flop_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bFlop_Couleur = true;
-                Bt_Flop_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion A bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bFlop_Quinte = true;
-                        Bt_Flop_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-
-            if (bFlop_Quinte && bFlop_Couleur)
-            {
-                bFlop_QFlush = true;
-                Bt_Flop_QFlush.Background = Vert;
-            }
+            Debug_Jeu("FLOP", JeuFlop);
         }
-        private void Calcul_Tirages_Flop()
+
+        // =========================================================
+        // 🔥 INITIALISER FLOP
+        // =========================================================
+        private void Initialiser_bFlop()
         {
             bFlop_Paire = false;
             bFlop_2_Paires = false;
@@ -3141,164 +3435,12 @@ namespace Poker
             bFlop_Carre = false;
             bFlop_QFlush = false;
 
-            bTir_Flop_Ventrale = false;
             bTir_Flop_Quinte = false;
+            bTir_Flop_Ventrale = false;
             bTir_Flop_Couleur = false;
-            bTir_Flop_QFlush = false;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text
-            };
-
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE COULEUR
-            // 4 cartes même couleur
-            // =========================================================
-
-            bool tirCouleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() == 4);
-
-            if (tirCouleur)
-            {
-                bTir_Flop_Couleur = true;
-                Bt_Tir_Flop_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE
-            // =========================================================
-
-            // Si la main est déjà une quinte, inutile de chercher un tirage.
-            if (!bFlop_Quinte)
-            {
-                int[][] suites =
-                {
-                    new[] { 1, 2, 3, 4, 5 },
-                    new[] { 2, 3, 4, 5, 6 },
-                    new[] { 3, 4, 5, 6, 7 },
-                    new[] { 4, 5, 6, 7, 8 },
-                    new[] { 5, 6, 7, 8, 9 },
-                    new[] { 6, 7, 8, 9, 10 },
-                    new[] { 7, 8, 9, 10, 11 },
-                    new[] { 8, 9, 10, 11, 12 },
-                    new[] { 9, 10, 11, 12, 13 },
-                    new[] { 10, 11, 12, 13, 14 }
-                };
-
-                List<int> vals = valeurs.Distinct().ToList();
-
-                // L'As peut aussi être utilisé comme 1
-                if (vals.Contains(14))
-                    vals.Add(1);
-
-                foreach (int[] s in suites)
-                {
-                    int nb = 0;
-                    int positionManquante = -1;
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (vals.Contains(s[i]))
-                            nb++;
-                        else
-                            positionManquante = i;
-                    }
-
-                    if (nb == 4)
-                    {
-                        if (positionManquante == 0 || positionManquante == 4)
-                        {
-                            // Tirage quinte ouvert (prioritaire)
-                            bTir_Flop_Quinte = true;
-                            bTir_Flop_Ventrale = false;
-
-                            Bt_Tir_Flop_Quinte.Content = "Q";
-                        }
-                        else if (!bTir_Flop_Quinte)
-                        {
-                            // Tirage ventrale uniquement si aucun Q n'a été trouvé
-                            bTir_Flop_Ventrale = true;
-
-                            Bt_Tir_Flop_Quinte.Content = "QV";
-                        }
-
-                        Bt_Tir_Flop_Quinte.Background = Vert;
-                        break;
-                    }
-                }
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE FLUSH
-            // =========================================================
-
-            if (bTir_Flop_Quinte && bTir_Flop_Couleur)
-            {
-                bTir_Flop_QFlush = true;
-                Bt_Tir_Flop_QFlush.Background = Vert;
-            }
         }
-        private bool EstVentrale(List<int> valeurs)
-        {
-            var v = valeurs.Distinct().OrderBy(x => x).ToList();
 
-            // -------------------------------
-            // Cas A234
-            // -------------------------------
-            if (v.Contains(14) &&
-                v.Contains(2) &&
-                v.Contains(3) &&
-                v.Contains(4) &&
-                !v.Contains(5))
-                return true;
-
-            // -------------------------------
-            // Cas KA
-            // -------------------------------
-            if (v.Contains(13) && v.Contains(14))
-                return true;
-
-            // -------------------------------
-            // Trou au milieu
-            // -------------------------------
-            for (int i = 0; i < v.Count - 3; i++)
-            {
-                if (v[i + 3] - v[i] == 4)
-                    return true;
-            }
-
-            return false;
-        }
+        
         #endregion
 
         #region CALCUL TURN
@@ -3308,180 +3450,37 @@ namespace Poker
         // =========================================================
         private void Calcul_Turn()
         {
-            bFlop_Paire = false;
-            bFlop_2_Paires = false;
-            bFlop_Brelan = false;
-            bFlop_Quinte = false;
-            bFlop_Couleur = false;
-            bFlop_Full = false;
-            bFlop_Carre = false;
-            bFlop_QFlush = false;
-
-            bTir_Flop_Ventrale = false;
-            bTir_Flop_Quinte = false;
-            bTir_Flop_Couleur = false;
-            bTir_Flop_QFlush = false;
-
-            bTurn_Paire = false;
-            bTurn_2_Paires = false;
-            bTurn_Brelan = false;
-            bTurn_Quinte = false;
-            bTurn_Couleur = false;
-            bTurn_Full = false;
-            bTurn_Carre = false;
-            bTurn_QFlush = false;
-
+            Initialiser_bFlop();
+            Initialiser_bTurn();
 
             // =========================================================
-            // 🔥 LECTURE CARTES
+            // 🔥 AJOUT DES CARTES DU TURN
             // =========================================================
-            List<string> cartes = new List<string>()
+            if (TableCartes.Count == 5)
             {
-                TB_M1.Text,
-                TB_M2.Text,
+                TableCartes.Add(CreerCarte(TB_T.Text, false));
+            }
 
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
+            // =========================================================
+            // 🔥 SECURITE
+            // =========================================================
+            if (TableCartes.Count != 6)
                 return;
 
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
+            Calcul_Moteur_Paire(TableCartes, JeuTurn, ref bTurn_Paire, Bt_Turn_Paire);
+            Calcul_Moteur_DeuxPaires(TableCartes, JeuTurn, ref bTurn_2_Paires, Bt_Turn_2_Paires);
+            Calcul_Moteur_Brelan(TableCartes, JeuTurn, ref bTurn_Brelan, Bt_Turn_Brelan);
+            Calcul_Moteur_Couleur(TableCartes, JeuTurn, ref bTurn_Couleur, Bt_Turn_Couleur);
+            Calcul_Moteur_Full(TableCartes, JeuTurn, ref bTurn_Full, Bt_Turn_Full);
+            Calcul_Moteur_Carre(TableCartes, JeuTurn, ref bTurn_Carre, Bt_Turn_Carre);
 
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1 }))
-            {
-                bTurn_Paire = true;
-                Bt_Turn_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1 }))
-            {
-                bTurn_2_Paires = true;
-                Bt_Turn_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1 }))
-            {
-                bTurn_Brelan = true;
-                Bt_Turn_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1 }))
-            {
-                bTurn_Full = true;
-                Bt_Turn_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1 }))
-            {
-                bTurn_Carre = true;
-                Bt_Turn_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bTurn_Couleur = true;
-                Bt_Turn_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion As bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bTurn_Quinte = true;
-                        Bt_Turn_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-            if (bTurn_Quinte && bTurn_Couleur)
-            {
-                bTurn_QFlush = true;
-                Bt_Turn_QFlush.Background = Vert;
-            }
+            Debug_Jeu("TURN", JeuTurn);
         }
-        private void Calcul_Tirages_Turn()
+
+        // =========================================================
+        // 🔥 INITIALISER TURN
+        // =========================================================
+        private void Initialiser_bTurn()
         {
             bTurn_Paire = false;
             bTurn_2_Paires = false;
@@ -3492,210 +3491,9 @@ namespace Poker
             bTurn_Carre = false;
             bTurn_QFlush = false;
 
-            bTir_Turn_Ventrale = false;
             bTir_Turn_Quinte = false;
+            bTir_Turn_Ventrale = false;
             bTir_Turn_Couleur = false;
-            bTir_Turn_QFlush = false;
-
-            // =========================================================
-            // 🔥 LECTURE CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text
-            };
-
-            // =========================================================
-            // 🔥 SECURITE
-            // =========================================================
-
-            if (cartes.Any(c =>
-                string.IsNullOrWhiteSpace(c)))
-            {
-                return;
-            }
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs =
-                new List<int>();
-
-            List<char> couleurs =
-                new List<char>();
-
-            // =========================================================
-            // 🔥 LISTES PAR COULEUR
-            // =========================================================
-
-            List<int> Trefles =
-                new List<int>();
-
-            List<int> Piques =
-                new List<int>();
-
-            List<int> Coeurs =
-                new List<int>();
-
-            List<int> Carreaux =
-                new List<int>();
-
-            string ordre =
-                "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                // =====================================
-                // Valeur
-                // =====================================
-
-                string val =
-                    c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                int v =
-                    ordre.IndexOf(val) + 2;
-
-                // =====================================
-                // Couleur
-                // =====================================
-
-                char suit =
-                    c[c.Length - 1];
-
-                valeurs.Add(v);
-                couleurs.Add(suit);
-
-                // =====================================
-                // Répartition couleur
-                // =====================================
-
-                if (suit == '♣')
-                    Trefles.Add(v);
-
-                if (suit == '♠')
-                    Piques.Add(v);
-
-                if (suit == '♥')
-                    Coeurs.Add(v);
-
-                if (suit == '♦')
-                    Carreaux.Add(v);
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE COULEUR
-            // 4 cartes même couleur
-            // =========================================================
-
-            bool tirCouleur =
-                couleurs
-                .GroupBy(c => c)
-                .Any(g => g.Count() >= 4);
-
-            if (tirCouleur)
-            {
-                bTir_Turn_Couleur = true;
-
-                Bt_Tir_Turn_Couleur.Background =
-                    Vert;
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE
-            // =========================================================
-
-            // Si la main est déjà une quinte, inutile de chercher un tirage.
-            if (!bTurn_Quinte)
-            {
-                int[][] suites =
-                {
-                    new[] { 1, 2, 3, 4, 5 },
-                    new[] { 2, 3, 4, 5, 6 },
-                    new[] { 3, 4, 5, 6, 7 },
-                    new[] { 4, 5, 6, 7, 8 },
-                    new[] { 5, 6, 7, 8, 9 },
-                    new[] { 6, 7, 8, 9, 10 },
-                    new[] { 7, 8, 9, 10, 11 },
-                    new[] { 8, 9, 10, 11, 12 },
-                    new[] { 9, 10, 11, 12, 13 },
-                    new[] { 10, 11, 12, 13, 14 }
-                };
-
-                List<int> vals = valeurs.Distinct().ToList();
-
-                // L'As peut aussi être utilisé comme 1
-                if (vals.Contains(14))
-                    vals.Add(1);
-
-                foreach (int[] s in suites)
-                {
-                    int nb = 0;
-                    int positionManquante = -1;
-
-                    for (int i = 0; i < 5; i++)
-                    {
-                        if (vals.Contains(s[i]))
-                            nb++;
-                        else
-                            positionManquante = i;
-                    }
-
-                    if (nb >= 4)
-                    {
-                        if (positionManquante == 0 || positionManquante == 4)
-                        {
-                            // Tirage quinte ouvert (prioritaire)
-                            bTir_Turn_Quinte = true;
-                            bTir_Turn_Ventrale = false;
-
-                            Bt_Tir_Turn_Quinte.Content = "Q";
-                        }
-                        else if (!bTir_Turn_Quinte)
-                        {
-                            // Tirage ventrale uniquement si aucun Q n'a été trouvé
-                            bTir_Turn_Ventrale = true;
-
-                            Bt_Tir_Turn_Quinte.Content = "QV";
-                        }
-
-                        Bt_Tir_Turn_Quinte.Background = Vert;
-                        break;
-                    }
-                }
-            }
-
-            // =========================================================
-            // 🔥 TIRAGE QUINTE FLUSH
-            // =========================================================
-
-            if (Tirage_Quinte_Special(Trefles) ||
-                Tirage_Quinte_Special(Piques) ||
-                Tirage_Quinte_Special(Coeurs) ||
-                Tirage_Quinte_Special(Carreaux))
-            {
-                bTir_Turn_QFlush = true;
-
-                Bt_Tir_Turn_QFlush.Background =
-                    Vert;
-            }
-            else
-            {
-                bTir_Turn_QFlush = false;
-
-                Bt_Tir_Turn_QFlush.Background =
-                    Blanc;
-            }
         }
 
         #endregion
@@ -3707,20 +3505,38 @@ namespace Poker
         // =========================================================
         private void Calcul_River()
         {
-            bTurn_Paire = false;
-            bTurn_2_Paires = false;
-            bTurn_Brelan = false;
-            bTurn_Quinte = false;
-            bTurn_Couleur = false;
-            bTurn_Full = false;
-            bTurn_Carre = false;
-            bTurn_QFlush = false;
+            Initialiser_bTurn();
+            Initialiser_bRiver();
 
-            bTir_Turn_Ventrale = false;
-            bTir_Turn_Quinte = false;
-            bTir_Turn_Couleur = false;
-            bTir_Turn_QFlush = false;
+            // =========================================================
+            // 🔥 AJOUT DES CARTES DU RIVER
+            // =========================================================
+            if (TableCartes.Count == 6)
+            {
+                TableCartes.Add(CreerCarte(TB_R.Text, false));
+            }
 
+            // =========================================================
+            // 🔥 SECURITE
+            // =========================================================
+            if (TableCartes.Count != 7)
+                return;
+
+            Calcul_Moteur_Paire(TableCartes, JeuRiver, ref bRiver_Paire, Bt_River_Paire);
+            Calcul_Moteur_DeuxPaires(TableCartes, JeuRiver, ref bRiver_2_Paires, Bt_River_2_Paires);
+            Calcul_Moteur_Brelan(TableCartes, JeuRiver, ref bRiver_Brelan, Bt_River_Brelan);
+            Calcul_Moteur_Couleur(TableCartes, JeuRiver, ref bRiver_Couleur, Bt_River_Couleur);
+            Calcul_Moteur_Full(TableCartes, JeuRiver, ref bRiver_Full, Bt_River_Full);
+            Calcul_Moteur_Carre(TableCartes, JeuRiver, ref bRiver_Carre, Bt_River_Carre);
+
+            Debug_Jeu("RIVER", JeuRiver);
+        }
+
+        // =========================================================
+        // 🔥 INITIALISER RIVER
+        // =========================================================
+        private void Initialiser_bRiver()
+        {
             bRiver_Paire = false;
             bRiver_2_Paires = false;
             bRiver_Brelan = false;
@@ -3729,167 +3545,7 @@ namespace Poker
             bRiver_Full = false;
             bRiver_Carre = false;
             bRiver_QFlush = false;
-
-            // =========================================================
-            // 🔥 LECTURE DES 7 CARTES
-            // =========================================================
-
-            List<string> cartes = new List<string>()
-            {
-                TB_M1.Text,
-                TB_M2.Text,
-
-                TB_F1.Text,
-                TB_F2.Text,
-                TB_F3.Text,
-
-                TB_T.Text,
-                TB_R.Text
-            };
-
-            // 🔒 Sécurité
-            if (cartes.Any(c => string.IsNullOrWhiteSpace(c)))
-                return;
-
-            // =========================================================
-            // 🔥 EXTRACTION VALEURS / COULEURS
-            // =========================================================
-
-            List<int> valeurs = new List<int>();
-            List<char> couleurs = new List<char>();
-
-            string ordre = "23456789TJQKA";
-
-            foreach (string c in cartes)
-            {
-                string val = c.StartsWith("10")
-                    ? "T"
-                    : c[0].ToString();
-
-                char suit = c[c.Length - 1];
-
-                valeurs.Add(ordre.IndexOf(val) + 2);
-                couleurs.Add(suit);
-            }
-
-            // =========================================================
-            // 🔥 COMPTAGE VALEURS
-            // =========================================================
-
-            var groupesValeurs = valeurs
-                .GroupBy(v => v)
-                .Select(g => g.Count())
-                .OrderByDescending(x => x)
-                .ToList();
-
-            // =========================================================
-            // 🔥 PAIRE
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 1, 1, 1, 1, 1 }))
-            {
-                bRiver_Paire = true;
-                Bt_River_Paire.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 2 PAIRES
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 2, 2, 1, 1, 1 }))
-            {
-                bRiver_2_Paires = true;
-                Bt_River_2_Paires.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 BRELAN
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 1, 1, 1, 1 }))
-            {
-                bRiver_Brelan = true;
-                Bt_River_Brelan.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 FULL
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 3, 2, 1, 1 }))
-            {
-                bRiver_Full = true;
-                Bt_River_Full.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 CARRÉ
-            // =========================================================
-
-            if (groupesValeurs.SequenceEqual(new List<int> { 4, 1, 1, 1 }))
-            {
-                bRiver_Carre = true;
-                Bt_River_Carre.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 COULEUR
-            // =========================================================
-
-            bool couleur =
-                couleurs.GroupBy(c => c)
-                        .Any(g => g.Count() >= 5);
-
-            if (couleur)
-            {
-                bRiver_Couleur = true;
-                Bt_River_Couleur.Background = Vert;
-            }
-
-            // =========================================================
-            // 🔥 QUINTE
-            // =========================================================
-
-            var vals = valeurs
-                .Distinct()
-                .OrderBy(v => v)
-                .ToList();
-
-            // 🔥 Gestion As bas
-            if (vals.Contains(14))
-                vals.Insert(0, 1);
-
-            int suite = 1;
-
-            for (int i = 1; i < vals.Count; i++)
-            {
-                if (vals[i] == vals[i - 1] + 1)
-                {
-                    suite++;
-
-                    if (suite >= 5)
-                    {
-                        bRiver_Quinte = true;
-                        Bt_River_Quinte.Background = Vert;
-                    }
-                }
-                else
-                {
-                    suite = 1;
-                }
-            }
-
-            // =========================================================
-            // 🔥 QUINTE FLUSH
-            // =========================================================
-
-            if (bRiver_Quinte && bRiver_Couleur)
-            {
-                bRiver_QFlush = true;
-                Bt_River_QFlush.Background = Vert;
-            }
         }
-
         #endregion     
 
         #region CHARGER EXTRAIRE LIRE SAUVER FERMER
@@ -7530,7 +7186,7 @@ namespace Poker
             // DONNEES NON CONFORMES
             // =====================================
 
-            if (index != 9)
+            if (index != 18)
                 return false;
 
             return true;
@@ -7544,17 +7200,24 @@ namespace Poker
         }
         private int Suis_Je_Assis()
         {
-            for (int i = 0; i < SuisJeAssisDetect.Length; i++)
+            for (int i = 0; i < 18; i += 2)
             {
-                int couleur = LirePixel(
+                int c1 = LirePixel(
                     SuisJeAssisDetect[i].X,
                     SuisJeAssisDetect[i].Y);
 
-                if (couleur == SuisJeAssisDetect[i].Couleur)
-                    return i + 1;   // Position 1 à 9
+                int c2 = LirePixel(
+                    SuisJeAssisDetect[i + 1].X,
+                    SuisJeAssisDetect[i + 1].Y);
+
+                if (c1 == SuisJeAssisDetect[i].Couleur &&
+                    c2 == SuisJeAssisDetect[i + 1].Couleur)
+                {
+                    return i / 2 + 1;
+                }
             }
 
-            return 0;               // Non détectée
+            return 0;
         }
         private void Lire_Ma_Position()
         {
@@ -8412,7 +8075,7 @@ namespace Poker
             if (okPupitre_Gris)
                 msg += "Pupitre_Gris : 2 détecteurs\n";
             if (okSuis_Je_Assis)
-                msg += "Suis_Je_Assis : 9 détecteurs\n";
+                msg += "Suis_Je_Assis : 18 détecteurs\n";
             if (okTable_Prete)
                 msg += "Table_Prete : 1 détecteur\n";
 
@@ -8680,7 +8343,7 @@ namespace Poker
             Bt_Flop_Couleur.Background = Blanc;
             Bt_Flop_Full.Background = Blanc;
             Bt_Flop_Carre.Background = Blanc;
-            Bt_Flop_QFlush.Background = Blanc;
+            Bt_Flop_Quinte_Flush.Background = Blanc;
         }
         private void Reset_Tirages_Flop()
         {
@@ -8693,7 +8356,7 @@ namespace Poker
             Bt_Tir_Flop_Quinte.Background = Blanc;
 
             Bt_Tir_Flop_Couleur.Background = Blanc;
-            Bt_Tir_Flop_QFlush.Background = Blanc;
+            Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
         }
         private void Reset_Turn()
         {
@@ -8704,7 +8367,7 @@ namespace Poker
             Bt_Turn_Couleur.Background = Blanc;
             Bt_Turn_Full.Background = Blanc;
             Bt_Turn_Carre.Background = Blanc;
-            Bt_Turn_QFlush.Background = Blanc;
+            Bt_Turn_Quinte_Flush.Background = Blanc;
         }
         private void Reset_Tirages_Turn()
         {
@@ -8717,7 +8380,7 @@ namespace Poker
             Bt_Tir_Turn_Quinte.Background = Blanc;
 
             Bt_Tir_Turn_Couleur.Background = Blanc;
-            Bt_Tir_Turn_QFlush.Background = Blanc;
+            Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
         }
         private void Reset_River()
         {
@@ -8728,7 +8391,7 @@ namespace Poker
             Bt_River_Couleur.Background = Blanc;
             Bt_River_Full.Background = Blanc;
             Bt_River_Carre.Background = Blanc;
-            Bt_River_QFlush.Background = Blanc;
+            Bt_River_Quinte_Flush.Background = Blanc;
         }
 
         // =========================================================
@@ -9205,6 +8868,21 @@ namespace Poker
                     continue;
                 }
 
+                // =====================================
+                // Attendre de relire ma position
+                // =====================================
+                if (bAttendrePosition)
+                {
+                    while (Suis_Je_Assis() == 0)
+                    {
+                        await Task.Delay(20);
+                        CaptureEcran();
+                    }
+
+                    Lire_Ma_Position();
+
+                    bAttendrePosition = false;
+                }
                 // ==========================================
                 // J'AI GAGNÉ
                 // ==========================================
@@ -9219,20 +8897,28 @@ namespace Poker
                         Clic(890, 190);
                         await Task.Delay(100);
                         Clic(890, 240);
-                        await Task.Delay(600);
+                        Clic(890, 240);
+                        //await Task.Delay(600);
+
+
+
 
                         // Attendre que MA place redevienne libre
                         while (Place_Libre() != maPlace)
                         {
-                            await Task.Delay(20);
+                            await Task.Delay(5);
                             CaptureEcran();
                         }
+                        await Task.Delay(20);
 
                         // Reprendre MA place
                         Cliquer_Place(maPlace);
 
+                        bAttendrePosition = true;
+
+
                         // Laisser PokerTeam réagir
-                        await Task.Delay(20);
+                        await Task.Delay(100);
 
                         // Nouvelle capture
                         CaptureEcran();
@@ -9317,8 +9003,6 @@ namespace Poker
                         continue;
                     }
                 }
-
-
 
                 // ==========================================
                 // PUPITRE GRIS
@@ -9437,8 +9121,8 @@ namespace Poker
                     Calcul_Flop();
                     JouerSon();
 
-                    Calcul_Tirages_Flop();
-                    JouerSon();
+                    //Calcul_Tirages_Flop();
+                    //JouerSon();
 
                     // ==========================
                     // Passage au vert
@@ -9484,11 +9168,11 @@ namespace Poker
                     // ----- Traitement commun -----
                     if (bTurn_Lu)
                     {
-                        Calcul_Turn();
-                        JouerSon();
+                        //Calcul_Turn();
+                        //JouerSon();
 
-                        Calcul_Tirages_Turn();
-                        JouerSon();
+                        //Calcul_Tirages_Turn();
+                        //JouerSon();
 
                         continue;
                     }
@@ -9517,8 +9201,8 @@ namespace Poker
                     // ----- Traitement commun -----
                     if (bRiver_Lu)
                     {
-                        Calcul_River();
-                        JouerSon();
+                        //Calcul_River();
+                        //JouerSon();
 
                         // ======================================
                         // Capture ShareX
@@ -9571,6 +9255,15 @@ namespace Poker
                 case 10: ActiverMise(Bt_P10); break;
             }
         }
+
+       
+
+
+
+
+
+
+
         // =========================================================
         // 🔥 APPLIQUER MEMO
         // =========================================================
@@ -10206,7 +9899,17 @@ namespace Poker
 
             Close();
         }
-
+        // =========================================================
+        // 🔥 DEBUG JEU
+        // =========================================================
+        private void Debug_Jeu(string phase, Jeu jeu)
+        {
+            Debug(phase);
+            Debug($"Force         : {jeu.Force}");
+            Debug($"Qualité       : {jeu.Qualite}");
+            Debug($"Participation : {jeu.Participation}");
+            Debug("======================================");
+        }
         // =========================================================
         // DEBUG
         // =========================================================

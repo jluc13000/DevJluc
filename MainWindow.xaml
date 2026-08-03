@@ -114,7 +114,7 @@
         <Button x:Name="Bt_Flop_Couleur"            Content="Couleur"           Click="Bt_Flop_Couleur_Click"       HorizontalAlignment="Left"              Height="20"     Margin="219,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Flop_Full"               Content="Full"              Click="Bt_Flop_Full_Click"          HorizontalAlignment="Left"              Height="20"     Margin="261,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Flop_Carre"              Content="Carré"             Click="Bt_Flop_Carre_Click"         HorizontalAlignment="Left"              Height="20"     Margin="303,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Flop_QFlush"             Content="QFlush"            Click="Bt_Flop_QFlush_Click"        HorizontalAlignment="Left"              Height="20"     Margin="345,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Flop_Quinte_Flush"       Content="QFlush"            Click="Bt_Flop_Quinte_Flush_Click"  HorizontalAlignment="Left"              Height="20"     Margin="345,668,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Turn_Paire"              Content="Paire"             Click="Bt_Turn_Paire_Click"         HorizontalAlignment="Left"              Height="20"     Margin="52,688,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Turn_2_Paires"           Content="2 Paires"          Click="Bt_Turn_2_Paires_Click"      HorizontalAlignment="Left"              Height="20"     Margin="93,688,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
@@ -123,7 +123,7 @@
         <Button x:Name="Bt_Turn_Couleur"            Content="Couleur"           Click="Bt_Turn_Couleur_Click"       HorizontalAlignment="Left"              Height="20"     Margin="219,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Turn_Full"               Content="Full"              Click="Bt_Turn_Full_Click"          HorizontalAlignment="Left"              Height="20"     Margin="261,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Turn_Carre"              Content="Carré"             Click="Bt_Turn_Carre_Click"         HorizontalAlignment="Left"              Height="20"     Margin="303,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Turn_QFlush"             Content="QFlush"            Click="Bt_Turn_QFlush_Click"        HorizontalAlignment="Left"              Height="20"     Margin="345,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Turn_Quinte_Flush"       Content="QFlush"            Click="Bt_Turn_Quinte_Flush_Click"  HorizontalAlignment="Left"              Height="20"     Margin="345,688,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_River_Paire"             Content="Paire"             Click="Bt_River_Paire_Click"        HorizontalAlignment="Left"              Height="20"     Margin="52,708,0,0"     VerticalAlignment="Top"     Width="41"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_River_2_Paires"          Content="2 Paires"          Click="Bt_River_2_Paires_Click"     HorizontalAlignment="Left"              Height="20"     Margin="93,708,0,0"     VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
@@ -132,7 +132,7 @@
         <Button x:Name="Bt_River_Couleur"           Content="Couleur"           Click="Bt_River_Couleur_Click"      HorizontalAlignment="Left"              Height="20"     Margin="219,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_River_Full"              Content="Full"              Click="Bt_River_Full_Click"         HorizontalAlignment="Left"              Height="20"     Margin="261,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_River_Carre"             Content="Carré"             Click="Bt_River_Carre_Click"        HorizontalAlignment="Left"              Height="20"     Margin="303,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_River_QFlush"            Content="QFlush"            Click="Bt_River_QFlush_Click"       HorizontalAlignment="Left"              Height="20"     Margin="345,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_River_Quinte_Flush"      Content="QFlush"            Click="Bt_River_Quinte_Flush_Click" HorizontalAlignment="Left"              Height="20"     Margin="345,708,0,0"    VerticalAlignment="Top"     Width="42"  FontSize="10"   FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_AA"                      Content="AA"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="6,740,0,0"      VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_KK"                      Content="KK"                Click="Bt_Main_Click"               HorizontalAlignment="Left"              Height="20"     Margin="35,740,0,0"     VerticalAlignment="Top"     Width="29"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
@@ -217,10 +217,10 @@
 
         <Button x:Name="Bt_Tir_Flop_Quinte"         Content="Q"                 Click="Bt_Tir_Flop_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,668,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Tir_Flop_Couleur"        Content="Col"               Click="Bt_Tir_Flop_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Flop_QFlush"         Content="QF"                Click="Bt_Tir_Flop_QFlush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Flop_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Tir_Turn_Quinte"         Content="Q"                 Click="Bt_Tir_Turn_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,689,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Tir_Turn_Couleur"        Content="Col"               Click="Bt_Tir_Turn_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Turn_QFlush"         Content="QF"                Click="Bt_Tir_Turn_QFlush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Turn_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Je_suis_a_table"         Content=""                  Click="Bt_Je_suis_a_table_Click"    HorizontalAlignment="Left"              Height="17"     Margin="256,140,0,0"    VerticalAlignment="Top"     Width="11"   FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
@@ -438,7 +438,7 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Debug"         Width="264"    Height="112"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
+        <TextBox x:Name="TB_Debug"         Width="264"    Height="134"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blinde_1"              Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
@@ -492,7 +492,7 @@
     Content="Test Board"
     Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
-             Margin="136,350,0,334"
+             Margin="136,417,0,334"
              FontSize="14"
              FontWeight="Bold"
              FontFamily="Consolas"
@@ -579,7 +579,6 @@
            FontSize="10"
            FontWeight="Bold"/>
         <Label Content="Frais" HorizontalAlignment="Left" Height="20" Margin="186,187,0,0" VerticalAlignment="Top" Width="33" FontSize="8"/>
-        <Image Height="100" Width="100"/>
 
         <Image x:Name="Mon_Avatar_1"
            Source="Images/Mon_Avatar.png"
