@@ -224,6 +224,15 @@ namespace Poker
             public int Y;
             public int Couleur;
         }
+        
+        // STRUCTURE FIREFOX GGS VISIBLE
+        public struct S_JAiQuitteMaPlaceDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
 
         // STRUCTURE JOUEUR A TAPIS
         public struct S_JoueurATapisDetect
@@ -428,6 +437,9 @@ namespace Poker
 
         // TABLEAU DETECTION FIREFOX GGS VISIBLE
         private S_FirefoxGGSVisibleDetect[] FirefoxGGSVisibleDetect = new S_FirefoxGGSVisibleDetect[1];
+
+        // TABLEAU DETECTION J AI QUITTE MA PLACE VISIBLE
+        private S_JAiQuitteMaPlaceDetect[] JAiQuitteMaPlaceDetect = new S_JAiQuitteMaPlaceDetect[1];
 
         // TABLEAU DETECTION JOUEUR A TAPIS
         private S_JoueurATapisDetect[] JoueurATapisDetect = new S_JoueurATapisDetect[9];
@@ -771,6 +783,7 @@ namespace Poker
             Charger_Decision_JSON();
             Charger_Felicitation_JSON();
             Charger_Firefox_GGS_Visible_JSON();
+            Charger_J_Ai_Quitte_Ma_Place_JSON();
 
             Charger_Joueur_A_Tapis_JSON();
             Charger_Joueur_Parole_JSON();
@@ -6670,6 +6683,105 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 FIREFOX J AI QUITTE MA PLACE
+        // =========================================================
+        private void Charger_J_Ai_Quitte_Ma_Place_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "J_Ai_Quitte_Ma_Place.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            JAiQuitteMaPlaceDetect = JsonConvert.DeserializeObject<S_JAiQuitteMaPlaceDetect[]>(json);
+        }
+        private bool Extraire_J_Ai_Quitte_Ma_Place(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bJAiQuitteMaPlace = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : J_Ai_Quitte_Ma_Place")
+                {
+                    bJAiQuitteMaPlace = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bJAiQuitteMaPlace)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    JAiQuitteMaPlaceDetect[index].Nom = nomCourant;
+                    JAiQuitteMaPlaceDetect[index].X = int.Parse(t[1]);
+                    JAiQuitteMaPlaceDetect[index].Y = int.Parse(t[2]);
+                    JAiQuitteMaPlaceDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_J_Ai_Quitte_Ma_Place_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "J_Ai_Quitte_Ma_Place.json");
+            string json = JsonConvert.SerializeObject(JAiQuitteMaPlaceDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+        // =========================================================
+        // 🔥 HORS DE MA PLACE
+        // J'ai quitté OU je ne suis pas encore assis
+        // =========================================================
+        private bool Hors_De_Ma_Place()
+        {
+            if (JAiQuitteMaPlaceDetect == null ||
+                JAiQuitteMaPlaceDetect.Length == 0)
+                return false;
+
+            int couleur = LirePixel(
+                JAiQuitteMaPlaceDetect[0].X,
+                JAiQuitteMaPlaceDetect[0].Y);
+
+            return couleur == JAiQuitteMaPlaceDetect[0].Couleur;
+        }
+
+        // =========================================================
         // 🔥 JOUEUR A TAPIS
         // =========================================================
         private void Charger_Joueur_A_Tapis_JSON()
@@ -7787,7 +7899,6 @@ namespace Poker
                 await Task.Delay(5);
             }
         }
-
         private void Cliquer_Place(int place)
         {
             if (place < 1 || place > PlacesLibresDetect.Length)
@@ -8512,7 +8623,6 @@ namespace Poker
 
             return 0;
         }
-
         private void Lire_Ma_Position()
         {
             ResetPosition();
@@ -9175,6 +9285,8 @@ namespace Poker
             bool okDecision = Extraire_Decision(txt);
             bool okFelicitation = Extraire_Felicitation(txt);
             bool okFirefox_GGS_Visible = Extraire_Firefox_GGS_Visible(txt);
+            bool okJ_Ai_Quitte_Ma_Place = Extraire_J_Ai_Quitte_Ma_Place(txt);
+
             bool okJoueur_A_Tapis = Extraire_Joueur_A_Tapis(txt);
             bool okJoueur_Parole = Extraire_Joueur_Parole(txt);
             bool okJoueur_Reflechit = Extraire_Joueur_Reflechit(txt);
@@ -9199,39 +9311,40 @@ namespace Poker
             // Aucune donnée reconnue
             // =====================================
 
-            if (!okMain1 &&
-                !okMain2 &&
-                !okFlop1 &&
-                !okFlop2 &&
-                !okFlop3 &&
-                !okTurn &&
-                !okTurn_HB &&
-                !okRiver &&
-                !okRiver_HB &&
+            if (!okMain1                    &&
+                !okMain2                    &&
+                !okFlop1                    &&
+                !okFlop2                    &&
+                !okFlop3                    &&
+                !okTurn                     &&
+                !okTurn_HB                  &&
+                !okRiver                    &&
+                !okRiver_HB                 &&
 
-                !okAmitie &&
-                !okAucune_Table &&
-                !okDecision &&
-                !okMain_Board &&
-                !okFelicitation &&
-                !okFirefox_GGS_Visible &&
-                !okNiveau_Table &&
-                !okNouveau_Niveau &&
-                !okJoueur_A_Tapis &&
-                !okJoueur_Parole &&
-                !okJoueur_Reflechit &&
-                !okJoueur_Relance &&
-                !okJoueur_Se_Couche &&
-                !okJoueur_Suit &&
-                !okGagne &&
-                !okPlaces_Libres &&
-                !okPosition_Bouton &&
-                !okPlus_De_Jetons &&
-                !okPlus_De_Pot &&
-                !okPreferences_Utilisateur &&
-                !okPublicite &&
-                !okPupitre_Gris &&
-                !okSuis_Je_Assis &&
+                !okAmitie                   &&
+                !okAucune_Table             &&
+                !okDecision                 &&
+                !okMain_Board               &&
+                !okFelicitation             &&
+                !okFirefox_GGS_Visible      &&
+                !okJ_Ai_Quitte_Ma_Place     &&
+                !okNiveau_Table             &&
+                !okNouveau_Niveau           &&
+                !okJoueur_A_Tapis           &&
+                !okJoueur_Parole            &&
+                !okJoueur_Reflechit         &&
+                !okJoueur_Relance           &&
+                !okJoueur_Se_Couche         &&
+                !okJoueur_Suit              &&
+                !okGagne                    &&
+                !okPlaces_Libres            &&
+                !okPosition_Bouton          &&
+                !okPlus_De_Jetons           &&
+                !okPlus_De_Pot              &&
+                !okPreferences_Utilisateur  &&
+                !okPublicite                &&
+                !okPupitre_Gris             &&
+                !okSuis_Je_Assis            &&
                 !okTable_Prete)
 
                 // =====================================
@@ -9266,6 +9379,8 @@ namespace Poker
                 Sauver_Felicitation_JSON();
             if (okFirefox_GGS_Visible)
                 Sauver_Firefox_GGS_Visible_JSON();
+            if (okJ_Ai_Quitte_Ma_Place)
+                Sauver_J_Ai_Quitte_Ma_Place_JSON();
             if (okJoueur_A_Tapis)
                 Sauver_Joueur_A_Tapis_JSON();
             if (okJoueur_Parole)
@@ -9340,6 +9455,8 @@ namespace Poker
                 msg += "Felicitation : 1 détecteur\n";
             if (okFirefox_GGS_Visible)
                 msg += "Firefox_GGS_Visible : 1 détecteur\n";
+            if (okJ_Ai_Quitte_Ma_Place)
+                msg += "J_Ai_Quitte_Ma_Place : 1 détecteur\n";
             if (okMain_Board)
                 msg += "Main_Board : 82 détecteurs\n";
             if (okJoueur_A_Tapis)
@@ -10174,6 +10291,49 @@ namespace Poker
                 if (!bSuperviseurActif)
                     continue;
 
+
+                // =========================================================
+                // 🔥 HORS DE MA PLACE
+                // J'ai quitté OU je ne suis pas encore assis
+                // =========================================================
+                if (Hors_De_Ma_Place())
+                {
+                    // =====================================
+                    // Je ne suis pas à une place
+                    // =====================================
+                    MaPlace = 0;
+
+                    // =====================================
+                    // Effacer avatar + bouton position
+                    // =====================================
+                    ResetPosition();
+
+                    // =====================================
+                    // MODES : VERT → JAUNE
+                    // =====================================
+                    if (bTriggersBoard_Actif)
+                        Bt_Triggers_Board.Background = Brushes.Gold;
+
+                    if (bTapisPreFlop_Actif)
+                        Bt_Tapis_PreFlop.Background = Brushes.Gold;
+
+                    if (bIA_Actif)
+                        Bt_IA.Background = Brushes.Gold;
+
+                    // =====================================
+                    // MODE ACTIF → CHERCHER UNE PLACE
+                    // =====================================
+                    if (Un_Mode_Actif())
+                    {
+                        await S_Assoir_A_Table();
+
+                        CaptureEcran();
+                    }
+
+                    continue;
+                }
+
+
                 // ==========================================
                 // VALIDATION MOTEUR
                 // ==========================================
@@ -10186,6 +10346,7 @@ namespace Poker
                         Validation_Moteur_Vert();
                     }
                 }
+
 
                 // ==========================================
                 // CHERCHER UNE PLACE SI AUCUNE MAIN EN COURS
@@ -10209,8 +10370,11 @@ namespace Poker
                 if (Plus_De_Jetons())
                 {
                     await Task.Delay(100);
+
                     Se_Recaver();
+
                     await Task.Delay(300);
+
                     continue;
                 }
 
@@ -10237,7 +10401,6 @@ namespace Poker
 
                     // =====================================
                     // MODES : VERT → JAUNE
-                    // Je n'ai plus de place
                     // =====================================
                     if (bTriggersBoard_Actif)
                         Bt_Triggers_Board.Background = Brushes.Gold;
@@ -10292,10 +10455,6 @@ namespace Poker
                     bQuitterRevenir = false;
                     bSortieEnCours = false;
 
-                    // =====================================
-                    // NOUVEAU CYCLE
-                    // Main1 → Main2 → Position
-                    // =====================================
                     continue;
                 }
 
