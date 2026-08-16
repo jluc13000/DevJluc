@@ -2507,8 +2507,6 @@ namespace Poker
             // 🔥 Reprise du timer
             if (timer != null)
                 timer.Start();
-
-            Console.WriteLine("SESSION RÉINITIALISÉE");
             Reset_Board();
         }
 
@@ -4352,7 +4350,6 @@ namespace Poker
         #endregion
 
         #region TIRAGES MOTEUR
-
         // =========================================================
         // 🔥 TIRAGE QUINTE
         // Flop + Turn
@@ -4367,17 +4364,6 @@ namespace Poker
             tirage.Participation = 0;
             tirage.Max = false;
             tirage.CarteHaute = 0;
-
-            // =====================================
-            // DEBUG
-            // =====================================
-            Debug("===== MOTEUR TIRAGE QUINTE =====");
-            Debug($"Nombre de cartes : {cartes.Count}");
-
-            foreach (Carte c in cartes)
-            {
-                Debug($"Carte : {c.Valeur} {c.Couleur} Main={c.EstMain}");
-            }
 
             // =====================================
             // VALEURS UNIQUES
@@ -4398,17 +4384,38 @@ namespace Poker
             // =====================================
             int[][] suites =
             {
-                new[] { 1, 2, 3, 4, 5 },
-                new[] { 2, 3, 4, 5, 6 },
-                new[] { 3, 4, 5, 6, 7 },
-                new[] { 4, 5, 6, 7, 8 },
-                new[] { 5, 6, 7, 8, 9 },
-                new[] { 6, 7, 8, 9, 10 },
-                new[] { 7, 8, 9, 10, 11 },
-                new[] { 8, 9, 10, 11, 12 },
-                new[] { 9, 10, 11, 12, 13 },
-                new[] { 10, 11, 12, 13, 14 }
-            };
+        new[] { 1, 2, 3, 4, 5 },
+        new[] { 2, 3, 4, 5, 6 },
+        new[] { 3, 4, 5, 6, 7 },
+        new[] { 4, 5, 6, 7, 8 },
+        new[] { 5, 6, 7, 8, 9 },
+        new[] { 6, 7, 8, 9, 10 },
+        new[] { 7, 8, 9, 10, 11 },
+        new[] { 8, 9, 10, 11, 12 },
+        new[] { 9, 10, 11, 12, 13 },
+        new[] { 10, 11, 12, 13, 14 }
+    };
+
+            // =====================================
+            // VERIFICATION :
+            // QUINTE DEJA REALISEE
+            // =====================================
+            foreach (int[] suite in suites)
+            {
+                int presentes = suite.Count(v => valeurs.Contains(v));
+
+                if (presentes == 5)
+                {
+                    // Une vraie quinte existe déjà.
+                    // Ce n'est plus un tirage.
+                    tirage.Quinte = false;
+                    tirage.Ventrale = false;
+                    tirage.Participation = 0;
+                    tirage.CarteHaute = 0;
+
+                    return;
+                }
+            }
 
             // =====================================
             // RECHERCHE D'UN TIRAGE
@@ -4434,34 +4441,26 @@ namespace Poker
                     }
                 }
 
-                Debug($"Suite trouvée : {string.Join("-", suite)}");
-                Debug($"Position manquante : {positionManquante}");
-
                 // =====================================
                 // TYPE DE TIRAGE
                 // =====================================
-                // A-2-3-4-5 : As = 1
-                // On considère ce cas comme Ventrale
+
+                // A-2-3-4-5 :
+                // l'As vaut 1 → Ventrale
                 if (suite[0] == 1)
                 {
                     tirage.Ventrale = true;
-
-                    Debug(">>> TYPE : VENTRALE (AS)");
                 }
-                // Carte manquante au milieu
+                // Carte manquante au milieu → Ventrale
                 else if (positionManquante > 0 &&
                          positionManquante < 4)
                 {
                     tirage.Ventrale = true;
-
-                    Debug(">>> TYPE : VENTRALE");
                 }
-                // Carte manquante à une extrémité
+                // Carte manquante à une extrémité → Quinte
                 else
                 {
                     tirage.Ventrale = false;
-
-                    Debug(">>> TYPE : QUINTE");
                 }
 
                 // =====================================
@@ -4478,8 +4477,6 @@ namespace Poker
                 // =====================================
                 tirage.Participation =
                     cartesTirage.Count(c => c.EstMain);
-
-                Debug($"Participation : {tirage.Participation}");
 
                 // =====================================
                 // SI JE PARTICIPE
@@ -4509,19 +4506,8 @@ namespace Poker
                             .Max();
                     }
 
-                    Debug(">>> TIRAGE QUINTE DETECTE");
-                    Debug($"Carte haute : {tirage.CarteHaute}");
-                    Debug($"Ventrale : {tirage.Ventrale}");
-
                     return;
                 }
-
-                // =====================================
-                // SUITE TROUVEE MAIS JE NE PARTICIPE PAS
-                // Pour l'instant : pas de tirage
-                // Le Danger sera traité plus tard
-                // =====================================
-                Debug("Suite trouvée mais participation = 0");
             }
         }
 
@@ -4552,7 +4538,6 @@ namespace Poker
             // =====================================
             if (couleur == null)
             {
-                Debug("Aucun tirage couleur");
                 return;
             }
 
@@ -4566,9 +4551,6 @@ namespace Poker
             // =====================================
             int participation = cartesTirage.Count(c => c.EstMain);
 
-            Debug($"Couleur trouvée : {couleur.Key}");
-            Debug($"Cartes couleur : {cartesTirage.Count}");
-            Debug($"Participation couleur : {participation}");
 
             // =====================================
             // SI JE PARTICIPE
@@ -4599,9 +4581,6 @@ namespace Poker
                     tirage.CarteHaute = carteHaute;
                 }
 
-                Debug(">>> TIRAGE COULEUR DETECTE");
-                Debug($"Carte haute couleur : {carteHaute}");
-
                 return;
             }
 
@@ -4609,7 +4588,6 @@ namespace Poker
             // COULEUR TROUVEE MAIS JE NE PARTICIPE PAS
             // → futur DANGER
             // =====================================
-            Debug("Couleur trouvée mais participation = 0");
         }
 
 
@@ -4623,16 +4601,11 @@ namespace Poker
         // =========================================================
         private void Calcul_Tirages()
         {
-            Debug("===== CALCUL TIRAGES =====");
-            Debug($"Nombre cartes : {TableCartes.Count}");
-
             // =====================================================
             // 🔥 FLOP
             // =====================================================
             if (TableCartes.Count == 5)
             {
-                Debug("TIRAGES FLOP");
-
                 // =====================================
                 // RESET TIRAGE FLOP
                 // =====================================
@@ -4659,32 +4632,14 @@ namespace Poker
                     TableCartes,
                     TirageFlop);
 
-                Debug($"TirageFlop.Quinte : {TirageFlop.Quinte}");
-                Debug($"TirageFlop.Ventrale : {TirageFlop.Ventrale}");
-                Debug($"TirageFlop.Participation : {TirageFlop.Participation}");
-                Debug($"TirageFlop.CarteHaute : {TirageFlop.CarteHaute}");
-
                 if (TirageFlop.Quinte)
                 {
                     Bt_Tir_Flop_Quinte.Background = Vert;
 
                     if (TirageFlop.Ventrale)
-                    {
                         Bt_Tir_Flop_Quinte.Content = "QV";
-                        Debug(">>> BOUTON FLOP QUINTE = QV");
-                    }
                     else
-                    {
                         Bt_Tir_Flop_Quinte.Content = "Q";
-                        Debug(">>> BOUTON FLOP QUINTE = Q");
-                    }
-                }
-                else
-                {
-                    Bt_Tir_Flop_Quinte.Background = Blanc;
-                    Bt_Tir_Flop_Quinte.Content = "Q";
-
-                    Debug(">>> BOUTON FLOP QUINTE = BLANC");
                 }
 
                 // =====================================
@@ -4694,29 +4649,16 @@ namespace Poker
                     TableCartes,
                     TirageFlop);
 
-                Debug($"TirageFlop.Couleur : {TirageFlop.Couleur}");
-                Debug($"TirageFlop.Participation : {TirageFlop.Participation}");
-                Debug($"TirageFlop.CarteHaute : {TirageFlop.CarteHaute}");
-
                 if (TirageFlop.Couleur)
-                {
                     Bt_Tir_Flop_Couleur.Background = Vert;
-                    Debug(">>> BOUTON FLOP COULEUR = VERT");
-                }
-                else
-                {
-                    Bt_Tir_Flop_Couleur.Background = Blanc;
-                    Debug(">>> BOUTON FLOP COULEUR = BLANC");
-                }
             }
+
 
             // =====================================================
             // 🔥 TURN
             // =====================================================
             else if (TableCartes.Count == 6)
             {
-                Debug("TIRAGES TURN");
-
                 // =====================================
                 // RESET TIRAGE TURN
                 // =====================================
@@ -4743,32 +4685,14 @@ namespace Poker
                     TableCartes,
                     TirageTurn);
 
-                Debug($"TirageTurn.Quinte : {TirageTurn.Quinte}");
-                Debug($"TirageTurn.Ventrale : {TirageTurn.Ventrale}");
-                Debug($"TirageTurn.Participation : {TirageTurn.Participation}");
-                Debug($"TirageTurn.CarteHaute : {TirageTurn.CarteHaute}");
-
                 if (TirageTurn.Quinte)
                 {
                     Bt_Tir_Turn_Quinte.Background = Vert;
 
                     if (TirageTurn.Ventrale)
-                    {
                         Bt_Tir_Turn_Quinte.Content = "QV";
-                        Debug(">>> BOUTON TURN QUINTE = QV");
-                    }
                     else
-                    {
                         Bt_Tir_Turn_Quinte.Content = "Q";
-                        Debug(">>> BOUTON TURN QUINTE = Q");
-                    }
-                }
-                else
-                {
-                    Bt_Tir_Turn_Quinte.Background = Blanc;
-                    Bt_Tir_Turn_Quinte.Content = "Q";
-
-                    Debug(">>> BOUTON TURN QUINTE = BLANC");
                 }
 
                 // =====================================
@@ -4778,20 +4702,8 @@ namespace Poker
                     TableCartes,
                     TirageTurn);
 
-                Debug($"TirageTurn.Couleur : {TirageTurn.Couleur}");
-                Debug($"TirageTurn.Participation : {TirageTurn.Participation}");
-                Debug($"TirageTurn.CarteHaute : {TirageTurn.CarteHaute}");
-
                 if (TirageTurn.Couleur)
-                {
                     Bt_Tir_Turn_Couleur.Background = Vert;
-                    Debug(">>> BOUTON TURN COULEUR = VERT");
-                }
-                else
-                {
-                    Bt_Tir_Turn_Couleur.Background = Blanc;
-                    Debug(">>> BOUTON TURN COULEUR = BLANC");
-                }
             }
         }
         private Tirage TirageFlop = new Tirage();
@@ -7352,7 +7264,12 @@ namespace Poker
 
             return gagnants;
         }
+        private bool J_Ai_Gagne()// Retourne true si ma position est parmi les gagnants
+        {
+            List<int> gagnants = Gagnants();
 
+            return gagnants.Contains(MaPlace);
+        }
         // =========================================================
         // 🔥 MAIN BOARD
         // =========================================================
@@ -7842,20 +7759,35 @@ namespace Poker
         }
         private async Task S_Assoir_A_Table()
         {
-            if (Suis_Je_Assis() != 0)
-                return;
+            DateTime debut = DateTime.Now;
 
-            int place = Place_Libre();
+            while ((DateTime.Now - debut).TotalSeconds < 2)
+            {
+                CaptureEcran();
 
-            if (place == 0)
-                return;
+                int place = Place_Libre();
 
+                if (place != 0)
+                {
+                    Cliquer_Place(place);
 
-            Cliquer_Place(place);
+                    while ((DateTime.Now - debut).TotalSeconds < 2)
+                    {
+                        await Task.Delay(5);
 
-            await Task.Delay(1500);
-            // Retour au superviseur
+                        CaptureEcran();
+
+                        if (Suis_Je_Assis() != 0)
+                            return;
+                    }
+
+                    return;
+                }
+
+                await Task.Delay(5);
+            }
         }
+
         private void Cliquer_Place(int place)
         {
             if (place < 1 || place > PlacesLibresDetect.Length)
@@ -8287,7 +8219,6 @@ namespace Poker
             string json = File.ReadAllText(fichier);
 
             PupitreGrisDetect = JsonConvert.DeserializeObject<S_PupitreGrisDetect[]>(json);
-            Debug($"PupitreGrisDetect : {PupitreGrisDetect?.Length ?? 0} éléments");
         }
         private bool Extraire_Pupitre_Gris(string txt)
         {
@@ -8569,7 +8500,10 @@ namespace Poker
                     SuisJeAssisDetect[i + 1].X,
                     SuisJeAssisDetect[i + 1].Y);
 
-                if (c1 == SuisJeAssisDetect[i].Couleur &&
+                // =====================================
+                // UN OU L'AUTRE DES DEUX PIXELS
+                // =====================================
+                if (c1 == SuisJeAssisDetect[i].Couleur ||
                     c2 == SuisJeAssisDetect[i + 1].Couleur)
                 {
                     return i / 2 + 1;
@@ -8578,18 +8512,19 @@ namespace Poker
 
             return 0;
         }
+
         private void Lire_Ma_Position()
         {
             ResetPosition();
 
-            int position = Suis_Je_Assis();
+            MaPlace = Suis_Je_Assis();
 
             // Toujours mettre à jour l'avatar
-            AfficherMonAvatar(position);
+            AfficherMonAvatar(MaPlace);
 
-            if (position >= 1 && position <= 9)
+            if (MaPlace >= 1 && MaPlace <= 9)
             {
-                ActiverPosition(BoutonsPosition[position - 1]);
+                ActiverPosition(BoutonsPosition[MaPlace - 1]);
             }
         }
         private void AfficherMonAvatar(int position)
@@ -9640,7 +9575,7 @@ namespace Poker
         {
             Reset_Board();
             Reset_Boutons();
-            //Reset_Calculs();
+            Reset_Calculs();
         }
 
         // =========================================================
@@ -9677,18 +9612,18 @@ namespace Poker
         //// =========================================================
         //// RESET CALCULS
         //// =========================================================
-        //private void Reset_Calculs()
-        //{
-        //    Reset_PreFlop();
+        private void Reset_Calculs()
+        {
+            Reset_PreFlop();
 
-        //    Reset_Flop();
-        //    Reset_Tirages_Flop();
+            Reset_Flop();
+            Reset_Tirages_Flop();
 
-        //    Reset_Turn();
-        //    Reset_Tirages_Turn();
+            Reset_Turn();
+            Reset_Tirages_Turn();
 
-        //    Reset_River();
-        //}
+            Reset_River();
+        }
 
         // =========================================================
         // RESET PreFlop Flop Turn River
@@ -10086,53 +10021,66 @@ namespace Poker
         private bool bDebugMain1 = false;
         private bool bDebugMain2 = false;
         private bool bDebugDecision = false;
+        private bool bSortieEnCours = false;
 
         // =========================================================
         // 🔥 SUPERVISEUR POKER
         // =========================================================
         private async Task Superviseur_Poker()
         {
-            
+            CaptureEcran();
 
-            // =====================================
-            // Superviseur actif
-            // =====================================
+            // =====================================================
+            // SUPERVISEUR ACTIF
+            // =====================================================
             bSuperviseurActif = true;
 
-            // =====================================
-            // Chargement des préférences utilisateur
-            // =====================================
+            // =====================================================
+            // CHARGEMENT DES PREFERENCES
+            // =====================================================
             Charger_Preferences_Utilisateur_JSON();
 
-            // =====================================
-            // Application des préférences
-            // =====================================
+            // =====================================================
+            // APPLICATION DES PREFERENCES
+            // =====================================================
+            Sl_Delai_Decision.Value =
+                DELAI_PRISE_CONTROLE / 1000.0;
 
-            // Delai Décision
-            Sl_Delai_Decision.Value = DELAI_PRISE_CONTROLE / 1000.0;
-
-            // Debug
             if (bDebug)
                 Mode_Debug_ON();
             else
                 Mode_Debug_OFF();
 
-            // Se RecaverBt_Se_Recave.Background =
-            Bt_Se_Recave.Background = bSeRecaver ? (Brush)FindResource("bleu") : (Brush)FindResource("blanc");
+            Bt_Se_Recave.Background =
+                bSeRecaver
+                    ? (Brush)FindResource("bleu")
+                    : (Brush)FindResource("blanc");
 
-            // Niveau Mise
-            Appliquer_Niveau_Mise(PreferencesUtilisateur.NiveauMise);
+            Appliquer_Niveau_Mise(
+                PreferencesUtilisateur.NiveauMise);
 
-            // Niveau Memo
-            Appliquer_Niveau_Memo(PreferencesUtilisateur.Memo);
+            Appliquer_Niveau_Memo(
+                PreferencesUtilisateur.Memo);
 
-            // =====================================
-            // Initialisation
-            // =====================================
-            Reset_Table();
-            await Task.Delay(50);
+            // =====================================================
+            // SAUVEGARDE
+            // =====================================================
+            Sauver_Preferences_Utilisateur_JSON();
 
-            Validation_Moteur_Rouge();
+            // =====================================================
+            // ÉTAT DU MOTEUR
+            // =====================================================
+            if (!bSuperviseurVert_Actif)
+            {
+                // Moteur non validé
+                Validation_Moteur_Rouge();
+            }
+            else
+            {
+                // Moteur déjà validé
+                bSuperviseurVert_Actif = true;
+                Validation_Moteur_Vert();
+            }
 
             Recherche_Place_Off();
 
@@ -10142,23 +10090,71 @@ namespace Poker
             bAttente_Recave = false;
             bAutoriserHistorique = false;
 
-            // =====================================
-            // Couleur mode actif
-            // =====================================
+            // =====================================================
+            // NOUVELLE SESSION
+            // =====================================================
+            RTB_Historique.Document.Blocks.Clear();
+
+            // =====================================================
+            // MODES
+            // Jaune = actif sans place
+            // Vert  = actif avec place
+            // =====================================================
             if (bTriggersBoard_Actif)
                 Bt_Triggers_Board.Background = Brushes.Gold;
+            else
+                Bt_Triggers_Board.Background = Brushes.White;
 
             if (bTapisPreFlop_Actif)
                 Bt_Tapis_PreFlop.Background = Brushes.Gold;
+            else
+                Bt_Tapis_PreFlop.Background = Brushes.White;
 
             if (bIA_Actif)
                 Bt_IA.Background = Brushes.Gold;
+            else
+                Bt_IA.Background = Brushes.White;
 
-            // =====================================
-            // Nouvelle session
-            // =====================================
-            RTB_Historique.Document.Blocks.Clear();
+            // =====================================================
+            // 🔥 DÉMARRAGE SUPERVISEUR
+            // =====================================================
 
+            // ==========================================
+            // FERMER LES PUBLICITÉS
+            // ==========================================
+            Fermer_Publicite();
+
+            // ==========================================
+            // FERMER AMITIE
+            // ==========================================
+            Fermer_Amitie();
+
+            // ==========================================
+            // PLUS DE JETONS
+            // ==========================================
+            if (Plus_De_Jetons())
+            {
+                await Task.Delay(100);
+
+                Se_Recaver();
+
+                await Task.Delay(300);
+            }
+
+            // =====================================================
+            // RECHERCHE D'UNE PLACE
+            // Seulement si un mode est actif
+            // =====================================================
+            if (Un_Mode_Actif())
+            {
+                await S_Assoir_A_Table();
+
+                CaptureEcran();
+            }
+
+            // =====================================================
+            // BOUCLE PRINCIPALE
+            // =====================================================
             while (bSuperviseurActif)
             {
                 await Task.Delay(1);
@@ -10169,50 +10165,44 @@ namespace Poker
                 // PRIORITE ABSOLUE : FERMER LES PUBLICITÉS
                 // ==========================================
                 Fermer_Publicite();
-                
+
                 // ==========================================
                 // PRIORITE ABSOLUE : FERMER AMITIE
                 // ==========================================
                 Fermer_Amitie();
 
-                // =====================================
-                // Un mode actif ?
-                // =====================================
-                if (Un_Mode_Actif())
-                {
-                    MaPlace = Suis_Je_Assis();
-
-                    // =====================================
-                    // Pas assis ?
-                    // =====================================
-                    if (MaPlace == 0)
-                    {
-                        await S_Assoir_A_Table();
-
-                        CaptureEcran();
-                        MaPlace = Suis_Je_Assis();
-                    }
-
-                    // =====================================
-                    // Assis : le mode est opérationnel
-                    // =====================================
-                    if (MaPlace != 0)
-                    {
-                        if (bTriggersBoard_Actif)
-                            Bt_Triggers_Board.Background = Brushes.LimeGreen;
-
-                        if (bTapisPreFlop_Actif)
-                            Bt_Tapis_PreFlop.Background = Brushes.LimeGreen;
-
-                        if (bIA_Actif)
-                            Bt_IA.Background = Brushes.LimeGreen;
-                    }
-
-                }
-                Lire_Ma_Position();
-
                 if (!bSuperviseurActif)
                     continue;
+
+                // ==========================================
+                // VALIDATION MOTEUR
+                // ==========================================
+                if (!bSuperviseurVert_Actif)
+                {
+                    if (Validation_Flop())
+                    {
+                        bSuperviseurVert_Actif = true;
+
+                        Validation_Moteur_Vert();
+                    }
+                }
+
+                // ==========================================
+                // CHERCHER UNE PLACE SI AUCUNE MAIN EN COURS
+                // ==========================================
+                if (Un_Mode_Actif() &&
+                    !bMain1_Lu &&
+                    !bMain2_Lu &&
+                    MaPlace == 0)
+                {
+                    await S_Assoir_A_Table();
+
+                    CaptureEcran();
+
+                    // Ne pas faire continue ici !
+                }
+
+
                 // ==========================================
                 // PRIORITE ABSOLUE : PLUS DE JETONS
                 // ==========================================
@@ -10224,91 +10214,119 @@ namespace Poker
                     continue;
                 }
 
-                // ==========================================
-                // DES GAGNANTS
-                // ==========================================
-                List<int> gagnants = Gagnants();
 
-                if (gagnants.Count > 0)
+                // ==========================================
+                // J'AI GAGNÉ ?
+                // Seulement si Se Recaver = ON
+                // ==========================================
+                if (bSeRecaver && J_Ai_Gagne())
                 {
-                    // MaPlace peut être temporairement masquée
-                    CaptureEcran();
+                    Bt_J_ai_Gagne.Background =
+                        (Brush)FindResource("vert1");
 
-                    int place = Suis_Je_Assis();
-
-                    // Seulement si la position est lisible
-                    if (place != 0)
-                    {
-                        MaPlace = place;
-
-                        if (gagnants.Contains(MaPlace))
-                        {
-                            Bt_J_ai_Gagne.Background =
-                                (Brush)FindResource("vert1");
-
-                            // =====================================
-                            // VERROUILLER IMMÉDIATEMENT
-                            // =====================================
-                            bQuitterRevenir = true;
-                        }
-                    }
+                    bQuitterRevenir = true;
                 }
+
 
                 // ==========================================
                 // J'AI GAGNÉ → QUITTER ET REVENIR
                 // ==========================================
-                if (bSeRecaver && bQuitterRevenir)
+                if (bQuitterRevenir && !bSortieEnCours)
                 {
+                    bSortieEnCours = true;
+
+                    // =====================================
+                    // MODES : VERT → JAUNE
+                    // Je n'ai plus de place
+                    // =====================================
+                    if (bTriggersBoard_Actif)
+                        Bt_Triggers_Board.Background = Brushes.Gold;
+
+                    if (bTapisPreFlop_Actif)
+                        Bt_Tapis_PreFlop.Background = Brushes.Gold;
+
+                    if (bIA_Actif)
+                        Bt_IA.Background = Brushes.Gold;
+
+                    // =====================================
+                    // QUITTER LA PLACE
+                    // =====================================
                     Clic(890, 190);
                     await Task.Delay(200);
 
+                    // =====================================
+                    // QUITTER LA TABLE
+                    // =====================================
                     Clic(890, 240);
-                    await Task.Delay(200);
+                    await Task.Delay(100);
 
                     Clic(890, 240);
+
+                    // Laisser PokerTeam terminer la sortie
+                    await Task.Delay(1200);
 
                     // =====================================
-                    // PokerTeam retrouve une place
+                    // JE N'AI PLUS DE PLACE
+                    // =====================================
+                    MaPlace = 0;
+                    ResetPosition();
+
+                    // =====================================
+                    // LAISSER POKERTEAM SE STABILISER
+                    // =====================================
+                    await Task.Delay(1000);
+
+                    // =====================================
+                    // RETROUVER UNE SEULE PLACE
                     // =====================================
                     await S_Assoir_A_Table();
 
                     // =====================================
-                    // RELIRE MA POSITION APRÈS LE RECAVE
+                    // NOUVELLE CAPTURE
                     // =====================================
                     CaptureEcran();
 
-                    MaPlace = Suis_Je_Assis();
-
+                    // =====================================
+                    // FIN DU VERROU DE GAIN
+                    // =====================================
                     bQuitterRevenir = false;
+                    bSortieEnCours = false;
 
+                    // =====================================
+                    // NOUVEAU CYCLE
+                    // Main1 → Main2 → Position
+                    // =====================================
                     continue;
                 }
 
+                // ==========================================
+                // AUCUNE TABLE
+                // ==========================================
                 if (Aucune_Table())
                 {
-                    bSuperviseurVert_Actif = false;
-                    Validation_Moteur_Rouge();
-                    Reset_Table();
-                    ResetPosition();
-                    ResetNiveauTable();
+                    // =====================================
+                    // Si je n'ai PAS gagné :
+                    // la table est réellement absente
+                    // =====================================
+                    if (!bQuitterRevenir)
+                    {
+                        bSuperviseurVert_Actif = false;
+
+                        Validation_Moteur_Rouge();
+
+                        Reset_Table();
+                        ResetPosition();
+                        ResetNiveauTable();
+                    }
 
                     await Task.Delay(50);
 
                     continue;
                 }
 
-                if (!bSuperviseurVert_Actif)
-                {
-                    if (Validation_Flop())
-                    {
-                        bSuperviseurVert_Actif = true;
-
-                        Validation_Moteur_Vert();
-
-                        Lire_Niveau_Table();
-                        Lire_Ma_Position();
-                    }
-                }
+                // ==========================================
+                // PAUSE
+                // ==========================================
                 if (JeuEnPause)
                 {
                     await Task.Delay(100);
@@ -10439,15 +10457,35 @@ namespace Poker
                 // ==========================
                 // MAIN 2
                 // ==========================
-                if (bMain1_Lu &&
-                    !bMain2_Lu &&
-                    Detecter_Presence("Main_2_Presence"))
+                if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
                 {
                     await Task.Delay(1);
 
                     Lire_Main_2();
 
                     bMain2_Lu = true;
+
+                    // =====================================
+                    // POSITION + NIVEAU DE TABLE
+                    // UNE SEULE FOIS PAR MAIN
+                    // =====================================
+                    Lire_Ma_Position();
+                    Lire_Niveau_Table();
+
+                    // =====================================
+                    // MODES : JAUNE → VERT
+                    // =====================================
+                    if (MaPlace != 0)
+                    {
+                        if (bTriggersBoard_Actif)
+                            Bt_Triggers_Board.Background = Brushes.LimeGreen;
+
+                        if (bTapisPreFlop_Actif)
+                            Bt_Tapis_PreFlop.Background = Brushes.LimeGreen;
+
+                        if (bIA_Actif)
+                            Bt_IA.Background = Brushes.LimeGreen;
+                    }
 
                     // =====================================
                     // CALCUL PRE-FLOP
@@ -10459,9 +10497,6 @@ namespace Poker
 
                     bPreFlop_Calcul = false;
 
-                    // =====================================
-                    // RESET CALCUL PRE-FLOP
-                    // =====================================
                     bPreFlop_Paire = false;
                     bPreFlop_Pareille = false;
                     bPreFlop_Suite = false;
@@ -10562,16 +10597,13 @@ namespace Poker
                         bAutoriserHistorique = true;
 
                         if (bTriggersBoard_Actif)
-                            Bt_Triggers_Board.Background =
-                                Brushes.LightGreen;
+                            Bt_Triggers_Board.Background =  Brushes.LightGreen;
 
                         if (bTapisPreFlop_Actif)
-                            Bt_Tapis_PreFlop.Background =
-                                Brushes.LightGreen;
+                            Bt_Tapis_PreFlop.Background =   Brushes.LightGreen;
 
                         if (bIA_Actif)
-                            Bt_IA.Background =
-                                Brushes.LightGreen;
+                            Bt_IA.Background =  Brushes.LightGreen;
                     }
 
                     continue;
@@ -11451,7 +11483,6 @@ namespace Poker
                 else
                     combinaison = "Rien";
 
-                Debug($"PRE FLOP : {combinaison}");
                 return;
             }
 
@@ -11501,7 +11532,6 @@ namespace Poker
                     break;
             }
 
-            Debug($"{phase} : {combinaison} Participe {jeu.Participation}");
         }
         // =========================================================
         // 🔥 NOM DE LA CARTE
