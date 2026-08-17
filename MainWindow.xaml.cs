@@ -1206,6 +1206,7 @@ namespace Poker
 
             return carte;
         }
+
         private void AfficherCarte(TextBox tb, Button precedent, Button courant, int indexCarte)
         {
 
@@ -1233,6 +1234,7 @@ namespace Poker
 
             courant.Background = Orange;
         }
+
         private void AfficherCarte_Test(TextBox tb, Button bt, int indexCarte)
         {
             if (string.IsNullOrEmpty(CarteCourante))
@@ -1293,6 +1295,7 @@ namespace Poker
             Bt_Rand_T.Background = Blanc;
             Bt_Rand_R.Background = Blanc;
         }
+
         private void Efface_Affichage_Cartes()
         {
             TB_M1.Clear();
@@ -1303,6 +1306,7 @@ namespace Poker
             TB_T.Clear();
             TB_R.Clear();
         }
+
         private void MettreAJourIndicateurRandom()
         {
             int niveau = (int)CbRandom.SelectedItem;
@@ -1348,29 +1352,29 @@ namespace Poker
             // =====================================
             // NOUVELLE PARTIE TEST
             // =====================================
-            TirageFlop.Quinte = false;
-            TirageFlop.Ventrale = false;
-            TirageFlop.Couleur = false;
-            TirageFlop.QuinteFlush = false;
-            TirageFlop.Participation = 0;
-            TirageFlop.Max = false;
-            TirageFlop.CarteHaute = 0;
+            TirageFlop.Quinte               = false;
+            TirageFlop.Ventrale             = false;
+            TirageFlop.Couleur              = false;
+            TirageFlop.QuinteFlush          = false;
+            TirageFlop.Participation        = 0;
+            TirageFlop.Max                  = false;
+            TirageFlop.CarteHaute           = 0;
 
-            TirageFlop.DangerQuinte = false;
-            TirageFlop.DangerCouleur = false;
-            TirageFlop.DangerQuinteFlush = false;
+            TirageFlop.DangerQuinte         = false;
+            TirageFlop.DangerCouleur        = false;
+            TirageFlop.DangerQuinteFlush    = false;
 
-            TirageTurn.Quinte = false;
-            TirageTurn.Ventrale = false;
-            TirageTurn.Couleur = false;
-            TirageTurn.QuinteFlush = false;
-            TirageTurn.Participation = 0;
-            TirageTurn.Max = false;
-            TirageTurn.CarteHaute = 0;
+            TirageTurn.Quinte               = false;
+            TirageTurn.Ventrale             = false;
+            TirageTurn.Couleur              = false;
+            TirageTurn.QuinteFlush          = false;
+            TirageTurn.Participation        = 0;
+            TirageTurn.Max                  = false;
+            TirageTurn.CarteHaute           = 0;
 
-            TirageTurn.DangerQuinte = false;
-            TirageTurn.DangerCouleur = false;
-            TirageTurn.DangerQuinteFlush = false;
+            TirageTurn.DangerQuinte         = false;
+            TirageTurn.DangerCouleur        = false;
+            TirageTurn.DangerQuinteFlush    = false;
 
             // =====================================
             // RESET AFFICHAGE
@@ -1390,29 +1394,32 @@ namespace Poker
             Bt_Danger.Content = "";
 
             // =====================================
+            // RESET BOUTON DANGER
+            // =====================================
+            Bt_Danger.Background = Blanc;
+            Bt_Danger.Foreground = Brushes.Black;
+            Bt_Danger.Content = "";
+
+            // =====================================
             // RESET FLAGS SONS
             // =====================================
             bPreFlop_Calcul = false;
 
-            bFlop_Calcul = false;
-            bFlop_Tirage = false;
-            bFlop_Danger = false;
+            bFlop_Calcul    = false;
+            bFlop_Tirage    = false;
+            bFlop_Danger    = false;
 
-            bTurn_Calcul = false;
-            bTurn_Tirage = false;
-            bTurn_Danger = false;
+            bTurn_Calcul    = false;
+            bTurn_Tirage    = false;
+            bTurn_Danger    = false;
 
-            bRiver_Calcul = false;
-            bRiver_Danger = false;
+            bRiver_Calcul   = false;
+            bRiver_Danger   = false;
 
             // =====================================
             // LECTURE MAIN 1
             // =====================================
-            AfficherCarte(
-                TB_M1,
-                null,
-                Bt_Main_1,
-                0);
+            AfficherCarte(TB_M1, null, Bt_Main_1, 0);
         }
 
         private void Bt_Main_2_Click(object sender, RoutedEventArgs e)
@@ -1500,6 +1507,19 @@ namespace Poker
             // CALCUL TIRAGES + DANGERS TURN
             // =====================================
             Calcul_Tirages();
+
+            // =====================================
+            // DEBUG TURN
+            // =====================================
+            Debug(
+                "TURN : QFlush=" +
+                TirageTurn.QuinteFlush +
+                " | Quinte=" +
+                TirageTurn.Quinte +
+                " | Couleur=" +
+                TirageTurn.Couleur +
+                " | Ventrale=" +
+                TirageTurn.Ventrale);
 
             // =====================================
             // SON TIRAGE TURN
@@ -1599,6 +1619,7 @@ namespace Poker
 
             return $"{valeurs[valeur]}{couleurs[couleur]}";
         }
+
         private string TirerCarte()
         {
             int index = rnd.Next(Paquet.Count);
@@ -1607,6 +1628,7 @@ namespace Poker
 
             return CarteDepuisNumero(carte);
         }
+
         private void AfficherDepuisTirage(int index, TextBox tb, Button bouton)
         {
             if (Tirage[index].Affichee)
@@ -4754,9 +4776,7 @@ namespace Poker
         // 🔥 TIRAGE QUINTE
         // Flop + Turn + River
         // =========================================================
-        private void Tirage_Moteur_Quinte(
-            List<Carte> cartes,
-            Tirage tirage)
+        private void Tirage_Moteur_Quinte(List<Carte> cartes, Tirage tirage)
         {
             // =====================================
             // RESET
@@ -4787,17 +4807,17 @@ namespace Poker
             // =====================================
             int[][] suites =
             {
-        new[] { 1, 2, 3, 4, 5 },
-        new[] { 2, 3, 4, 5, 6 },
-        new[] { 3, 4, 5, 6, 7 },
-        new[] { 4, 5, 6, 7, 8 },
-        new[] { 5, 6, 7, 8, 9 },
-        new[] { 6, 7, 8, 9, 10 },
-        new[] { 7, 8, 9, 10, 11 },
-        new[] { 8, 9, 10, 11, 12 },
-        new[] { 9, 10, 11, 12, 13 },
-        new[] { 10, 11, 12, 13, 14 }
-    };
+                new[] { 1, 2, 3, 4, 5 },
+                new[] { 2, 3, 4, 5, 6 },
+                new[] { 3, 4, 5, 6, 7 },
+                new[] { 4, 5, 6, 7, 8 },
+                new[] { 5, 6, 7, 8, 9 },
+                new[] { 6, 7, 8, 9, 10 },
+                new[] { 7, 8, 9, 10, 11 },
+                new[] { 8, 9, 10, 11, 12 },
+                new[] { 9, 10, 11, 12, 13 },
+                new[] { 10, 11, 12, 13, 14 }
+            };
 
             // =====================================
             // QUINTE DEJA REALISEE ?
@@ -4935,6 +4955,7 @@ namespace Poker
                 }
             }
         }
+
         public bool Ventrale;
         // =========================================================
         // 🔥 TIRAGE COULEUR
@@ -5042,39 +5063,27 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 DANGER QUINTE FLUSH
-        // 4 cartes sur 5 nécessaires
-        // =========================================
+        // 🔥 TIRAGE QUINTE FLUSH
+        // Turn + River
+        // 4 cartes sur 5
+        // Je participe réellement
+        // =========================================================
         private void Tirage_Moteur_Quinte_Flush(List<Carte> cartes, Tirage tirage)
         {
             // =====================================
             // RESET
             // =====================================
-            tirage.DangerQuinteFlush = false;
+            tirage.QuinteFlush = false;
 
             // =====================================
-            // PAS DE TIRAGE QUINTE
-            // → PAS DE DANGER QUINTE FLUSH
+            // FLOP
+            // Pas de Tirage Quinte Flush
             // =====================================
-            if (!tirage.Quinte)
+            if (cartes.Count < 6)
                 return;
 
             // =====================================
-            // VALEURS UNIQUES
-            // =====================================
-            List<int> valeurs = cartes
-                .Select(c => c.Valeur)
-                .Distinct()
-                .ToList();
-
-            // =====================================
-            // AS = 1
-            // =====================================
-            if (valeurs.Contains(14))
-                valeurs.Add(1);
-
-            // =====================================
-            // LES 10 SUITES
+            // LES 10 SUITES POSSIBLES
             // =====================================
             int[][] suites =
             {
@@ -5091,54 +5100,84 @@ namespace Poker
             };
 
             // =====================================
-            // RECHERCHE D'UNE SUITE A 4 CARTES
+            // RECHERCHE COULEUR PAR COULEUR
             // =====================================
-            foreach (int[] suite in suites)
+            foreach (var groupe in cartes.GroupBy(c => c.Couleur))
             {
-                int presentes =
-                    suite.Count(v => valeurs.Contains(v));
-
-                if (presentes != 4)
-                    continue;
+                // =====================================
+                // VALEURS UNIQUES DE CETTE COULEUR
+                // =====================================
+                List<int> valeursCouleur = groupe
+                    .Select(c => c.Valeur)
+                    .Distinct()
+                    .ToList();
 
                 // =====================================
-                // RECHERCHE DE LA COULEUR
+                // AS = 1
                 // =====================================
-                foreach (var groupe in cartes.GroupBy(c => c.Couleur))
+                if (valeursCouleur.Contains(14))
+                    valeursCouleur.Add(1);
+
+                // =====================================
+                // RECHERCHE D'UNE SUITE A 4 CARTES
+                // =====================================
+                foreach (int[] suite in suites)
                 {
+                    int presentes =
+                        suite.Count(v => valeursCouleur.Contains(v));
+
+                    if (presentes != 4)
+                        continue;
+
                     // =====================================
-                    // CARTES DE CETTE COULEUR
-                    // APPARTENANT A LA SUITE
+                    // CARTES DE LA SUITE / COULEUR
                     // =====================================
-                    List<Carte> cartesSuiteCouleur = groupe
+                    List<Carte> cartesQFlush = groupe
                         .Where(c =>
                             suite.Contains(c.Valeur) ||
                             (suite.Contains(1) && c.Valeur == 14))
                         .ToList();
 
-                    if (cartesSuiteCouleur.Count != 4)
+                    // =====================================
+                    // SECURITE
+                    // =====================================
+                    if (cartesQFlush.Count != 4)
                         continue;
 
                     // =====================================
-                    // MA PARTICIPATION REELLE
+                    // PARTICIPATION REELLE DE MA MAIN
                     // =====================================
-                    int participation = cartesSuiteCouleur
-                        .Count(c => c.EstMain);
+                    bool jeParticipe =
+                        cartesQFlush.Any(c => c.EstMain);
 
                     // =====================================
-                    // SI JE PARTICIPE A CETTE
-                    // QUINTE FLUSH
-                    // → PAS DE DANGER
+                    // JE NE PARTICIPE PAS
+                    // → LE MOTEUR DANGER S'EN OCCUPE
                     // =====================================
-                    if (participation > 0)
+                    if (!jeParticipe)
                         continue;
 
                     // =====================================
-                    // 4 CARTES SUR 5
-                    // AUCUNE DANS MA MAIN
-                    // → DANGER QUINTE FLUSH
+                    // TIRAGE QUINTE FLUSH
                     // =====================================
-                    tirage.DangerQuinteFlush = true;
+                    tirage.QuinteFlush = true;
+
+                    // =====================================
+                    // CARTE HAUTE DU TIRAGE
+                    // =====================================
+                    List<Carte> cartesMain = cartesQFlush
+                        .Where(c => c.EstMain)
+                        .ToList();
+
+                    if (cartesMain.Count > 0)
+                    {
+                        tirage.CarteHaute = cartesMain
+                            .Select(c =>
+                                (suite.Contains(1) && c.Valeur == 14)
+                                    ? 1
+                                    : c.Valeur)
+                            .Max();
+                    }
 
                     return;
                 }
@@ -5236,10 +5275,14 @@ namespace Poker
 
                 Bt_Tir_Flop_Couleur.Background = Blanc;
 
+                Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
+
                 // =====================================
                 // TIRAGE QUINTE
                 // =====================================
-                Tirage_Moteur_Quinte(TableCartes, TirageFlop);
+                Tirage_Moteur_Quinte(
+                    TableCartes,
+                    TirageFlop);
 
                 if (TirageFlop.Quinte)
                 {
@@ -5254,7 +5297,9 @@ namespace Poker
                 // =====================================
                 // TIRAGE COULEUR
                 // =====================================
-                Tirage_Moteur_Couleur(TableCartes, TirageFlop);
+                Tirage_Moteur_Couleur(
+                    TableCartes,
+                    TirageFlop);
 
                 if (TirageFlop.Couleur)
                     Bt_Tir_Flop_Couleur.Background = Vert;
@@ -5292,10 +5337,26 @@ namespace Poker
 
                 Bt_Tir_Turn_Couleur.Background = Blanc;
 
+                Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
+
+                // =====================================
+                // TIRAGE QUINTE FLUSH
+                // =====================================
+                Tirage_Moteur_Quinte_Flush(
+                    TableCartes,
+                    TirageTurn);
+
+                if (TirageTurn.QuinteFlush)
+                {
+                    Bt_Tir_Turn_Quinte_Flush.Background = Vert;
+                }
+
                 // =====================================
                 // TIRAGE QUINTE
                 // =====================================
-                Tirage_Moteur_Quinte(TableCartes, TirageTurn);
+                Tirage_Moteur_Quinte(
+                    TableCartes,
+                    TirageTurn);
 
                 if (TirageTurn.Quinte)
                 {
@@ -5310,7 +5371,9 @@ namespace Poker
                 // =====================================
                 // TIRAGE COULEUR
                 // =====================================
-                Tirage_Moteur_Couleur(TableCartes, TirageTurn);
+                Tirage_Moteur_Couleur(
+                    TableCartes,
+                    TirageTurn);
 
                 if (TirageTurn.Couleur)
                     Bt_Tir_Turn_Couleur.Background = Vert;
@@ -5318,7 +5381,9 @@ namespace Poker
                 // =====================================
                 // DANGER QUINTE FLUSH
                 // =====================================
-                Danger_Moteur_Quinte_Flush(TableCartes, TirageTurn);
+                Danger_Moteur_Quinte_Flush(
+                    TableCartes,
+                    TirageTurn);
             }
 
 
@@ -5346,7 +5411,7 @@ namespace Poker
                 TirageRiver.DangerQuinteFlush = false;
 
                 // =====================================
-                // DANGER QUINTE FLUSH
+                // TIRAGE QUINTE FLUSH
                 // =====================================
                 Tirage_Moteur_Quinte_Flush(
                     TableCartes,
@@ -5355,12 +5420,23 @@ namespace Poker
                 // =====================================
                 // TIRAGE QUINTE
                 // =====================================
-                Tirage_Moteur_Quinte(TableCartes, TirageRiver);
+                Tirage_Moteur_Quinte(
+                    TableCartes,
+                    TirageRiver);
 
                 // =====================================
                 // TIRAGE COULEUR
                 // =====================================
-                Tirage_Moteur_Couleur(TableCartes, TirageRiver);
+                Tirage_Moteur_Couleur(
+                    TableCartes,
+                    TirageRiver);
+
+                // =====================================
+                // DANGER QUINTE FLUSH
+                // =====================================
+                Danger_Moteur_Quinte_Flush(
+                    TableCartes,
+                    TirageRiver);
             }
         }
 
@@ -5375,9 +5451,7 @@ namespace Poker
         // 🔥 DANGER QUINTE FLUSH
         // Turn + River
         // =========================================================
-        private void Danger_Moteur_Quinte_Flush(
-    List<Carte> cartes,
-    Tirage danger)
+        private void Danger_Moteur_Quinte_Flush(List<Carte> cartes, Tirage danger)
         {
             Debug("ENTREE DANGER QFLUSH");
 
@@ -5413,11 +5487,7 @@ namespace Poker
 
             foreach (var groupe in cartes.GroupBy(c => c.Couleur))
             {
-                Debug(
-                    "COULEUR = " +
-                    groupe.Key +
-                    " / NB = " +
-                    groupe.Count());
+                Debug("COULEUR = " + groupe.Key + " / NB = " + groupe.Count());
 
                 List<int> valeursCouleur = groupe
                     .Select(c => c.Valeur)
@@ -5434,9 +5504,7 @@ namespace Poker
 
                     if (presentes == 4)
                     {
-                        Debug(
-                            "SUITE TROUVEE : " +
-                            string.Join("-", suite));
+                        Debug("SUITE TROUVEE : " + string.Join("-", suite));
 
                         List<Carte> cartesQFlush = groupe
                             .Where(c =>
@@ -5444,18 +5512,14 @@ namespace Poker
                                 (suite.Contains(1) && c.Valeur == 14))
                             .ToList();
 
-                        Debug(
-                            "CARTES QFLUSH = " +
-                            cartesQFlush.Count);
+                        Debug("CARTES QFLUSH = " + cartesQFlush.Count);
 
                         if (cartesQFlush.Count == 4)
                         {
                             bool jeParticipe =
                                 cartesQFlush.Any(c => c.EstMain);
 
-                            Debug(
-                                "JE PARTICIPE = " +
-                                jeParticipe);
+                            Debug("JE PARTICIPE = " + jeParticipe);
 
                             if (!jeParticipe)
                             {
@@ -7435,14 +7499,17 @@ namespace Poker
         // =========================================================
         private void Charger_Je_Ne_Suis_Pas_Assis_JSON()
         {
-            string fichier = Path.Combine(DOSSIER_JSON, "Je_Ne_Suis_Pas_Assis.json");
+            string fichier = Path.Combine(
+                DOSSIER_JSON,
+                "Je_Ne_Suis_Pas_Assis.json");
 
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
 
-            JeNeSuisPasAssisDetect = JsonConvert.DeserializeObject<S_JeNeSuisPasAssisDetect[]>(json);
+            JeNeSuisPasAssisDetect =
+                JsonConvert.DeserializeObject<S_JeNeSuisPasAssisDetect[]>(json);
         }
         private bool Extraire_Je_Ne_Suis_Pas_Assis(string txt)
         {
@@ -7508,7 +7575,7 @@ namespace Poker
         private void Sauver_Je_Ne_Suis_Pas_Assis_JSON()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "JeNeSuisPasAssis.json");
+            string fichier = Path.Combine(DOSSIER_JSON, "Je_Ne_Suis_Pas_Assis.json");
             string json = JsonConvert.SerializeObject(JeNeSuisPasAssisDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
@@ -7517,13 +7584,10 @@ namespace Poker
         // =========================================================
         private bool Je_Ne_Suis_Pas_Assis()
         {
-            if (JeNeSuisPasAssisDetect == null ||
-                JeNeSuisPasAssisDetect.Length == 0)
+            if (JeNeSuisPasAssisDetect == null || JeNeSuisPasAssisDetect.Length == 0)
                 return false;
 
-            int couleur = LirePixel(
-                JeNeSuisPasAssisDetect[0].X,
-                JeNeSuisPasAssisDetect[0].Y);
+            int couleur = LirePixel(JeNeSuisPasAssisDetect[0].X, JeNeSuisPasAssisDetect[0].Y);
 
             return couleur == JeNeSuisPasAssisDetect[0].Couleur;
         }
@@ -8632,7 +8696,7 @@ namespace Poker
 
                     while ((DateTime.Now - debut).TotalSeconds < 2)
                     {
-                        await Task.Delay(5);
+                        await Task.Delay(10);
 
                         CaptureEcran();
 
@@ -8643,7 +8707,7 @@ namespace Poker
                     return;
                 }
 
-                await Task.Delay(5);
+                await Task.Delay(10);
             }
         }
         private void Cliquer_Place(int place)
@@ -11035,29 +11099,26 @@ namespace Poker
                 // ==========================================
                 Fermer_Amitie();
 
-                if (!bSuperviseurActif)
-                    continue;
 
 
-                // =========================================================
-                // 🔥 HORS DE MA PLACE
-                // J'ai quitté OU je ne suis pas encore assis
-                // =========================================================
-                if (Je_Ne_Suis_Pas_Assis())
+                // =====================================================
+                // 🔥 TEST PERMANENT POSITION
+                // =====================================================
+                bool horsPlace = Je_Ne_Suis_Pas_Assis();
+
+                if (horsPlace)
                 {
-                    // =====================================
-                    // Je ne suis pas à une place
-                    // =====================================
+
                     MaPlace = 0;
-
-                    // =====================================
-                    // Effacer avatar + bouton position
-                    // =====================================
                     ResetPosition();
+                    Reset_Lecture_Board();
+                    Reset_Calculs();
+                    StopFlashDanger();
 
-                    // =====================================
-                    // MODES : VERT → JAUNE
-                    // =====================================
+                    Bt_Danger.Background = Blanc;
+                    Bt_Danger.Foreground = Brushes.Black;
+                    Bt_Danger.Content = "";
+
                     if (bTriggersBoard_Actif)
                         Bt_Triggers_Board.Background = Brushes.Gold;
 
@@ -11067,20 +11128,18 @@ namespace Poker
                     if (bIA_Actif)
                         Bt_IA.Background = Brushes.Gold;
 
-                    // =====================================
-                    // MODE ACTIF → CHERCHER UNE PLACE
-                    // =====================================
                     if (Un_Mode_Actif())
                     {
-                        await S_Assoir_A_Table();
 
+                        await S_Assoir_A_Table();
                         CaptureEcran();
                     }
 
                     continue;
                 }
 
-
+                if (!bSuperviseurActif)
+                    continue;
                 // ==========================================
                 // VALIDATION MOTEUR
                 // ==========================================
@@ -11162,31 +11221,38 @@ namespace Poker
                     // QUITTER MA PLACE
                     // =====================================
                     Clic(890, 190);
-                    await Task.Delay(300);
+                    await Task.Delay(100);
 
                     // =====================================
                     // ACCELERER LE DEPART
                     // =====================================
-                    Clic(890, 240);
+                    Clic(990, 250);
                     await Task.Delay(100);
 
-                    Clic(890, 240);
+                    Clic(990, 250);
+                    await Task.Delay(100);
 
                     // =====================================
-                    // LAISSER POKERTEAM TERMINER
+                    // ATTENDRE LA SORTIE REELLE DE LA PLACE
                     // =====================================
-                    await Task.Delay(1200);
+                    DateTime debutSortie = DateTime.Now;
+
+                    while ((DateTime.Now - debutSortie).TotalMilliseconds < 2500)
+                    {
+                        await Task.Delay(10);
+
+                        CaptureEcran();
+
+                        if (Je_Ne_Suis_Pas_Assis())
+                            break;
+                    }
+
 
                     // =====================================
                     // JE N'AI PLUS DE PLACE
                     // =====================================
                     MaPlace = 0;
                     ResetPosition();
-
-                    // =====================================
-                    // LAISSER POKERTEAM SE STABILISER
-                    // =====================================
-                    await Task.Delay(1000);
 
                     // =====================================
                     // RETROUVER UNE SEULE PLACE
@@ -11505,11 +11571,7 @@ namespace Poker
                     // =====================================
                     bFlop_Danger = true;
 
-                    if (TirageFlop.DangerCouleur)
-                    {
-                        Bt_Danger.Background = Vert;
-                        Bt_Danger.Content = "Danger Couleur";
-                    }
+                    Afficher_Danger(TirageFlop);
 
                     JouerSon();
 
@@ -12391,6 +12453,7 @@ namespace Poker
 
             Close();
         }
+
         // =========================================================
         // 🔥 DEBUG JEU
         // =========================================================
@@ -12466,6 +12529,7 @@ namespace Poker
             }
 
         }
+
         // =========================================================
         // 🔥 NOM DE LA CARTE
         // =========================================================
