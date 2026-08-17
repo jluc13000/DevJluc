@@ -215,12 +215,12 @@
 
         <Button x:Name="Fermer"                     Content="Fermer"            Click="Fermer_Click"                HorizontalAlignment="Left"              Height="20"     Margin="172,870,0,0"    VerticalAlignment="Top"     Width="65"  FontSize="10"   FontStyle="Italic"  FontWeight="Bold"   Background="#75F0C6"   />
 
-        <Button x:Name="Bt_Tir_Flop_Quinte"         Content="Q"                 Click="Bt_Tir_Flop_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,668,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Flop_Couleur"        Content="Col"               Click="Bt_Tir_Flop_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Flop_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Flop_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,668,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Turn_Quinte"         Content="Q"                 Click="Bt_Tir_Turn_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,689,0,0"      VerticalAlignment="Top"     Width="15"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Turn_Couleur"        Content="Col"               Click="Bt_Tir_Turn_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Tir_Turn_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Turn_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="34,689,0,0"     VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_Quinte"         Content="Q"                 Click="Bt_Tir_Flop_Quinte_Click"    HorizontalAlignment="Left"              Height="20"     Margin="0,668,0,0"      VerticalAlignment="Top"     Width="17"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_Couleur"        Content="Coul"               Click="Bt_Tir_Flop_Couleur_Click"   HorizontalAlignment="Left"              Height="20"     Margin="16,668,0,0"     VerticalAlignment="Top"     Width="20"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Flop_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Flop_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="20"     Margin="36,668,0,0"     VerticalAlignment="Top"     Width="16"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Quinte"         Content="Q"                 Click="Bt_Tir_Turn_Quinte_Click"    HorizontalAlignment="Left"              Height="21"     Margin="0,688,0,0"      VerticalAlignment="Top"     Width="18"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Couleur"        Content="Coul"               Click="Bt_Tir_Turn_Couleur_Click"   HorizontalAlignment="Left"              Height="21"     Margin="16,688,0,0"     VerticalAlignment="Top"     Width="20"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Tir_Turn_Quinte_Flush"   Content="QF"                Click="Bt_Tir_Turn_Quinte_Flush_Click"    HorizontalAlignment="Left"              Height="21"     Margin="36,688,0,0"     VerticalAlignment="Top"     Width="16"  FontSize="8"                                            Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Je_suis_a_table"         Content=""                  Click="Bt_Je_suis_a_table_Click"    HorizontalAlignment="Left"              Height="17"     Margin="256,140,0,0"    VerticalAlignment="Top"     Width="11"   FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
@@ -736,6 +736,7 @@
             </Image.RenderTransform>
         </Image>
         <Button x:Name="Bt_Test"  Content="TEST"  Click="Bt_Test_Click"  HorizontalAlignment="Left" Height="20" Margin="270,217,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Danger"   Content="Danger"                Click="Bt_Danger_Click"    HorizontalAlignment="Left"              Height="19"     Margin="0,709,0,0"     VerticalAlignment="Top"     Width="52"  FontSize="6"                                            Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>
