@@ -96,6 +96,8 @@ namespace Poker
         public bool DangerQuinte { get; set; }
         public bool DangerCouleur { get; set; }
         public bool DangerQuinteFlush { get; set; }
+        public bool DangerCarre { get; set; }
+        public bool DangerFull { get; set; }
     }
 
     // =========================================================
@@ -1088,7 +1090,57 @@ namespace Poker
 
 
         }
+        // =========================================================
+        // 🔥 NORMALISER MAIN TAPIS PREFLOP
+        // =========================================================
+        private string NormaliserMainTapis(
+            CarteInfo carte1,
+            CarteInfo carte2)
+        {
+            string[] valeurs =
+            {
+        "2", "3", "4", "5", "6", "7",
+        "8", "9", "10", "J", "Q", "K", "A"
+    };
 
+            // =====================================
+            // SECURITE
+            // =====================================
+            if (carte1.V < 1 || carte1.V > 13)
+                return null;
+
+            if (carte2.V < 1 || carte2.V > 13)
+                return null;
+
+            string v1 = valeurs[carte1.V - 1];
+            string v2 = valeurs[carte2.V - 1];
+
+            // =====================================
+            // PAIRE
+            // =====================================
+            if (carte1.V == carte2.V)
+                return v1 + v2;
+
+            // =====================================
+            // PLUS FORTE EN PREMIER
+            // =====================================
+            if (carte2.V > carte1.V)
+            {
+                string temp = v1;
+                v1 = v2;
+                v2 = temp;
+            }
+
+            // =====================================
+            // SUITED
+            // =====================================
+            bool suited =
+                carte1.C == carte2.C;
+
+            return suited
+                ? v1 + v2 + "p"
+                : v1 + v2;
+        }
         #region DIVERS
 
         private void ToggleRangeTapis(string main)
@@ -1105,25 +1157,32 @@ namespace Poker
 
             int niveau = (int)CbRandom.SelectedItem;
 
+            // =====================================
+            // RANDOM OFF
+            // =====================================
             if (niveau == 0)
                 return;
 
-            int indexRandom;
+            // =====================================
+            // TIRAGE ENTRE MEMO 1 ET MEMO N
+            // niveau = 1 → index 0
+            // niveau = 5 → index 0..4
+            // niveau = 12 → index 0..11
+            // niveau = 13 → index 0..12
+            // =====================================
+            int indexRandom = rnd.Next(niveau);
 
-            if (niveau == 1)
-            {
-                // Memo01 (index 0) ou Memo13 (index 12)
-                int[] choix = { 0, 12 };
-                indexRandom = choix[rnd.Next(2)];
-            }
-            else
-            {
-                indexRandom = rnd.Next(niveau);
-            }
-
+            // =====================================
+            // ACTIVER LE MEMO TIRE
+            // =====================================
             BoutonsMemo[indexRandom].RaiseEvent(
-                new RoutedEventArgs(Button.ClickEvent)
-            );
+                new RoutedEventArgs(Button.ClickEvent));
+
+            Debug(
+                "🔥 RANDOM : niveau = " +
+                niveau +
+                " | MEMO TIRE = " +
+                (indexRandom + 1));
         }
 
         // Carte tirée (tirage complet de la main)
@@ -1174,26 +1233,51 @@ namespace Poker
                 }
             }
         }
+        public int Numero, N;
+        public int Couleur, C;
+        public int Valeur, V;
 
         // Convertit "10♠" ou "A♥" en données moteur exploitables
         private CarteInfo ExtraireCarte(string carte)
         {
-            string[] valeurs = { "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K", "A" };
+            string[] valeurs =
+            {
+                "2", "3", "4", "5", "6", "7",
+                "8", "9", "10", "J", "Q", "K", "A"
+            };
+
             string couleurs = "♣♦♥♠";
 
-            // séparer valeur / couleur
-            string val = carte.Substring(0, carte.Length - 1);
-            char coul = carte[carte.Length - 1];
+            // =====================================
+            // SÉPARER VALEUR / COULEUR
+            // =====================================
+            string val =
+                carte.Substring(0, carte.Length - 1);
 
+            char coul =
+                carte[carte.Length - 1];
 
-            int iv = Array.IndexOf(valeurs, val);
-            int ic = couleurs.IndexOf(coul);
+            int iv =
+                Array.IndexOf(valeurs, val);
+
+            int ic =
+                couleurs.IndexOf(coul);
+
+            int valeur = iv + 1;
+            int couleur = ic;
+            int numero = iv * 4 + ic;
 
             return new CarteInfo
             {
-                Valeur = iv + 1,      // 1..13
-                Couleur = ic,         // 0..3
-                Numero = iv * 4 + ic  // 0..51
+                // Champs principaux
+                Valeur = valeur,
+                Couleur = couleur,
+                Numero = numero,
+
+                // Alias utilisés par le moteur
+                V = valeur,
+                C = couleur,
+                N = numero
             };
         }
 
@@ -1314,27 +1398,45 @@ namespace Poker
             if (niveau == 0)
             {
                 LbRandomStatus.Content = "● RANDOM OFF";
-                LbRandomStatus.Background = new SolidColorBrush(Color.FromRgb(230, 230, 230));
+                LbRandomStatus.Background =
+                    new SolidColorBrush(Color.FromRgb(230, 230, 230));
                 LbRandomStatus.Foreground = Brushes.Black;
                 return;
             }
 
-            LbRandomStatus.Content = $"● RANDOM {niveau}";
+            LbRandomStatus.Content = "● RANDOM ON";
 
             if (niveau <= 4)
             {
-                LbRandomStatus.Background = new SolidColorBrush(Color.FromRgb(120, 200, 120));
+                LbRandomStatus.Background =
+                    new SolidColorBrush(Color.FromRgb(120, 200, 120));
                 LbRandomStatus.Foreground = Brushes.Black;
             }
             else if (niveau <= 8)
             {
-                LbRandomStatus.Background = new SolidColorBrush(Color.FromRgb(255, 170, 60));
+                LbRandomStatus.Background =
+                    new SolidColorBrush(Color.FromRgb(255, 170, 60));
                 LbRandomStatus.Foreground = Brushes.Black;
             }
             else
             {
-                LbRandomStatus.Background = new SolidColorBrush(Color.FromRgb(210, 70, 70));
+                LbRandomStatus.Background =
+                    new SolidColorBrush(Color.FromRgb(210, 70, 70));
                 LbRandomStatus.Foreground = Brushes.White;
+            }
+        }
+        // =========================================================
+        // 🔥 NOM DE LA CARTE
+        // =========================================================
+        private string NomCarte(int valeur)
+        {
+            switch (valeur)
+            {
+                case 14: return "As";
+                case 13: return "Roi";
+                case 12: return "Dame";
+                case 11: return "Valet";
+                default: return valeur.ToString();
             }
         }
 
@@ -1344,6 +1446,11 @@ namespace Poker
         private void Bt_Main_1_Click(object sender, RoutedEventArgs e)
         {
             // =====================================
+            // 🔥 RESET TAPIS PREFLOP
+            // Nouvelle main
+            // =====================================
+            Bt_Tapis.Background = Blanc;
+            // =====================================
             // ARRÊTER LE CLIGNOTEMENT DANGER
             // Nouvelle main
             // =====================================
@@ -1352,46 +1459,48 @@ namespace Poker
             // =====================================
             // NOUVELLE PARTIE TEST
             // =====================================
-            TirageFlop.Quinte               = false;
-            TirageFlop.Ventrale             = false;
-            TirageFlop.Couleur              = false;
-            TirageFlop.QuinteFlush          = false;
-            TirageFlop.Participation        = 0;
-            TirageFlop.Max                  = false;
-            TirageFlop.CarteHaute           = 0;
+            TirageFlop.Quinte = false;
+            TirageFlop.Ventrale = false;
+            TirageFlop.Couleur = false;
+            TirageFlop.QuinteFlush = false;
+            TirageFlop.Participation = 0;
+            TirageFlop.Max = false;
+            TirageFlop.CarteHaute = 0;
 
-            TirageFlop.DangerQuinte         = false;
-            TirageFlop.DangerCouleur        = false;
-            TirageFlop.DangerQuinteFlush    = false;
+            TirageFlop.DangerCarre = false;
+            TirageFlop.DangerFull = false;
+            TirageFlop.DangerQuinte = false;
+            TirageFlop.DangerCouleur = false;
+            TirageFlop.DangerQuinteFlush = false;
 
-            TirageTurn.Quinte               = false;
-            TirageTurn.Ventrale             = false;
-            TirageTurn.Couleur              = false;
-            TirageTurn.QuinteFlush          = false;
-            TirageTurn.Participation        = 0;
-            TirageTurn.Max                  = false;
-            TirageTurn.CarteHaute           = 0;
+            TirageTurn.Quinte = false;
+            TirageTurn.Ventrale = false;
+            TirageTurn.Couleur = false;
+            TirageTurn.QuinteFlush = false;
+            TirageTurn.Participation = 0;
+            TirageTurn.Max = false;
+            TirageTurn.CarteHaute = 0;
 
-            TirageTurn.DangerQuinte         = false;
-            TirageTurn.DangerCouleur        = false;
-            TirageTurn.DangerQuinteFlush    = false;
+            TirageTurn.DangerCarre = false;
+            TirageTurn.DangerFull = false;
+            TirageTurn.DangerQuinte = false;
+            TirageTurn.DangerCouleur = false;
+            TirageTurn.DangerQuinteFlush = false;
 
             // =====================================
-            // RESET AFFICHAGE
+            // RESET AFFICHAGE TIRAGES
             // =====================================
             Bt_Tir_Flop_Quinte.Background = Blanc;
             Bt_Tir_Flop_Quinte.Content = "Q";
 
             Bt_Tir_Flop_Couleur.Background = Blanc;
+            Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
 
             Bt_Tir_Turn_Quinte.Background = Blanc;
             Bt_Tir_Turn_Quinte.Content = "Q";
 
             Bt_Tir_Turn_Couleur.Background = Blanc;
-
-            Bt_Danger.Background = Blanc;
-            Bt_Danger.Foreground = Brushes.Black;
-            Bt_Danger.Content = "";
+            Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
 
             // =====================================
             // RESET BOUTON DANGER
@@ -1401,43 +1510,83 @@ namespace Poker
             Bt_Danger.Content = "";
 
             // =====================================
+            // 🔥 RESET DÉCISION PREFLOP — VERSION TEST
+            // =====================================
+            Bt_Tapis.Background = Blanc;
+            Bt_Parole_Passe.Background = Blanc;
+
+            // =====================================
             // RESET FLAGS SONS
             // =====================================
             bPreFlop_Calcul = false;
 
-            bFlop_Calcul    = false;
-            bFlop_Tirage    = false;
-            bFlop_Danger    = false;
+            bFlop_Calcul = false;
+            bFlop_Tirage = false;
+            bFlop_Danger = false;
 
-            bTurn_Calcul    = false;
-            bTurn_Tirage    = false;
-            bTurn_Danger    = false;
+            bTurn_Calcul = false;
+            bTurn_Tirage = false;
+            bTurn_Danger = false;
 
-            bRiver_Calcul   = false;
-            bRiver_Danger   = false;
+            bRiver_Calcul = false;
+            bRiver_Danger = false;
 
             // =====================================
             // LECTURE MAIN 1
             // =====================================
-            AfficherCarte(TB_M1, null, Bt_Main_1, 0);
+            AfficherCarte(
+                TB_M1,
+                null,
+                Bt_Main_1,
+                0);
         }
 
+
+        // =========================================================
+        // 🔥 MAIN 2
+        // =========================================================
         private void Bt_Main_2_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte(TB_M2, Bt_Main_1, Bt_Main_2, 1);
+            AfficherCarte(
+                TB_M2,
+                Bt_Main_1,
+                Bt_Main_2,
+                1);
 
+            // =====================================
+            // CALCUL PRE-FLOP
+            // =====================================
             Calcul_PreFlop();
+
+            // =====================================
+            // MODE TAPIS PREFLOP ACTIF ?
+            // =====================================
+            if (bTapisPreFlop_Actif)
+            {
+                Tapis_PreFlop_Decision();
+            }
         }
+
 
         private void Bt_Flop_1_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte(TB_F1, Bt_Main_2, Bt_Flop_1, 2);
+            AfficherCarte(
+                TB_F1,
+                Bt_Main_2,
+                Bt_Flop_1,
+                2);
         }
+
 
         private void Bt_Flop_2_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte(TB_F2, Bt_Flop_1, Bt_Flop_2, 3);
+            AfficherCarte(
+                TB_F2,
+                Bt_Flop_1,
+                Bt_Flop_2,
+                3);
         }
+
 
         // =========================================================
         // 🔥 FLOP TEST
@@ -2040,6 +2189,7 @@ namespace Poker
         private void Bt_Bouton_Click(object sender, RoutedEventArgs e) { }
 
         private void Bt_S_Click(object sender, RoutedEventArgs e) { }
+
         private void tB_Mise_Coeff_TextChanged(object sender, TextChangedEventArgs e) { }
 
         private void tB_Mise_TextChanged(object sender, TextChangedEventArgs e) { }
@@ -2619,10 +2769,10 @@ namespace Poker
 
         private string NormaliserMain(string carte1, string carte2)
         {
-            if (string.IsNullOrWhiteSpace(carte1) || string.IsNullOrWhiteSpace(carte2))
+            if (string.IsNullOrWhiteSpace(carte1) ||
+                string.IsNullOrWhiteSpace(carte2))
                 return null;
 
-            // sécurité longueur
             if (carte1.Length < 2 || carte2.Length < 2)
                 return null;
 
@@ -2634,26 +2784,30 @@ namespace Poker
 
             string ordre = "AKQJ1098765432";
 
-            // sécurité valeur inconnue
             if (!ordre.Contains(v1) || !ordre.Contains(v2))
                 return null;
 
-            // mettre la plus forte en premier
             if (ordre.IndexOf(v2) < ordre.IndexOf(v1))
             {
-                var tmpV = v1; v1 = v2; v2 = tmpV;
-                var tmpC = c1; c1 = c2; c2 = tmpC;
+                var tmpV = v1;
+                v1 = v2;
+                v2 = tmpV;
+
+                var tmpC = c1;
+                c1 = c2;
+                c2 = tmpC;
             }
 
-            // paire
             if (v1 == v2)
                 return v1 + v2;
 
-            // suited ?
             bool suited = (c1 == c2);
 
-            return suited ? v1 + v2 + "p" : v1 + v2;
+            return suited
+                ? v1 + v2 + "p"
+                : v1 + v2;
         }
+
 
         private string NormaliserMainFromString(string brute)
         {
@@ -2670,8 +2824,9 @@ namespace Poker
             {
                 string valeur;
 
-                // 🔥 gérer "10"
-                if (i + 1 < brute.Length && brute[i] == '1' && brute[i + 1] == '0')
+                if (i + 1 < brute.Length &&
+                    brute[i] == '1' &&
+                    brute[i + 1] == '0')
                 {
                     valeur = "10";
                     i += 2;
@@ -2682,7 +2837,6 @@ namespace Poker
                     i += 1;
                 }
 
-                // 🔥 sécurité couleur
                 if (i >= brute.Length)
                     return null;
 
@@ -2695,7 +2849,18 @@ namespace Poker
             if (cartes.Count < 2)
                 return null;
 
-            return NormaliserMain(cartes[0], cartes[1]);
+            return NormaliserMain(
+                cartes[0],
+                cartes[1]);
+        }
+
+
+        private bool EstDansRange(string main)
+        {
+            if (string.IsNullOrWhiteSpace(main))
+                return false;
+
+            return RangeTapis.Contains(main);
         }
 
         private bool Detecter_Presence(string nom)
@@ -2729,23 +2894,7 @@ namespace Poker
             return false;
         }
 
-        private bool EstDansRange(string main)
-        {
-            // match exact
-            if (RangeTapis.Contains(main))
-                return true;
-
-            // si main suited (ex: Q10p)
-            if (main.EndsWith("p"))
-            {
-                string offsuit = main.Substring(0, main.Length - 1);
-
-                if (RangeTapis.Contains(offsuit))
-                    return true;
-            }
-
-            return false;
-        }
+        
 
         // =========================================================
         // 🔥 INITIALISE
@@ -2955,6 +3104,7 @@ namespace Poker
             return c.ToArgb() & 0xFFFFFF;
         }
 
+        #region JOUER SONS
         // =====================================
         // 🔥 JOUER SONS
         // =====================================
@@ -3030,19 +3180,43 @@ namespace Poker
                 }
             }
 
-
             // =========================================================
             // 🔥 FLOP DANGER
             // =========================================================
             if (bFlop_Danger)
             {
-                if (TirageFlop.DangerCouleur)
+                if (TirageFlop.DangerCarre)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Carre.wav");
+                }
+                else if (TirageFlop.DangerFull)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Full.wav");
+                }
+                else if (TirageFlop.DangerQuinteFlush)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Quinte Flush.wav");
+                }
+                else if (TirageFlop.DangerCouleur &&
+                         TirageFlop.DangerQuinte)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Couleur Quinte.wav");
+                }
+                else if (TirageFlop.DangerCouleur)
                 {
                     JouerFichierSon(
                         DOSSIER_SONS + "Danger Couleur.wav");
                 }
+                else if (TirageFlop.DangerQuinte)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Quinte.wav");
+                }
             }
-
 
             // =========================================================
             // 🔥 TURN CALCUL
@@ -3097,12 +3271,23 @@ namespace Poker
                     }
                 }
             }
+
             // =========================================================
             // 🔥 TURN DANGER
             // =========================================================
             if (bTurn_Danger)
             {
-                if (TirageTurn.DangerQuinteFlush)
+                if (TirageTurn.DangerCarre)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Carre.wav");
+                }
+                else if (TirageTurn.DangerFull)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Full.wav");
+                }
+                else if (TirageTurn.DangerQuinteFlush)
                 {
                     JouerFichierSon(
                         DOSSIER_SONS + "Danger Quinte Flush.wav");
@@ -3124,7 +3309,6 @@ namespace Poker
                         DOSSIER_SONS + "Danger Quinte.wav");
                 }
             }
-
 
             // =========================================================
             // 🔥 RIVER CALCUL
@@ -3149,13 +3333,22 @@ namespace Poker
                     JouerFichierSon(DOSSIER_SONS + "Paire.wav");
             }
 
-
             // =========================================================
             // 🔥 RIVER DANGER
             // =========================================================
             if (bRiver_Danger)
             {
-                if (TirageRiver.DangerQuinteFlush)
+                if (TirageRiver.DangerCarre)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Carre.wav");
+                }
+                else if (TirageRiver.DangerFull)
+                {
+                    JouerFichierSon(
+                        DOSSIER_SONS + "Danger Full.wav");
+                }
+                else if (TirageRiver.DangerQuinteFlush)
                 {
                     JouerFichierSon(
                         DOSSIER_SONS + "Danger Quinte Flush.wav");
@@ -3197,6 +3390,7 @@ namespace Poker
             {
             }
         }
+        #endregion
 
         #region CALCUL MOTEUR
         // =========================================================
@@ -4773,6 +4967,216 @@ namespace Poker
 
         #region TIRAGES MOTEUR
         // =========================================================
+        // 🔥 TIRAGES
+        // =========================================================
+        private void Calcul_Tirages()
+        {
+            // =====================================================
+            // 🔥 FLOP
+            // =====================================================
+            if (TableCartes.Count == 5)
+            {
+                // =====================================
+                // RESET TIRAGE FLOP
+                // =====================================
+                TirageFlop.Quinte = false;
+                TirageFlop.Ventrale = false;
+                TirageFlop.Couleur = false;
+                TirageFlop.QuinteFlush = false;
+                TirageFlop.Participation = 0;
+                TirageFlop.Max = false;
+                TirageFlop.CarteHaute = 0;
+
+                // =====================================
+                // RESET DANGERS FLOP
+                // =====================================
+                TirageFlop.DangerCarre = false;
+                TirageFlop.DangerFull = false;
+                TirageFlop.DangerQuinte = false;
+                TirageFlop.DangerCouleur = false;
+                TirageFlop.DangerQuinteFlush = false;
+
+                // =====================================
+                // RESET AFFICHAGE BOUTONS
+                // =====================================
+                Bt_Tir_Flop_Quinte.Background = Blanc;
+                Bt_Tir_Flop_Quinte.Content = "Q";
+
+                Bt_Tir_Flop_Couleur.Background = Blanc;
+
+                Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
+
+                // =====================================
+                // TIRAGE QUINTE
+                // =====================================
+                Tirage_Moteur_Quinte(TableCartes, TirageFlop);
+
+                if (TirageFlop.Quinte)
+                {
+                    Bt_Tir_Flop_Quinte.Background = Vert;
+
+                    if (TirageFlop.Ventrale)
+                        Bt_Tir_Flop_Quinte.Content = "QV";
+                    else
+                        Bt_Tir_Flop_Quinte.Content = "Q";
+                }
+
+                // =====================================
+                // TIRAGE COULEUR
+                // =====================================
+                Tirage_Moteur_Couleur(TableCartes, TirageFlop);
+
+                if (TirageFlop.Couleur)
+                    Bt_Tir_Flop_Couleur.Background = Vert;
+
+                // =====================================
+                // DANGER CARRÉ
+                // =====================================
+                Danger_Moteur_Carre(TableCartes, TirageFlop);
+            }
+
+            // =====================================================
+            // 🔥 TURN
+            // =====================================================
+            else if (TableCartes.Count == 6)
+            {
+                // =====================================
+                // RESET TIRAGE TURN
+                // =====================================
+                TirageTurn.Quinte = false;
+                TirageTurn.Ventrale = false;
+                TirageTurn.Couleur = false;
+                TirageTurn.QuinteFlush = false;
+                TirageTurn.Participation = 0;
+                TirageTurn.Max = false;
+                TirageTurn.CarteHaute = 0;
+
+                // =====================================
+                // RESET DANGERS TURN
+                // =====================================
+                TirageTurn.DangerCarre = false;
+                TirageTurn.DangerFull = false;
+                TirageTurn.DangerQuinte = false;
+                TirageTurn.DangerCouleur = false;
+                TirageTurn.DangerQuinteFlush = false;
+
+                // =====================================
+                // RESET AFFICHAGE BOUTONS
+                // =====================================
+                Bt_Tir_Turn_Quinte.Background = Blanc;
+                Bt_Tir_Turn_Quinte.Content = "Q";
+
+                Bt_Tir_Turn_Couleur.Background = Blanc;
+
+                Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
+
+                // =====================================
+                // TIRAGE QUINTE FLUSH
+                // =====================================
+                Tirage_Moteur_Quinte_Flush(TableCartes, TirageTurn);
+
+                if (TirageTurn.QuinteFlush)
+                {
+                    Bt_Tir_Turn_Quinte_Flush.Background = Vert;
+                }
+
+                // =====================================
+                // TIRAGE QUINTE
+                // =====================================
+                Tirage_Moteur_Quinte(TableCartes, TirageTurn);
+
+                if (TirageTurn.Quinte)
+                {
+                    Bt_Tir_Turn_Quinte.Background = Vert;
+
+                    if (TirageTurn.Ventrale)
+                        Bt_Tir_Turn_Quinte.Content = "QV";
+                    else
+                        Bt_Tir_Turn_Quinte.Content = "Q";
+                }
+
+                // =====================================
+                // TIRAGE COULEUR
+                // =====================================
+                Tirage_Moteur_Couleur(TableCartes, TirageTurn);
+
+                if (TirageTurn.Couleur)
+                    Bt_Tir_Turn_Couleur.Background = Vert;
+
+                // =====================================
+                // DANGER CARRÉ
+                // =====================================
+                Danger_Moteur_Carre(TableCartes, TirageTurn);
+
+                // =====================================
+                // DANGER FULL
+                // =====================================
+                Danger_Moteur_Full( TableCartes, TirageTurn);
+
+                // =====================================
+                // DANGER QUINTE FLUSH
+                // =====================================
+                Danger_Moteur_Quinte_Flush(TableCartes, TirageTurn);
+            }
+
+
+            // =====================================================
+            // 🔥 RIVER
+            // =====================================================
+            else if (TableCartes.Count == 7)
+            {
+                // =====================================
+                // RESET TIRAGE RIVER
+                // =====================================
+                TirageRiver.Quinte = false;
+                TirageRiver.Ventrale = false;
+                TirageRiver.Couleur = false;
+                TirageRiver.QuinteFlush = false;
+                TirageRiver.Participation = 0;
+                TirageRiver.Max = false;
+                TirageRiver.CarteHaute = 0;
+
+                // =====================================
+                // RESET DANGERS RIVER
+                // =====================================
+                TirageRiver.DangerCarre = false;
+                TirageRiver.DangerFull = false;
+                TirageRiver.DangerQuinte = false;
+                TirageRiver.DangerCouleur = false;
+                TirageRiver.DangerQuinteFlush = false;
+
+                // =====================================
+                // TIRAGE QUINTE FLUSH
+                // =====================================
+                Tirage_Moteur_Quinte_Flush(TableCartes, TirageRiver);
+
+                // =====================================
+                // TIRAGE QUINTE
+                // =====================================
+                Tirage_Moteur_Quinte(TableCartes, TirageRiver);
+
+                // =====================================
+                // TIRAGE COULEUR
+                // =====================================
+                Tirage_Moteur_Couleur(TableCartes, TirageRiver);
+
+                // =====================================
+                // DANGER CARRÉ
+                // =====================================
+                Danger_Moteur_Carre(TableCartes, TirageRiver);
+
+                // =====================================
+                // DANGER FULL
+                // =====================================
+                Danger_Moteur_Full(TableCartes, TirageRiver);
+
+                // =====================================
+                // DANGER QUINTE FLUSH
+                // =====================================
+                Danger_Moteur_Quinte_Flush(TableCartes, TirageRiver);
+            }
+        }
+        // =========================================================
         // 🔥 TIRAGE QUINTE
         // Flop + Turn + River
         // =========================================================
@@ -5183,266 +5587,12 @@ namespace Poker
                 }
             }
         }
-
-        /// =========================================================
-        // 🔥 AFFICHER LE DANGER
-        // Rouge + texte blanc + pictogramme
-        // =========================================================
-        private void Afficher_Danger(Tirage tirage)
-        {
-            Debug(
-                "AFFICHER DANGER : Ventrale = " +
-                tirage.Ventrale +
-                " | DangerQuinte = " +
-                tirage.DangerQuinte +
-                " | DangerCouleur = " +
-                tirage.DangerCouleur);
-
-            if (tirage.DangerQuinteFlush)
-            {
-                Bt_Danger.Content = "⚠Quinte Flush";
-                FlashDanger();
-            }
-            else if (tirage.DangerCouleur &&
-                     tirage.DangerQuinte)
-            {
-                if (tirage.Ventrale)
-                    Bt_Danger.Content = "⚠Couleur Quinte Ventrale";
-                else
-                    Bt_Danger.Content = "⚠Couleur Quinte";
-
-                FlashDanger();
-            }
-            else if (tirage.DangerCouleur)
-            {
-                Bt_Danger.Content = "⚠Couleur";
-                FlashDanger();
-            }
-            else if (tirage.DangerQuinte)
-            {
-                if (tirage.Ventrale)
-                    Bt_Danger.Content = "⚠Quinte Ventrale";
-                else
-                    Bt_Danger.Content = "⚠Quinte";
-
-                FlashDanger();
-            }
-            else
-            {
-                StopFlashDanger();
-
-                Bt_Danger.Content = "";
-            }
-        }
-        #endregion
-
-
-        #region TIRAGES
-
-        // =========================================================
-        // 🔥 TIRAGES
-        // =========================================================
-        private void Calcul_Tirages()
-        {
-            // =====================================================
-            // 🔥 FLOP
-            // =====================================================
-            if (TableCartes.Count == 5)
-            {
-                // =====================================
-                // RESET TIRAGE FLOP
-                // =====================================
-                TirageFlop.Quinte = false;
-                TirageFlop.Ventrale = false;
-                TirageFlop.Couleur = false;
-                TirageFlop.QuinteFlush = false;
-                TirageFlop.Participation = 0;
-                TirageFlop.Max = false;
-                TirageFlop.CarteHaute = 0;
-
-                // =====================================
-                // RESET DANGERS FLOP
-                // =====================================
-                TirageFlop.DangerQuinte = false;
-                TirageFlop.DangerCouleur = false;
-                TirageFlop.DangerQuinteFlush = false;
-
-                // =====================================
-                // RESET AFFICHAGE BOUTONS
-                // =====================================
-                Bt_Tir_Flop_Quinte.Background = Blanc;
-                Bt_Tir_Flop_Quinte.Content = "Q";
-
-                Bt_Tir_Flop_Couleur.Background = Blanc;
-
-                Bt_Tir_Flop_Quinte_Flush.Background = Blanc;
-
-                // =====================================
-                // TIRAGE QUINTE
-                // =====================================
-                Tirage_Moteur_Quinte(
-                    TableCartes,
-                    TirageFlop);
-
-                if (TirageFlop.Quinte)
-                {
-                    Bt_Tir_Flop_Quinte.Background = Vert;
-
-                    if (TirageFlop.Ventrale)
-                        Bt_Tir_Flop_Quinte.Content = "QV";
-                    else
-                        Bt_Tir_Flop_Quinte.Content = "Q";
-                }
-
-                // =====================================
-                // TIRAGE COULEUR
-                // =====================================
-                Tirage_Moteur_Couleur(
-                    TableCartes,
-                    TirageFlop);
-
-                if (TirageFlop.Couleur)
-                    Bt_Tir_Flop_Couleur.Background = Vert;
-            }
-
-
-            // =====================================================
-            // 🔥 TURN
-            // =====================================================
-            else if (TableCartes.Count == 6)
-            {
-                // =====================================
-                // RESET TIRAGE TURN
-                // =====================================
-                TirageTurn.Quinte = false;
-                TirageTurn.Ventrale = false;
-                TirageTurn.Couleur = false;
-                TirageTurn.QuinteFlush = false;
-                TirageTurn.Participation = 0;
-                TirageTurn.Max = false;
-                TirageTurn.CarteHaute = 0;
-
-                // =====================================
-                // RESET DANGERS TURN
-                // =====================================
-                TirageTurn.DangerQuinte = false;
-                TirageTurn.DangerCouleur = false;
-                TirageTurn.DangerQuinteFlush = false;
-
-                // =====================================
-                // RESET AFFICHAGE BOUTONS
-                // =====================================
-                Bt_Tir_Turn_Quinte.Background = Blanc;
-                Bt_Tir_Turn_Quinte.Content = "Q";
-
-                Bt_Tir_Turn_Couleur.Background = Blanc;
-
-                Bt_Tir_Turn_Quinte_Flush.Background = Blanc;
-
-                // =====================================
-                // TIRAGE QUINTE FLUSH
-                // =====================================
-                Tirage_Moteur_Quinte_Flush(
-                    TableCartes,
-                    TirageTurn);
-
-                if (TirageTurn.QuinteFlush)
-                {
-                    Bt_Tir_Turn_Quinte_Flush.Background = Vert;
-                }
-
-                // =====================================
-                // TIRAGE QUINTE
-                // =====================================
-                Tirage_Moteur_Quinte(
-                    TableCartes,
-                    TirageTurn);
-
-                if (TirageTurn.Quinte)
-                {
-                    Bt_Tir_Turn_Quinte.Background = Vert;
-
-                    if (TirageTurn.Ventrale)
-                        Bt_Tir_Turn_Quinte.Content = "QV";
-                    else
-                        Bt_Tir_Turn_Quinte.Content = "Q";
-                }
-
-                // =====================================
-                // TIRAGE COULEUR
-                // =====================================
-                Tirage_Moteur_Couleur(
-                    TableCartes,
-                    TirageTurn);
-
-                if (TirageTurn.Couleur)
-                    Bt_Tir_Turn_Couleur.Background = Vert;
-
-                // =====================================
-                // DANGER QUINTE FLUSH
-                // =====================================
-                Danger_Moteur_Quinte_Flush(
-                    TableCartes,
-                    TirageTurn);
-            }
-
-
-            // =====================================================
-            // 🔥 RIVER
-            // =====================================================
-            else if (TableCartes.Count == 7)
-            {
-                // =====================================
-                // RESET TIRAGE RIVER
-                // =====================================
-                TirageRiver.Quinte = false;
-                TirageRiver.Ventrale = false;
-                TirageRiver.Couleur = false;
-                TirageRiver.QuinteFlush = false;
-                TirageRiver.Participation = 0;
-                TirageRiver.Max = false;
-                TirageRiver.CarteHaute = 0;
-
-                // =====================================
-                // RESET DANGERS RIVER
-                // =====================================
-                TirageRiver.DangerQuinte = false;
-                TirageRiver.DangerCouleur = false;
-                TirageRiver.DangerQuinteFlush = false;
-
-                // =====================================
-                // TIRAGE QUINTE FLUSH
-                // =====================================
-                Tirage_Moteur_Quinte_Flush(
-                    TableCartes,
-                    TirageRiver);
-
-                // =====================================
-                // TIRAGE QUINTE
-                // =====================================
-                Tirage_Moteur_Quinte(
-                    TableCartes,
-                    TirageRiver);
-
-                // =====================================
-                // TIRAGE COULEUR
-                // =====================================
-                Tirage_Moteur_Couleur(
-                    TableCartes,
-                    TirageRiver);
-
-                // =====================================
-                // DANGER QUINTE FLUSH
-                // =====================================
-                Danger_Moteur_Quinte_Flush(
-                    TableCartes,
-                    TirageRiver);
-            }
-        }
+        
 
         private Tirage TirageFlop = new Tirage();
         private Tirage TirageTurn = new Tirage();
         private Tirage TirageRiver = new Tirage();
+
         #endregion
 
         #region DANGERS
@@ -5535,7 +5685,180 @@ namespace Poker
 
             Debug("FIN QFLUSH : RIEN TROUVE");
         }
+        // =========================================================
+        // 🔥 DANGER CARRÉ
+        // 3 cartes de même valeur sur le board
+        // → il manque la 4e carte pour faire Carré
+        // =========================================================
+        private void Danger_Moteur_Carre(List<Carte> cartes, Tirage danger)
+        {
+            // =====================================
+            // RESET
+            // =====================================
+            danger.DangerCarre = false;
 
+            // =====================================
+            // FLOP / TURN / RIVER
+            // Il faut au moins 3 cartes sur le board
+            // =====================================
+            if (cartes.Count < 5)
+                return;
+
+            // =====================================
+            // RECHERCHE DE 3 CARTES IDENTIQUES
+            // SUR LE BOARD UNIQUEMENT
+            // =====================================
+            bool dangerCarre = cartes
+                .Where(c => !c.EstMain)
+                .GroupBy(c => c.Valeur)
+                .Any(g => g.Count() == 3);
+
+            // =====================================
+            // DANGER CARRÉ
+            // =====================================
+            if (dangerCarre)
+            {
+                danger.DangerCarre = true;
+            }
+        }
+
+        // =========================================================
+        // 🔥 DANGER FULL
+        // Turn + River
+        // 2 paires sur le board
+        // → une carte supplémentaire peut faire un Full
+        // =========================================================
+        private void Danger_Moteur_Full(List<Carte> cartes, Tirage danger)
+        {
+            // =====================================
+            // RESET
+            // =====================================
+            danger.DangerFull = false;
+
+            // =====================================
+            // UNIQUEMENT TURN / RIVER
+            // =====================================
+            if (cartes.Count < 6)
+                return;
+
+            // =====================================
+            // BOARD UNIQUEMENT
+            // =====================================
+            List<Carte> board = cartes
+                .Where(c => !c.EstMain)
+                .ToList();
+
+            // =====================================
+            // RECHERCHE DES PAIRES SUR LE BOARD
+            // =====================================
+            List<IGrouping<int, Carte>> paires = board
+                .GroupBy(c => c.Valeur)
+                .Where(g => g.Count() >= 2)
+                .ToList();
+
+            // =====================================
+            // IL FAUT 2 VALEURS DIFFERENTES
+            // EN DOUBLE SUR LE BOARD
+            // =====================================
+            if (paires.Count < 2)
+                return;
+
+            // =====================================
+            // DANGER FULL
+            // =====================================
+            danger.DangerFull = true;
+        }
+        // =========================================================
+        // 🔥 AFFICHER LE DANGER
+        // Rouge + texte blanc + pictogramme
+        // =========================================================
+        private void Afficher_Danger(Tirage tirage)
+        {
+            Debug(
+                "AFFICHER DANGER : " +
+                "DangerCarre = " +
+                tirage.DangerCarre +
+                " | DangerFull = " +
+                tirage.DangerFull +
+                " | Ventrale = " +
+                tirage.Ventrale +
+                " | DangerQuinte = " +
+                tirage.DangerQuinte +
+                " | DangerCouleur = " +
+                tirage.DangerCouleur);
+
+            // =====================================
+            // DANGER CARRÉ
+            // =====================================
+            if (tirage.DangerCarre)
+            {
+                Bt_Danger.Content = "⚠Carré";
+                FlashDanger();
+            }
+
+            // =====================================
+            // DANGER FULL
+            // =====================================
+            else if (tirage.DangerFull)
+            {
+                Bt_Danger.Content = "⚠Full";
+                FlashDanger();
+            }
+
+            // =====================================
+            // DANGER QUINTE FLUSH
+            // =====================================
+            else if (tirage.DangerQuinteFlush)
+            {
+                Bt_Danger.Content = "⚠Quinte Flush";
+                FlashDanger();
+            }
+
+            // =====================================
+            // DANGER COULEUR + QUINTE
+            // =====================================
+            else if (tirage.DangerCouleur &&
+                     tirage.DangerQuinte)
+            {
+                if (tirage.Ventrale)
+                    Bt_Danger.Content = "⚠Couleur Quinte Ventrale";
+                else
+                    Bt_Danger.Content = "⚠Couleur Quinte";
+
+                FlashDanger();
+            }
+
+            // =====================================
+            // DANGER COULEUR
+            // =====================================
+            else if (tirage.DangerCouleur)
+            {
+                Bt_Danger.Content = "⚠Couleur";
+                FlashDanger();
+            }
+
+            // =====================================
+            // DANGER QUINTE
+            // =====================================
+            else if (tirage.DangerQuinte)
+            {
+                if (tirage.Ventrale)
+                    Bt_Danger.Content = "⚠Quinte Ventrale";
+                else
+                    Bt_Danger.Content = "⚠Quinte";
+
+                FlashDanger();
+            }
+
+            // =====================================
+            // AUCUN DANGER
+            // =====================================
+            else
+            {
+                StopFlashDanger();
+                Bt_Danger.Content = "";
+            }
+        }
         #endregion
 
         #region CHARGER EXTRAIRE LIRE SAUVER FERMER
@@ -7274,6 +7597,43 @@ namespace Poker
 
             T_Delai_Decision.Text = Sl_Delai_Decision.Value + " s";
 
+        }
+
+        // =========================================================
+        // 🔥 TEST TAPIS PREFLOP
+        // Un seul bouton ON/OFF
+        // =========================================================
+        private void Tapis_PreFlop_Decision()
+        {
+            if (!bTapisPreFlop_Actif)
+            {
+                Bt_Tapis.Background = Blanc;
+                return;
+            }
+
+            string main = NormaliserMainTapis(
+                T_Carte[0],
+                T_Carte[1]);
+
+            if (string.IsNullOrEmpty(main))
+            {
+                Bt_Tapis.Background = Blanc;
+                return;
+            }
+
+            bool dansRange = EstDansRange(main);
+
+            Debug(
+                TB_M1.Text +
+                " " +
+                TB_M2.Text +
+                " " +
+                dansRange);
+
+            Bt_Tapis.Background =
+                dansRange
+                    ? Vert
+                    : Blanc;
         }
         private void AppliquerActionForcee()
         {
@@ -9580,6 +9940,25 @@ namespace Poker
                 Bt_Manuel.Content = "Auto";
             }
         }
+        private string Decision_Tapis_PreFlop(string carte1, string carte2, bool Je_Peux_Parler)
+        {
+            if (Main_Dans_Range_Tapis(carte1, carte2))
+                return "Tapis";
+
+            if (Je_Peux_Parler)
+                return "Parole";
+
+            return "Passe";
+        }
+        private bool Main_Dans_Range_Tapis(string carte1, string carte2)
+        {
+            string main = NormaliserMain(carte1, carte2);
+
+            if (string.IsNullOrEmpty(main))
+                return false;
+
+            return EstDansRange(main);
+        }
 
         // =========================================================
         // REPOS SOURIS
@@ -11237,7 +11616,7 @@ namespace Poker
                     // =====================================
                     DateTime debutSortie = DateTime.Now;
 
-                    while ((DateTime.Now - debutSortie).TotalMilliseconds < 2500)
+                    while ((DateTime.Now - debutSortie).TotalMilliseconds < 2700)
                     {
                         await Task.Delay(10);
 
@@ -11341,13 +11720,29 @@ namespace Poker
                 // ==========================================
                 if (modeDecision && !bAttente_Disparition && Decision_Autorisee())
                 {
-
-                    ActionForcee = Action_Mode_Actif();
+                    // =====================================
+                    // MODE TAPIS PREFLOP
+                    // =====================================
+                    if (bTapisPreFlop_Actif && ActionForcee == "TAPIS")
+                    {
+                        Debug("🔥 DECISION CENTRALE → TAPIS");
+                    }
+                    else
+                    {
+                        ActionForcee = Action_Mode_Actif();
+                    }
 
                     if (Decision())
                     {
-                        // Laisser PokerTeam terminer l'animation
-                        // et libérer la zone de ma position
+                        // =====================================
+                        // 🔥 DECISION EXECUTEE
+                        // ActionForcee ne doit pas rester bloquée
+                        // =====================================
+                        ActionForcee = "";
+
+                        // =====================================
+                        // LAISSER POKERTEAM TERMINER
+                        // =====================================
                         await Task.Delay(300);
 
                         CaptureEcran();
@@ -11407,15 +11802,24 @@ namespace Poker
                 // ==========================
                 // MAIN 1
                 // ==========================
-                if (!bMain1_Lu && Detecter_Presence("Main_1_Presence"))
+                if (!bMain1_Lu &&
+                    Detecter_Presence("Main_1_Presence"))
                 {
                     Debug("Lecture Main1");
 
                     // =====================================
-                    // Nouvelle main
-                    // Le gain précédent est terminé
+                    // NOUVELLE MAIN
                     // =====================================
                     Bt_J_ai_Gagne.Background = Brushes.White;
+
+                    if (bTapisPreFlop_Actif)
+                        Bt_Tapis.Background = Blanc;
+
+                    // =====================================
+                    // 🔥 RANDOM MEMO
+                    // Tirage une seule fois par Main
+                    // =====================================
+                    AppliquerRandomSiActif();
 
                     bAttendrePosition = false;
 
@@ -11431,11 +11835,62 @@ namespace Poker
                 // ==========================
                 // MAIN 2
                 // ==========================
-                if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
+                if (bMain1_Lu &&
+                    !bMain2_Lu &&
+                    Detecter_Presence("Main_2_Presence"))
                 {
                     await Task.Delay(1);
 
                     Lire_Main_2();
+
+                    // =====================================
+                    // 🔥 TEST RANGE TAPIS
+                    // Avec ou sans le mode actif
+                    // =====================================
+                    string main =
+                        NormaliserMainTapis(
+                            T_Carte[0],
+                            T_Carte[1]);
+
+                    bool dansRange =
+                        !string.IsNullOrEmpty(main) &&
+                        EstDansRange(main);
+
+                    Debug(
+                        "TAPIS TEST : " +
+                        TB_M1.Text +
+                        " " +
+                        TB_M2.Text +
+                        " | MAIN = " +
+                        main +
+                        " | RANGE = " +
+                        dansRange);
+
+                    // =====================================
+                    // BOUTON TEST TAPIS
+                    // =====================================
+                    if (dansRange)
+                    {
+                        Debug("🔥 TAPIS TEST → VERT");
+                        Bt_Tapis.Background = Vert;
+                    }
+                    else
+                    {
+                        Debug("🔥 TAPIS TEST → BLANC");
+                        Bt_Tapis.Background = Blanc;
+                    }
+
+                    // =====================================
+                    // 🔥 ACTION TAPIS PREFLOP
+                    // Seulement si le mode est actif
+                    // =====================================
+                    if (bTapisPreFlop_Actif && dansRange)
+                    {
+                        ActionForcee = "TAPIS";
+
+                        Debug(
+                            "🔥 TAPIS PREFLOP ACTIF → ActionForcee = TAPIS");
+                    }
 
                     bMain2_Lu = true;
 
@@ -11452,13 +11907,16 @@ namespace Poker
                     if (MaPlace != 0)
                     {
                         if (bTriggersBoard_Actif)
-                            Bt_Triggers_Board.Background = Brushes.LimeGreen;
+                            Bt_Triggers_Board.Background =
+                                Brushes.LimeGreen;
 
                         if (bTapisPreFlop_Actif)
-                            Bt_Tapis_PreFlop.Background = Brushes.LimeGreen;
+                            Bt_Tapis_PreFlop.Background =
+                                Brushes.LimeGreen;
 
                         if (bIA_Actif)
-                            Bt_IA.Background = Brushes.LimeGreen;
+                            Bt_IA.Background =
+                                Brushes.LimeGreen;
                     }
 
                     // =====================================
@@ -11494,7 +11952,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
-                    await Task.Delay(15);
+                    await Task.Delay(10);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -11507,38 +11965,41 @@ namespace Poker
                 // ==========================
                 if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
                 {
-                    await Task.Delay(15);
+                    await Task.Delay(10);
                     Lire_Flop_2();
 
                     bFlop2_Lu = true;
 
                     continue;
                 }
-
                 // ==========================
                 // FLOP 3
                 // ==========================
-                if (bFlop2_Lu &&
-                    !bFlop3_Lu &&
-                    Detecter_Presence("Flop_3_Presence"))
+                if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
                 {
+                    await Task.Delay(10);
+
                     Lire_Flop_3();
 
-                    bFlop3_Lu = true;
+                    // =====================================
+                    // 🔥 TAPIS OFF
+                    // Dès que le Flop 3 est lu
+                    // =====================================
+                    Bt_Tapis.Background = Blanc;
 
-                    await Task.Delay(2);
+                    bFlop3_Lu = true;
 
                     // =====================================
                     // CALCUL COMBINAISON FLOP
                     // =====================================
                     bFlop_Calcul = true;
 
+                    await Task.Delay(25);
                     Calcul_Flop();
 
                     JouerSon();
 
                     bFlop_Calcul = false;
-
 
                     // =====================================
                     // RESET ANCIENS CALCULS COMBINAISON
@@ -11551,6 +12012,14 @@ namespace Poker
                     bFlop_2_Paires = false;
                     bFlop_Paire = false;
 
+                    // =====================================
+                    // RESET AFFICHAGE DANGER FLOP
+                    // =====================================
+                    StopFlashDanger();
+
+                    Bt_Danger.Background = Blanc;
+                    Bt_Danger.Foreground = Brushes.Black;
+                    Bt_Danger.Content = "";
 
                     // =====================================
                     // CALCUL TIRAGES + DANGERS FLOP
@@ -11592,48 +12061,29 @@ namespace Poker
                         bAutoriserHistorique = true;
 
                         if (bTriggersBoard_Actif)
-                            Bt_Triggers_Board.Background =  Brushes.LightGreen;
+                            Bt_Triggers_Board.Background =
+                                Brushes.LightGreen;
 
                         if (bTapisPreFlop_Actif)
-                            Bt_Tapis_PreFlop.Background =   Brushes.LightGreen;
+                            Bt_Tapis_PreFlop.Background =
+                                Brushes.LightGreen;
 
                         if (bIA_Actif)
-                            Bt_IA.Background =  Brushes.LightGreen;
+                            Bt_IA.Background =
+                                Brushes.LightGreen;
                     }
 
                     continue;
                 }
+                // =====================================
+                // 🔥 RESET AFFICHAGE DANGER FLOP
+                // Nouvelle lecture du Flop
+                // =====================================
+                StopFlashDanger();
 
-
-                // ==========================
-                // RETOUR DEBUT
-                // ==========================
-                if (bGris && !Pupitre_Gris())
-                {
-                    bGris = false;
-
-                    // ==========================
-                    // HISTORIQUE
-                    // ==========================
-                    if (bAutoriserHistorique &&
-                        bMain1_Lu &&
-                        bMain2_Lu)
-                    {
-                        Ajouter_Historique();
-
-                        NbMains += 1;
-                        LbNbParole.Content =
-                            NbMains.ToString();
-                    }
-
-                    // ==========================
-                    // REMISE A ZERO
-                    // ==========================
-                    Reset_Lecture_Board();
-                    Reset_Table();
-
-                    continue;
-                }
+                Bt_Danger.Background = Blanc;
+                Bt_Danger.Foreground = Brushes.Black;
+                Bt_Danger.Content = "";
                 // ==========================
                 // TURN
                 // ==========================
@@ -11642,7 +12092,7 @@ namespace Poker
                     // ----- Turn normal -----
                     if (Detecter_Presence("Turn_Presence"))
                     {
-                        
+
                         Lire_Turn();
                         bTurn_Lu = true;
                     }
@@ -11706,6 +12156,9 @@ namespace Poker
 
                         await Task.Delay(2);
 
+                        // =====================================
+                        // CALCUL COMBINAISON RIVER
+                        // =====================================
                         Calcul_River();
 
                         // =====================================
@@ -11737,9 +12190,53 @@ namespace Poker
                         bRiver_2_Paires = false;
                         bRiver_Paire = false;
 
+                        // =====================================
+                        // DANGER RIVER
+                        // =====================================
+                        bRiver_Danger = true;
+
+                        Afficher_Danger(TirageRiver);
+
+                        JouerSon();
+
+                        bRiver_Danger = false;
+
                         continue;
                     }
                 }
+
+
+
+                // ==========================
+                // RETOUR DEBUT
+                // ==========================
+                if (bGris && !Pupitre_Gris())
+                {
+                    bGris = false;
+
+                    // ==========================
+                    // HISTORIQUE
+                    // ==========================
+                    if (bAutoriserHistorique &&
+                        bMain1_Lu &&
+                        bMain2_Lu)
+                    {
+                        Ajouter_Historique();
+
+                        NbMains += 1;
+                        LbNbParole.Content =
+                            NbMains.ToString();
+                    }
+
+                    // ==========================
+                    // REMISE A ZERO
+                    // ==========================
+                    Reset_Lecture_Board();
+                    Reset_Table();
+
+                    continue;
+                }
+               
             }
         }
 
@@ -12175,7 +12672,7 @@ namespace Poker
         {
             await Superviseur_Poker();
         }
-
+        #region BOUTON DEBUG
         // =========================================================
         // 🔥 BOUTON DEBUG
         // =========================================================
@@ -12429,6 +12926,7 @@ namespace Poker
             Bt_Gagne_en_8.Visibility = Visibility.Visible;
             Bt_Gagne_en_9.Visibility = Visibility.Visible;
         }
+        #endregion
 
         // =========================================================
         // 🛑 ARRÊT D'URGENCE
@@ -12530,20 +13028,7 @@ namespace Poker
 
         }
 
-        // =========================================================
-        // 🔥 NOM DE LA CARTE
-        // =========================================================
-        private string NomCarte(int valeur)
-        {
-            switch (valeur)
-            {
-                case 14: return "As";
-                case 13: return "Roi";
-                case 12: return "Dame";
-                case 11: return "Valet";
-                default: return valeur.ToString();
-            }
-        }
+
 
         // =========================================================
         // DEBUG
