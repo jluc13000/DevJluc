@@ -535,7 +535,7 @@
         HorizontalAlignment="Left"
         VerticalAlignment="Top"
         Margin="141,315,0,0"
-        Width="148"
+        Width="57"
         Height="22"
         Background="Orange"
         BorderBrush="Black"
@@ -737,6 +737,7 @@
         </Image>
         <Button x:Name="Bt_Test"  Content="TEST"  Click="Bt_Test_Click"  HorizontalAlignment="Left" Height="20" Margin="270,217,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Danger"   Content="Danger"                Click="Bt_Danger_Click"    HorizontalAlignment="Left"              Height="19"     Margin="0,709,0,0"     VerticalAlignment="Top"     Width="52"  FontSize="6"                                            Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Quitter_et_Revenir"   Content="Quitter et Revenir"  Click="Bt_Quitter_Et_Revenir_Click" HorizontalAlignment="Left" Height="20" Margin="200,315,0,0" VerticalAlignment="Top" Width="89"                        FontWeight="Bold"    FontSize="10"/>
 
     </Grid>
 </Window>
