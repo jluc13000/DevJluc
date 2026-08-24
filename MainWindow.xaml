@@ -738,6 +738,39 @@
         <Button x:Name="Bt_Test"  Content="TEST"  Click="Bt_Test_Click"  HorizontalAlignment="Left" Height="20" Margin="270,217,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Danger"   Content="Danger"                Click="Bt_Danger_Click"    HorizontalAlignment="Left"              Height="19"     Margin="0,709,0,0"     VerticalAlignment="Top"     Width="52"  FontSize="6"                                            Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Quitter_et_Revenir"   Content="Quitter et Revenir"  Click="Bt_Quitter_Et_Revenir_Click" HorizontalAlignment="Left" Height="20" Margin="200,315,0,0" VerticalAlignment="Top" Width="89"                        FontWeight="Bold"    FontSize="10"/>
+        <Button x:Name="Bt_Range_Tapis"                   
+                Content="Tapis"                
+                Click="Bt_Range_Tapis_Click"              
+                HorizontalAlignment="Left"              
+                Height="18"     
+                Margin="352,840,0,0"    
+                VerticalAlignment="Top"     
+                Width="40"  
+                FontSize="9"                        
+                FontWeight="Bold"   
+                Style="{StaticResource FlatButton}" RenderTransformOrigin="4.538,-0.583"/>
+        <Button x:Name="Bt_Range_Suivre"                   
+                Content="Suivre"                
+                Click="Bt_Range_Suivre_Click"              
+                HorizontalAlignment="Left"              
+                Height="18"     
+                Margin="352,876,0,0"    
+                VerticalAlignment="Top"     
+                Width="40"                        
+                FontWeight="Bold"   
+                Style="{StaticResource FlatButton}" FontSize="9"/>
+        <Button x:Name="Bt_Range_Relance"                   
+            Content="Relance"                
+            Click="Bt_Range_Relance_Click"              
+            HorizontalAlignment="Left"              
+            Height="18"     
+            Margin="352,858,0,0"    
+            VerticalAlignment="Top"     
+            Width="40"  
+            FontSize="9"                        
+            FontWeight="Bold"   
+            Style="{StaticResource FlatButton}"/>
+        <Label Content="Ranges" HorizontalAlignment="Left" Height="24" Margin="355,816,0,0" VerticalAlignment="Top" Width="39" FontSize="9"/>
 
     </Grid>
 </Window>
