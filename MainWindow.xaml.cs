@@ -1625,7 +1625,26 @@ namespace Poker
             bFlop_Calcul = true;
 
             Calcul_Flop();
-            JouerSon();
+
+            // =====================================
+            // 🔥 SON COMBINAISON FLOP
+            // =====================================
+            if (bFlop_QFlush)
+                JouerSon("Quinte Flush.wav");
+            else if (bFlop_Carre)
+                JouerSon("Carre.wav");
+            else if (bFlop_Full)
+                JouerSon("Full.wav");
+            else if (bFlop_Couleur)
+                JouerSon("Couleur.wav");
+            else if (bFlop_Quinte)
+                JouerSon("Quinte.wav");
+            else if (bFlop_Brelan)
+                JouerSon("Brelan.wav");
+            else if (bFlop_2_Paires)
+                JouerSon("Deux Paires.wav");
+            else if (bFlop_Paire)
+                JouerSon("Paire.wav");
 
             bFlop_Calcul = false;
 
@@ -1658,13 +1677,23 @@ namespace Poker
                 TirageFlop.Ventrale);
 
             // =====================================
-            // SON TIRAGE
+            // SON TIRAGE FLOP
             // =====================================
-            bFlop_Tirage = true;
-
-            JouerSon();
-
-            bFlop_Tirage = false;
+            if (TirageFlop.QuinteFlush)
+            {
+                JouerSon("Tirage Quinte Flush.wav");
+            }
+            else if (TirageFlop.Couleur)
+            {
+                JouerSon("Tirage Couleur.wav");
+            }
+            else if (TirageFlop.Quinte)
+            {
+                if (TirageFlop.Ventrale)
+                    JouerSon("Ventrale.wav");
+                else
+                    JouerSon("Tirage Quinte.wav");
+            }
 
             // =====================================
             // SON DANGER FLOP
@@ -1673,7 +1702,31 @@ namespace Poker
 
             Afficher_Danger(TirageFlop);
 
-            JouerSon();
+            if (TirageFlop.DangerCarre)
+            {
+                JouerSon("Danger Carre.wav");
+            }
+            else if (TirageFlop.DangerFull)
+            {
+                JouerSon("Danger Full.wav");
+            }
+            else if (TirageFlop.DangerQuinteFlush)
+            {
+                JouerSon("Danger Quinte Flush.wav");
+            }
+            else if (TirageFlop.DangerCouleur &&
+                     TirageFlop.DangerQuinte)
+            {
+                JouerSon("Danger Couleur Quinte.wav");
+            }
+            else if (TirageFlop.DangerCouleur)
+            {
+                JouerSon("Danger Couleur.wav");
+            }
+            else if (TirageFlop.DangerQuinte)
+            {
+                JouerSon("Danger Quinte.wav");
+            }
 
             bFlop_Danger = false;
         }
@@ -1683,17 +1736,35 @@ namespace Poker
         // =========================================================
         private void Bt_Turn_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte_Test(TB_T, Bt_Turn, 5);
+            AfficherCarte_Test(
+                TB_T,
+                Bt_Turn,
+                5);
 
             // =====================================
             // CALCUL COMBINAISON TURN
             // =====================================
-            bTurn_Calcul = true;
-
             Calcul_Turn();
-            JouerSon();
 
-            bTurn_Calcul = false;
+            // =====================================
+            // SON COMBINAISON TURN
+            // =====================================
+            if (bTurn_QFlush)
+                JouerSon("Quinte Flush.wav");
+            else if (bTurn_Carre)
+                JouerSon("Carre.wav");
+            else if (bTurn_Full)
+                JouerSon("Full.wav");
+            else if (bTurn_Couleur)
+                JouerSon("Couleur.wav");
+            else if (bTurn_Quinte)
+                JouerSon("Quinte.wav");
+            else if (bTurn_Brelan)
+                JouerSon("Brelan.wav");
+            else if (bTurn_2_Paires)
+                JouerSon("Deux Paires.wav");
+            else if (bTurn_Paire)
+                JouerSon("Paire.wav");
 
             // =====================================
             // CALCUL TIRAGES + DANGERS TURN
@@ -1701,26 +1772,23 @@ namespace Poker
             Calcul_Tirages();
 
             // =====================================
-            // DEBUG TURN
-            // =====================================
-            //Debug(
-            //    "TURN : QFlush=" +
-            //    TirageTurn.QuinteFlush +
-            //    " | Quinte=" +
-            //    TirageTurn.Quinte +
-            //    " | Couleur=" +
-            //    TirageTurn.Couleur +
-            //    " | Ventrale=" +
-            //    TirageTurn.Ventrale);
-
-            // =====================================
             // SON TIRAGE TURN
             // =====================================
-            bTurn_Tirage = true;
-
-            JouerSon();
-
-            bTurn_Tirage = false;
+            if (TirageTurn.QuinteFlush)
+            {
+                JouerSon("Tirage Quinte Flush.wav");
+            }
+            else if (TirageTurn.Couleur)
+            {
+                JouerSon("Tirage Couleur.wav");
+            }
+            else if (TirageTurn.Quinte)
+            {
+                if (TirageTurn.Ventrale)
+                    JouerSon("Ventrale.wav");
+                else
+                    JouerSon("Tirage Quinte.wav");
+            }
 
             // =====================================
             // DANGER TURN
@@ -1735,7 +1803,31 @@ namespace Poker
             // =====================================
             // SON DANGER TURN
             // =====================================
-            JouerSon();
+            if (TirageTurn.DangerCarre)
+            {
+                JouerSon("Danger Carre.wav");
+            }
+            else if (TirageTurn.DangerFull)
+            {
+                JouerSon("Danger Full.wav");
+            }
+            else if (TirageTurn.DangerQuinteFlush)
+            {
+                JouerSon("Danger Quinte Flush.wav");
+            }
+            else if (TirageTurn.DangerCouleur &&
+                     TirageTurn.DangerQuinte)
+            {
+                JouerSon("Danger Couleur Quinte.wav");
+            }
+            else if (TirageTurn.DangerCouleur)
+            {
+                JouerSon("Danger Couleur.wav");
+            }
+            else if (TirageTurn.DangerQuinte)
+            {
+                JouerSon("Danger Quinte.wav");
+            }
 
             bTurn_Danger = false;
         }
@@ -1745,17 +1837,35 @@ namespace Poker
         // =========================================================
         private void Bt_River_Click(object sender, RoutedEventArgs e)
         {
-            AfficherCarte_Test(TB_R, Bt_River, 6);
+            AfficherCarte_Test(
+                TB_R,
+                Bt_River,
+                6);
 
             // =====================================
             // CALCUL COMBINAISON RIVER
             // =====================================
-            bRiver_Calcul = true;
-
             Calcul_River();
-            JouerSon();
 
-            bRiver_Calcul = false;
+            // =====================================
+            // SON COMBINAISON RIVER
+            // =====================================
+            if (bRiver_QFlush)
+                JouerSon("Quinte Flush.wav");
+            else if (bRiver_Carre)
+                JouerSon("Carre.wav");
+            else if (bRiver_Full)
+                JouerSon("Full.wav");
+            else if (bRiver_Couleur)
+                JouerSon("Couleur.wav");
+            else if (bRiver_Quinte)
+                JouerSon("Quinte.wav");
+            else if (bRiver_Brelan)
+                JouerSon("Brelan.wav");
+            else if (bRiver_2_Paires)
+                JouerSon("Deux Paires.wav");
+            else if (bRiver_Paire)
+                JouerSon("Paire.wav");
 
             // =====================================
             // CALCUL TIRAGES + DANGERS RIVER
@@ -1775,7 +1885,31 @@ namespace Poker
             // =====================================
             // SON DANGER RIVER
             // =====================================
-            JouerSon();
+            if (TirageRiver.DangerCarre)
+            {
+                JouerSon("Danger Carre.wav");
+            }
+            else if (TirageRiver.DangerFull)
+            {
+                JouerSon("Danger Full.wav");
+            }
+            else if (TirageRiver.DangerQuinteFlush)
+            {
+                JouerSon("Danger Quinte Flush.wav");
+            }
+            else if (TirageRiver.DangerCouleur &&
+                     TirageRiver.DangerQuinte)
+            {
+                JouerSon("Danger Couleur Quinte.wav");
+            }
+            else if (TirageRiver.DangerCouleur)
+            {
+                JouerSon("Danger Couleur.wav");
+            }
+            else if (TirageRiver.DangerQuinte)
+            {
+                JouerSon("Danger Quinte.wav");
+            }
 
             bRiver_Danger = false;
         }
@@ -3196,269 +3330,301 @@ namespace Poker
         // =====================================
         // 🔥 JOUER SONS
         // =====================================
-        private void JouerSon()
+        // =====================================
+        // 🔥 JOUER UN SON
+        // =====================================
+        private void JouerSon(string nomSon)
         {
-            // =========================================================
-            // 🔥 PRE-FLOP CALCUL
-            // =========================================================
-            if (bPreFlop_Calcul)
-            {
-                if (bPreFlop_Suite && bPreFlop_Pareille)
-                    JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
-                else if (bPreFlop_Suite)
-                    JouerFichierSon(DOSSIER_SONS + "Suite.wav");
-                else if (bPreFlop_Pareille)
-                    JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
-                else if (bPreFlop_Paire)
-                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            }
+            // =====================================
+            // SON INVALIDE
+            // =====================================
+            if (string.IsNullOrWhiteSpace(nomSon))
+                return;
 
+            // =====================================
+            // CONSTRUIRE LE CHEMIN
+            // =====================================
+            string fichier =
+                Path.Combine(
+                    DOSSIER_SONS,
+                    nomSon);
 
-            // =========================================================
-            // 🔥 FLOP CALCUL
-            // =========================================================
-            if (bFlop_Calcul)
-            {
-                if (bFlop_QFlush)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-                else if (bFlop_Carre)
-                    JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-                else if (bFlop_Full)
-                    JouerFichierSon(DOSSIER_SONS + "Full.wav");
-                else if (bFlop_Couleur)
-                    JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-                else if (bFlop_Quinte)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-                else if (bFlop_Brelan)
-                    JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-                else if (bFlop_2_Paires)
-                    JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-                else if (bFlop_Paire)
-                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            }
+            // =====================================
+            // FICHIER ABSENT
+            // =====================================
+            if (!File.Exists(fichier))
+                return;
 
-
-            // =========================================================
-            // 🔥 FLOP TIRAGE
-            // =========================================================
-            if (bFlop_Tirage)
-            {
-                if (TirageFlop.QuinteFlush)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Tirage Quinte Flush.wav");
-                }
-                else if (TirageFlop.Couleur)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Tirage Couleur.wav");
-                }
-                else if (TirageFlop.Quinte)
-                {
-                    if (TirageFlop.Ventrale)
-                    {
-                        JouerFichierSon(
-                            DOSSIER_SONS + "Ventrale.wav");
-                    }
-                    else
-                    {
-                        JouerFichierSon(
-                            DOSSIER_SONS + "Tirage Quinte.wav");
-                    }
-                }
-            }
-
-            // =========================================================
-            // 🔥 FLOP DANGER
-            // =========================================================
-            if (bFlop_Danger)
-            {
-                if (TirageFlop.DangerCarre)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Carre.wav");
-                }
-                else if (TirageFlop.DangerFull)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Full.wav");
-                }
-                else if (TirageFlop.DangerQuinteFlush)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte Flush.wav");
-                }
-                else if (TirageFlop.DangerCouleur &&
-                         TirageFlop.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur Quinte.wav");
-                }
-                else if (TirageFlop.DangerCouleur)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur.wav");
-                }
-                else if (TirageFlop.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte.wav");
-                }
-            }
-
-            // =========================================================
-            // 🔥 TURN CALCUL
-            // =========================================================
-            if (bTurn_Calcul)
-            {
-                if (bTurn_QFlush)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-                else if (bTurn_Carre)
-                    JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-                else if (bTurn_Full)
-                    JouerFichierSon(DOSSIER_SONS + "Full.wav");
-                else if (bTurn_Couleur)
-                    JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-                else if (bTurn_Quinte)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-                else if (bTurn_Brelan)
-                    JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-                else if (bTurn_2_Paires)
-                    JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-                else if (bTurn_Paire)
-                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            }
-
-
-            // =========================================================
-            // 🔥 TURN TIRAGE
-            // =========================================================
-            if (bTurn_Tirage)
-            {
-                if (TirageTurn.QuinteFlush)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Tirage Quinte Flush.wav");
-                }
-                else if (TirageTurn.Couleur)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Tirage Couleur.wav");
-                }
-                else if (TirageTurn.Quinte)
-                {
-                    if (TirageTurn.Ventrale)
-                    {
-                        JouerFichierSon(
-                            DOSSIER_SONS + "Ventrale.wav");
-                    }
-                    else
-                    {
-                        JouerFichierSon(
-                            DOSSIER_SONS + "Tirage Quinte.wav");
-                    }
-                }
-            }
-
-            // =========================================================
-            // 🔥 TURN DANGER
-            // =========================================================
-            if (bTurn_Danger)
-            {
-                if (TirageTurn.DangerCarre)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Carre.wav");
-                }
-                else if (TirageTurn.DangerFull)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Full.wav");
-                }
-                else if (TirageTurn.DangerQuinteFlush)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte Flush.wav");
-                }
-                else if (TirageTurn.DangerCouleur &&
-                         TirageTurn.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur Quinte.wav");
-                }
-                else if (TirageTurn.DangerCouleur)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur.wav");
-                }
-                else if (TirageTurn.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte.wav");
-                }
-            }
-
-            // =========================================================
-            // 🔥 RIVER CALCUL
-            // =========================================================
-            if (bRiver_Calcul)
-            {
-                if (bRiver_QFlush)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
-                else if (bRiver_Carre)
-                    JouerFichierSon(DOSSIER_SONS + "Carre.wav");
-                else if (bRiver_Full)
-                    JouerFichierSon(DOSSIER_SONS + "Full.wav");
-                else if (bRiver_Couleur)
-                    JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
-                else if (bRiver_Quinte)
-                    JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
-                else if (bRiver_Brelan)
-                    JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
-                else if (bRiver_2_Paires)
-                    JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
-                else if (bRiver_Paire)
-                    JouerFichierSon(DOSSIER_SONS + "Paire.wav");
-            }
-
-            // =========================================================
-            // 🔥 RIVER DANGER
-            // =========================================================
-            if (bRiver_Danger)
-            {
-                if (TirageRiver.DangerCarre)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Carre.wav");
-                }
-                else if (TirageRiver.DangerFull)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Full.wav");
-                }
-                else if (TirageRiver.DangerQuinteFlush)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte Flush.wav");
-                }
-                else if (TirageRiver.DangerCouleur &&
-                         TirageRiver.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur Quinte.wav");
-                }
-                else if (TirageRiver.DangerCouleur)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Couleur.wav");
-                }
-                else if (TirageRiver.DangerQuinte)
-                {
-                    JouerFichierSon(
-                        DOSSIER_SONS + "Danger Quinte.wav");
-                }
-            }
+            // =====================================
+            // JOUER LE SON
+            // =====================================
+            JouerFichierSon(fichier);
         }
+        //private void JouerSon()
+        //{
+        //    return;
+
+        //    // =========================================================
+        //    // 🔥 PRE-FLOP CALCUL
+        //    // =========================================================
+        //    if (bPreFlop_Calcul)
+        //    {
+        //        if (bPreFlop_Suite && bPreFlop_Pareille)
+        //            JouerFichierSon(DOSSIER_SONS + "Suite Pareille.wav");
+        //        else if (bPreFlop_Suite)
+        //            JouerFichierSon(DOSSIER_SONS + "Suite.wav");
+        //        else if (bPreFlop_Pareille)
+        //            JouerFichierSon(DOSSIER_SONS + "Pareille.wav");
+        //        else if (bPreFlop_Paire)
+        //            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        //    }
+
+
+        //    // =========================================================
+        //    // 🔥 FLOP CALCUL
+        //    // =========================================================
+        //    if (bFlop_Calcul)
+        //    {
+        //        if (bFlop_QFlush)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+        //        else if (bFlop_Carre)
+        //            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+        //        else if (bFlop_Full)
+        //            JouerFichierSon(DOSSIER_SONS + "Full.wav");
+        //        else if (bFlop_Couleur)
+        //            JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+        //        else if (bFlop_Quinte)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+        //        else if (bFlop_Brelan)
+        //            JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+        //        else if (bFlop_2_Paires)
+        //            JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+        //        else if (bFlop_Paire)
+        //            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        //    }
+
+
+        //    // =========================================================
+        //    // 🔥 FLOP TIRAGE
+        //    // =========================================================
+        //    if (bFlop_Tirage)
+        //    {
+        //        if (TirageFlop.QuinteFlush)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Tirage Quinte Flush.wav");
+        //        }
+        //        else if (TirageFlop.Couleur)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Tirage Couleur.wav");
+        //        }
+        //        else if (TirageFlop.Quinte)
+        //        {
+        //            if (TirageFlop.Ventrale)
+        //            {
+        //                JouerFichierSon(
+        //                    DOSSIER_SONS + "Ventrale.wav");
+        //            }
+        //            else
+        //            {
+        //                JouerFichierSon(
+        //                    DOSSIER_SONS + "Tirage Quinte.wav");
+        //            }
+        //        }
+        //    }
+
+        //    // =========================================================
+        //    // 🔥 FLOP DANGER
+        //    // =========================================================
+        //    if (bFlop_Danger)
+        //    {
+        //        if (TirageFlop.DangerCarre)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Carre.wav");
+        //        }
+        //        else if (TirageFlop.DangerFull)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Full.wav");
+        //        }
+        //        else if (TirageFlop.DangerQuinteFlush)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte Flush.wav");
+        //        }
+        //        else if (TirageFlop.DangerCouleur &&
+        //                 TirageFlop.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur Quinte.wav");
+        //        }
+        //        else if (TirageFlop.DangerCouleur)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur.wav");
+        //        }
+        //        else if (TirageFlop.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte.wav");
+        //        }
+        //    }
+
+        //    // =========================================================
+        //    // 🔥 TURN CALCUL
+        //    // =========================================================
+        //    if (bTurn_Calcul)
+        //    {
+        //        if (bTurn_QFlush)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+        //        else if (bTurn_Carre)
+        //            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+        //        else if (bTurn_Full)
+        //            JouerFichierSon(DOSSIER_SONS + "Full.wav");
+        //        else if (bTurn_Couleur)
+        //            JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+        //        else if (bTurn_Quinte)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+        //        else if (bTurn_Brelan)
+        //            JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+        //        else if (bTurn_2_Paires)
+        //            JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+        //        else if (bTurn_Paire)
+        //            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        //    }
+
+
+        //    // =========================================================
+        //    // 🔥 TURN TIRAGE
+        //    // =========================================================
+        //    if (bTurn_Tirage)
+        //    {
+        //        if (TirageTurn.QuinteFlush)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Tirage Quinte Flush.wav");
+        //        }
+        //        else if (TirageTurn.Couleur)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Tirage Couleur.wav");
+        //        }
+        //        else if (TirageTurn.Quinte)
+        //        {
+        //            if (TirageTurn.Ventrale)
+        //            {
+        //                JouerFichierSon(
+        //                    DOSSIER_SONS + "Ventrale.wav");
+        //            }
+        //            else
+        //            {
+        //                JouerFichierSon(
+        //                    DOSSIER_SONS + "Tirage Quinte.wav");
+        //            }
+        //        }
+        //    }
+
+        //    // =========================================================
+        //    // 🔥 TURN DANGER
+        //    // =========================================================
+        //    if (bTurn_Danger)
+        //    {
+        //        if (TirageTurn.DangerCarre)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Carre.wav");
+        //        }
+        //        else if (TirageTurn.DangerFull)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Full.wav");
+        //        }
+        //        else if (TirageTurn.DangerQuinteFlush)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte Flush.wav");
+        //        }
+        //        else if (TirageTurn.DangerCouleur &&
+        //                 TirageTurn.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur Quinte.wav");
+        //        }
+        //        else if (TirageTurn.DangerCouleur)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur.wav");
+        //        }
+        //        else if (TirageTurn.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte.wav");
+        //        }
+        //    }
+
+        //    // =========================================================
+        //    // 🔥 RIVER CALCUL
+        //    // =========================================================
+        //    if (bRiver_Calcul)
+        //    {
+        //        if (bRiver_QFlush)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte Flush.wav");
+        //        else if (bRiver_Carre)
+        //            JouerFichierSon(DOSSIER_SONS + "Carre.wav");
+        //        else if (bRiver_Full)
+        //            JouerFichierSon(DOSSIER_SONS + "Full.wav");
+        //        else if (bRiver_Couleur)
+        //            JouerFichierSon(DOSSIER_SONS + "Couleur.wav");
+        //        else if (bRiver_Quinte)
+        //            JouerFichierSon(DOSSIER_SONS + "Quinte.wav");
+        //        else if (bRiver_Brelan)
+        //            JouerFichierSon(DOSSIER_SONS + "Brelan.wav");
+        //        else if (bRiver_2_Paires)
+        //            JouerFichierSon(DOSSIER_SONS + "Deux Paires.wav");
+        //        else if (bRiver_Paire)
+        //            JouerFichierSon(DOSSIER_SONS + "Paire.wav");
+        //    }
+
+        //    // =========================================================
+        //    // 🔥 RIVER DANGER
+        //    // =========================================================
+        //    if (bRiver_Danger)
+        //    {
+        //        if (TirageRiver.DangerCarre)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Carre.wav");
+        //        }
+        //        else if (TirageRiver.DangerFull)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Full.wav");
+        //        }
+        //        else if (TirageRiver.DangerQuinteFlush)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte Flush.wav");
+        //        }
+        //        else if (TirageRiver.DangerCouleur &&
+        //                 TirageRiver.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur Quinte.wav");
+        //        }
+        //        else if (TirageRiver.DangerCouleur)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Couleur.wav");
+        //        }
+        //        else if (TirageRiver.DangerQuinte)
+        //        {
+        //            JouerFichierSon(
+        //                DOSSIER_SONS + "Danger Quinte.wav");
+        //        }
+        //    }
+        //}
 
         // =========================================================
         // 🔥 JOUER UN FICHIER SON
@@ -4714,7 +4880,9 @@ namespace Poker
             if (TableCartes.Count == 2)
             {
                 TableCartes.Add(CreerCarte(TB_F1.Text, false));
+
                 TableCartes.Add(CreerCarte(TB_F2.Text, false));
+
                 TableCartes.Add(CreerCarte(TB_F3.Text, false));
             }
 
@@ -4733,79 +4901,36 @@ namespace Poker
             Calcul_Moteur_Carre(TableCartes, JeuFlop, ref bFlop_Carre, Bt_Flop_Carre);
 
             if (bFlop_Carre)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
                 return;
-            }
+            
 
             Calcul_Moteur_Full(TableCartes, JeuFlop, ref bFlop_Full, Bt_Flop_Full);
 
             if (bFlop_Full)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
                 return;
-            }
 
             // =========================================================
-            // Quinte avant Couleur
-            // car le moteur Quinte détecte aussi la Quinte Flush
+            // 🔥 QUINTE
+            // Le moteur Quinte détecte aussi la Quinte Flush
             // =========================================================
-
             Calcul_Moteur_Quinte(TableCartes, JeuFlop, ref bFlop_Quinte, Bt_Flop_Quinte);
 
             if (bFlop_Quinte)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
                 return;
-            }
-
-            Calcul_Moteur_Couleur(TableCartes, JeuFlop, ref bFlop_Couleur, Bt_Flop_Couleur);
-
-            if (bFlop_Couleur)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
-                return;
-            }
 
             Calcul_Moteur_Brelan(TableCartes, JeuFlop, ref bFlop_Brelan, Bt_Flop_Brelan);
 
+            Calcul_Moteur_Couleur(TableCartes, JeuFlop, ref bFlop_Couleur, Bt_Flop_Couleur);
+
             if (bFlop_Brelan)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
                 return;
-            }
 
             Calcul_Moteur_DeuxPaires(TableCartes, JeuFlop, ref bFlop_2_Paires, Bt_Flop_2_Paires);
 
             if (bFlop_2_Paires)
-            {
-                Debug_Jeu("FLOP", JeuFlop);
-
-                JouerSon();
-
                 return;
-            }
 
             Calcul_Moteur_Paire(TableCartes, JeuFlop, ref bFlop_Paire, Bt_Flop_Paire);
-
-            Debug_Jeu("FLOP", JeuFlop);
-
-            JouerSon();
         }
 
         // =========================================================
@@ -5156,9 +5281,7 @@ namespace Poker
                 if (!TirageFlop.Couleur &&
                     !TirageFlop.QuinteFlush)
                 {
-                    Tirage_Moteur_Quinte(
-                        TableCartes,
-                        TirageFlop);
+                    Tirage_Moteur_Quinte(TableCartes, TirageFlop);
 
                     if (TirageFlop.Quinte)
                     {
@@ -5339,7 +5462,9 @@ namespace Poker
         // 🔥 TIRAGE QUINTE
         // Flop + Turn + River
         // =========================================================
-        private void Tirage_Moteur_Quinte(List<Carte> cartes, Tirage tirage)
+        private void Tirage_Moteur_Quinte(
+            List<Carte> cartes,
+            Tirage tirage)
         {
             // =====================================
             // RESET
@@ -5370,21 +5495,21 @@ namespace Poker
             // =====================================
             int[][] suites =
             {
-                new[] { 1, 2, 3, 4, 5 },
-                new[] { 2, 3, 4, 5, 6 },
-                new[] { 3, 4, 5, 6, 7 },
-                new[] { 4, 5, 6, 7, 8 },
-                new[] { 5, 6, 7, 8, 9 },
-                new[] { 6, 7, 8, 9, 10 },
-                new[] { 7, 8, 9, 10, 11 },
-                new[] { 8, 9, 10, 11, 12 },
-                new[] { 9, 10, 11, 12, 13 },
-                new[] { 10, 11, 12, 13, 14 }
-            };
+        new[] { 1, 2, 3, 4, 5 },
+        new[] { 2, 3, 4, 5, 6 },
+        new[] { 3, 4, 5, 6, 7 },
+        new[] { 4, 5, 6, 7, 8 },
+        new[] { 5, 6, 7, 8, 9 },
+        new[] { 6, 7, 8, 9, 10 },
+        new[] { 7, 8, 9, 10, 11 },
+        new[] { 8, 9, 10, 11, 12 },
+        new[] { 9, 10, 11, 12, 13 },
+        new[] { 10, 11, 12, 13, 14 }
+    };
 
-            // =====================================
-            // QUINTE DEJA REALISEE ?
-            // =====================================
+            // =====================================================
+            // 🔥 1. QUINTE DÉJÀ RÉALISÉE ?
+            // =====================================================
             foreach (int[] suite in suites)
             {
                 int presentes =
@@ -5392,17 +5517,15 @@ namespace Poker
 
                 if (presentes == 5)
                 {
-                    // =====================================
                     // Une vraie quinte existe déjà.
-                    // Ce n'est plus un tirage ni un danger.
-                    // =====================================
                     return;
                 }
             }
 
-            // =====================================
-            // RECHERCHE D'UNE SUITE A 4 CARTES
-            // =====================================
+            // =====================================================
+            // 🔥 2. RECHERCHE PRIORITAIRE D'UN TIRAGE OUVERT
+            // 4 CARTES CONSÉCUTIVES
+            // =====================================================
             foreach (int[] suite in suites)
             {
                 int presentes =
@@ -5412,7 +5535,143 @@ namespace Poker
                     continue;
 
                 // =====================================
-                // RECHERCHE DE LA CARTE MANQUANTE
+                // VALEURS PRÉSENTES
+                // =====================================
+                List<int> valeursPresentes =
+                    suite
+                        .Where(v => valeurs.Contains(v))
+                        .OrderBy(v => v)
+                        .ToList();
+
+                // =====================================
+                // 4 CARTES CONSÉCUTIVES
+                // → TIRAGE QUINTE
+                // → PAS VENTRALE
+                // =====================================
+                bool quatreConsecutives = true;
+
+                for (int i = 1; i < valeursPresentes.Count; i++)
+                {
+                    if (valeursPresentes[i] !=
+                        valeursPresentes[i - 1] + 1)
+                    {
+                        quatreConsecutives = false;
+                        break;
+                    }
+                }
+
+                if (!quatreConsecutives)
+                    continue;
+
+                // =====================================
+                // CARTES DE LA SUITE
+                // =====================================
+                List<Carte> cartesTirage =
+                    cartes
+                        .Where(c =>
+                            suite.Contains(c.Valeur) ||
+                            (suite.Contains(1) &&
+                             c.Valeur == 14))
+                        .ToList();
+
+                // =====================================
+                // VALEURS BOARD
+                // =====================================
+                HashSet<int> valeursBoard =
+                    cartes
+                        .Where(c => !c.EstMain)
+                        .Select(c => c.Valeur)
+                        .ToHashSet();
+
+                // =====================================
+                // PARTICIPATION DE MA MAIN
+                // =====================================
+                List<Carte> cartesMain =
+                    cartesTirage
+                        .Where(c =>
+                            c.EstMain &&
+                            !valeursBoard.Contains(c.Valeur))
+                        .GroupBy(c => c.Valeur)
+                        .Select(g => g.First())
+                        .ToList();
+
+                int participation =
+                    cartesMain.Count;
+
+                // =====================================
+                // JE PARTICIPE
+                // =====================================
+                if (participation > 0)
+                {
+                    tirage.Quinte = true;
+                    tirage.Ventrale = false;
+                    tirage.Participation = participation;
+
+                    tirage.CarteHaute =
+                        cartesMain
+                            .Select(c =>
+                                (suite.Contains(1) &&
+                                 c.Valeur == 14)
+                                    ? 1
+                                    : c.Valeur)
+                            .Max();
+
+                    return;
+                }
+
+                // =====================================
+                // JE NE PARTICIPE PAS
+                // → DANGER QUINTE
+                // =====================================
+                if (cartes.Count >= 6)
+                {
+                    tirage.DangerQuinte = true;
+                    tirage.Ventrale = false;
+                    tirage.Participation = 0;
+
+                    return;
+                }
+            }
+
+            // =====================================================
+            // 🔥 3. RECHERCHE D'UNE VENTRALE
+            // Seulement après avoir écarté les tirages ouverts
+            // =====================================================
+            foreach (int[] suite in suites)
+            {
+                int presentes =
+                    suite.Count(v => valeurs.Contains(v));
+
+                if (presentes != 4)
+                    continue;
+
+                List<int> valeursPresentes =
+                    suite
+                        .Where(v => valeurs.Contains(v))
+                        .OrderBy(v => v)
+                        .ToList();
+
+                // =====================================
+                // SI 4 CARTES CONSÉCUTIVES
+                // → déjà traité au-dessus
+                // =====================================
+                bool quatreConsecutives = true;
+
+                for (int i = 1; i < valeursPresentes.Count; i++)
+                {
+                    if (valeursPresentes[i] !=
+                        valeursPresentes[i - 1] + 1)
+                    {
+                        quatreConsecutives = false;
+                        break;
+                    }
+                }
+
+                if (quatreConsecutives)
+                    continue;
+
+                // =====================================
+                // RECHERCHE DU TROU INTÉRIEUR
                 // =====================================
                 int positionManquante = -1;
 
@@ -5426,92 +5685,79 @@ namespace Poker
                 }
 
                 // =====================================
-                // TYPE DE SUITE
+                // TROU INTÉRIEUR UNIQUEMENT
                 // =====================================
-                bool ventrale;
-
-                // A-2-3-4-5
-                if (suite[0] == 1)
+                if (positionManquante <= 0 ||
+                    positionManquante >= 4)
                 {
-                    ventrale = true;
-                }
-                // Carte manquante au milieu
-                else if (positionManquante > 0 &&
-                         positionManquante < 4)
-                {
-                    ventrale = true;
-                }
-                else
-                {
-                    ventrale = false;
+                    continue;
                 }
 
                 // =====================================
-                // CARTES DE LA SUITE PRESENTES
+                // CARTES DE LA SUITE
                 // =====================================
-                List<Carte> cartesTirage = cartes
-                    .Where(c =>
-                        suite.Contains(c.Valeur) ||
-                        (suite.Contains(1) && c.Valeur == 14))
-                    .ToList();
+                List<Carte> cartesTirage =
+                    cartes
+                        .Where(c =>
+                            suite.Contains(c.Valeur) ||
+                            (suite.Contains(1) &&
+                             c.Valeur == 14))
+                        .ToList();
 
                 // =====================================
-                // VALEURS DEJA PRESENTES SUR LE BOARD
+                // VALEURS BOARD
                 // =====================================
-                HashSet<int> valeursBoard = cartes
-                    .Where(c => !c.EstMain)
-                    .Select(c => c.Valeur)
-                    .ToHashSet();
+                HashSet<int> valeursBoard =
+                    cartes
+                        .Where(c => !c.EstMain)
+                        .Select(c => c.Valeur)
+                        .ToHashSet();
 
                 // =====================================
-                // PARTICIPATION REELLE DE MA MAIN
-                // Une carte de ma main ne participe
-                // que si son rang n'est pas déjà
-                // présent sur le board.
+                // PARTICIPATION DE MA MAIN
                 // =====================================
-                List<Carte> cartesMain = cartesTirage
-                    .Where(c =>
-                        c.EstMain &&
-                        !valeursBoard.Contains(c.Valeur))
-                    .GroupBy(c => c.Valeur)
-                    .Select(g => g.First())
-                    .ToList();
+                List<Carte> cartesMain =
+                    cartesTirage
+                        .Where(c =>
+                            c.EstMain &&
+                            !valeursBoard.Contains(c.Valeur))
+                        .GroupBy(c => c.Valeur)
+                        .Select(g => g.First())
+                        .ToList();
 
-                int participation = cartesMain.Count;
+                int participation =
+                    cartesMain.Count;
 
                 // =====================================
                 // JE PARTICIPE
-                // → TIRAGE QUINTE
+                // → VENTRALE
                 // =====================================
                 if (participation > 0)
                 {
                     tirage.Quinte = true;
-                    tirage.Ventrale = ventrale;
+                    tirage.Ventrale = true;
                     tirage.Participation = participation;
 
-                    // =====================================
-                    // CARTE HAUTE DU TIRAGE
-                    // =====================================
-                    tirage.CarteHaute = cartesMain
-                        .Select(c =>
-                            (suite.Contains(1) && c.Valeur == 14)
-                                ? 1
-                                : c.Valeur)
-                        .Max();
+                    tirage.CarteHaute =
+                        cartesMain
+                            .Select(c =>
+                                (suite.Contains(1) &&
+                                 c.Valeur == 14)
+                                    ? 1
+                                    : c.Valeur)
+                            .Max();
 
                     return;
                 }
 
                 // =====================================
                 // JE NE PARTICIPE PAS
-                // → DANGER QUINTE
-                //
-                // Uniquement Turn / River
+                // → DANGER VENTRALE
                 // =====================================
                 if (cartes.Count >= 6)
                 {
                     tirage.DangerQuinte = true;
-                    tirage.Ventrale = ventrale;
+                    tirage.Ventrale = true;
                     tirage.Participation = 0;
 
                     return;
@@ -9280,17 +9526,17 @@ namespace Poker
                     // =====================================
                     // CLIQUER SUR LA PLACE
                     // =====================================
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     Cliquer_Place(place);
 
-                    await Task.Delay(100);
+                    await Task.Delay(200);
 
                     // =====================================
                     // ATTENDRE LA CONFIRMATION D'ASSISE
                     // =====================================
                     while ((DateTime.Now - debut).TotalSeconds < 3)
                     {
-                        await Task.Delay(10);
+                        await Task.Delay(2);
 
                         CaptureEcran();
 
@@ -9310,7 +9556,7 @@ namespace Poker
                     return;
                 }
 
-                await Task.Delay(10);
+                await Task.Delay(5);
             }
         }
         private void Cliquer_Place(int place)
@@ -12192,7 +12438,6 @@ namespace Poker
                     await Task.Delay(100);
 
                     Clic(990, 250);
-                    await Task.Delay(100);
 
                     // =====================================
                     // ATTENDRE LA SORTIE REELLE DE LA PLACE
@@ -12201,7 +12446,7 @@ namespace Poker
 
                     while ((DateTime.Now - debutSortie).TotalMilliseconds < 2500)
                     {
-                        await Task.Delay(5);
+                        await Task.Delay(1);
 
                         CaptureEcran();
 
@@ -12390,10 +12635,24 @@ namespace Poker
                     if (Decision())
                     {
                         // =====================================
-                        // RESET
+                        // 🔥 COMPTEUR TAPIS
+                        // Tapis réellement exécuté
+                        // =====================================
+                        if (ActionForcee == "TAPIS")
+                        {
+                            NbTapis++;
+
+                            LbNbTapis.Content = NbTapis.ToString();
+                        }
+
+                        // =====================================
+                        // RESET ACTION FORCEE
                         // =====================================
                         ActionForcee = "";
 
+                        // =====================================
+                        // LAISSER POKERTEAM TERMINER
+                        // =====================================
                         await Task.Delay(300);
 
                         CaptureEcran();
@@ -12496,7 +12755,7 @@ namespace Poker
 
                     bAttendrePosition = false;
 
-                    await Task.Delay(1);
+                    await Task.Delay(5);
 
                     Lire_Main_1();
 
@@ -12510,9 +12769,10 @@ namespace Poker
                 // ==========================
                 if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(5);
 
                     Lire_Main_2();
+                    await Task.Delay(5);
 
                     // =====================================
                     // 🔥 TEST RANGE TAPIS
@@ -12573,8 +12833,20 @@ namespace Poker
                     // =====================================
                     bPreFlop_Calcul = true;
 
+                    await Task.Delay(5);
                     Calcul_PreFlop();
-                    JouerSon();
+
+                    // =====================================
+                    // 🔥 SON COMBINAISON PRE-FLOP
+                    // =====================================
+                    if (bPreFlop_Suite && bPreFlop_Pareille)
+                        JouerSon("Suite Pareille.wav");
+                    else if (bPreFlop_Suite)
+                        JouerSon("Suite.wav");
+                    else if (bPreFlop_Pareille)
+                        JouerSon("Pareille.wav");
+                    else if (bPreFlop_Paire)
+                        JouerSon("Paire.wav");
 
                     bPreFlop_Calcul = false;
 
@@ -12601,7 +12873,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
-                    await Task.Delay(10);
+                    await Task.Delay(1);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -12614,7 +12886,7 @@ namespace Poker
                 // ==========================
                 if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
                 {
-                    await Task.Delay(5);
+                    await Task.Delay(1);
                     Lire_Flop_2();
 
                     bFlop2_Lu = true;
@@ -12626,11 +12898,11 @@ namespace Poker
                 // ==========================
                 if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
                 {
-                    await Task.Delay(5);
+                    await Task.Delay(1);
 
                     Lire_Flop_3();
 
-                    await Task.Delay(10);
+                    await Task.Delay(100);
                     // =====================================
                     // 🔥 TAPIS OFF
                     // Dès que le Flop 3 est lu
@@ -12646,7 +12918,25 @@ namespace Poker
 
                     Calcul_Flop();
 
-                    JouerSon();
+                    // =====================================
+                    // 🔥 SON COMBINAISON FLOP
+                    // =====================================
+                    if (bFlop_QFlush)
+                        JouerSon("Quinte Flush.wav");
+                    else if (bFlop_Carre)
+                        JouerSon("Carre.wav");
+                    else if (bFlop_Full)
+                        JouerSon("Full.wav");
+                    else if (bFlop_Couleur)
+                        JouerSon("Couleur.wav");
+                    else if (bFlop_Quinte)
+                        JouerSon("Quinte.wav");
+                    else if (bFlop_Brelan)
+                        JouerSon("Brelan.wav");
+                    else if (bFlop_2_Paires)
+                        JouerSon("Deux Paires.wav");
+                    else if (bFlop_Paire)
+                        JouerSon("Paire.wav");
 
                     bFlop_Calcul = false;
 
@@ -12669,22 +12959,55 @@ namespace Poker
                     // =====================================
                     // SON TIRAGE FLOP
                     // =====================================
-                    bFlop_Tirage = true;
-
-                    JouerSon();
-
-                    bFlop_Tirage = false;
+                    if (TirageFlop.QuinteFlush)
+                    {
+                        JouerSon("Tirage Quinte Flush.wav");
+                    }
+                    else if (TirageFlop.Couleur)
+                    {
+                        JouerSon("Tirage Couleur.wav");
+                    }
+                    else if (TirageFlop.Quinte)
+                    {
+                        if (TirageFlop.Ventrale)
+                            JouerSon("Ventrale.wav");
+                        else
+                            JouerSon("Tirage Quinte.wav");
+                    }
 
                     // =====================================
                     // DANGER FLOP
                     // =====================================
-                    bFlop_Danger = true;
-
                     Afficher_Danger(TirageFlop);
 
-                    JouerSon();
-
-                    bFlop_Danger = false;
+                    // =====================================
+                    // SON DANGER FLOP
+                    // =====================================
+                    if (TirageFlop.DangerCarre)
+                    {
+                        JouerSon("Danger Carre.wav");
+                    }
+                    else if (TirageFlop.DangerFull)
+                    {
+                        JouerSon("Danger Full.wav");
+                    }
+                    else if (TirageFlop.DangerQuinteFlush)
+                    {
+                        JouerSon("Danger Quinte Flush.wav");
+                    }
+                    else if (TirageFlop.DangerCouleur &&
+                             TirageFlop.DangerQuinte)
+                    {
+                        JouerSon("Danger Couleur Quinte.wav");
+                    }
+                    else if (TirageFlop.DangerCouleur)
+                    {
+                        JouerSon("Danger Couleur.wav");
+                    }
+                    else if (TirageFlop.DangerQuinte)
+                    {
+                        JouerSon("Danger Quinte.wav");
+                    }
 
                     // =====================================
                     // FIN TRAITEMENT FLOP
@@ -12749,22 +13072,20 @@ namespace Poker
                     // ----- Turn normal -----
                     if (Detecter_Presence("Turn_Presence"))
                     {
-                        await Task.Delay(1);
 
                         Lire_Turn();
 
-                        await Task.Delay(3);
+                        await Task.Delay(1);
                         bTurn_Lu = true;
                     }
 
                     // ----- Turn HB -----
                     if (Detecter_Presence("Turn_HB_Presence"))
                     {
-                        await Task.Delay(1);
 
                         Lire_Turn_HB();
 
-                        await Task.Delay(3);
+                        await Task.Delay(1);
 
                         bTurn_Lu = true;
                     }
@@ -12772,7 +13093,6 @@ namespace Poker
                     // ----- Traitement commun -----
                     if (bTurn_Lu)
                     {
-                        await Task.Delay(3);
                         // =====================================
                         // 🔥 NOUVEAU TURN
                         // Effacer le Danger du Flop
@@ -12789,11 +13109,27 @@ namespace Poker
                         // =====================================
                         bTurn_Calcul = true;
 
-                        await Task.Delay(3);
-
                         Calcul_Turn();
 
-                        JouerSon();
+                        // =====================================
+                        // 🔥 SON COMBINAISON TURN
+                        // =====================================
+                        if (bTurn_QFlush)
+                            JouerSon("Quinte Flush.wav");
+                        else if (bTurn_Carre)
+                            JouerSon("Carre.wav");
+                        else if (bTurn_Full)
+                            JouerSon("Full.wav");
+                        else if (bTurn_Couleur)
+                            JouerSon("Couleur.wav");
+                        else if (bTurn_Quinte)
+                            JouerSon("Quinte.wav");
+                        else if (bTurn_Brelan)
+                            JouerSon("Brelan.wav");
+                        else if (bTurn_2_Paires)
+                            JouerSon("Deux Paires.wav");
+                        else if (bTurn_Paire)
+                            JouerSon("Paire.wav");
 
                         bTurn_Calcul = false;
 
@@ -12811,26 +13147,62 @@ namespace Poker
                         // =====================================
                         // CALCUL TIRAGES + DANGERS TURN
                         // =====================================
-                        bTurn_Tirage = true;
-
                         await Task.Delay(3);
 
                         Calcul_Tirages();
 
-                        JouerSon();
-
-                        bTurn_Tirage = false;
+                        // =====================================
+                        // 🔥 SON TIRAGE TURN
+                        // =====================================
+                        if (TirageTurn.QuinteFlush)
+                        {
+                            JouerSon("Tirage Quinte Flush.wav");
+                        }
+                        else if (TirageTurn.Couleur)
+                        {
+                            JouerSon("Tirage Couleur.wav");
+                        }
+                        else if (TirageTurn.Quinte)
+                        {
+                            if (TirageTurn.Ventrale)
+                                JouerSon("Ventrale.wav");
+                            else
+                                JouerSon("Tirage Quinte.wav");
+                        }
 
                         // =====================================
-                        // DANGER TURN
+                        // 🔥 DANGER TURN
                         // =====================================
-                        bTurn_Danger = true;
-
                         Afficher_Danger(TirageTurn);
 
-                        JouerSon();
-
-                        bTurn_Danger = false;
+                        // =====================================
+                        // 🔥 SON DANGER TURN
+                        // =====================================
+                        if (TirageTurn.DangerCarre)
+                        {
+                            JouerSon("Danger Carre.wav");
+                        }
+                        else if (TirageTurn.DangerFull)
+                        {
+                            JouerSon("Danger Full.wav");
+                        }
+                        else if (TirageTurn.DangerQuinteFlush)
+                        {
+                            JouerSon("Danger Quinte Flush.wav");
+                        }
+                        else if (TirageTurn.DangerCouleur &&
+                                 TirageTurn.DangerQuinte)
+                        {
+                            JouerSon("Danger Couleur Quinte.wav");
+                        }
+                        else if (TirageTurn.DangerCouleur)
+                        {
+                            JouerSon("Danger Couleur.wav");
+                        }
+                        else if (TirageTurn.DangerQuinte)
+                        {
+                            JouerSon("Danger Quinte.wav");
+                        }
 
                         continue;
                     }
@@ -12843,10 +13215,8 @@ namespace Poker
                     // ----- River normale -----
                     if (Detecter_Presence("River_Presence"))
                     {
-
-                        await Task.Delay(1);
                         Lire_River();
-                        await Task.Delay(3);
+                        await Task.Delay(1);
 
                         // =====================================
                         // 🔥 NOUVELLE RIVER
@@ -12865,9 +13235,8 @@ namespace Poker
                     if (Detecter_Presence("River_HB_Presence"))
                     {
 
-                        await Task.Delay(1);
                         Lire_River_HB();
-                        await Task.Delay(3);
+                        await Task.Delay(1);
 
                         // =====================================
                         // 🔥 NOUVELLE RIVER
@@ -12887,12 +13256,32 @@ namespace Poker
                     {
                         bRiver_Calcul = true;
 
+                        await Task.Delay(10);
+
                         // =====================================
                         // CALCUL COMBINAISON RIVER
                         // =====================================
                         Calcul_River();
 
-                        JouerSon();
+                        // =====================================
+                        // 🔥 SON COMBINAISON RIVER
+                        // =====================================
+                        if (bRiver_QFlush)
+                            JouerSon("Quinte Flush.wav");
+                        else if (bRiver_Carre)
+                            JouerSon("Carre.wav");
+                        else if (bRiver_Full)
+                            JouerSon("Full.wav");
+                        else if (bRiver_Couleur)
+                            JouerSon("Couleur.wav");
+                        else if (bRiver_Quinte)
+                            JouerSon("Quinte.wav");
+                        else if (bRiver_Brelan)
+                            JouerSon("Brelan.wav");
+                        else if (bRiver_2_Paires)
+                            JouerSon("Deux Paires.wav");
+                        else if (bRiver_Paire)
+                            JouerSon("Paire.wav");
 
                         // =====================================
                         // SHAREX
@@ -12926,13 +13315,36 @@ namespace Poker
                         // =====================================
                         // DANGER RIVER
                         // =====================================
-                        bRiver_Danger = true;
-
                         Afficher_Danger(TirageRiver);
 
-                        JouerSon();
-
-                        bRiver_Danger = false;
+                        // =====================================
+                        // 🔥 SON DANGER RIVER
+                        // =====================================
+                        if (TirageRiver.DangerCarre)
+                        {
+                            JouerSon("Danger Carre.wav");
+                        }
+                        else if (TirageRiver.DangerFull)
+                        {
+                            JouerSon("Danger Full.wav");
+                        }
+                        else if (TirageRiver.DangerQuinteFlush)
+                        {
+                            JouerSon("Danger Quinte Flush.wav");
+                        }
+                        else if (TirageRiver.DangerCouleur &&
+                                 TirageRiver.DangerQuinte)
+                        {
+                            JouerSon("Danger Couleur Quinte.wav");
+                        }
+                        else if (TirageRiver.DangerCouleur)
+                        {
+                            JouerSon("Danger Couleur.wav");
+                        }
+                        else if (TirageRiver.DangerQuinte)
+                        {
+                            JouerSon("Danger Quinte.wav");
+                        }
 
                         continue;
                     }
