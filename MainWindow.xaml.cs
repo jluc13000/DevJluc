@@ -354,6 +354,15 @@ namespace Poker
             public int Couleur;
         }
 
+        // STRUCTURE PLACES LIBRES
+        public struct S_PlaceReserveDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         // STRUCTURE PLUS DE JETONS
         public struct S_PlusDeJetonsDetect
         {
@@ -494,6 +503,9 @@ namespace Poker
 
         // TABLEAU DETECTION PLACE LIBRE
         private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[9];
+
+        // TABLEAU DETECTION PLACE RESERVE
+        private S_PlaceReserveDetect[] PlaceReserveDetect = new S_PlaceReserveDetect[1];
 
         // TABLEAU DETECTION PLUS DE JETONS
         private S_PlusDeJetonsDetect[] PlusDeJetonsDetect = new S_PlusDeJetonsDetect[1];
@@ -827,6 +839,7 @@ namespace Poker
             Charger_Main_Board_JSON();
             Charger_Niveau_Table_JSON();
             Charger_Places_Libres_JSON();
+            Charger_Place_Reserve_JSON();
             Charger_Position_Bouton_JSON();
             Charger_Plus_De_Jetons_JSON();
             Charger_Plus_De_Pot_JSON();
@@ -1119,9 +1132,9 @@ namespace Poker
         {
             string[] valeurs =
             {
-        "2", "3", "4", "5", "6", "7",
-        "8", "9", "10", "J", "Q", "K", "A"
-    };
+                "2", "3", "4", "5", "6", "7",
+                "8", "9", "10", "J", "Q", "K", "A"
+            };
 
             // =====================================
             // SECURITE
@@ -5462,9 +5475,7 @@ namespace Poker
         // 🔥 TIRAGE QUINTE
         // Flop + Turn + River
         // =========================================================
-        private void Tirage_Moteur_Quinte(
-            List<Carte> cartes,
-            Tirage tirage)
+        private void Tirage_Moteur_Quinte(List<Carte> cartes, Tirage tirage)
         {
             // =====================================
             // RESET
@@ -5495,17 +5506,17 @@ namespace Poker
             // =====================================
             int[][] suites =
             {
-        new[] { 1, 2, 3, 4, 5 },
-        new[] { 2, 3, 4, 5, 6 },
-        new[] { 3, 4, 5, 6, 7 },
-        new[] { 4, 5, 6, 7, 8 },
-        new[] { 5, 6, 7, 8, 9 },
-        new[] { 6, 7, 8, 9, 10 },
-        new[] { 7, 8, 9, 10, 11 },
-        new[] { 8, 9, 10, 11, 12 },
-        new[] { 9, 10, 11, 12, 13 },
-        new[] { 10, 11, 12, 13, 14 }
-    };
+                new[] { 1, 2, 3, 4, 5 },
+                new[] { 2, 3, 4, 5, 6 },
+                new[] { 3, 4, 5, 6, 7 },
+                new[] { 4, 5, 6, 7, 8 },
+                new[] { 5, 6, 7, 8, 9 },
+                new[] { 6, 7, 8, 9, 10 },
+                new[] { 7, 8, 9, 10, 11 },
+                new[] { 8, 9, 10, 11, 12 },
+                new[] { 9, 10, 11, 12, 13 },
+                new[] { 10, 11, 12, 13, 14 }
+            };
 
             // =====================================================
             // 🔥 1. QUINTE DÉJÀ RÉALISÉE ?
@@ -7890,34 +7901,51 @@ namespace Poker
             {
                 case "PAROLE":
 
-                    // Parole disponible
+                    // =====================================
+                    // PAROLE DISPONIBLE
+                    // =====================================
                     if (Decision_Detecte("Parole"))
+                    {
+                        JouerSon("Parole.wav");
                         return true;
+                    }
 
-                    // Sinon se coucher
+                    // =====================================
+                    // SINON SE COUCHER
+                    // =====================================
                     if (Decision_Detecte("Se_Coucher"))
+                    {
+                        JouerSon("Passe.wav");
                         return true;
+                    }
 
                     break;
 
                 case "SUIVRE":
 
                     if (Decision_Detecte("Suivre"))
+                    {
                         return true;
+                    }
 
                     break;
 
                 case "RELANCER":
 
                     if (Decision_Detecte("Relancer"))
+                    {
                         return true;
+                    }
 
                     break;
 
                 case "TAPIS":
 
                     if (Decision_Detecte("Tapis"))
+                    {
+                        JouerSon("Tapis.wav");
                         return true;
+                    }
 
                     break;
             }
@@ -9571,6 +9599,109 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 PLACE RESERVE
+        // =========================================================
+        private void Charger_Place_Reserve_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Place_Reserve.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PlaceReserveDetect = JsonConvert.DeserializeObject<S_PlaceReserveDetect[]>(json);
+        }
+        private bool Extraire_Place_Reserve(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPlace_Reserve = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Place_Reserve")
+                {
+                    bPlace_Reserve = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPlace_Reserve)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    PlaceReserveDetect[index].Nom = nomCourant;
+                    PlaceReserveDetect[index].X = int.Parse(t[1]);
+                    PlaceReserveDetect[index].Y = int.Parse(t[2]);
+                    PlaceReserveDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 1)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Place_Reserve_JSON()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Place_Reserve.json");
+            string json = JsonConvert.SerializeObject(PlaceReserveDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+        private bool Fermer_Place_Reserve()
+        {
+            for (int i = 0; i < PlaceReserveDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    PlaceReserveDetect[i].X,
+                    PlaceReserveDetect[i].Y);
+
+                if (couleur == PlaceReserveDetect[i].Couleur)
+                {
+                    Clic(
+                        PlaceReserveDetect[i].X,
+                        PlaceReserveDetect[i].Y);
+
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        // =========================================================
         // 🔥 PLUS DE JETONS
         // =========================================================
         private void Charger_Plus_De_Jetons_JSON()
@@ -10214,7 +10345,6 @@ namespace Poker
             foreach (string main in etat.Range)
                 RangeTapis.Add(main);
         }
-
         private void Sauver_Range_Tapis()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -10269,7 +10399,6 @@ namespace Poker
             foreach (string main in etat.Range)
                 RangeRelance.Add(main);
         }
-
         private void Sauver_Range_Relance()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -10324,7 +10453,6 @@ namespace Poker
             foreach (string main in etat.Range)
                 RangeSuivre.Add(main);
         }
-
         private void Sauver_Range_Suivre()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -11222,6 +11350,7 @@ namespace Poker
             bool okMain_Board               = Extraire_Main_Board(txt);
             bool okNiveau_Table             = Extraire_Niveau_Table(txt);
             bool okNouveau_Niveau           = Extraire_Nouveau_Niveau(txt);
+            bool okPlace_Reserve            = Extraire_Place_Reserve(txt);
             bool okPlaces_Libres            = Extraire_Places_Libres(txt);
             bool okPosition_Bouton          = Extraire_Position_Bouton(txt);
             bool okPlus_De_Jetons           = Extraire_Plus_De_Jetons(txt);
@@ -11263,6 +11392,7 @@ namespace Poker
                 !okJoueur_Suit              &&
                 !okGagne                    &&
                 !okPlaces_Libres            &&
+                !okPlace_Reserve            &&
                 !okPosition_Bouton          &&
                 !okPlus_De_Jetons           &&
                 !okPlus_De_Pot              &&
@@ -11328,6 +11458,8 @@ namespace Poker
                 Sauver_Nouveau_Niveau_JSON();
             if (okPlaces_Libres)
                 Sauver_Places_Libres_JSON();
+            if (okPlaces_Libres)
+                Sauver_Place_Reserve_JSON();
             if (okPosition_Bouton)
                 Sauver_Position_Bouton_JSON();
             if (okPlus_De_Jetons)
@@ -11404,6 +11536,8 @@ namespace Poker
                 msg += "Nouveau_Niveau : 1 détecteur\n";
             if (okPlaces_Libres)
                 msg += "Places_Libres : 9 détecteurs\n";
+            if (okPlace_Reserve)
+                msg += "Place_Reserve : 1 détecteur\n";
             if (okPreferences_Utilisateur)
                 msg += "Préférences_Utilisateur : " + NbPreferences + " Préférences\n";
             if (okPosition_Bouton)
@@ -12118,6 +12252,7 @@ namespace Poker
         #endregion
 
         #region SUPERVISEUR POKER
+
         private bool bSortieEnCours = false;
 
         // =========================================================
@@ -12271,7 +12406,7 @@ namespace Poker
 
                 Se_Recaver();
 
-                await Task.Delay(300);
+                await Task.Delay(400);
             }
 
             // =====================================================
@@ -12290,7 +12425,7 @@ namespace Poker
             // =====================================================
             while (bSuperviseurActif)
             {
-                await Task.Delay(1);
+                await Task.Delay(2);
 
                 CaptureEcran();
 
@@ -12309,6 +12444,11 @@ namespace Poker
                 // PRIORITE ABSOLUE : FERMER AMITIE
                 // ==========================================
                 Fermer_Amitie();
+
+                // ==========================================
+                // PRIORITE ABSOLUE : FERMER PLACE RESERVE
+                // ==========================================
+                Fermer_Place_Reserve();
 
                 // ==========================================
                 // 🔥 INFO JOUEUR
@@ -12400,7 +12540,13 @@ namespace Poker
                 // ==========================================
                 if (bSeRecaver && J_Ai_Gagne())
                 {
-                    Bt_J_ai_Gagne.Background = (Brush)FindResource("vert1");
+                    Bt_J_ai_Gagne.Background =
+                        (Brush)FindResource("vert1");
+
+                    // =====================================
+                    // 🔊 SON GAGNE
+                    // =====================================
+                    JouerSon("Gagne.wav");
 
                     bQuitterRevenir = true;
                 }
@@ -12563,7 +12709,7 @@ namespace Poker
                     // =====================================
                     // 🔥 RANGE TAPIS
                     // PRIORITÉ ABSOLUE
-                    // Avec ou sans mode Tapis PréFlop
+                    // Avec ou sans le mode Tapis PréFlop
                     // =====================================
                     bool dansRangeTapis =
                         !string.IsNullOrEmpty(main) &&
@@ -12602,7 +12748,7 @@ namespace Poker
                     }
                     else if (dansRangeRelance)
                     {
-                        ActionForcee = "RELANCE";
+                        ActionForcee = "RELANCER";
 
                         Debug(
                             "🔥 IA/RANGE = RELANCE | MAIN = " +
@@ -12642,7 +12788,8 @@ namespace Poker
                         {
                             NbTapis++;
 
-                            LbNbTapis.Content = NbTapis.ToString();
+                            LbNbTapis.Content =
+                                NbTapis.ToString();
                         }
 
                         // =====================================
@@ -12873,7 +13020,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(5);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -12886,7 +13033,7 @@ namespace Poker
                 // ==========================
                 if (bFlop1_Lu && !bFlop2_Lu && Detecter_Presence("Flop_2_Presence"))
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(5);
                     Lire_Flop_2();
 
                     bFlop2_Lu = true;
@@ -12898,11 +13045,11 @@ namespace Poker
                 // ==========================
                 if (bFlop2_Lu && !bFlop3_Lu && Detecter_Presence("Flop_3_Presence"))
                 {
-                    await Task.Delay(1);
+                    await Task.Delay(5);
 
                     Lire_Flop_3();
 
-                    await Task.Delay(100);
+                    await Task.Delay(50);
                     // =====================================
                     // 🔥 TAPIS OFF
                     // Dès que le Flop 3 est lu
@@ -13073,9 +13220,10 @@ namespace Poker
                     if (Detecter_Presence("Turn_Presence"))
                     {
 
+                        await Task.Delay(10);
                         Lire_Turn();
 
-                        await Task.Delay(1);
+                        await Task.Delay(5);
                         bTurn_Lu = true;
                     }
 
@@ -13083,9 +13231,10 @@ namespace Poker
                     if (Detecter_Presence("Turn_HB_Presence"))
                     {
 
+                        await Task.Delay(5);
                         Lire_Turn_HB();
 
-                        await Task.Delay(1);
+                        await Task.Delay(5);
 
                         bTurn_Lu = true;
                     }
@@ -13215,8 +13364,9 @@ namespace Poker
                     // ----- River normale -----
                     if (Detecter_Presence("River_Presence"))
                     {
+                        await Task.Delay(2);
                         Lire_River();
-                        await Task.Delay(1);
+                        await Task.Delay(2);
 
                         // =====================================
                         // 🔥 NOUVELLE RIVER
@@ -13235,8 +13385,9 @@ namespace Poker
                     if (Detecter_Presence("River_HB_Presence"))
                     {
 
+                        await Task.Delay(2);
                         Lire_River_HB();
-                        await Task.Delay(1);
+                        await Task.Delay(2);
 
                         // =====================================
                         // 🔥 NOUVELLE RIVER
@@ -13256,7 +13407,7 @@ namespace Poker
                     {
                         bRiver_Calcul = true;
 
-                        await Task.Delay(10);
+                        await Task.Delay(2);
 
                         // =====================================
                         // CALCUL COMBINAISON RIVER
@@ -13288,11 +13439,11 @@ namespace Poker
                         // =====================================
                         Clic(1877, 1010);
 
-                        await Task.Delay(300);
+                        await Task.Delay(100);
 
                         Clic(1108, 844);
 
-                        await Task.Delay(20);
+                        await Task.Delay(2);
 
                         bRiver_Calcul = false;
 
@@ -13376,7 +13527,7 @@ namespace Poker
 
                     continue;
                 }
-               
+
             }
         }
         // =========================================================

@@ -771,6 +771,7 @@
             FontWeight="Bold"   
             Style="{StaticResource FlatButton}"/>
         <Label Content="Ranges" HorizontalAlignment="Left" Height="24" Margin="355,816,0,0" VerticalAlignment="Top" Width="39" FontSize="9"/>
+        <TextBox x:Name="TB_Montant" HorizontalAlignment="Left" Height="23" Margin="347,645,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="62" FontWeight="Bold" Foreground="#FF094FF9"/>
 
     </Grid>
 </Window>
