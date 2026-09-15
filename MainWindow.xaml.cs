@@ -101,6 +101,46 @@ namespace Poker
     }
 
     // =========================================================
+    // 🔥 SIGNATURE D'UN CHIFFRE
+    // =========================================================
+    public class Signature_Chiffre
+    {
+        public int Chiffre { get; set; }
+        public int X { get; set; }
+        public int Y { get; set; }
+        public int Couleur { get; set; }
+    }
+
+    // =========================================================
+    // 🔥 CARTOGRAPHIE D'UNE POSITION
+    // =========================================================
+    public class Cartographie_Position
+    {
+        public string Nom { get; set; } = "";
+
+        public List<Signature_Chiffre> Signatures { get; set; }
+            = new List<Signature_Chiffre>();
+    }
+
+    // =========================================================
+    // 🔥 CARTOGRAPHIE D'UNE LONGUEUR
+    // =========================================================
+    public class Cartographie_Longueur
+    {
+        public int NombreChiffres { get; set; }
+
+        public int PixelX { get; set; }
+        public int PixelY { get; set; }
+        public int PixelCouleur { get; set; }
+
+        public List<Cartographie_Position> Positions { get; set; }
+            = new List<Cartographie_Position>();
+    }
+
+
+
+
+    // =========================================================
     // GOODGAME STUDIOS
     // =========================================================
     // IMPORTANT : Installer l'extension uBlock Origin.
@@ -118,17 +158,16 @@ namespace Poker
     {
 
         // =========================================================
-        // 🔥 CARTOGRAPHIE X DU POT
-        // Longueur → Position → Chiffres connus
+        // 🔥 CARTOGRAPHIE DU POT
         // =========================================================
-        private Dictionary<int, Dictionary<int, HashSet<char>>> CartographieX
-            = new Dictionary<int, Dictionary<int, HashSet<char>>>();
+        private Dictionary<int, Cartographie_Longueur>
+            CartographieDuPot = new Dictionary<int, Cartographie_Longueur>();
 
         // -------------------------------------
         // Temps laissé au joueur pour reprendre
         // le contrôle avant le clic automatique
         // Réglable par l'utilisateur
-        // Valeur par défaut : 3500 ms
+        // Valeur par défaut : 4000 ms
         // -------------------------------------
         private int DELAI_PRISE_CONTROLE = 4000;
 
@@ -675,7 +714,7 @@ namespace Poker
         private bool bFlop_Paire, bFlop_2_Paires, bFlop_Brelan, bFlop_Quinte, bFlop_Couleur, bFlop_Full, bFlop_Carre, bFlop_QFlush;
         private bool bTurn_Paire, bTurn_2_Paires, bTurn_Brelan, bTurn_Quinte, bTurn_Couleur, bTurn_Full, bTurn_Carre, bTurn_QFlush;
         private bool bRiver_Paire, bRiver_2_Paires, bRiver_Brelan, bRiver_Quinte, bRiver_Couleur, bRiver_Full, bRiver_Carre, bRiver_QFlush;
-        private bool bDeuxPaires; 
+        private bool bDeuxPaires;
 
         private bool bPreFlop_Calcul;
         private bool bFlop_Calcul;
@@ -840,7 +879,6 @@ namespace Poker
 
             Charger_Amitie_JSON();
             Charger_Aucune_Table_JSON();
-            Charger_Cartographie_X_JSON();
             Charger_Decision_JSON();
             Charger_Felicitation_JSON();
             Charger_Info_Joueur_JSON();
@@ -3148,7 +3186,7 @@ namespace Poker
             return false;
         }
 
-        
+
 
         // =========================================================
         // 🔥 INITIALISE
@@ -4663,7 +4701,7 @@ namespace Poker
 
             if (bFlop_Carre)
                 return;
-            
+
 
             Calcul_Moteur_Full(TableCartes, JeuFlop, ref bFlop_Full, Bt_Flop_Full);
 
@@ -6183,7 +6221,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Main1_JSON()
+        private void Sauver_Main1()
         {
             string fichier = Path.Combine(DOSSIER_JSON, "Main_1.json");
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -6333,7 +6371,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Main2_JSON()
+        private void Sauver_Main2()
         {
             string fichier = Path.Combine(DOSSIER_JSON, "Main_2.json");
             Directory.CreateDirectory(DOSSIER_JSON); ;
@@ -6494,7 +6532,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Flop1_JSON()
+        private void Sauver_Flop1()
         {
             string fichier = Path.Combine(DOSSIER_JSON, "Flop_1.json");
             Directory.CreateDirectory(DOSSIER_JSON);
@@ -6657,7 +6695,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Flop2_JSON()
+        private void Sauver_Flop2()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Flop_2.json");
@@ -6803,7 +6841,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Flop3_JSON()
+        private void Sauver_Flop3()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Flop_3.json");
@@ -6942,7 +6980,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Turn_JSON()
+        private void Sauver_Turn()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Turn.json");
@@ -7084,7 +7122,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_Turn_HB_JSON()
+        private void Sauver_Turn_HB()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Turn_HB.json");
@@ -7223,7 +7261,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_River_JSON()
+        private void Sauver_River()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "River.json");
@@ -7366,7 +7404,7 @@ namespace Poker
                 }
             }
         }
-        private void Sauver_River_HB_JSON()
+        private void Sauver_River_HB()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             String fichier = Path.Combine(DOSSIER_JSON, "River_HB.json");
@@ -7450,7 +7488,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Amitie_JSON()
+        private void Sauver_Amitie()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Amitie.json");
@@ -7553,7 +7591,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Aucune_Table_JSON()
+        private void Sauver_Aucune_Table()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Aucune_Table.json");
@@ -7562,39 +7600,9 @@ namespace Poker
         }
 
         // =========================================================
-        // 🔥 CARTOGRAPHIE X
+        // 🔥 CARTOGRAPHIE DU POT
         // =========================================================
-        // =========================================================
-        // 🔥 CHARGER CARTOGRAPHIE X
-        // =========================================================
-        private void Charger_Cartographie_X_JSON()
-        {
-            string fichier =
-                Path.Combine(
-                    DOSSIER_JSON,
-                    "Cartographie_X.json");
-
-            if (!File.Exists(fichier))
-                return;
-
-            string json =
-                File.ReadAllText(fichier);
-
-            var temp =
-                System.Text.Json.JsonSerializer
-                    .Deserialize<
-                        Dictionary<int, Dictionary<int, HashSet<char>>>
-                    >(json);
-
-            if (temp == null)
-                return;
-
-            CartographieX = temp;
-        }
-        // =========================================================
-        // 🔥 EXTRAIRE CARTOGRAPHIE X
-        // =========================================================
-        private bool Extraire_Cartographie_X(string txt)
+        private bool Extraire_Cartographie_Du_Pot(string txt)
         {
             if (string.IsNullOrWhiteSpace(txt))
                 return false;
@@ -7602,196 +7610,202 @@ namespace Poker
             string[] lignes = txt.Split('\n');
 
             int longueur = 0;
-            int position = -1;
+
+            Cartographie_Longueur? cartographieActuelle = null;
+
+            string positionNom = "";
+
+            bool premierPixel = false;
             bool trouve = false;
+
+            int pixelX = 0;
+            int pixelY = 0;
+            int pixelCouleur = 0;
 
             for (int i = 0; i < lignes.Length; i++)
             {
                 string ligne = lignes[i].Trim();
 
-                // =====================================
-                // CARTOGRAPHIE X
-                // =====================================
-                if (ligne == "COMMENT : Cartographie_X")
+                // =================================================
+                // DÉBUT CARTOGRAPHIE DU POT
+                // =================================================
+                if (ligne == "COMMENT : Cartographie_Du_Pot")
                 {
                     trouve = true;
                     continue;
                 }
 
-                // =====================================
+                // =================================================
                 // NOUVELLE LONGUEUR
-                // =====================================
-                if (ligne.StartsWith("LABEL : TEST "))
+                // Exemple :
+                // LABEL : 8 CHIFFRES
+                // LABEL : 7 CHIFFRES
+                // =================================================
+                if (ligne.StartsWith("LABEL : ") &&
+                    ligne.EndsWith(" CHIFFRES"))
                 {
                     string texte = ligne
-                        .Replace("LABEL : TEST ", "")
+                        .Replace("LABEL : ", "")
                         .Replace(" CHIFFRES", "")
                         .Trim();
 
-                    if (int.TryParse(texte, out int n))
-                    {
-                        longueur = n;
-                        position = -1;
+                    if (!int.TryParse(texte, out longueur))
+                        continue;
 
-                        if (longueur >= 1 && longueur <= 8)
+                    if (longueur < 1 || longueur > 10)
+                        continue;
+
+                    cartographieActuelle =
+                        new Cartographie_Longueur
                         {
-                            if (!CartographieX.ContainsKey(longueur))
-                            {
-                                CartographieX[longueur] =
-                                    new Dictionary<int, HashSet<char>>();
-                            }
+                            NombreChiffres = longueur
+                        };
+
+                    CartographieDuPot[longueur] =
+                        cartographieActuelle;
+
+                    positionNom = "";
+                    premierPixel = false;
+
+                    continue;
+                }
+
+                // =================================================
+                // POSITION
+                // =================================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string nom =
+                        ligne
+                        .Replace("COMMENT :", "")
+                        .Trim();
+
+                    if (nom == "UNITE" ||
+                        nom == "DIZAINE" ||
+                        nom == "CENTAINE" ||
+                        nom == "MILLIER" ||
+                        nom == "DIZAINE MILLIER" ||
+                        nom == "CENTAINE MILLIER" ||
+                        nom == "MILLION" ||
+                        nom == "DIZAINE MILLION" ||
+                        nom == "CENTAINE MILLION" ||
+                        nom == "MILLIARD")
+                    {
+                        positionNom = nom;
+
+                        if (cartographieActuelle != null)
+                        {
+                            cartographieActuelle.Positions.Add(
+                                new Cartographie_Position
+                                {
+                                    Nom = positionNom
+                                });
                         }
                     }
 
                     continue;
                 }
 
-                // =====================================
-                // POSITION
-                // =====================================
-                if (ligne == "COMMENT : UNITE")
+                // =================================================
+                // IF PIXEL COLOR EQUALS
+                // =================================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS :"))
                 {
-                    position = 0;
-                    continue;
-                }
+                    string[] morceaux =
+                        ligne.Split(':');
 
-                if (ligne == "COMMENT : DIZAINE")
-                {
-                    position = 1;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : CENTAINE")
-                {
-                    position = 2;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : MILLIER")
-                {
-                    position = 3;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : DIZAINE MILLIER")
-                {
-                    position = 4;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : CENTAINE MILLIER")
-                {
-                    position = 5;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : MILLION")
-                {
-                    position = 6;
-                    continue;
-                }
-
-                if (ligne == "COMMENT : DIZAINE MILLION")
-                {
-                    position = 7;
-                    continue;
-                }
-
-                // =====================================
-                // SIGNATURE
-                // =====================================
-                if (ligne.StartsWith("SET CLIPBOARD :") &&
-                    longueur >= 1 &&
-                    longueur <= 8 &&
-                    position >= 0 &&
-                    position < longueur)
-                {
-                    string[] t = ligne.Split(':');
-
-                    if (t.Length < 2)
+                    if (morceaux.Length < 4)
                         continue;
 
-                    string valeur = t[1].Trim();
+                    if (!int.TryParse(
+                            morceaux[1].Trim(),
+                            out int x))
+                        continue;
+
+                    if (!int.TryParse(
+                            morceaux[2].Trim(),
+                            out int y))
+                        continue;
+
+                    if (!int.TryParse(
+                            morceaux[3].Trim(),
+                            out int couleur))
+                        continue;
+
+                    // =============================================
+                    // PREMIER PIXEL = PIXEL DU NOMBRE DE CHIFFRES
+                    // =============================================
+                    if (cartographieActuelle != null &&
+                        !premierPixel)
+                    {
+                        cartographieActuelle.PixelX = x;
+                        cartographieActuelle.PixelY = y;
+                        cartographieActuelle.PixelCouleur = couleur;
+
+                        premierPixel = true;
+
+                        continue;
+                    }
+
+                    // =============================================
+                    // PIXEL D'UNE SIGNATURE
+                    // =============================================
+                    pixelX = x;
+                    pixelY = y;
+                    pixelCouleur = couleur;
+
+                    continue;
+                }
+
+                // =================================================
+                // SET CLIPBOARD
+                // =================================================
+                if (ligne.StartsWith("SET CLIPBOARD :"))
+                {
+                    if (cartographieActuelle == null)
+                        continue;
+
+                    if (string.IsNullOrEmpty(positionNom))
+                        continue;
+
+                    string[] morceaux =
+                        ligne.Split(':');
+
+                    if (morceaux.Length < 2)
+                        continue;
+
+                    string valeur =
+                        morceaux[1].Trim();
 
                     if (valeur.Length != 1 ||
                         !char.IsDigit(valeur[0]))
                         continue;
 
-                    if (!CartographieX[longueur].ContainsKey(position))
-                    {
-                        CartographieX[longueur][position] =
-                            new HashSet<char>();
-                    }
+                    int chiffre =
+                        valeur[0] - '0';
 
-                    CartographieX[longueur][position]
-                        .Add(valeur[0]);
+                    Cartographie_Position? position =
+                        cartographieActuelle.Positions
+                            .LastOrDefault(
+                                p => p.Nom == positionNom);
+
+                    if (position == null)
+                        continue;
+
+                    position.Signatures.Add(
+                        new Signature_Chiffre
+                        {
+                            Chiffre = chiffre,
+                            X = pixelX,
+                            Y = pixelY,
+                            Couleur = pixelCouleur
+                        });
                 }
             }
 
-            return trouve;
+            return trouve && CartographieDuPot.Count > 0;
         }
-        // =========================================================
-        // 🔥 SAUVER CARTOGRAPHIE X
-        // =========================================================
-        private void Sauver_Cartographie_X()
-        {
-            Directory.CreateDirectory(DOSSIER_JSON);
 
-            string fichier =
-                Path.Combine(
-                    DOSSIER_JSON,
-                    "Cartographie_X.json");
-
-            string json =
-                System.Text.Json.JsonSerializer.Serialize(
-                    CartographieX,
-                    new System.Text.Json.JsonSerializerOptions
-                    {
-                        WriteIndented = true
-                    });
-
-            File.WriteAllText(
-                fichier,
-                json);
-        }
-        // =========================================================
-        // 🔥 CARTOGRAPHIE X CONFORME
-        // =========================================================
-        private bool Cartographie_X_Conforme(string montant)
-        {
-            if (string.IsNullOrWhiteSpace(montant))
-                return false;
-
-            int longueur = montant.Length;
-
-            if (!CartographieX.ContainsKey(longueur))
-                return false;
-
-            for (int i = 0; i < montant.Length; i++)
-            {
-                char lu = montant[i];
-
-                // =====================================
-                // X = chiffre inconnu
-                // =====================================
-                if (lu == 'X')
-                    continue;
-
-                // =====================================
-                // Aucune signature connue à cette position
-                // =====================================
-                if (!CartographieX[longueur].ContainsKey(i))
-                    return false;
-
-                // =====================================
-                // Signature connue ?
-                // =====================================
-                if (!CartographieX[longueur][i].Contains(lu))
-                    return false;
-            }
-
-            return true;
-        }
         // =========================================================
         // 🔥 DECISION
         // =========================================================
@@ -7867,7 +7881,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Decision_JSON()
+        private void Sauver_Decision()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Decision.json");
@@ -8178,7 +8192,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Felicitation_JSON()
+        private void Sauver_Felicitation()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
@@ -8281,7 +8295,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Info_Joueur_JSON()
+        private void Sauver_Info_Joueur()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Info_Joueur.json");
@@ -8424,7 +8438,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Je_Ne_Suis_Pas_Assis_JSON()
+        private void Sauver_Je_Ne_Suis_Pas_Assis()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Je_Ne_Suis_Pas_Assis.json");
@@ -8519,7 +8533,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_A_Tapis_JSON()
+        private void Sauver_Joueur_A_Tapis()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_A_Tapis.json");
@@ -8602,7 +8616,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_Parole_JSON()
+        private void Sauver_Joueur_Parole()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Parole.json");
@@ -8685,7 +8699,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_Reflechit_JSON()
+        private void Sauver_Joueur_Reflechit()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Reflechit.json");
@@ -8768,7 +8782,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_Relance_JSON()
+        private void Sauver_Joueur_Relance()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Relance.json");
@@ -8851,7 +8865,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_Se_Couche_JSON()
+        private void Sauver_Joueur_Se_Couche()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Se_Couche.json");
@@ -8934,7 +8948,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Joueur_Suit_JSON()
+        private void Sauver_Joueur_Suit()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Joueur_Suit.json");
@@ -9014,7 +9028,7 @@ namespace Poker
             // =====================================
             return index == 9;
         }
-        private void Sauver_Gagne_JSON()
+        private void Sauver_Gagne()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Gagne.json");
@@ -9135,7 +9149,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Main_Board_JSON()
+        private void Sauver_Main_Board()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             String fichier = Path.Combine(DOSSIER_JSON, "Main_Board.json");
@@ -9218,7 +9232,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Niveau_Table_JSON()
+        private void Sauver_Niveau_Table()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Niveau_Table.json");
@@ -9428,7 +9442,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Nouveau_Niveau_JSON()
+        private void Sauver_Nouveau_Niveau()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Nouveau_Niveau.json");
@@ -9511,7 +9525,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Places_Libres_JSON()
+        private void Sauver_Places_Libres()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Places_Libres.json");
@@ -9670,7 +9684,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Place_Occupee_JSON()
+        private void Sauver_Place_Occupee()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Place_Occupee.json");
@@ -9773,7 +9787,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Plus_De_Jetons_JSON()
+        private void Sauver_Plus_De_Jetons()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Jetons.json");
@@ -9884,7 +9898,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Plus_De_Pot_JSON()
+        private void Sauver_Plus_De_Pot()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Plus_De_Pot.json");
@@ -9981,7 +9995,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Position_Bouton_JSON()
+        private void Sauver_Position_Bouton()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Position_Bouton.json");
@@ -10086,7 +10100,7 @@ namespace Poker
             }
             return modeDebugTrouve || delaiTrouve || changerPlaceTrouve;
         }
-        private void Sauver_Preferences_Utilisateur_JSON()
+        private void Sauver_Preferences_Utilisateur()
         {
             PreferencesUtilisateur.ModeDebug = bDebug;
             PreferencesUtilisateur.DelaiPriseControle = DELAI_PRISE_CONTROLE;
@@ -10180,7 +10194,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Pupitre_Gris_JSON()
+        private void Sauver_Pupitre_Gris()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Pupitre_Gris.json");
@@ -10277,7 +10291,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Publicite_JSON()
+        private void Sauver_Publicite()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Publicite.json");
@@ -10604,7 +10618,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Suis_Je_Assis_JSON()
+        private void Sauver_Suis_Je_Assis()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Suis_Je_Assis.json");
@@ -10748,7 +10762,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Table_Prete_JSON()
+        private void Sauver_Table_Prete()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Table_Prete.json");
@@ -10831,7 +10845,7 @@ namespace Poker
 
             return true;
         }
-        private void Sauver_Table_Stabilisee_JSON()
+        private void Sauver_Table_Stabilisee()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
             string fichier = Path.Combine(DOSSIER_JSON, "Table_Stabilisee.json");
@@ -11417,92 +11431,86 @@ namespace Poker
             // =====================================
             // EXTRACTION
             // =====================================
-            bool okMain1 = Extraire_Main1(txt);
-            bool okMain2 = Extraire_Main2(txt);
-            bool okFlop1 = Extraire_Flop1(txt);
-            bool okFlop2 = Extraire_Flop2(txt);
-            bool okFlop3 = Extraire_Flop3(txt);
-            bool okTurn = Extraire_Turn(txt);
-            bool okTurn_HB = Extraire_Turn_HB(txt);
-            bool okRiver = Extraire_River(txt);
-            bool okRiver_HB = Extraire_River_HB(txt);
+            bool okMain1                    = Extraire_Main1(txt);
+            bool okMain2                    = Extraire_Main2(txt);
+            bool okFlop1                    = Extraire_Flop1(txt);
+            bool okFlop2                    = Extraire_Flop2(txt);
+            bool okFlop3                    = Extraire_Flop3(txt);
+            bool okTurn                     = Extraire_Turn(txt);
+            bool okTurn_HB                  = Extraire_Turn_HB(txt);
+            bool okRiver                    = Extraire_River(txt);
+            bool okRiver_HB                 = Extraire_River_HB(txt);
 
-            bool okAmitie = Extraire_Amitie(txt);
-            bool okAucune_Table = Extraire_Aucune_Table(txt);
-            bool okDecision = Extraire_Decision(txt);
-            bool okFelicitation = Extraire_Felicitation(txt);
-            bool okInfo_Joueur = Extraire_Info_Joueur(txt);
-            bool okJe_Ne_Suis_Pas_Assis = Extraire_Je_Ne_Suis_Pas_Assis(txt);
+            bool okAmitie                   = Extraire_Amitie(txt);
+            bool okAucune_Table             = Extraire_Aucune_Table(txt);
+            bool okCartographie_Du_Pot      = Extraire_Cartographie_Du_Pot(txt);
+            bool okDecision                 = Extraire_Decision(txt);
+            bool okFelicitation             = Extraire_Felicitation(txt);
+            bool okInfo_Joueur              = Extraire_Info_Joueur(txt);
+            bool okJe_Ne_Suis_Pas_Assis     = Extraire_Je_Ne_Suis_Pas_Assis(txt);
 
-            bool okJoueur_A_Tapis = Extraire_Joueur_A_Tapis(txt);
-            bool okJoueur_Parole = Extraire_Joueur_Parole(txt);
-            bool okJoueur_Reflechit = Extraire_Joueur_Reflechit(txt);
-            bool okJoueur_Relance = Extraire_Joueur_Relance(txt);
-            bool okJoueur_Se_Couche = Extraire_Joueur_Se_Couche(txt);
-            bool okJoueur_Suit = Extraire_Joueur_Suit(txt);
+            bool okJoueur_A_Tapis           = Extraire_Joueur_A_Tapis(txt);
+            bool okJoueur_Parole            = Extraire_Joueur_Parole(txt);
+            bool okJoueur_Reflechit         = Extraire_Joueur_Reflechit(txt);
+            bool okJoueur_Relance           = Extraire_Joueur_Relance(txt);
+            bool okJoueur_Se_Couche         = Extraire_Joueur_Se_Couche(txt);
+            bool okJoueur_Suit              = Extraire_Joueur_Suit(txt);
 
-            bool okGagne = Extraire_Gagne(txt);
-            bool okMain_Board = Extraire_Main_Board(txt);
-            bool okNiveau_Table = Extraire_Niveau_Table(txt);
-            bool okNouveau_Niveau = Extraire_Nouveau_Niveau(txt);
-            bool okPlaces_Libres = Extraire_Places_Libres(txt);
-            bool okPlace_Occupee = Extraire_Place_Occupee(txt);
-            bool okPosition_Bouton = Extraire_Position_Bouton(txt);
-            bool okPlus_De_Jetons = Extraire_Plus_De_Jetons(txt);
-            bool okPlus_De_Pot = Extraire_Plus_De_Pot(txt);
-            bool okPreferences_Utilisateur = Extraire_Preferences_Utilisateur(txt);
-            bool okPublicite = Extraire_Publicite(txt);
-            bool okPupitre_Gris = Extraire_Pupitre_Gris(txt);
-            bool okSuis_Je_Assis = Extraire_Suis_Je_Assis(txt);
-            bool okTable_Prete = Extraire_Table_Prete(txt);
-            bool okTable_Stabilisee = Extraire_Table_Stabilisee(txt);
-
-            // =====================================
-            // 🔥 CARTOGRAPHIE X
-            // =====================================
-            bool okCartographie_X =
-                Extraire_Cartographie_X(txt);
+            bool okGagne                    = Extraire_Gagne(txt);
+            bool okMain_Board               = Extraire_Main_Board(txt);
+            bool okNiveau_Table             = Extraire_Niveau_Table(txt);
+            bool okNouveau_Niveau           = Extraire_Nouveau_Niveau(txt);
+            bool okPlaces_Libres            = Extraire_Places_Libres(txt);
+            bool okPlace_Occupee            = Extraire_Place_Occupee(txt);
+            bool okPosition_Bouton          = Extraire_Position_Bouton(txt);
+            bool okPlus_De_Jetons           = Extraire_Plus_De_Jetons(txt);
+            bool okPlus_De_Pot              = Extraire_Plus_De_Pot(txt);
+            bool okPreferences_Utilisateur  = Extraire_Preferences_Utilisateur(txt);
+            bool okPublicite                = Extraire_Publicite(txt);
+            bool okPupitre_Gris             = Extraire_Pupitre_Gris(txt);
+            bool okSuis_Je_Assis            = Extraire_Suis_Je_Assis(txt);
+            bool okTable_Prete              = Extraire_Table_Prete(txt);
+            bool okTable_Stabilisee         = Extraire_Table_Stabilisee(txt);
 
             // =====================================
             // AUCUNE DONNÉE RECONNUE
             // =====================================
-            if (!okMain1 &&
-                !okMain2 &&
-                !okFlop1 &&
-                !okFlop2 &&
-                !okFlop3 &&
-                !okTurn &&
-                !okTurn_HB &&
-                !okRiver &&
-                !okRiver_HB &&
-                !okAmitie &&
-                !okAucune_Table &&
-                !okDecision &&
-                !okMain_Board &&
-                !okFelicitation &&
-                !okInfo_Joueur &&
-                !okJe_Ne_Suis_Pas_Assis &&
-                !okNiveau_Table &&
-                !okNouveau_Niveau &&
-                !okJoueur_A_Tapis &&
-                !okJoueur_Parole &&
-                !okJoueur_Reflechit &&
-                !okJoueur_Relance &&
-                !okJoueur_Se_Couche &&
-                !okJoueur_Suit &&
-                !okGagne &&
-                !okPlaces_Libres &&
-                !okPlace_Occupee &&
-                !okPosition_Bouton &&
-                !okPlus_De_Jetons &&
-                !okPlus_De_Pot &&
-                !okPreferences_Utilisateur &&
-                !okPublicite &&
-                !okPupitre_Gris &&
-                !okSuis_Je_Assis &&
-                !okTable_Prete &&
-                !okTable_Stabilisee &&
-                !okCartographie_X)
+            if (!okMain1                    &&
+                !okMain2                    &&
+                !okFlop1                    &&
+                !okFlop2                    &&
+                !okFlop3                    &&
+                !okTurn                     &&
+                !okTurn_HB                  &&
+                !okRiver                    &&
+                !okRiver_HB                 &&
+                !okAmitie                   &&
+                !okAucune_Table             &&
+                !okDecision                 &&
+                !okMain_Board               &&
+                !okFelicitation             &&
+                !okInfo_Joueur              &&
+                !okJe_Ne_Suis_Pas_Assis     &&
+                !okNiveau_Table             &&
+                !okNouveau_Niveau           &&
+                !okJoueur_A_Tapis           &&
+                !okJoueur_Parole            &&
+                !okJoueur_Reflechit         &&
+                !okJoueur_Relance           &&
+                !okJoueur_Se_Couche         &&
+                !okJoueur_Suit              &&
+                !okGagne                    &&
+                !okPlaces_Libres            &&
+                !okPlace_Occupee            &&
+                !okPosition_Bouton          &&
+                !okPlus_De_Jetons           &&
+                !okPlus_De_Pot              &&
+                !okPreferences_Utilisateur  &&
+                !okPublicite                &&
+                !okPupitre_Gris             &&
+                !okSuis_Je_Assis            &&
+                !okTable_Prete              &&
+                !okTable_Stabilisee)
             {
                 MessageBox.Show("Aucune donnée reconnue");
                 return;
@@ -11512,118 +11520,112 @@ namespace Poker
             // SAUVEGARDE JSON
             // =====================================
             if (okMain1)
-                Sauver_Main1_JSON();
+                Sauver_Main1();
 
             if (okMain2)
-                Sauver_Main2_JSON();
+                Sauver_Main2();
 
             if (okFlop1)
-                Sauver_Flop1_JSON();
+                Sauver_Flop1();
 
             if (okFlop2)
-                Sauver_Flop2_JSON();
+                Sauver_Flop2();
 
             if (okFlop3)
-                Sauver_Flop3_JSON();
+                Sauver_Flop3();
 
             if (okTurn)
-                Sauver_Turn_JSON();
+                Sauver_Turn();
 
             if (okTurn_HB)
-                Sauver_Turn_HB_JSON();
+                Sauver_Turn_HB();
 
             if (okRiver)
-                Sauver_River_JSON();
+                Sauver_River();
 
             if (okRiver_HB)
-                Sauver_River_HB_JSON();
+                Sauver_River_HB();
 
             if (okAmitie)
-                Sauver_Amitie_JSON();
+                Sauver_Amitie();
 
             if (okAucune_Table)
-                Sauver_Aucune_Table_JSON();
+                Sauver_Aucune_Table();
 
             if (okDecision)
-                Sauver_Decision_JSON();
+                Sauver_Decision();
 
             if (okFelicitation)
-                Sauver_Felicitation_JSON();
+                Sauver_Felicitation();
 
             if (okInfo_Joueur)
-                Sauver_Info_Joueur_JSON();
+                Sauver_Info_Joueur();
 
             if (okJe_Ne_Suis_Pas_Assis)
-                Sauver_Je_Ne_Suis_Pas_Assis_JSON();
+                Sauver_Je_Ne_Suis_Pas_Assis();
 
             if (okJoueur_A_Tapis)
-                Sauver_Joueur_A_Tapis_JSON();
+                Sauver_Joueur_A_Tapis();
 
             if (okJoueur_Parole)
-                Sauver_Joueur_Parole_JSON();
+                Sauver_Joueur_Parole();
 
             if (okJoueur_Reflechit)
-                Sauver_Joueur_Reflechit_JSON();
+                Sauver_Joueur_Reflechit();
 
             if (okJoueur_Relance)
-                Sauver_Joueur_Relance_JSON();
+                Sauver_Joueur_Relance();
 
             if (okJoueur_Se_Couche)
-                Sauver_Joueur_Se_Couche_JSON();
+                Sauver_Joueur_Se_Couche();
 
             if (okJoueur_Suit)
-                Sauver_Joueur_Suit_JSON();
+                Sauver_Joueur_Suit();
 
             if (okGagne)
-                Sauver_Gagne_JSON();
+                Sauver_Gagne();
 
             if (okMain_Board)
-                Sauver_Main_Board_JSON();
+                Sauver_Main_Board();
 
             if (okNiveau_Table)
-                Sauver_Niveau_Table_JSON();
+                Sauver_Niveau_Table();
 
             if (okNouveau_Niveau)
-                Sauver_Nouveau_Niveau_JSON();
+                Sauver_Nouveau_Niveau();
 
             if (okPlaces_Libres)
-                Sauver_Places_Libres_JSON();
+                Sauver_Places_Libres();
 
             if (okPlace_Occupee)
-                Sauver_Place_Occupee_JSON();
+                Sauver_Place_Occupee();
 
             if (okPosition_Bouton)
-                Sauver_Position_Bouton_JSON();
+                Sauver_Position_Bouton();
 
             if (okPlus_De_Jetons)
-                Sauver_Plus_De_Jetons_JSON();
+                Sauver_Plus_De_Jetons();
 
             if (okPlus_De_Pot)
-                Sauver_Plus_De_Pot_JSON();
+                Sauver_Plus_De_Pot();
 
             if (okPreferences_Utilisateur)
-                Sauver_Preferences_Utilisateur_JSON();
+                Sauver_Preferences_Utilisateur();
 
             if (okPublicite)
-                Sauver_Publicite_JSON();
+                Sauver_Publicite();
 
             if (okPupitre_Gris)
-                Sauver_Pupitre_Gris_JSON();
+                Sauver_Pupitre_Gris();
 
             if (okSuis_Je_Assis)
-                Sauver_Suis_Je_Assis_JSON();
+                Sauver_Suis_Je_Assis();
 
             if (okTable_Prete)
-                Sauver_Table_Prete_JSON();
+                Sauver_Table_Prete();
 
             if (okTable_Stabilisee)
-                Sauver_Table_Stabilisee_JSON();
-
-            // =====================================
-            // 🔥 CARTOGRAPHIE X
-            // =====================================
-            if (okCartographie_X)
-                Sauver_Cartographie_X();
+                Sauver_Table_Stabilisee();
 
             // =====================================
             // RESULTAT
@@ -11741,9 +11743,6 @@ namespace Poker
             if (okTable_Stabilisee)
                 msg += "Table_Stabilisee : 1 détecteur\n";
 
-            if (okCartographie_X)
-                msg += "Cartographie_X : chargée\n";
-
             MessageBox.Show(msg);
         }
 
@@ -11763,8 +11762,6 @@ namespace Poker
 
             RafraichirAffichage();
         }
-
-
 
         private void ActiverMemo(Button boutonActif)
         {
@@ -11929,8 +11926,6 @@ namespace Poker
             });
         }
 
-
-
         private void Bt_Mem11_Click(object sender, RoutedEventArgs e)
         {
             MEMO = 11;
@@ -12007,7 +12002,7 @@ namespace Poker
             Bt_Flop_2.Background = Brushes.White;
             Bt_Flop_3.Background = Brushes.White;
 
-            Bt_Turn.Background = Brushes.White;
+            Bt_Turn.Background  = Brushes.White;
             Bt_River.Background = Brushes.White;
         }
 
@@ -12501,7 +12496,7 @@ namespace Poker
             // =====================================================
             // SAUVEGARDE DES PREFERENCES
             // =====================================================
-            Sauver_Preferences_Utilisateur_JSON();
+            Sauver_Preferences_Utilisateur();
 
             // =====================================================
             // ÉTAT DU MOTEUR
@@ -12614,7 +12609,7 @@ namespace Poker
             // =====================================================
             while (bSuperviseurActif)
             {
-                await Task.Delay(1);
+                await Task.Delay(2);
 
                 CaptureEcran();
 
@@ -12696,7 +12691,7 @@ namespace Poker
                 if (!bSuperviseurActif)
                     continue;
 
-                
+
 
                 // ==========================================
                 // CHERCHER UNE PLACE SI AUCUNE MAIN EN COURS
@@ -13712,7 +13707,7 @@ namespace Poker
         // 🔥 ESPACE AUTO / MANUEL
         // =========================================================
         private bool bEspaceEnfonce = false;
-        
+
         // =====================================
         // CAPTURE SHAREX
         // =====================================
@@ -14483,7 +14478,7 @@ namespace Poker
         {
             StopTousModes();
 
-            Sauver_Preferences_Utilisateur_JSON();
+            Sauver_Preferences_Utilisateur();
 
             // =====================================
             // 🔥 SAUVEGARDE DES 3 RANGES
