@@ -1,0 +1,3339 @@
+{
+  "10": {
+    "NombreChiffres": 10,
+    "PixelX": 912,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 911,
+            "Y": 489,
+            "Couleur": 15922161
+          },
+          {
+            "Chiffre": 2,
+            "X": 910,
+            "Y": 488,
+            "Couleur": 11450024
+          },
+          {
+            "Chiffre": 3,
+            "X": 911,
+            "Y": 492,
+            "Couleur": 14672861
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 930,
+            "Y": 492,
+            "Couleur": 8623479
+          },
+          {
+            "Chiffre": 1,
+            "X": 925,
+            "Y": 489,
+            "Couleur": 12305333
+          },
+          {
+            "Chiffre": 2,
+            "X": 925,
+            "Y": 488,
+            "Couleur": 10397847
+          },
+          {
+            "Chiffre": 3,
+            "X": 925,
+            "Y": 492,
+            "Couleur": 8491893
+          },
+          {
+            "Chiffre": 4,
+            "X": 925,
+            "Y": 494,
+            "Couleur": 13291719
+          },
+          {
+            "Chiffre": 7,
+            "X": 924,
+            "Y": 487,
+            "Couleur": 14606812
+          },
+          {
+            "Chiffre": 8,
+            "X": 927,
+            "Y": 493,
+            "Couleur": 10727068
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 940,
+            "Y": 492,
+            "Couleur": 3560225
+          },
+          {
+            "Chiffre": 1,
+            "X": 936,
+            "Y": 489,
+            "Couleur": 15527403
+          },
+          {
+            "Chiffre": 5,
+            "X": 937,
+            "Y": 488,
+            "Couleur": 8819325
+          },
+          {
+            "Chiffre": 7,
+            "X": 934,
+            "Y": 487,
+            "Couleur": 10989727
+          },
+          {
+            "Chiffre": 8,
+            "X": 937,
+            "Y": 493,
+            "Couleur": 12436664
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 951,
+            "Y": 493,
+            "Couleur": 13752269
+          },
+          {
+            "Chiffre": 1,
+            "X": 946,
+            "Y": 489,
+            "Couleur": 15461865
+          },
+          {
+            "Chiffre": 3,
+            "X": 946,
+            "Y": 492,
+            "Couleur": 12107954
+          },
+          {
+            "Chiffre": 6,
+            "X": 948,
+            "Y": 491,
+            "Couleur": 12239029
+          },
+          {
+            "Chiffre": 7,
+            "X": 944,
+            "Y": 487,
+            "Couleur": 4809015
+          },
+          {
+            "Chiffre": 9,
+            "X": 949,
+            "Y": 494,
+            "Couleur": 9674890
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 965,
+            "Y": 492,
+            "Couleur": 6650454
+          },
+          {
+            "Chiffre": 1,
+            "X": 961,
+            "Y": 489,
+            "Couleur": 16316920
+          },
+          {
+            "Chiffre": 3,
+            "X": 961,
+            "Y": 492,
+            "Couleur": 15593452
+          },
+          {
+            "Chiffre": 4,
+            "X": 961,
+            "Y": 494,
+            "Couleur": 6913626
+          },
+          {
+            "Chiffre": 5,
+            "X": 961,
+            "Y": 488,
+            "Couleur": 16185333
+          },
+          {
+            "Chiffre": 9,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 8491382
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 976,
+            "Y": 493,
+            "Couleur": 12831167
+          },
+          {
+            "Chiffre": 2,
+            "X": 970,
+            "Y": 488,
+            "Couleur": 11186852
+          },
+          {
+            "Chiffre": 3,
+            "X": 971,
+            "Y": 492,
+            "Couleur": 9084285
+          },
+          {
+            "Chiffre": 4,
+            "X": 971,
+            "Y": 494,
+            "Couleur": 11319461
+          },
+          {
+            "Chiffre": 5,
+            "X": 972,
+            "Y": 488,
+            "Couleur": 9476999
+          },
+          {
+            "Chiffre": 7,
+            "X": 969,
+            "Y": 487,
+            "Couleur": 7307362
+          },
+          {
+            "Chiffre": 8,
+            "X": 974,
+            "Y": 493,
+            "Couleur": 12896960
+          }
+        ]
+      },
+      {
+        "Nom": "MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 986,
+            "Y": 492,
+            "Couleur": 8491382
+          },
+          {
+            "Chiffre": 1,
+            "X": 982,
+            "Y": 489,
+            "Couleur": 15856368
+          },
+          {
+            "Chiffre": 3,
+            "X": 982,
+            "Y": 492,
+            "Couleur": 15593452
+          },
+          {
+            "Chiffre": 6,
+            "X": 983,
+            "Y": 491,
+            "Couleur": 9872013
+          },
+          {
+            "Chiffre": 8,
+            "X": 983,
+            "Y": 493,
+            "Couleur": 11318949
+          },
+          {
+            "Chiffre": 9,
+            "X": 984,
+            "Y": 494,
+            "Couleur": 11647915
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 996,
+            "Y": 493,
+            "Couleur": 11318694
+          },
+          {
+            "Chiffre": 1,
+            "X": 996,
+            "Y": 489,
+            "Couleur": 15396073
+          },
+          {
+            "Chiffre": 5,
+            "X": 997,
+            "Y": 488,
+            "Couleur": 10660764
+          },
+          {
+            "Chiffre": 7,
+            "X": 995,
+            "Y": 487,
+            "Couleur": 15593196
+          },
+          {
+            "Chiffre": 8,
+            "X": 997,
+            "Y": 493,
+            "Couleur": 14080723
+          },
+          {
+            "Chiffre": 9,
+            "X": 999,
+            "Y": 494,
+            "Couleur": 10003856
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1011,
+            "Y": 491,
+            "Couleur": 10398358
+          },
+          {
+            "Chiffre": 1,
+            "X": 1007,
+            "Y": 489,
+            "Couleur": 15658989
+          },
+          {
+            "Chiffre": 3,
+            "X": 1007,
+            "Y": 492,
+            "Couleur": 15001570
+          },
+          {
+            "Chiffre": 4,
+            "X": 1006,
+            "Y": 494,
+            "Couleur": 14278102
+          },
+          {
+            "Chiffre": 5,
+            "X": 1007,
+            "Y": 488,
+            "Couleur": 13422537
+          },
+          {
+            "Chiffre": 7,
+            "X": 1005,
+            "Y": 487,
+            "Couleur": 14343384
+          },
+          {
+            "Chiffre": 8,
+            "X": 1009,
+            "Y": 493,
+            "Couleur": 11318950
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIARD",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1021,
+            "Y": 491,
+            "Couleur": 6387026
+          },
+          {
+            "Chiffre": 3,
+            "X": 1017,
+            "Y": 492,
+            "Couleur": 12568250
+          },
+          {
+            "Chiffre": 4,
+            "X": 1017,
+            "Y": 494,
+            "Couleur": 9543559
+          },
+          {
+            "Chiffre": 5,
+            "X": 1018,
+            "Y": 488,
+            "Couleur": 9740173
+          },
+          {
+            "Chiffre": 6,
+            "X": 1017,
+            "Y": 491,
+            "Couleur": 9740427
+          },
+          {
+            "Chiffre": 7,
+            "X": 1015,
+            "Y": 487,
+            "Couleur": 9477767
+          },
+          {
+            "Chiffre": 9,
+            "X": 1020,
+            "Y": 494,
+            "Couleur": 9083520
+          }
+        ]
+      }
+    ]
+  },
+  "9": {
+    "NombreChiffres": 9,
+    "PixelX": 917,
+    "PixelY": 488,
+    "PixelCouleur": 2376717,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 918,
+            "Y": 489,
+            "Couleur": 14277847
+          },
+          {
+            "Chiffre": 2,
+            "X": 917,
+            "Y": 488,
+            "Couleur": 12239284
+          },
+          {
+            "Chiffre": 3,
+            "X": 918,
+            "Y": 492,
+            "Couleur": 10201490
+          },
+          {
+            "Chiffre": 4,
+            "X": 918,
+            "Y": 494,
+            "Couleur": 11713451
+          },
+          {
+            "Chiffre": 5,
+            "X": 919,
+            "Y": 488,
+            "Couleur": 10463640
+          },
+          {
+            "Chiffre": 6,
+            "X": 920,
+            "Y": 491,
+            "Couleur": 12173236
+          },
+          {
+            "Chiffre": 7,
+            "X": 917,
+            "Y": 487,
+            "Couleur": 15856368
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 933,
+            "Y": 492,
+            "Couleur": 7768424
+          },
+          {
+            "Chiffre": 1,
+            "X": 929,
+            "Y": 489,
+            "Couleur": 16053747
+          },
+          {
+            "Chiffre": 2,
+            "X": 928,
+            "Y": 488,
+            "Couleur": 10858143
+          },
+          {
+            "Chiffre": 3,
+            "X": 928,
+            "Y": 492,
+            "Couleur": 6585428
+          },
+          {
+            "Chiffre": 4,
+            "X": 929,
+            "Y": 493,
+            "Couleur": 9543560
+          },
+          {
+            "Chiffre": 5,
+            "X": 929,
+            "Y": 488,
+            "Couleur": 14475227
+          },
+          {
+            "Chiffre": 6,
+            "X": 931,
+            "Y": 491,
+            "Couleur": 13751758
+          },
+          {
+            "Chiffre": 7,
+            "X": 927,
+            "Y": 487,
+            "Couleur": 13225669
+          },
+          {
+            "Chiffre": 8,
+            "X": 930,
+            "Y": 493,
+            "Couleur": 11515817
+          },
+          {
+            "Chiffre": 9,
+            "X": 931,
+            "Y": 494,
+            "Couleur": 11384742
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 943,
+            "Y": 494,
+            "Couleur": 8031598
+          },
+          {
+            "Chiffre": 1,
+            "X": 939,
+            "Y": 489,
+            "Couleur": 15527403
+          },
+          {
+            "Chiffre": 2,
+            "X": 938,
+            "Y": 488,
+            "Couleur": 12436408
+          },
+          {
+            "Chiffre": 3,
+            "X": 939,
+            "Y": 492,
+            "Couleur": 13423048
+          },
+          {
+            "Chiffre": 4,
+            "X": 939,
+            "Y": 493,
+            "Couleur": 11516584
+          },
+          {
+            "Chiffre": 5,
+            "X": 939,
+            "Y": 488,
+            "Couleur": 14869728
+          },
+          {
+            "Chiffre": 6,
+            "X": 939,
+            "Y": 491,
+            "Couleur": 8096624
+          },
+          {
+            "Chiffre": 7,
+            "X": 937,
+            "Y": 487,
+            "Couleur": 11713196
+          },
+          {
+            "Chiffre": 8,
+            "X": 940,
+            "Y": 493,
+            "Couleur": 12436664
+          },
+          {
+            "Chiffre": 9,
+            "X": 941,
+            "Y": 494,
+            "Couleur": 11845294
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 958,
+            "Y": 493,
+            "Couleur": 8820347
+          },
+          {
+            "Chiffre": 1,
+            "X": 953,
+            "Y": 489,
+            "Couleur": 10792860
+          },
+          {
+            "Chiffre": 2,
+            "X": 953,
+            "Y": 488,
+            "Couleur": 10792349
+          },
+          {
+            "Chiffre": 3,
+            "X": 953,
+            "Y": 487,
+            "Couleur": 16053747
+          },
+          {
+            "Chiffre": 4,
+            "X": 953,
+            "Y": 494,
+            "Couleur": 14278358
+          },
+          {
+            "Chiffre": 5,
+            "X": 954,
+            "Y": 488,
+            "Couleur": 12962498
+          },
+          {
+            "Chiffre": 6,
+            "X": 955,
+            "Y": 491,
+            "Couleur": 11187108
+          },
+          {
+            "Chiffre": 7,
+            "X": 952,
+            "Y": 487,
+            "Couleur": 15264742
+          },
+          {
+            "Chiffre": 8,
+            "X": 954,
+            "Y": 494,
+            "Couleur": 8097391
+          },
+          {
+            "Chiffre": 9,
+            "X": 956,
+            "Y": 494,
+            "Couleur": 11319206
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 968,
+            "Y": 492,
+            "Couleur": 5335616
+          },
+          {
+            "Chiffre": 1,
+            "X": 964,
+            "Y": 489,
+            "Couleur": 16382713
+          },
+          {
+            "Chiffre": 2,
+            "X": 963,
+            "Y": 488,
+            "Couleur": 11187108
+          },
+          {
+            "Chiffre": 3,
+            "X": 964,
+            "Y": 492,
+            "Couleur": 13620428
+          },
+          {
+            "Chiffre": 4,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 8754811
+          },
+          {
+            "Chiffre": 5,
+            "X": 965,
+            "Y": 488,
+            "Couleur": 9476744
+          },
+          {
+            "Chiffre": 6,
+            "X": 964,
+            "Y": 490,
+            "Couleur": 12502202
+          },
+          {
+            "Chiffre": 7,
+            "X": 963,
+            "Y": 487,
+            "Couleur": 16119541
+          },
+          {
+            "Chiffre": 8,
+            "X": 965,
+            "Y": 493,
+            "Couleur": 13357255
+          },
+          {
+            "Chiffre": 9,
+            "X": 966,
+            "Y": 494,
+            "Couleur": 12174003
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 979,
+            "Y": 491,
+            "Couleur": 12896704
+          },
+          {
+            "Chiffre": 1,
+            "X": 974,
+            "Y": 489,
+            "Couleur": 12305590
+          },
+          {
+            "Chiffre": 2,
+            "X": 974,
+            "Y": 488,
+            "Couleur": 10200468
+          },
+          {
+            "Chiffre": 3,
+            "X": 975,
+            "Y": 492,
+            "Couleur": 15330279
+          },
+          {
+            "Chiffre": 4,
+            "X": 974,
+            "Y": 494,
+            "Couleur": 12897471
+          },
+          {
+            "Chiffre": 5,
+            "X": 975,
+            "Y": 488,
+            "Couleur": 11515562
+          },
+          {
+            "Chiffre": 6,
+            "X": 974,
+            "Y": 491,
+            "Couleur": 13291462
+          },
+          {
+            "Chiffre": 7,
+            "X": 973,
+            "Y": 487,
+            "Couleur": 16119541
+          },
+          {
+            "Chiffre": 8,
+            "X": 976,
+            "Y": 493,
+            "Couleur": 10661275
+          },
+          {
+            "Chiffre": 9,
+            "X": 977,
+            "Y": 494,
+            "Couleur": 10661274
+          }
+        ]
+      },
+      {
+        "Nom": "MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 989,
+            "Y": 493,
+            "Couleur": 6848600
+          },
+          {
+            "Chiffre": 1,
+            "X": 989,
+            "Y": 489,
+            "Couleur": 14869984
+          },
+          {
+            "Chiffre": 2,
+            "X": 988,
+            "Y": 488,
+            "Couleur": 11186852
+          },
+          {
+            "Chiffre": 3,
+            "X": 989,
+            "Y": 492,
+            "Couleur": 11516838
+          },
+          {
+            "Chiffre": 4,
+            "X": 989,
+            "Y": 494,
+            "Couleur": 9675657
+          },
+          {
+            "Chiffre": 5,
+            "X": 990,
+            "Y": 491,
+            "Couleur": 11778734
+          },
+          {
+            "Chiffre": 6,
+            "X": 991,
+            "Y": 491,
+            "Couleur": 12502202
+          },
+          {
+            "Chiffre": 7,
+            "X": 987,
+            "Y": 487,
+            "Couleur": 8425078
+          },
+          {
+            "Chiffre": 8,
+            "X": 990,
+            "Y": 493,
+            "Couleur": 14409433
+          },
+          {
+            "Chiffre": 9,
+            "X": 992,
+            "Y": 494,
+            "Couleur": 9806476
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1004,
+            "Y": 493,
+            "Couleur": 12174003
+          },
+          {
+            "Chiffre": 1,
+            "X": 999,
+            "Y": 489,
+            "Couleur": 13949138
+          },
+          {
+            "Chiffre": 2,
+            "X": 999,
+            "Y": 488,
+            "Couleur": 9477256
+          },
+          {
+            "Chiffre": 3,
+            "X": 999,
+            "Y": 492,
+            "Couleur": 9280899
+          },
+          {
+            "Chiffre": 4,
+            "X": 999,
+            "Y": 494,
+            "Couleur": 12831423
+          },
+          {
+            "Chiffre": 5,
+            "X": 1000,
+            "Y": 488,
+            "Couleur": 11844526
+          },
+          {
+            "Chiffre": 6,
+            "X": 999,
+            "Y": 491,
+            "Couleur": 13488841
+          },
+          {
+            "Chiffre": 7,
+            "X": 998,
+            "Y": 487,
+            "Couleur": 15001314
+          },
+          {
+            "Chiffre": 8,
+            "X": 1002,
+            "Y": 493,
+            "Couleur": 12107955
+          },
+          {
+            "Chiffre": 9,
+            "X": 1002,
+            "Y": 494,
+            "Couleur": 10727067
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1014,
+            "Y": 493,
+            "Couleur": 5401920
+          },
+          {
+            "Chiffre": 1,
+            "X": 1010,
+            "Y": 489,
+            "Couleur": 15922161
+          },
+          {
+            "Chiffre": 2,
+            "X": 1009,
+            "Y": 488,
+            "Couleur": 11252645
+          },
+          {
+            "Chiffre": 3,
+            "X": 1010,
+            "Y": 492,
+            "Couleur": 14672861
+          },
+          {
+            "Chiffre": 4,
+            "X": 1010,
+            "Y": 493,
+            "Couleur": 10858910
+          },
+          {
+            "Chiffre": 5,
+            "X": 1010,
+            "Y": 488,
+            "Couleur": 15132901
+          },
+          {
+            "Chiffre": 6,
+            "X": 1011,
+            "Y": 491,
+            "Couleur": 9017215
+          },
+          {
+            "Chiffre": 7,
+            "X": 1008,
+            "Y": 487,
+            "Couleur": 12370616
+          },
+          {
+            "Chiffre": 8,
+            "X": 1011,
+            "Y": 493,
+            "Couleur": 11976368
+          },
+          {
+            "Chiffre": 9,
+            "X": 1013,
+            "Y": 494,
+            "Couleur": 7768170
+          }
+        ]
+      }
+    ]
+  },
+  "8": {
+    "NombreChiffres": 8,
+    "PixelX": 923,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 923,
+            "Y": 489,
+            "Couleur": 16251127
+          },
+          {
+            "Chiffre": 2,
+            "X": 922,
+            "Y": 488,
+            "Couleur": 11055522
+          },
+          {
+            "Chiffre": 3,
+            "X": 922,
+            "Y": 492,
+            "Couleur": 6190925
+          },
+          {
+            "Chiffre": 4,
+            "X": 923,
+            "Y": 493,
+            "Couleur": 10069648
+          },
+          {
+            "Chiffre": 5,
+            "X": 923,
+            "Y": 488,
+            "Couleur": 14869729
+          },
+          {
+            "Chiffre": 6,
+            "X": 924,
+            "Y": 491,
+            "Couleur": 9280388
+          },
+          {
+            "Chiffre": 7,
+            "X": 921,
+            "Y": 487,
+            "Couleur": 12896961
+          },
+          {
+            "Chiffre": 8,
+            "X": 923,
+            "Y": 494,
+            "Couleur": 8885885
+          },
+          {
+            "Chiffre": 9,
+            "X": 926,
+            "Y": 494,
+            "Couleur": 7505254
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 933,
+            "Y": 492,
+            "Couleur": 9149312
+          },
+          {
+            "Chiffre": 1,
+            "X": 933,
+            "Y": 489,
+            "Couleur": 14738398
+          },
+          {
+            "Chiffre": 2,
+            "X": 932,
+            "Y": 488,
+            "Couleur": 12634044
+          },
+          {
+            "Chiffre": 3,
+            "X": 933,
+            "Y": 492,
+            "Couleur": 11516584
+          },
+          {
+            "Chiffre": 4,
+            "X": 933,
+            "Y": 493,
+            "Couleur": 13817806
+          },
+          {
+            "Chiffre": 5,
+            "X": 934,
+            "Y": 488,
+            "Couleur": 9542793
+          },
+          {
+            "Chiffre": 6,
+            "X": 934,
+            "Y": 491,
+            "Couleur": 6781529
+          },
+          {
+            "Chiffre": 7,
+            "X": 931,
+            "Y": 487,
+            "Couleur": 9148545
+          },
+          {
+            "Chiffre": 8,
+            "X": 933,
+            "Y": 494,
+            "Couleur": 12963008
+          },
+          {
+            "Chiffre": 9,
+            "X": 936,
+            "Y": 494,
+            "Couleur": 9543560
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 952,
+            "Y": 492,
+            "Couleur": 3691812
+          },
+          {
+            "Chiffre": 1,
+            "X": 948,
+            "Y": 489,
+            "Couleur": 15593196
+          },
+          {
+            "Chiffre": 2,
+            "X": 947,
+            "Y": 488,
+            "Couleur": 11976112
+          },
+          {
+            "Chiffre": 3,
+            "X": 948,
+            "Y": 492,
+            "Couleur": 13686220
+          },
+          {
+            "Chiffre": 4,
+            "X": 948,
+            "Y": 493,
+            "Couleur": 10924958
+          },
+          {
+            "Chiffre": 5,
+            "X": 948,
+            "Y": 491,
+            "Couleur": 14343896
+          },
+          {
+            "Chiffre": 6,
+            "X": 948,
+            "Y": 491,
+            "Couleur": 7570534
+          },
+          {
+            "Chiffre": 7,
+            "X": 946,
+            "Y": 487,
+            "Couleur": 12436408
+          },
+          {
+            "Chiffre": 8,
+            "X": 949,
+            "Y": 493,
+            "Couleur": 11844782
+          },
+          {
+            "Chiffre": 9,
+            "X": 952,
+            "Y": 493,
+            "Couleur": 11844782
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 962,
+            "Y": 494,
+            "Couleur": 6059595
+          },
+          {
+            "Chiffre": 1,
+            "X": 958,
+            "Y": 489,
+            "Couleur": 16514043
+          },
+          {
+            "Chiffre": 2,
+            "X": 957,
+            "Y": 488,
+            "Couleur": 10989729
+          },
+          {
+            "Chiffre": 3,
+            "X": 958,
+            "Y": 492,
+            "Couleur": 13488842
+          },
+          {
+            "Chiffre": 4,
+            "X": 958,
+            "Y": 494,
+            "Couleur": 9083264
+          },
+          {
+            "Chiffre": 5,
+            "X": 959,
+            "Y": 488,
+            "Couleur": 9608587
+          },
+          {
+            "Chiffre": 6,
+            "X": 960,
+            "Y": 491,
+            "Couleur": 12436409
+          },
+          {
+            "Chiffre": 7,
+            "X": 956,
+            "Y": 487,
+            "Couleur": 6518611
+          },
+          {
+            "Chiffre": 8,
+            "X": 959,
+            "Y": 493,
+            "Couleur": 13620171
+          },
+          {
+            "Chiffre": 9,
+            "X": 961,
+            "Y": 494,
+            "Couleur": 9214850
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 973,
+            "Y": 491,
+            "Couleur": 12567995
+          },
+          {
+            "Chiffre": 1,
+            "X": 969,
+            "Y": 489,
+            "Couleur": 15198693
+          },
+          {
+            "Chiffre": 2,
+            "X": 968,
+            "Y": 488,
+            "Couleur": 10397591
+          },
+          {
+            "Chiffre": 3,
+            "X": 969,
+            "Y": 492,
+            "Couleur": 15198693
+          },
+          {
+            "Chiffre": 4,
+            "X": 968,
+            "Y": 493,
+            "Couleur": 15856368
+          },
+          {
+            "Chiffre": 5,
+            "X": 969,
+            "Y": 488,
+            "Couleur": 11910064
+          },
+          {
+            "Chiffre": 6,
+            "X": 968,
+            "Y": 491,
+            "Couleur": 13686220
+          },
+          {
+            "Chiffre": 7,
+            "X": 967,
+            "Y": 487,
+            "Couleur": 16119541
+          },
+          {
+            "Chiffre": 8,
+            "X": 971,
+            "Y": 493,
+            "Couleur": 11647659
+          },
+          {
+            "Chiffre": 9,
+            "X": 971,
+            "Y": 494,
+            "Couleur": 10793117
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 988,
+            "Y": 493,
+            "Couleur": 13423048
+          },
+          {
+            "Chiffre": 1,
+            "X": 983,
+            "Y": 489,
+            "Couleur": 14475482
+          },
+          {
+            "Chiffre": 2,
+            "X": 982,
+            "Y": 488,
+            "Couleur": 11186852
+          },
+          {
+            "Chiffre": 3,
+            "X": 983,
+            "Y": 492,
+            "Couleur": 10662296
+          },
+          {
+            "Chiffre": 4,
+            "X": 983,
+            "Y": 494,
+            "Couleur": 10267283
+          },
+          {
+            "Chiffre": 5,
+            "X": 984,
+            "Y": 491,
+            "Couleur": 12041650
+          },
+          {
+            "Chiffre": 6,
+            "X": 983,
+            "Y": 491,
+            "Couleur": 9938062
+          },
+          {
+            "Chiffre": 7,
+            "X": 981,
+            "Y": 487,
+            "Couleur": 8030575
+          },
+          {
+            "Chiffre": 8,
+            "X": 984,
+            "Y": 493,
+            "Couleur": 14409434
+          },
+          {
+            "Chiffre": 9,
+            "X": 986,
+            "Y": 494,
+            "Couleur": 9938063
+          }
+        ]
+      },
+      {
+        "Nom": "MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 998,
+            "Y": 492,
+            "Couleur": 9740683
+          },
+          {
+            "Chiffre": 1,
+            "X": 994,
+            "Y": 489,
+            "Couleur": 15461866
+          },
+          {
+            "Chiffre": 2,
+            "X": 993,
+            "Y": 488,
+            "Couleur": 10923936
+          },
+          {
+            "Chiffre": 3,
+            "X": 994,
+            "Y": 492,
+            "Couleur": 15593452
+          },
+          {
+            "Chiffre": 4,
+            "X": 994,
+            "Y": 493,
+            "Couleur": 9149312
+          },
+          {
+            "Chiffre": 5,
+            "X": 994,
+            "Y": 488,
+            "Couleur": 13423048
+          },
+          {
+            "Chiffre": 6,
+            "X": 995,
+            "Y": 491,
+            "Couleur": 10529433
+          },
+          {
+            "Chiffre": 7,
+            "X": 992,
+            "Y": 487,
+            "Couleur": 13752013
+          },
+          {
+            "Chiffre": 8,
+            "X": 995,
+            "Y": 493,
+            "Couleur": 10661531
+          },
+          {
+            "Chiffre": 9,
+            "X": 998,
+            "Y": 494,
+            "Couleur": 10266772
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1008,
+            "Y": 493,
+            "Couleur": 4612914
+          },
+          {
+            "Chiffre": 1,
+            "X": 1004,
+            "Y": 489,
+            "Couleur": 15790575
+          },
+          {
+            "Chiffre": 2,
+            "X": 1003,
+            "Y": 488,
+            "Couleur": 11450024
+          },
+          {
+            "Chiffre": 3,
+            "X": 1004,
+            "Y": 492,
+            "Couleur": 14212565
+          },
+          {
+            "Chiffre": 4,
+            "X": 1004,
+            "Y": 493,
+            "Couleur": 11253412
+          },
+          {
+            "Chiffre": 5,
+            "X": 1004,
+            "Y": 488,
+            "Couleur": 15264487
+          },
+          {
+            "Chiffre": 6,
+            "X": 1004,
+            "Y": 490,
+            "Couleur": 8359540
+          },
+          {
+            "Chiffre": 7,
+            "X": 1002,
+            "Y": 487,
+            "Couleur": 12107443
+          },
+          {
+            "Chiffre": 8,
+            "X": 1005,
+            "Y": 493,
+            "Couleur": 12173492
+          },
+          {
+            "Chiffre": 9,
+            "X": 1006,
+            "Y": 494,
+            "Couleur": 11647914
+          }
+        ]
+      }
+    ]
+  },
+  "7": {
+    "NombreChiffres": 7,
+    "PixelX": 929,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 929,
+            "Y": 489,
+            "Couleur": 16053747
+          },
+          {
+            "Chiffre": 2,
+            "X": 928,
+            "Y": 488,
+            "Couleur": 10858143
+          },
+          {
+            "Chiffre": 3,
+            "X": 928,
+            "Y": 487,
+            "Couleur": 15593452
+          },
+          {
+            "Chiffre": 4,
+            "X": 929,
+            "Y": 493,
+            "Couleur": 9543560
+          },
+          {
+            "Chiffre": 5,
+            "X": 929,
+            "Y": 488,
+            "Couleur": 14475227
+          },
+          {
+            "Chiffre": 6,
+            "X": 930,
+            "Y": 491,
+            "Couleur": 9608840
+          },
+          {
+            "Chiffre": 7,
+            "X": 927,
+            "Y": 487,
+            "Couleur": 13225669
+          },
+          {
+            "Chiffre": 8,
+            "X": 929,
+            "Y": 494,
+            "Couleur": 8425590
+          },
+          {
+            "Chiffre": 9,
+            "X": 931,
+            "Y": 494,
+            "Couleur": 11384742
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 948,
+            "Y": 493,
+            "Couleur": 10464916
+          },
+          {
+            "Chiffre": 1,
+            "X": 943,
+            "Y": 489,
+            "Couleur": 14146516
+          },
+          {
+            "Chiffre": 2,
+            "X": 943,
+            "Y": 487,
+            "Couleur": 15922161
+          },
+          {
+            "Chiffre": 3,
+            "X": 943,
+            "Y": 492,
+            "Couleur": 10135441
+          },
+          {
+            "Chiffre": 4,
+            "X": 943,
+            "Y": 494,
+            "Couleur": 12370871
+          },
+          {
+            "Chiffre": 5,
+            "X": 944,
+            "Y": 488,
+            "Couleur": 11976114
+          },
+          {
+            "Chiffre": 6,
+            "X": 943,
+            "Y": 491,
+            "Couleur": 13028290
+          },
+          {
+            "Chiffre": 7,
+            "X": 942,
+            "Y": 487,
+            "Couleur": 15067107
+          },
+          {
+            "Chiffre": 8,
+            "X": 946,
+            "Y": 493,
+            "Couleur": 12370615
+          },
+          {
+            "Chiffre": 9,
+            "X": 946,
+            "Y": 494,
+            "Couleur": 10792861
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 958,
+            "Y": 492,
+            "Couleur": 3757606
+          },
+          {
+            "Chiffre": 1,
+            "X": 954,
+            "Y": 489,
+            "Couleur": 15593196
+          },
+          {
+            "Chiffre": 2,
+            "X": 953,
+            "Y": 488,
+            "Couleur": 11778990
+          },
+          {
+            "Chiffre": 3,
+            "X": 954,
+            "Y": 492,
+            "Couleur": 13883600
+          },
+          {
+            "Chiffre": 4,
+            "X": 954,
+            "Y": 493,
+            "Couleur": 10333076
+          },
+          {
+            "Chiffre": 5,
+            "X": 954,
+            "Y": 488,
+            "Couleur": 14343641
+          },
+          {
+            "Chiffre": 6,
+            "X": 955,
+            "Y": 491,
+            "Couleur": 9740427
+          },
+          {
+            "Chiffre": 7,
+            "X": 952,
+            "Y": 487,
+            "Couleur": 13159876
+          },
+          {
+            "Chiffre": 8,
+            "X": 955,
+            "Y": 493,
+            "Couleur": 11581611
+          },
+          {
+            "Chiffre": 9,
+            "X": 957,
+            "Y": 494,
+            "Couleur": 7308130
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 968,
+            "Y": 492,
+            "Couleur": 5335616
+          },
+          {
+            "Chiffre": 1,
+            "X": 964,
+            "Y": 489,
+            "Couleur": 16382713
+          },
+          {
+            "Chiffre": 2,
+            "X": 963,
+            "Y": 488,
+            "Couleur": 11187108
+          },
+          {
+            "Chiffre": 3,
+            "X": 964,
+            "Y": 492,
+            "Couleur": 13620428
+          },
+          {
+            "Chiffre": 4,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 8754811
+          },
+          {
+            "Chiffre": 5,
+            "X": 965,
+            "Y": 491,
+            "Couleur": 11778733
+          },
+          {
+            "Chiffre": 6,
+            "X": 964,
+            "Y": 490,
+            "Couleur": 12502202
+          },
+          {
+            "Chiffre": 7,
+            "X": 962,
+            "Y": 487,
+            "Couleur": 7439203
+          },
+          {
+            "Chiffre": 8,
+            "X": 965,
+            "Y": 493,
+            "Couleur": 13357255
+          },
+          {
+            "Chiffre": 9,
+            "X": 967,
+            "Y": 494,
+            "Couleur": 8951678
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 983,
+            "Y": 492,
+            "Couleur": 8491382
+          },
+          {
+            "Chiffre": 1,
+            "X": 979,
+            "Y": 489,
+            "Couleur": 15856368
+          },
+          {
+            "Chiffre": 2,
+            "X": 978,
+            "Y": 488,
+            "Couleur": 11186852
+          },
+          {
+            "Chiffre": 3,
+            "X": 979,
+            "Y": 492,
+            "Couleur": 15593452
+          },
+          {
+            "Chiffre": 4,
+            "X": 979,
+            "Y": 493,
+            "Couleur": 10332821
+          },
+          {
+            "Chiffre": 5,
+            "X": 979,
+            "Y": 488,
+            "Couleur": 14541018
+          },
+          {
+            "Chiffre": 6,
+            "X": 979,
+            "Y": 490,
+            "Couleur": 8425077
+          },
+          {
+            "Chiffre": 7,
+            "X": 977,
+            "Y": 487,
+            "Couleur": 12765373
+          },
+          {
+            "Chiffre": 8,
+            "X": 979,
+            "Y": 494,
+            "Couleur": 8886141
+          },
+          {
+            "Chiffre": 9,
+            "X": 983,
+            "Y": 493,
+            "Couleur": 14014931
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 994,
+            "Y": 492,
+            "Couleur": 13883344
+          },
+          {
+            "Chiffre": 1,
+            "X": 989,
+            "Y": 489,
+            "Couleur": 14869984
+          },
+          {
+            "Chiffre": 2,
+            "X": 988,
+            "Y": 488,
+            "Couleur": 11186852
+          },
+          {
+            "Chiffre": 3,
+            "X": 989,
+            "Y": 492,
+            "Couleur": 11516838
+          },
+          {
+            "Chiffre": 4,
+            "X": 989,
+            "Y": 494,
+            "Couleur": 9675657
+          },
+          {
+            "Chiffre": 5,
+            "X": 990,
+            "Y": 491,
+            "Couleur": 11778734
+          },
+          {
+            "Chiffre": 6,
+            "X": 989,
+            "Y": 492,
+            "Couleur": 14541275
+          },
+          {
+            "Chiffre": 7,
+            "X": 987,
+            "Y": 487,
+            "Couleur": 8425078
+          },
+          {
+            "Chiffre": 8,
+            "X": 992,
+            "Y": 493,
+            "Couleur": 13620428
+          },
+          {
+            "Chiffre": 9,
+            "X": 992,
+            "Y": 494,
+            "Couleur": 9806476
+          }
+        ]
+      },
+      {
+        "Nom": "MILLION",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 1004,
+            "Y": 491,
+            "Couleur": 11910576
+          },
+          {
+            "Chiffre": 1,
+            "X": 1000,
+            "Y": 489,
+            "Couleur": 15396072
+          },
+          {
+            "Chiffre": 2,
+            "X": 999,
+            "Y": 488,
+            "Couleur": 10660763
+          },
+          {
+            "Chiffre": 3,
+            "X": 999,
+            "Y": 492,
+            "Couleur": 4153129
+          },
+          {
+            "Chiffre": 4,
+            "X": 1000,
+            "Y": 493,
+            "Couleur": 8557430
+          },
+          {
+            "Chiffre": 5,
+            "X": 1000,
+            "Y": 488,
+            "Couleur": 12831166
+          },
+          {
+            "Chiffre": 6,
+            "X": 1001,
+            "Y": 491,
+            "Couleur": 10858398
+          },
+          {
+            "Chiffre": 7,
+            "X": 998,
+            "Y": 487,
+            "Couleur": 14212309
+          },
+          {
+            "Chiffre": 8,
+            "X": 1002,
+            "Y": 493,
+            "Couleur": 11450280
+          },
+          {
+            "Chiffre": 9,
+            "X": 1002,
+            "Y": 494,
+            "Couleur": 11319206
+          }
+        ]
+      }
+    ]
+  },
+  "6": {
+    "NombreChiffres": 6,
+    "PixelX": 935,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 936,
+            "Y": 489,
+            "Couleur": 14738398
+          },
+          {
+            "Chiffre": 2,
+            "X": 935,
+            "Y": 488,
+            "Couleur": 12502201
+          },
+          {
+            "Chiffre": 3,
+            "X": 936,
+            "Y": 492,
+            "Couleur": 11516584
+          },
+          {
+            "Chiffre": 4,
+            "X": 936,
+            "Y": 494,
+            "Couleur": 9872781
+          },
+          {
+            "Chiffre": 5,
+            "X": 937,
+            "Y": 488,
+            "Couleur": 9148290
+          },
+          {
+            "Chiffre": 6,
+            "X": 936,
+            "Y": 491,
+            "Couleur": 9937805
+          },
+          {
+            "Chiffre": 7,
+            "X": 934,
+            "Y": 487,
+            "Couleur": 9148545
+          },
+          {
+            "Chiffre": 8,
+            "X": 937,
+            "Y": 493,
+            "Couleur": 13423049
+          },
+          {
+            "Chiffre": 9,
+            "X": 939,
+            "Y": 494,
+            "Couleur": 9346180
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 951,
+            "Y": 492,
+            "Couleur": 10004111
+          },
+          {
+            "Chiffre": 1,
+            "X": 946,
+            "Y": 489,
+            "Couleur": 12436664
+          },
+          {
+            "Chiffre": 2,
+            "X": 946,
+            "Y": 488,
+            "Couleur": 10332054
+          },
+          {
+            "Chiffre": 3,
+            "X": 946,
+            "Y": 492,
+            "Couleur": 7637094
+          },
+          {
+            "Chiffre": 4,
+            "X": 947,
+            "Y": 493,
+            "Couleur": 8097135
+          },
+          {
+            "Chiffre": 5,
+            "X": 947,
+            "Y": 488,
+            "Couleur": 13159876
+          },
+          {
+            "Chiffre": 6,
+            "X": 947,
+            "Y": 492,
+            "Couleur": 14738399
+          },
+          {
+            "Chiffre": 7,
+            "X": 945,
+            "Y": 487,
+            "Couleur": 14080724
+          },
+          {
+            "Chiffre": 8,
+            "X": 948,
+            "Y": 493,
+            "Couleur": 10858654
+          },
+          {
+            "Chiffre": 9,
+            "X": 949,
+            "Y": 494,
+            "Couleur": 11187620
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 961,
+            "Y": 492,
+            "Couleur": 4546611
+          },
+          {
+            "Chiffre": 1,
+            "X": 956,
+            "Y": 489,
+            "Couleur": 8491381
+          },
+          {
+            "Chiffre": 2,
+            "X": 956,
+            "Y": 488,
+            "Couleur": 11778990
+          },
+          {
+            "Chiffre": 3,
+            "X": 957,
+            "Y": 492,
+            "Couleur": 14212309
+          },
+          {
+            "Chiffre": 4,
+            "X": 957,
+            "Y": 493,
+            "Couleur": 9741194
+          },
+          {
+            "Chiffre": 5,
+            "X": 957,
+            "Y": 488,
+            "Couleur": 14146261
+          },
+          {
+            "Chiffre": 6,
+            "X": 958,
+            "Y": 491,
+            "Couleur": 9740427
+          },
+          {
+            "Chiffre": 7,
+            "X": 955,
+            "Y": 487,
+            "Couleur": 13948882
+          },
+          {
+            "Chiffre": 8,
+            "X": 958,
+            "Y": 493,
+            "Couleur": 11581611
+          },
+          {
+            "Chiffre": 9,
+            "X": 960,
+            "Y": 494,
+            "Couleur": 7308130
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 976,
+            "Y": 491,
+            "Couleur": 12567995
+          },
+          {
+            "Chiffre": 1,
+            "X": 971,
+            "Y": 489,
+            "Couleur": 12305590
+          },
+          {
+            "Chiffre": 2,
+            "X": 971,
+            "Y": 488,
+            "Couleur": 10200468
+          },
+          {
+            "Chiffre": 3,
+            "X": 971,
+            "Y": 492,
+            "Couleur": 8031852
+          },
+          {
+            "Chiffre": 4,
+            "X": 971,
+            "Y": 494,
+            "Couleur": 12897471
+          },
+          {
+            "Chiffre": 5,
+            "X": 972,
+            "Y": 488,
+            "Couleur": 11910064
+          },
+          {
+            "Chiffre": 6,
+            "X": 971,
+            "Y": 491,
+            "Couleur": 13291462
+          },
+          {
+            "Chiffre": 7,
+            "X": 970,
+            "Y": 487,
+            "Couleur": 16119541
+          },
+          {
+            "Chiffre": 8,
+            "X": 973,
+            "Y": 493,
+            "Couleur": 10661275
+          },
+          {
+            "Chiffre": 9,
+            "X": 974,
+            "Y": 494,
+            "Couleur": 10793117
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 986,
+            "Y": 491,
+            "Couleur": 8031087
+          },
+          {
+            "Chiffre": 1,
+            "X": 981,
+            "Y": 489,
+            "Couleur": 7767914
+          },
+          {
+            "Chiffre": 2,
+            "X": 981,
+            "Y": 488,
+            "Couleur": 11581611
+          },
+          {
+            "Chiffre": 3,
+            "X": 982,
+            "Y": 492,
+            "Couleur": 14014930
+          },
+          {
+            "Chiffre": 4,
+            "X": 982,
+            "Y": 493,
+            "Couleur": 12108210
+          },
+          {
+            "Chiffre": 5,
+            "X": 982,
+            "Y": 488,
+            "Couleur": 15264486
+          },
+          {
+            "Chiffre": 6,
+            "X": 982,
+            "Y": 490,
+            "Couleur": 10529433
+          },
+          {
+            "Chiffre": 7,
+            "X": 980,
+            "Y": 487,
+            "Couleur": 10069647
+          },
+          {
+            "Chiffre": 8,
+            "X": 983,
+            "Y": 493,
+            "Couleur": 12568250
+          },
+          {
+            "Chiffre": 9,
+            "X": 984,
+            "Y": 494,
+            "Couleur": 12174003
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 997,
+            "Y": 492,
+            "Couleur": 12502713
+          },
+          {
+            "Chiffre": 1,
+            "X": 992,
+            "Y": 489,
+            "Couleur": 13883856
+          },
+          {
+            "Chiffre": 2,
+            "X": 992,
+            "Y": 488,
+            "Couleur": 9608842
+          },
+          {
+            "Chiffre": 3,
+            "X": 992,
+            "Y": 492,
+            "Couleur": 10070159
+          },
+          {
+            "Chiffre": 4,
+            "X": 992,
+            "Y": 494,
+            "Couleur": 11450535
+          },
+          {
+            "Chiffre": 5,
+            "X": 993,
+            "Y": 488,
+            "Couleur": 10594715
+          },
+          {
+            "Chiffre": 6,
+            "X": 992,
+            "Y": 491,
+            "Couleur": 11976368
+          },
+          {
+            "Chiffre": 7,
+            "X": 997,
+            "Y": 490,
+            "Couleur": 13620428
+          },
+          {
+            "Chiffre": 8,
+            "X": 995,
+            "Y": 493,
+            "Couleur": 12699581
+          },
+          {
+            "Chiffre": 9,
+            "X": 995,
+            "Y": 494,
+            "Couleur": 10200978
+          }
+        ]
+      }
+    ]
+  },
+  "5": {
+    "NombreChiffres": 5,
+    "PixelX": 941,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 941,
+            "Y": 489,
+            "Couleur": 15593195
+          },
+          {
+            "Chiffre": 2,
+            "X": 940,
+            "Y": 488,
+            "Couleur": 10529433
+          },
+          {
+            "Chiffre": 3,
+            "X": 940,
+            "Y": 492,
+            "Couleur": 7242848
+          },
+          {
+            "Chiffre": 4,
+            "X": 941,
+            "Y": 493,
+            "Couleur": 8623224
+          },
+          {
+            "Chiffre": 5,
+            "X": 941,
+            "Y": 488,
+            "Couleur": 13554379
+          },
+          {
+            "Chiffre": 6,
+            "X": 942,
+            "Y": 491,
+            "Couleur": 10200979
+          },
+          {
+            "Chiffre": 7,
+            "X": 939,
+            "Y": 487,
+            "Couleur": 13817551
+          },
+          {
+            "Chiffre": 8,
+            "X": 941,
+            "Y": 494,
+            "Couleur": 7636584
+          },
+          {
+            "Chiffre": 9,
+            "X": 943,
+            "Y": 494,
+            "Couleur": 11253413
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 951,
+            "Y": 493,
+            "Couleur": 6914137
+          },
+          {
+            "Chiffre": 1,
+            "X": 951,
+            "Y": 489,
+            "Couleur": 15264230
+          },
+          {
+            "Chiffre": 2,
+            "X": 950,
+            "Y": 488,
+            "Couleur": 12107699
+          },
+          {
+            "Chiffre": 3,
+            "X": 951,
+            "Y": 492,
+            "Couleur": 12897214
+          },
+          {
+            "Chiffre": 4,
+            "X": 951,
+            "Y": 493,
+            "Couleur": 12568506
+          },
+          {
+            "Chiffre": 5,
+            "X": 951,
+            "Y": 490,
+            "Couleur": 13751758
+          },
+          {
+            "Chiffre": 6,
+            "X": 951,
+            "Y": 490,
+            "Couleur": 10266771
+          },
+          {
+            "Chiffre": 7,
+            "X": 949,
+            "Y": 487,
+            "Couleur": 10923936
+          },
+          {
+            "Chiffre": 8,
+            "X": 952,
+            "Y": 493,
+            "Couleur": 12962497
+          },
+          {
+            "Chiffre": 9,
+            "X": 954,
+            "Y": 494,
+            "Couleur": 8886141
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 970,
+            "Y": 492,
+            "Couleur": 5401408
+          },
+          {
+            "Chiffre": 1,
+            "X": 965,
+            "Y": 489,
+            "Couleur": 9806475
+          },
+          {
+            "Chiffre": 2,
+            "X": 965,
+            "Y": 488,
+            "Couleur": 11318438
+          },
+          {
+            "Chiffre": 3,
+            "X": 966,
+            "Y": 492,
+            "Couleur": 14475482
+          },
+          {
+            "Chiffre": 4,
+            "X": 965,
+            "Y": 494,
+            "Couleur": 14541275
+          },
+          {
+            "Chiffre": 5,
+            "X": 966,
+            "Y": 488,
+            "Couleur": 13883089
+          },
+          {
+            "Chiffre": 6,
+            "X": 967,
+            "Y": 491,
+            "Couleur": 10069137
+          },
+          {
+            "Chiffre": 7,
+            "X": 964,
+            "Y": 487,
+            "Couleur": 14080468
+          },
+          {
+            "Chiffre": 8,
+            "X": 966,
+            "Y": 494,
+            "Couleur": 8886141
+          },
+          {
+            "Chiffre": 9,
+            "X": 968,
+            "Y": 494,
+            "Couleur": 11450535
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 980,
+            "Y": 493,
+            "Couleur": 5993291
+          },
+          {
+            "Chiffre": 1,
+            "X": 976,
+            "Y": 489,
+            "Couleur": 16185334
+          },
+          {
+            "Chiffre": 2,
+            "X": 975,
+            "Y": 488,
+            "Couleur": 11450025
+          },
+          {
+            "Chiffre": 3,
+            "X": 976,
+            "Y": 492,
+            "Couleur": 13883344
+          },
+          {
+            "Chiffre": 4,
+            "X": 976,
+            "Y": 493,
+            "Couleur": 12765885
+          },
+          {
+            "Chiffre": 5,
+            "X": 977,
+            "Y": 488,
+            "Couleur": 9082498
+          },
+          {
+            "Chiffre": 6,
+            "X": 976,
+            "Y": 490,
+            "Couleur": 11187108
+          },
+          {
+            "Chiffre": 7,
+            "X": 974,
+            "Y": 487,
+            "Couleur": 9149055
+          },
+          {
+            "Chiffre": 8,
+            "X": 977,
+            "Y": 493,
+            "Couleur": 12831423
+          },
+          {
+            "Chiffre": 9,
+            "X": 979,
+            "Y": 494,
+            "Couleur": 8294515
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 991,
+            "Y": 492,
+            "Couleur": 12042161
+          },
+          {
+            "Chiffre": 1,
+            "X": 986,
+            "Y": 489,
+            "Couleur": 13357767
+          },
+          {
+            "Chiffre": 2,
+            "X": 986,
+            "Y": 488,
+            "Couleur": 9805965
+          },
+          {
+            "Chiffre": 3,
+            "X": 986,
+            "Y": 492,
+            "Couleur": 9346947
+          },
+          {
+            "Chiffre": 4,
+            "X": 986,
+            "Y": 494,
+            "Couleur": 11911086
+          },
+          {
+            "Chiffre": 5,
+            "X": 987,
+            "Y": 488,
+            "Couleur": 10726302
+          },
+          {
+            "Chiffre": 6,
+            "X": 986,
+            "Y": 491,
+            "Couleur": 12370871
+          },
+          {
+            "Chiffre": 7,
+            "X": 990,
+            "Y": 493,
+            "Couleur": 13751758
+          },
+          {
+            "Chiffre": 8,
+            "X": 989,
+            "Y": 493,
+            "Couleur": 12436664
+          },
+          {
+            "Chiffre": 9,
+            "X": 989,
+            "Y": 494,
+            "Couleur": 10332821
+          }
+        ]
+      }
+    ]
+  },
+  "4": {
+    "NombreChiffres": 4,
+    "PixelX": 946,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 946,
+            "Y": 489,
+            "Couleur": 12436664
+          },
+          {
+            "Chiffre": 2,
+            "X": 946,
+            "Y": 488,
+            "Couleur": 10332054
+          },
+          {
+            "Chiffre": 3,
+            "X": 946,
+            "Y": 492,
+            "Couleur": 7637094
+          },
+          {
+            "Chiffre": 4,
+            "X": 946,
+            "Y": 494,
+            "Couleur": 14409433
+          },
+          {
+            "Chiffre": 5,
+            "X": 947,
+            "Y": 488,
+            "Couleur": 13159876
+          },
+          {
+            "Chiffre": 6,
+            "X": 948,
+            "Y": 491,
+            "Couleur": 10463896
+          },
+          {
+            "Chiffre": 7,
+            "X": 945,
+            "Y": 487,
+            "Couleur": 14080724
+          },
+          {
+            "Chiffre": 8,
+            "X": 948,
+            "Y": 493,
+            "Couleur": 10858654
+          },
+          {
+            "Chiffre": 9,
+            "X": 949,
+            "Y": 494,
+            "Couleur": 11187620
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 961,
+            "Y": 489,
+            "Couleur": 15396073
+          },
+          {
+            "Chiffre": 2,
+            "X": 960,
+            "Y": 488,
+            "Couleur": 10727068
+          },
+          {
+            "Chiffre": 3,
+            "X": 961,
+            "Y": 492,
+            "Couleur": 11450536
+          },
+          {
+            "Chiffre": 4,
+            "X": 961,
+            "Y": 494,
+            "Couleur": 11318950
+          },
+          {
+            "Chiffre": 5,
+            "X": 962,
+            "Y": 488,
+            "Couleur": 11055266
+          },
+          {
+            "Chiffre": 6,
+            "X": 961,
+            "Y": 491,
+            "Couleur": 11976113
+          },
+          {
+            "Chiffre": 7,
+            "X": 960,
+            "Y": 487,
+            "Couleur": 15461866
+          },
+          {
+            "Chiffre": 8,
+            "X": 964,
+            "Y": 493,
+            "Couleur": 12962497
+          },
+          {
+            "Chiffre": 9,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 10266772
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 976,
+            "Y": 492,
+            "Couleur": 6256207
+          },
+          {
+            "Chiffre": 1,
+            "X": 972,
+            "Y": 489,
+            "Couleur": 15658989
+          },
+          {
+            "Chiffre": 2,
+            "X": 971,
+            "Y": 488,
+            "Couleur": 11055522
+          },
+          {
+            "Chiffre": 3,
+            "X": 971,
+            "Y": 492,
+            "Couleur": 6848601
+          },
+          {
+            "Chiffre": 4,
+            "X": 972,
+            "Y": 493,
+            "Couleur": 8557686
+          },
+          {
+            "Chiffre": 5,
+            "X": 972,
+            "Y": 488,
+            "Couleur": 13620173
+          },
+          {
+            "Chiffre": 6,
+            "X": 973,
+            "Y": 491,
+            "Couleur": 10266260
+          },
+          {
+            "Chiffre": 7,
+            "X": 970,
+            "Y": 487,
+            "Couleur": 14212054
+          },
+          {
+            "Chiffre": 8,
+            "X": 972,
+            "Y": 494,
+            "Couleur": 8294515
+          },
+          {
+            "Chiffre": 9,
+            "X": 975,
+            "Y": 494,
+            "Couleur": 6453075
+          }
+        ]
+      },
+      {
+        "Nom": "MILLIER",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 986,
+            "Y": 491,
+            "Couleur": 8031087
+          },
+          {
+            "Chiffre": 1,
+            "X": 982,
+            "Y": 489,
+            "Couleur": 16119284
+          },
+          {
+            "Chiffre": 2,
+            "X": 981,
+            "Y": 488,
+            "Couleur": 11384487
+          },
+          {
+            "Chiffre": 3,
+            "X": 982,
+            "Y": 492,
+            "Couleur": 14014930
+          },
+          {
+            "Chiffre": 4,
+            "X": 982,
+            "Y": 493,
+            "Couleur": 12108210
+          },
+          {
+            "Chiffre": 5,
+            "X": 982,
+            "Y": 488,
+            "Couleur": 15264486
+          },
+          {
+            "Chiffre": 6,
+            "X": 982,
+            "Y": 490,
+            "Couleur": 10529433
+          },
+          {
+            "Chiffre": 7,
+            "X": 980,
+            "Y": 487,
+            "Couleur": 10069647
+          },
+          {
+            "Chiffre": 8,
+            "X": 983,
+            "Y": 493,
+            "Couleur": 12568250
+          },
+          {
+            "Chiffre": 9,
+            "X": 984,
+            "Y": 494,
+            "Couleur": 12174003
+          }
+        ]
+      }
+    ]
+  },
+  "3": {
+    "NombreChiffres": 3,
+    "PixelX": 955,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 954,
+            "Y": 489,
+            "Couleur": 15264230
+          },
+          {
+            "Chiffre": 2,
+            "X": 953,
+            "Y": 488,
+            "Couleur": 11976112
+          },
+          {
+            "Chiffre": 3,
+            "X": 954,
+            "Y": 492,
+            "Couleur": 12897214
+          },
+          {
+            "Chiffre": 4,
+            "X": 954,
+            "Y": 493,
+            "Couleur": 12568506
+          },
+          {
+            "Chiffre": 5,
+            "X": 955,
+            "Y": 491,
+            "Couleur": 12502202
+          },
+          {
+            "Chiffre": 6,
+            "X": 954,
+            "Y": 490,
+            "Couleur": 10266771
+          },
+          {
+            "Chiffre": 7,
+            "X": 952,
+            "Y": 487,
+            "Couleur": 10923936
+          },
+          {
+            "Chiffre": 8,
+            "X": 955,
+            "Y": 493,
+            "Couleur": 12765375
+          },
+          {
+            "Chiffre": 9,
+            "X": 957,
+            "Y": 494,
+            "Couleur": 8623225
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 969,
+            "Y": 492,
+            "Couleur": 12371127
+          },
+          {
+            "Chiffre": 1,
+            "X": 964,
+            "Y": 489,
+            "Couleur": 13817295
+          },
+          {
+            "Chiffre": 2,
+            "X": 963,
+            "Y": 487,
+            "Couleur": 11713707
+          },
+          {
+            "Chiffre": 3,
+            "X": 964,
+            "Y": 492,
+            "Couleur": 8886139
+          },
+          {
+            "Chiffre": 4,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 13488841
+          },
+          {
+            "Chiffre": 5,
+            "X": 965,
+            "Y": 488,
+            "Couleur": 11844526
+          },
+          {
+            "Chiffre": 6,
+            "X": 964,
+            "Y": 491,
+            "Couleur": 14212310
+          },
+          {
+            "Chiffre": 7,
+            "X": 963,
+            "Y": 487,
+            "Couleur": 15001314
+          },
+          {
+            "Chiffre": 8,
+            "X": 967,
+            "Y": 493,
+            "Couleur": 11844783
+          },
+          {
+            "Chiffre": 9,
+            "X": 967,
+            "Y": 494,
+            "Couleur": 10727067
+          }
+        ]
+      },
+      {
+        "Nom": "CENTAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 979,
+            "Y": 493,
+            "Couleur": 5928008
+          },
+          {
+            "Chiffre": 1,
+            "X": 975,
+            "Y": 489,
+            "Couleur": 15658989
+          },
+          {
+            "Chiffre": 2,
+            "X": 974,
+            "Y": 488,
+            "Couleur": 11055522
+          },
+          {
+            "Chiffre": 3,
+            "X": 975,
+            "Y": 492,
+            "Couleur": 15001570
+          },
+          {
+            "Chiffre": 4,
+            "X": 975,
+            "Y": 493,
+            "Couleur": 7965805
+          },
+          {
+            "Chiffre": 5,
+            "X": 975,
+            "Y": 488,
+            "Couleur": 13422793
+          },
+          {
+            "Chiffre": 6,
+            "X": 976,
+            "Y": 491,
+            "Couleur": 10266260
+          },
+          {
+            "Chiffre": 7,
+            "X": 973,
+            "Y": 487,
+            "Couleur": 14343384
+          },
+          {
+            "Chiffre": 8,
+            "X": 975,
+            "Y": 494,
+            "Couleur": 7833963
+          },
+          {
+            "Chiffre": 9,
+            "X": 977,
+            "Y": 494,
+            "Couleur": 11253413
+          }
+        ]
+      }
+    ]
+  },
+  "2": {
+    "NombreChiffres": 2,
+    "PixelX": 959,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 958,
+            "Y": 489,
+            "Couleur": 13620172
+          },
+          {
+            "Chiffre": 2,
+            "X": 957,
+            "Y": 487,
+            "Couleur": 10924702
+          },
+          {
+            "Chiffre": 3,
+            "X": 958,
+            "Y": 492,
+            "Couleur": 8425843
+          },
+          {
+            "Chiffre": 4,
+            "X": 958,
+            "Y": 494,
+            "Couleur": 14014675
+          },
+          {
+            "Chiffre": 5,
+            "X": 959,
+            "Y": 488,
+            "Couleur": 12239029
+          },
+          {
+            "Chiffre": 6,
+            "X": 960,
+            "Y": 491,
+            "Couleur": 11055521
+          },
+          {
+            "Chiffre": 7,
+            "X": 957,
+            "Y": 487,
+            "Couleur": 14738142
+          },
+          {
+            "Chiffre": 8,
+            "X": 961,
+            "Y": 493,
+            "Couleur": 11844782
+          },
+          {
+            "Chiffre": 9,
+            "X": 961,
+            "Y": 494,
+            "Couleur": 10924447
+          }
+        ]
+      },
+      {
+        "Nom": "DIZAINE",
+        "Signatures": [
+          {
+            "Chiffre": 0,
+            "X": 973,
+            "Y": 492,
+            "Couleur": 4612403
+          },
+          {
+            "Chiffre": 1,
+            "X": 969,
+            "Y": 489,
+            "Couleur": 15790575
+          },
+          {
+            "Chiffre": 2,
+            "X": 968,
+            "Y": 488,
+            "Couleur": 11581611
+          },
+          {
+            "Chiffre": 3,
+            "X": 969,
+            "Y": 492,
+            "Couleur": 14212565
+          },
+          {
+            "Chiffre": 4,
+            "X": 969,
+            "Y": 493,
+            "Couleur": 11253412
+          },
+          {
+            "Chiffre": 6,
+            "X": 970,
+            "Y": 491,
+            "Couleur": 8491125
+          },
+          {
+            "Chiffre": 7,
+            "X": 967,
+            "Y": 487,
+            "Couleur": 12107443
+          },
+          {
+            "Chiffre": 8,
+            "X": 970,
+            "Y": 493,
+            "Couleur": 12370615
+          },
+          {
+            "Chiffre": 9,
+            "X": 972,
+            "Y": 494,
+            "Couleur": 8162929
+          }
+        ]
+      }
+    ]
+  },
+  "1": {
+    "NombreChiffres": 1,
+    "PixelX": 964,
+    "PixelY": 487,
+    "PixelCouleur": 2310668,
+    "Positions": [
+      {
+        "Nom": "UNITE",
+        "Signatures": [
+          {
+            "Chiffre": 1,
+            "X": 964,
+            "Y": 489,
+            "Couleur": 13817295
+          },
+          {
+            "Chiffre": 2,
+            "X": 964,
+            "Y": 488,
+            "Couleur": 9740172
+          },
+          {
+            "Chiffre": 3,
+            "X": 964,
+            "Y": 492,
+            "Couleur": 8886139
+          },
+          {
+            "Chiffre": 4,
+            "X": 964,
+            "Y": 494,
+            "Couleur": 13488841
+          },
+          {
+            "Chiffre": 5,
+            "X": 965,
+            "Y": 488,
+            "Couleur": 11844526
+          },
+          {
+            "Chiffre": 6,
+            "X": 967,
+            "Y": 491,
+            "Couleur": 14080468
+          },
+          {
+            "Chiffre": 7,
+            "X": 963,
+            "Y": 487,
+            "Couleur": 15001314
+          },
+          {
+            "Chiffre": 8,
+            "X": 967,
+            "Y": 493,
+            "Couleur": 12107955
+          },
+          {
+            "Chiffre": 9,
+            "X": 967,
+            "Y": 494,
+            "Couleur": 10727067
+          }
+        ]
+      }
+    ]
+  }
+}

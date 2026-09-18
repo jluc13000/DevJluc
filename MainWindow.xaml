@@ -772,6 +772,7 @@
             Style="{StaticResource FlatButton}"/>
         <Label Content="Ranges" HorizontalAlignment="Left" Height="24" Margin="355,816,0,0" VerticalAlignment="Top" Width="39" FontSize="9"/>
         <TextBox x:Name="TB_Montant" HorizontalAlignment="Left" Height="20" Margin="345,648,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="65" FontWeight="Bold" Foreground="#FF094FF9" FontSize="10"/>
+        <Button x:Name="Bt_Test_Pot"   Content="TEST POT"  Click="Bt_Test_Pot_Click" HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="56"                        FontWeight="Bold"    FontSize="10" Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>
