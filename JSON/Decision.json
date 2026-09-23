@@ -6,22 +6,10 @@
     "Couleur": 11796481
   },
   {
-    "Nom": "Se_Coucher",
-    "X": 1201,
-    "Y": 889,
-    "Couleur": 14468352
-  },
-  {
     "Nom": "Parole",
     "X": 1332,
     "Y": 890,
     "Couleur": 14834948
-  },
-  {
-    "Nom": "Parole",
-    "X": 1332,
-    "Y": 890,
-    "Couleur": 14336768
   },
   {
     "Nom": "Tapis",
@@ -30,33 +18,15 @@
     "Couleur": 13677314
   },
   {
-    "Nom": "Tapis",
-    "X": 1500,
-    "Y": 990,
-    "Couleur": 11075841
-  },
-  {
     "Nom": "Relancer",
     "X": 1500,
     "Y": 940,
     "Couleur": 5479963
   },
   {
-    "Nom": "Relancer",
-    "X": 1500,
-    "Y": 940,
-    "Couleur": 13612800
-  },
-  {
     "Nom": "Suivre",
     "X": 1500,
     "Y": 890,
     "Couleur": 7841760
-  },
-  {
-    "Nom": "Suivre",
-    "X": 1500,
-    "Y": 890,
-    "Couleur": 13810690
   }
 ]

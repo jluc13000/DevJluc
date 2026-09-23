@@ -449,15 +449,15 @@
 
         <TextBlock x:Name="T_Call_Max"              Width="26"      Height="13"         Margin="380,295,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Raise_Max"             Width="26"      Height="13"         Margin="380,308,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"><Run Language="fr-fr" /></TextBlock>
-        <TextBlock x:Name="T_Stak_Depart_Joueur1"                   Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="TROUVE PLACE MISE "  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="MISES"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="ATTENTE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="LECTURE MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur5"   Width="71"      Height="12"         Margin="327,77,0,0"     TextWrapping="Wrap" Text="ATTENTE FIN MAIN"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur6"   Width="71"      Height="12"         Margin="327,88,0,0"     TextWrapping="Wrap" Text="SUITE"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="71"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="71"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="71"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text=" $ Départ"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur1"                   Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="AVANT"  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="M1"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="M2"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="MODE"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur5"   Width="71"      Height="12"         Margin="327,77,0,0"     TextWrapping="Wrap" Text="AUT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur6"   Width="71"      Height="12"         Margin="327,88,0,0"     TextWrapping="Wrap" Text="ACT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="71"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text="DEC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="71"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text="CLIC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="71"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text="ATT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Care_Min_Copy"         Width="44"      Height="13"         Margin="136,190,0,0"    HorizontalAlignment="Left"      TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="136,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
 
