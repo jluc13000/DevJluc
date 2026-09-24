@@ -513,7 +513,7 @@ namespace Poker
         private S_DecisionDetect[] DecisionDetect = new S_DecisionDetect[5];
 
         // TABLEAU DETECTION FELICITATION
-        private S_FelicitationDetect[] FelicitationDetect = new S_FelicitationDetect[1];
+        private S_FelicitationDetect[] FelicitationDetect = new S_FelicitationDetect[2];
 
         // TABLEAU DETECTION INFO JOUEUR
         private S_InfoJoueurDetect[] InfoJoueurDetect = new S_InfoJoueurDetect[1];
@@ -8411,14 +8411,17 @@ namespace Poker
 
             string json = File.ReadAllText(fichier);
 
-            FelicitationDetect = JsonConvert.DeserializeObject<S_FelicitationDetect[]>(json);
+            FelicitationDetect =
+                JsonConvert.DeserializeObject<S_FelicitationDetect[]>(json);
         }
         private bool Extraire_Felicitation(string txt)
         {
             string[] lignes = txt.Split('\n');
+
             int index = 0;
             bool bFelicitation = false;
             string nomCourant = "";
+
             for (int i = 0; i < lignes.Length; i++)
             {
                 string ligne = lignes[i].Trim();
@@ -8443,7 +8446,9 @@ namespace Poker
                 // =====================================
                 if (ligne.StartsWith("COMMENT :"))
                 {
-                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    nomCourant =
+                        ligne.Replace("COMMENT :", "").Trim();
+
                     continue;
                 }
 
@@ -8453,7 +8458,14 @@ namespace Poker
                 if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
                 {
                     string[] t = ligne.Split(':');
+
                     if (t.Length < 5)
+                        continue;
+
+                    // =====================================
+                    // 🔥 PROTECTION
+                    // =====================================
+                    if (index >= FelicitationDetect.Length)
                         continue;
 
                     FelicitationDetect[index].Nom = nomCourant;
@@ -8466,10 +8478,9 @@ namespace Poker
             }
 
             // =====================================
-            // DONNEES NON CONFORMES
+            // 🔥 DEUX PIXELS OBLIGATOIRES
             // =====================================
-
-            if (index != 1)
+            if (index != 2)
                 return false;
 
             return true;
@@ -8477,26 +8488,34 @@ namespace Poker
         private void Sauver_Felicitation()
         {
             Directory.CreateDirectory(DOSSIER_JSON);
-            string fichier = Path.Combine(DOSSIER_JSON, "Felicitation.json");
-            string json = JsonConvert.SerializeObject(FelicitationDetect, Formatting.Indented);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Felicitation.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    FelicitationDetect,
+                    Formatting.Indented);
+
             File.WriteAllText(fichier, json);
         }
         private bool Fermer_Felicitation()
         {
-            for (int i = 0; i < FelicitationDetect.Length; i++)
+            if (FelicitationDetect.Length < 2)
+                return false;
+
+            int couleur =
+                LirePixel(
+                    FelicitationDetect[1].X,
+                    FelicitationDetect[1].Y);
+
+            if (couleur == FelicitationDetect[1].Couleur)
             {
-                int couleur = LirePixel(
-                    FelicitationDetect[i].X,
-                    FelicitationDetect[i].Y);
+                Clic(
+                    FelicitationDetect[1].X,
+                    FelicitationDetect[1].Y);
 
-                if (couleur == PubliciteDetect[i].Couleur)
-                {
-                    Clic(
-                        FelicitationDetect[i].X,
-                        FelicitationDetect[i].Y);
-
-                    return true;
-                }
+                return true;
             }
 
             return false;
@@ -12249,7 +12268,7 @@ namespace Poker
                 msg += "Decision : 5 détecteurs\n";
 
             if (okFelicitation)
-                msg += "Felicitation : 1 détecteur\n";
+                msg += "Felicitation : 2 détecteurs\n";
 
             if (okInfo_Joueur)
                 msg += "Info_Joueur : 1 détecteur\n";
@@ -13150,6 +13169,11 @@ namespace Poker
                 Fermer_Info_Joueur();
 
                 // ==========================================
+                // 🔥 FERMER FELICITATIONS
+                // ==========================================
+                Fermer_Felicitation();
+
+                // ==========================================
                 // 🔥 RECAVE
                 // AUTO OU MANUEL
                 // ==========================================
@@ -13191,7 +13215,7 @@ namespace Poker
                 // AUTO ↔ MANUEL
                 // ==========================================
                 GererBarreEspace();
-                
+
 
                 // =====================================
                 // 🔥 MODE AUTOMATIQUE
@@ -13714,7 +13738,6 @@ namespace Poker
                     bAttente_Decision = false;
                 }
 
-
                 // =========================================================
                 // 🔴 BARRIÈRE BOARD
                 // TOUT CE QUI SUIT EST INTERDIT TANT QUE ROUGE
@@ -13837,6 +13860,7 @@ namespace Poker
                 // ==========================
                 if (bMain2_Lu && !bFlop1_Lu && Detecter_Presence("Flop_1_Presence"))
                 {
+                    await Task.Delay(2);
                     Lire_Flop_1();
 
                     bFlop1_Lu = true;
@@ -14330,6 +14354,9 @@ namespace Poker
                 }
 
             }
+
+
+
         }
 
         // =========================================================
@@ -14342,8 +14369,8 @@ namespace Poker
         // =====================================
         private void Capture_ShareX()
         {
-            Clic(538, 777);   // sélection éventuelle de l'écran actif
-            Clic(493, 777);   // lancement de la capture
+            Clic(570, 824);   // sélection éventuelle de l'écran actif
+            Clic(501, 778);   // lancement de la capture
         }
 
         // =========================================================
