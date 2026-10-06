@@ -5,7 +5,13 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-    Title="MainWindow" Height="900" Width="410" Topmost="True" Top="122" Left="0" WindowStyle="None">
+        Title="MainWindow"
+        Height="900"
+        Width="401"
+        Topmost="True"
+        Top="122"
+        Left="0"
+        WindowStyle="None">
     <Window.Resources>
         <!-- Couleurs -->
         <SolidColorBrush x:Key="blanc" Color="White"/>
@@ -66,7 +72,7 @@
         <Image x:Name="Turn1" Source="/Fenetre_Poker.gif"
                Stretch="None"
                HorizontalAlignment="Center"
-               VerticalAlignment="Center"/>
+               VerticalAlignment="Center" Width="402"/>
 
         <!-- Image des 52 cartes -->
 
@@ -86,11 +92,11 @@
         <Button x:Name="Bt_Flop_3"                  Content="Flop 3"            Click="Bt_Flop_3_Click"             HorizontalAlignment="Left"              Height="20"     Margin="136,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Turn"                    Content="Turn"              Click="Bt_Turn_Click"               HorizontalAlignment="Left"              Height="20"     Margin="201,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_River"                   Content="River"             Click="Bt_River_Click"              HorizontalAlignment="Left"              Height="20"     Margin="266,562,0,0"    VerticalAlignment="Top"     Width="65"                                                          Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Rand_M"                  Content="M"                 Click="Bt_Rand_M_Click"                                                     Height="20"     Margin="332,583,61,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Rand_F"                  Content="F"                 Click="Bt_Rand_F_Click"                                                     Height="20"     Margin="349,583,44,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Rand_T"                  Content="T"                 Click="Bt_Rand_T_Click"                                                     Height="20"     Margin="366,583,27,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Rand_R"                  Content="R"                 Click="Bt_Rand_R_Click"                                                     Height="20"     Margin="383,583,10,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Rand_MTFR"               Content="MTFR"              Click="Bt_Rand_MTFR_Click"                                                  Height="20"     Margin="332,602,44,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}" />
+        <Button x:Name="Bt_Rand_M"                  Content="M"                 Click="Bt_Rand_M_Click"                                                     Height="20"     Margin="332,583,55,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_F"                  Content="F"                 Click="Bt_Rand_F_Click"                                                     Height="20"     Margin="345,583,43,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_T"                  Content="T"                 Click="Bt_Rand_T_Click"                                                     Height="20"     Margin="357,583,33,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_R"                  Content="R"                 Click="Bt_Rand_R_Click"                                                     Height="20"     Margin="368,583,22,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Rand_MTFR"               Content="MTFR"              Click="Bt_Rand_MTFR_Click"                                                  Height="20"     Margin="332,602,22,0"   VerticalAlignment="Top"                                                                         Style="{StaticResource FlatButton}" />
         <Button x:Name="Bt_Se_Recave"               Content="Se Recave"         Click="Bt_Se_Recave_Click"          HorizontalAlignment="Left"              Height="20"     Margin="6,623,0,0"      VerticalAlignment="Top"     Width="60"                  FontStyle="Italic"                      Style="{StaticResource FlatButton}"/>
 
         <Button x:Name="Bt_Position_1"              Content="1"                                                     HorizontalAlignment="Left"              Height="17"     Margin="4,140,0,0"      VerticalAlignment="Top"     Width="28"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}" />
@@ -285,15 +291,15 @@
         <Button x:Name="Bt_Joueur9_Tapis"           Content=""                  Click="Bt_Joueur9_Tapis_Click"      HorizontalAlignment="Left"              Height="11"     Margin="301,125,0,0"    VerticalAlignment="Top"     Width="10"  FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
 
-        <Button x:Name="Bt_Gagne_en_1"              Content=""                  Click="Bt_Gagne_en_1_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,29,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="6"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_2"              Content=""                  Click="Bt_Gagne_en_2_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,41,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_3"              Content=""                  Click="Bt_Gagne_en_3_Click"                                                 Height="12"     Margin="404,53,0,0"     VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_4"              Content=""                  Click="Bt_Gagne_en_4_Click"                                                 Height="12"     Margin="404,65,0,0"     VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_5"              Content=""                  Click="Bt_Gagne_en_5_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,77,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_6"              Content=""                  Click="Bt_Gagne_en_6_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,89,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_7"              Content=""                  Click="Bt_Gagne_en_7_Click"                                                 Height="12"     Margin="404,101,0,0"    VerticalAlignment="Top"                 FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_8"              Content=""                  Click="Bt_Gagne_en_8_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,113,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Gagne_en_9"              Content=""                  Click="Bt_Gagne_en_9_Click"         HorizontalAlignment="Left"              Height="12"     Margin="404,125,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_1"              Content=""                  Click="Bt_Gagne_en_1_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,29,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_2"              Content=""                  Click="Bt_Gagne_en_2_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,41,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_3"              Content=""                  Click="Bt_Gagne_en_3_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,53,0,0"     VerticalAlignment="Top"    Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_4"              Content=""                  Click="Bt_Gagne_en_4_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,65,0,0"     VerticalAlignment="Top"    Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_5"              Content=""                  Click="Bt_Gagne_en_5_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,77,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_6"              Content=""                  Click="Bt_Gagne_en_6_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,89,0,0"     VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_7"              Content=""                  Click="Bt_Gagne_en_7_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,101,0,0"    VerticalAlignment="Top"    Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_8"              Content=""                  Click="Bt_Gagne_en_8_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,113,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gagne_en_9"              Content=""                  Click="Bt_Gagne_en_9_Click"         HorizontalAlignment="Left"              Height="12"     Margin="391,125,0,0"    VerticalAlignment="Top"     Width="6"   FontSize="7"    FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
 
         <!-- PAROLE / PASSE -->
         <Button x:Name="Bt_Parole_Passe"
@@ -370,9 +376,9 @@
         <Label x:Name="LbTemps"
        Content="00:00:00"
        HorizontalAlignment="Left"
-       Margin="335,197,0,0"
+       Margin="333,197,0,0"
        VerticalAlignment="Top"
-       Width="69"
+       Width="67"
        Background="White"
        Foreground="Black"
        HorizontalContentAlignment="Center" RenderTransformOrigin="0.539,4.378" Height="29" FontWeight="Bold" FontSize="14"/>
@@ -437,7 +443,16 @@
         <TextBox x:Name="TB_F3"           Width="65"    Height="39"     Margin="136,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_T"            Width="65"    Height="39"     Margin="201,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
         <TextBox x:Name="TB_R"            Width="65"    Height="39"     Margin="266,583,0,0" FontSize="24" FontWeight="Bold" HorizontalAlignment="Left" VerticalAlignment="Top" TextAlignment="Center"/>
-        <TextBox x:Name="TB_Debug"         Width="264"    Height="134"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567"/>
+        <TextBox x:Name="TB_Debug"         Width="263"    Height="134"     Margin="136,350,0,0" TextWrapping="Wrap"    HorizontalAlignment="Left" VerticalAlignment="Top" TextChanged="tB_Mise_TextChanged" Text="" FontSize="9" RenderTransformOrigin="1.115,-1.567">
+            <TextBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform AngleY="0.431"/>
+                    <RotateTransform/>
+                    <TranslateTransform Y="2.213"/>
+                </TransformGroup>
+            </TextBox.RenderTransform>
+        </TextBox>
 
         <!-- TextBlock -->
         <TextBlock x:Name="T_Blinde_1"              Width="38"      Height="13"         Margin="56,176,0,0"     TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
@@ -446,17 +461,17 @@
         <TextBlock x:Name="T_Cave_Max"              Width="40"      Height="13"         Margin="181,176,0,0"    TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" FontWeight="Bold"/>
         <TextBlock x:Name="T_Frais"                                 Height="13"         Margin="181,204,0,0"  TextWrapping="Wrap"     HorizontalAlignment="Left"      TextAlignment="Center"   VerticalAlignment="Top" FontSize="10" Foreground="Red" Background="#FFA8ECD7" Width="40" FontWeight="Bold"/>
 
-        <TextBlock x:Name="T_Call_Max"              Width="26"      Height="13"         Margin="380,295,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Raise_Max"             Width="26"      Height="13"         Margin="380,308,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"><Run Language="fr-fr" /></TextBlock>
-        <TextBlock x:Name="T_Stak_Depart_Joueur1"                   Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="AVANT"  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="71"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="71"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="M1"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="71"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="M2"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="71"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="MODE"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur5"   Width="71"      Height="12"         Margin="327,77,0,0"     TextWrapping="Wrap" Text="AUT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur6"   Width="71"      Height="12"         Margin="327,88,0,0"     TextWrapping="Wrap" Text="ACT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="71"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text="DEC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="71"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text="CLIC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
-        <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="71"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text="ATT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Call_Max"              Width="20"      Height="13"         Margin="380,295,0,0"    TextWrapping="Wrap" Text="Call Max"     HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Raise_Max"             Width="20"      Height="13"         Margin="380,308,0,0"    TextWrapping="Wrap" Text="Raise"        HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"><Run Language="fr-fr" /></TextBlock>
+        <TextBlock x:Name="T_Stak_Depart_Joueur1"                   Height="12"         Margin="327,29,0,0"     TextWrapping="Wrap" Text="AVANT"  VerticalAlignment="Top" FontSize="6" HorizontalAlignment="Left" Width="63"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur2"   Width="63"      Height="12"         Margin="327,40,0,0"     TextWrapping="Wrap" Text="M1"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur3"   Width="63"      Height="12"         Margin="327,53,0,0"     TextWrapping="Wrap" Text="M2"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur4"   Width="63"      Height="12"         Margin="327,65,0,0"     TextWrapping="Wrap" Text="MODE"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur5"   Width="63"      Height="12"         Margin="327,77,0,0"     TextWrapping="Wrap" Text="AUT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur6"   Width="63"      Height="12"         Margin="327,88,0,0"     TextWrapping="Wrap" Text="ACT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur7"   Width="63"      Height="12"         Margin="327,101,0,0"    TextWrapping="Wrap" Text="DEC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur8"   Width="63"      Height="12"         Margin="327,113,0,0"    TextWrapping="Wrap" Text="CLIC"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
+        <TextBlock x:Name="T_Stak_Depart_Joueur9"   Width="63"      Height="12"         Margin="327,125,0,0"    TextWrapping="Wrap" Text="ATT"    HorizontalAlignment="Left"  VerticalAlignment="Top" FontSize="6"/>
         <TextBlock x:Name="T_Care_Min_Copy"         Width="44"      Height="13"         Margin="136,190,0,0"    HorizontalAlignment="Left"      TextWrapping="Wrap" VerticalAlignment="Top" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
         <TextBlock x:Name="T_Care_Min_Copy1"    HorizontalAlignment="Left" Height="13"  Margin="136,204,0,0"    TextWrapping="Wrap" VerticalAlignment="Top" Width="44" RenderTransformOrigin="0.5,0.019" FontSize="10" Foreground="Red" Background="#FFA8ECD7"/>
 
@@ -482,8 +497,8 @@
 
         <ComboBox x:Name="CbRandom" HorizontalAlignment="Left" Height="22" Margin="93,854,0,0" VerticalAlignment="Top" Width="50" SelectionChanged="CbRandom_SelectionChanged"/>
         <TextBox x:Name="Tb_Tapis_Max" HorizontalAlignment="Left" Height="20" Margin="332,157,0,0" TextWrapping="Wrap" Text="0" VerticalAlignment="Top" Width="29" FontSize="10"/>
-        <Button x:Name="Bt_Pause" Content="Pause" HorizontalAlignment="Left" Height="20" Margin="361,157,0,0" VerticalAlignment="Top" Width="37" Click="Bt_Pause_Click" FontSize="9"/>
-        <Button x:Name="Bt_Initialise" Content="Initialise" Click="Bt_Initialise_Click" HorizontalAlignment="Left" Height="20" Margin="361,177,0,0" VerticalAlignment="Top" Width="37"  FontSize="9" RenderTransformOrigin="0.495,1.65" />
+        <Button x:Name="Bt_Pause" Content="Pause" HorizontalAlignment="Left" Height="20" Margin="361,157,0,0" VerticalAlignment="Top" Width="39" Click="Bt_Pause_Click" FontSize="9"/>
+        <Button x:Name="Bt_Initialise" Content="Initialise" Click="Bt_Initialise_Click" HorizontalAlignment="Left" Height="20" Margin="361,177,0,0" VerticalAlignment="Top" Width="39"  FontSize="9" RenderTransformOrigin="0.495,1.65" />
         <Button x:Name="Bt_Injection"  Content="INJECTION"  Click="Bt_Injection_Click"  HorizontalAlignment="Left" Height="20" Margin="270,197,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Triggers_Board"  Content="Triggers_Board"  Click="Bt_Triggers_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="140,295,0,0" VerticalAlignment="Top" Width="60"  FontSize="8"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <Button
@@ -491,7 +506,7 @@
     Content="Test Board"
     Click="Bt_Test_Board_Click"  HorizontalAlignment="Left" Height="20" Margin="270,177,0,0" VerticalAlignment="Top" Width="60"  FontSize="9"                        FontWeight="Bold"   Style="{StaticResource FlatButton}"/>
         <RichTextBox x:Name="RTB_Historique"
-             Margin="136,484,0,334"
+             Margin="136,484,1,334"
              FontSize="14"
              FontWeight="Bold"
              FontFamily="Consolas"
@@ -548,7 +563,7 @@
                FontSize="10" Margin="0,19,9,0" Width="56"/>
         </Border>
 
-        <Button x:Name="Bt_Debug" Content="Debug" HorizontalAlignment="Left" Height="20" Margin="345,623,0,0" VerticalAlignment="Top" Width="53" Click="Bt_Debug_Click" FontWeight="Bold" Style="{StaticResource FlatButton}" />
+        <Button x:Name="Bt_Debug" Content="Debug" HorizontalAlignment="Left" Height="20" Margin="345,623,0,0" VerticalAlignment="Top" Width="55" Click="Bt_Debug_Click" FontWeight="Bold" Style="{StaticResource FlatButton}" />
 
         <Slider x:Name="Sl_Delai_Decision"
             Minimum="0"
@@ -564,18 +579,18 @@
             ValueChanged="Sl_Delai_Decision_ValueChanged"/>
 
         <TextBlock Text="Temps de réflexion"
-            Margin="329,226,0,0"
+            Margin="331,226,0,0"
             HorizontalAlignment="Left"
             VerticalAlignment="Top"
-            FontSize="9"
-            FontWeight="Bold"/>
+            FontSize="7"
+            FontWeight="Bold" Width="69"/>
         <TextBlock x:Name="T_Delai_Decision"
            Text="3,5 s"
-           Width="29"
+           Width="20"
            Margin="380,242,0,0"
            HorizontalAlignment="Left"
            VerticalAlignment="Top"
-           FontSize="10"
+           FontSize="9"
            FontWeight="Bold"/>
         <Label Content="Frais" HorizontalAlignment="Left" Height="20" Margin="186,187,0,0" VerticalAlignment="Top" Width="33" FontSize="8"/>
 
@@ -770,9 +785,10 @@
             FontWeight="Bold"   
             Style="{StaticResource FlatButton}"/>
         <Label Content="Ranges" HorizontalAlignment="Left" Height="24" Margin="355,816,0,0" VerticalAlignment="Top" Width="39" FontSize="9"/>
-        <TextBox x:Name="TB_Montant" HorizontalAlignment="Left" Height="20" Margin="345,648,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="65" FontWeight="Bold" Foreground="#FF094FF9" FontSize="10"/>
-        <Button x:Name="Bt_Test_Pot"   Content="TEST POT"  Click="Bt_Test_Pot_Click" HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="56"                        FontWeight="Bold"    FontSize="10" Style="{StaticResource FlatButton}"/>
-        <Button x:Name="Bt_Quitter"   Content="QUITTER"  Click="Bt_Quitter_Click" HorizontalAlignment="Left" Height="20" Margin="142,315,0,0" VerticalAlignment="Top" Width="58"                        FontWeight="Bold"    FontSize="10" Style="{StaticResource FlatButton}"/>
+        <TextBox x:Name="TB_Montant" HorizontalAlignment="Left" Height="20" Margin="345,648,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="55" FontWeight="Bold" Foreground="#FF094FF9"    FontSize="10"/>
+        <Button x:Name="Bt_Test_Pot"    Content="TEST POT"  Click="Bt_Test_Pot_Click"   HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="56"                      FontWeight="Bold"   FontSize="10" Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Quitter"     Content="QUITTER"   Click="Bt_Quitter_Click"     HorizontalAlignment="Left" Height="20" Margin="142,315,0,0" VerticalAlignment="Top" Width="58"                      FontWeight="Bold"   FontSize="10" Style="{StaticResource FlatButton}"/>
+        <Button x:Name="Bt_Gifles"      Content="Gifles"    Click="Bt_Gifles_Click"         HorizontalAlignment="Left" Height="20" Margin="289,295,0,0" VerticalAlignment="Top" Width="29"          FontWeight="Bold"               FontSize="8"  Style="{StaticResource FlatButton}"/>
 
     </Grid>
 </Window>

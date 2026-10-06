@@ -239,8 +239,12 @@ namespace Poker
         private const uint SND_FILENAME = 0x00020000;
         private const uint SND_NODEFAULT = 0x0002;
 
-        #region STRUCTURES
-        // STRUCTURE CARTE
+
+        #region STRUCTURES ET TABLEAUX DE DETECTION
+
+        // =========================================================
+        // 🔥 CARTE
+        // =========================================================
         public struct S_CarteDetect
         {
             public string Nom;
@@ -249,249 +253,6 @@ namespace Poker
             public int Couleur;
         }
 
-        // STRUCTURE AMITIE
-        public struct S_AmitieDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE AUCUNE TABLE
-        public struct S_AucuneTableDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE DECISION
-        public struct S_DecisionDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE FELICITATION
-        public struct S_FelicitationDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE INFO JOUEUR
-        public struct S_InfoJoueurDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JE NE SUIS PAS ASSIS
-        public struct S_JeNeSuisPasAssisDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR A TAPIS
-        public struct S_JoueurATapisDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR PAROLE
-        public struct S_JoueurParoleDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR REFLECHIT
-        public struct S_JoueurReflechitDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR RELANCE
-        public struct S_JoueurRelanceDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR SE COUCHE
-        public struct S_JoueurSeCoucheDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE JOUEUR SUIT
-        public struct S_JoueurSuitDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE GAGNE
-        public struct S_GagneDetect
-        {
-            public int Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE MAIN BOARD
-        public struct S_MainBoardDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE NIVEAU TABLE
-        public struct S_NiveauTableDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE NOUVEAU NIVEAU
-        public struct S_NouveauNiveauDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PLACES LIBRES
-        public struct S_PlacesLibresDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PLACES OCCUPEE
-        public struct S_PlaceOccupeeDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PLUS DE JETONS
-        public struct S_PlusDeJetonsDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PLUS DE POT
-        public struct S_PlusDePotDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE POSITION BOUTON
-        public struct S_PositionBoutonDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PUBLICITE
-        public struct S_PubliciteDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE PUPITRE GRIS
-        public struct S_PupitreGrisDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        // STRUCTURE SUIS JE ASSIS
-        public struct S_SuisJeAssisDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-
-        public struct S_TablePreteDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-        public struct S_TableStabiliseeDetect
-        {
-            public string Nom;
-            public int X;
-            public int Y;
-            public int Couleur;
-        }
-        // STRUCTURE PREFERENCES UTILISATEUR
-        public struct S_PreferencesUtilisateurDetect
-        {
-            public bool ModeDebug;
-            public int DelaiPriseControle;
-            public bool SeRecave;
-            public int NiveauMise;
-            public int Memo;
-        }
-        #endregion
-
-        #region DETECTIONS
-        // TABLEAU DETECTION CARTES
         private S_CarteDetect[] Main1Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Main2Detect = new S_CarteDetect[52];
         private S_CarteDetect[] Flop1Detect = new S_CarteDetect[52];
@@ -501,64 +262,477 @@ namespace Poker
         private S_CarteDetect[] RiverDetect = new S_CarteDetect[52];
         private S_CarteDetect[] River_HBDetect = new S_CarteDetect[104];
 
-        // TABLEAU DETECTION AMITIE
+
+        // =========================================================
+        // 🔥 AMITIE
+        // =========================================================
+        public struct S_AmitieDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         private S_AmitieDetect[] AmitieDetect = new S_AmitieDetect[1];
-        // TABLEAU DETECTION AUCUNE TABLE
+
+
+        // =========================================================
+        // 🔥 AUCUNE TABLE
+        // =========================================================
+        public struct S_AucuneTableDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         private S_AucuneTableDetect[] AucuneTableDetect = new S_AucuneTableDetect[1];
-        // TABLEAU DETECTION DECISION
+
+
+        // =========================================================
+        // 🔥 COLLECTION PSEUDOS
+        // =========================================================
+        public struct S_CollectionPseudos
+        {
+            public string Pseudo;
+            public int Position;
+
+            public int X1;
+            public int Y1;
+            public int Couleur1;
+
+            public int X2;
+            public int Y2;
+            public int Couleur2;
+        }
+
+        private S_CollectionPseudos[] CollectionPseudos =
+            Array.Empty<S_CollectionPseudos>();
+
+
+        // =========================================================
+        // 🔥 DECISION
+        // =========================================================
+        public struct S_DecisionDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
         private S_DecisionDetect[] DecisionDetect = new S_DecisionDetect[5];
-        // TABLEAU DETECTION FELICITATION
-        private S_FelicitationDetect[] FelicitationDetect = new S_FelicitationDetect[2];
-        // TABLEAU DETECTION INFO JOUEUR
-        private S_InfoJoueurDetect[] InfoJoueurDetect = new S_InfoJoueurDetect[1];
-        // TABLEAU DETECTION J AI QUITTE MA PLACE VISIBLE
-        private S_JeNeSuisPasAssisDetect[] JeNeSuisPasAssisDetect = new S_JeNeSuisPasAssisDetect[1];
-        // TABLEAU DETECTION JOUEUR A TAPIS
-        private S_JoueurATapisDetect[] JoueurATapisDetect = new S_JoueurATapisDetect[9];
-        // TABLEAU DETECTION JOUEUR PAROLE
-        private S_JoueurParoleDetect[] JoueurParoleDetect = new S_JoueurParoleDetect[9];
-        // TABLEAU DETECTION JOUEUR REFLECHIT
-        private S_JoueurReflechitDetect[] JoueurReflechitDetect = new S_JoueurReflechitDetect[9];
-        // TABLEAU DETECTION JOUEUR RELANCE
-        private S_JoueurRelanceDetect[] JoueurRelanceDetect = new S_JoueurRelanceDetect[9];
-        // TABLEAU DETECTION JOUEUR SE COUCHE
-        private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect = new S_JoueurSeCoucheDetect[9];
-        // TABLEAU DETECTION JOUEUR SUIT
-        private S_JoueurSuitDetect[] JoueurSuitDetect = new S_JoueurSuitDetect[9];
-        // TABLEAU DETECTION GAGNE
-        private S_GagneDetect[] GagneDetect = new S_GagneDetect[18];
-        // TABLEAU DETECTION EVENEMENTIELLE
-        private S_MainBoardDetect[] MainBoardDetect = new S_MainBoardDetect[60];
-        // TABLEAU DETECTION NIVEAU TABLE
-        private S_NiveauTableDetect[] NiveauTableDetect = new S_NiveauTableDetect[12];
-        // TABLEAU DETECTION NOUVEAU NIVEAU
-        private S_NouveauNiveauDetect[] NouveauNiveauDetect = new S_NouveauNiveauDetect[1];
-        // TABLEAU DETECTION PLACE LIBRE
-        private S_PlacesLibresDetect[] PlacesLibresDetect = new S_PlacesLibresDetect[18];
-        // TABLEAU DETECTION PLACE RESERVE
-        private S_PlaceOccupeeDetect[] PlaceOccupeeDetect = new S_PlaceOccupeeDetect[2];
-        // TABLEAU DETECTION PLUS DE JETONS
-        private S_PlusDeJetonsDetect[] PlusDeJetonsDetect = new S_PlusDeJetonsDetect[1];
-        // TABLEAU DETECTION PLUS DE POT
-        private S_PlusDePotDetect[] PlusDePotDetect = new S_PlusDePotDetect[1];
-        // TABLEAU DETECTION POSITION BOUTON
-        private S_PositionBoutonDetect[] PositionBoutonDetect = new S_PositionBoutonDetect[9];
-        // TABLEAU DETECTION PUBLCITE
-        private S_PubliciteDetect[] PubliciteDetect = new S_PubliciteDetect[1];
-        // TABLEAU DETECTION PUPITRE GRIS
-        private S_PupitreGrisDetect[] PupitreGrisDetect = new S_PupitreGrisDetect[2];
-        // TABLEAU DETECTION SUIS JE ASSIS
-        private S_SuisJeAssisDetect[] SuisJeAssisDetect = new S_SuisJeAssisDetect[18];
-        // TABLEAU DETECTION TABLE PRETE
-        private S_TablePreteDetect[] TablePreteDetect = new S_TablePreteDetect[1];
-        // TABLEAU DETECTION TABLE STABILISEE
-        private S_TableStabiliseeDetect[] TableStabiliseeDetect = new S_TableStabiliseeDetect[1];
-        // TABLEAU DETECTION PREFERENCES UTILISATEUR
+
+
+        // =========================================================
+        // 🔥 DISTRIBUTION GIFS
+        // =========================================================
+        public struct S_DistributionGifsDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_DistributionGifsDetect[] DistributionGifsDetect =
+            new S_DistributionGifsDetect[9];
+
+
+        // =========================================================
+        // 🔥 FELICITATION
+        // =========================================================
+        public struct S_FelicitationDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_FelicitationDetect[] FelicitationDetect =
+            new S_FelicitationDetect[2];
+
+
+        // =========================================================
+        // 🔥 INFO JOUEUR
+        // =========================================================
+        public struct S_InfoJoueurDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_InfoJoueurDetect[] InfoJoueurDetect =
+            new S_InfoJoueurDetect[1];
+
+
+        // =========================================================
+        // 🔥 JE NE SUIS PAS ASSIS
+        // =========================================================
+        public struct S_JeNeSuisPasAssisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JeNeSuisPasAssisDetect[] JeNeSuisPasAssisDetect =
+            new S_JeNeSuisPasAssisDetect[1];
+
+
+        // =========================================================
+        // 🔥 JOUEUR A TAPIS
+        // =========================================================
+        public struct S_JoueurATapisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurATapisDetect[] JoueurATapisDetect =
+            new S_JoueurATapisDetect[9];
+
+
+        // =========================================================
+        // 🔥 JOUEUR PAROLE
+        // =========================================================
+        public struct S_JoueurParoleDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurParoleDetect[] JoueurParoleDetect =
+            new S_JoueurParoleDetect[9];
+
+
+        // =========================================================
+        // 🔥 JOUEUR REFLECHIT
+        // =========================================================
+        public struct S_JoueurReflechitDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurReflechitDetect[] JoueurReflechitDetect =
+            new S_JoueurReflechitDetect[9];
+
+
+        // =========================================================
+        // 🔥 JOUEUR RELANCE
+        // =========================================================
+        public struct S_JoueurRelanceDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurRelanceDetect[] JoueurRelanceDetect =
+            new S_JoueurRelanceDetect[9];
+
+
+        // =========================================================
+        // 🔥 JOUEUR SE COUCHE
+        // =========================================================
+        public struct S_JoueurSeCoucheDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurSeCoucheDetect[] JoueurSeCoucheDetect =
+            new S_JoueurSeCoucheDetect[9];
+
+
+        // =========================================================
+        // 🔥 JOUEUR SUIT
+        // =========================================================
+        public struct S_JoueurSuitDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_JoueurSuitDetect[] JoueurSuitDetect =
+            new S_JoueurSuitDetect[9];
+
+
+        // =========================================================
+        // 🔥 GAGNE
+        // =========================================================
+        public struct S_GagneDetect
+        {
+            public int Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_GagneDetect[] GagneDetect =
+            new S_GagneDetect[18];
+
+
+        // =========================================================
+        // 🔥 MAIN BOARD
+        // =========================================================
+        public struct S_MainBoardDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_MainBoardDetect[] MainBoardDetect =
+            new S_MainBoardDetect[60];
+
+
+        // =========================================================
+        // 🔥 NIVEAU TABLE
+        // =========================================================
+        public struct S_NiveauTableDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_NiveauTableDetect[] NiveauTableDetect =
+            new S_NiveauTableDetect[12];
+
+
+        // =========================================================
+        // 🔥 NOUVEAU NIVEAU
+        // =========================================================
+        public struct S_NouveauNiveauDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_NouveauNiveauDetect[] NouveauNiveauDetect =
+            new S_NouveauNiveauDetect[1];
+
+
+        // =========================================================
+        // 🔥 PAS DE GIF
+        // =========================================================
+        public struct S_PasDeGifDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PasDeGifDetect[] PasDeGifDetect =
+            new S_PasDeGifDetect[9];
+
+
+        // =========================================================
+        // 🔥 PLACES LIBRES
+        // =========================================================
+        public struct S_PlacesLibresDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PlacesLibresDetect[] PlacesLibresDetect =
+            new S_PlacesLibresDetect[18];
+
+
+        // =========================================================
+        // 🔥 PLACE OCCUPEE
+        // =========================================================
+        public struct S_PlaceOccupeeDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PlaceOccupeeDetect[] PlaceOccupeeDetect =
+            new S_PlaceOccupeeDetect[2];
+
+
+        // =========================================================
+        // 🔥 PLUS DE JETONS
+        // =========================================================
+        public struct S_PlusDeJetonsDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PlusDeJetonsDetect[] PlusDeJetonsDetect =
+            new S_PlusDeJetonsDetect[1];
+
+
+        // =========================================================
+        // 🔥 PLUS DE POT
+        // =========================================================
+        public struct S_PlusDePotDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PlusDePotDetect[] PlusDePotDetect =
+            new S_PlusDePotDetect[1];
+
+
+        // =========================================================
+        // 🔥 POSITION BOUTON
+        // =========================================================
+        public struct S_PositionBoutonDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PositionBoutonDetect[] PositionBoutonDetect =
+            new S_PositionBoutonDetect[9];
+
+
+        // =========================================================
+        // 🔥 PRESENCE GIFS
+        // =========================================================
+        public struct S_PresenceGifsDetect
+        {
+            public string NomGif;
+            public int Position;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PresenceGifsDetect[] PresenceGifsDetect =
+            new S_PresenceGifsDetect[243];
+
+
+        // =========================================================
+        // 🔥 PUBLICITE
+        // =========================================================
+        public struct S_PubliciteDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PubliciteDetect[] PubliciteDetect =
+            new S_PubliciteDetect[1];
+
+
+        // =========================================================
+        // 🔥 PUPITRE GRIS
+        // =========================================================
+        public struct S_PupitreGrisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_PupitreGrisDetect[] PupitreGrisDetect =
+            new S_PupitreGrisDetect[2];
+
+
+        // =========================================================
+        // 🔥 SUIS JE ASSIS
+        // =========================================================
+        public struct S_SuisJeAssisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_SuisJeAssisDetect[] SuisJeAssisDetect =
+            new S_SuisJeAssisDetect[18];
+
+
+        // =========================================================
+        // 🔥 TABLE PRETE
+        // =========================================================
+        public struct S_TablePreteDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_TablePreteDetect[] TablePreteDetect =
+            new S_TablePreteDetect[1];
+
+
+        // =========================================================
+        // 🔥 TABLE STABILISEE
+        // =========================================================
+        public struct S_TableStabiliseeDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_TableStabiliseeDetect[] TableStabiliseeDetect =
+            new S_TableStabiliseeDetect[1];
+
+
+        // =========================================================
+        // 🔥 PREFERENCES UTILISATEUR
+        // =========================================================
+        public struct S_PreferencesUtilisateurDetect
+        {
+            public bool ModeDebug;
+            public int DelaiPriseControle;
+            public bool SeRecave;
+            public int NiveauMise;
+            public int Memo;
+        }
+
         private S_PreferencesUtilisateurDetect PreferencesUtilisateur;
 
-        // TOTAL : 574 pixels injectés 
-
         #endregion
+
 
         private bool bQuitterRevenir = false;
 
@@ -807,7 +981,9 @@ namespace Poker
             Charger_Amitie_JSON();
             Charger_Aucune_Table_JSON();
             Charger_Cartographie_Du_Pot_JSON();
+            Charger_Collection_Pseudos_JSON();
             Charger_Decision_JSON();
+            Charger_Distribution_Gifs_JSON();
             Charger_Felicitation_JSON();
             Charger_Info_Joueur_JSON();
             Charger_Je_Ne_Suis_Pas_Assis_JSON();
@@ -822,11 +998,13 @@ namespace Poker
             Charger_Gagne_JSON();
             Charger_Main_Board_JSON();
             Charger_Niveau_Table_JSON();
+            Charger_Pas_De_Gif_JSON();
             Charger_Places_Libres_JSON();
             Charger_Place_Occupee_JSON();
             Charger_Position_Bouton_JSON();
             Charger_Plus_De_Jetons_JSON();
             Charger_Plus_De_Pot_JSON();
+            Charger_Presence_Gifs_JSON();
             Charger_Publicite_JSON();
             Charger_Pupitre_Gris_JSON();
 
@@ -7239,6 +7417,8 @@ namespace Poker
             string json = JsonConvert.SerializeObject(AmitieDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+        private bool bAmitieAttente = false;
+        private DateTime HeureAmitie = DateTime.MinValue;
         private bool Fermer_Amitie()
         {
             for (int i = 0; i < AmitieDetect.Length; i++)
@@ -7247,32 +7427,250 @@ namespace Poker
                     AmitieDetect[i].X,
                     AmitieDetect[i].Y);
 
-                if (couleur == AmitieDetect[i].Couleur)
-                {
-                    Clic(
-                        AmitieDetect[i].X,
-                        AmitieDetect[i].Y);
+                if (couleur != AmitieDetect[i].Couleur)
+                    continue;
 
-                    return true;
+                // =====================================
+                // PREMIÈRE DÉTECTION
+                // =====================================
+                if (!bAmitieAttente)
+                {
+                    bAmitieAttente = true;
+                    HeureAmitie = DateTime.Now;
+
+                    return false;
                 }
+
+                // =====================================
+                // ATTENDRE 2 SECONDES
+                // → LAISSER LE TEMPS DE LIRE LE NOM
+                // =====================================
+                if ((DateTime.Now - HeureAmitie).TotalSeconds < 2)
+                    return false;
+
+                // =====================================
+                // 2 SECONDES ÉCOULÉES
+                // → FERMER
+                // =====================================
+                Clic(
+                    AmitieDetect[i].X,
+                    AmitieDetect[i].Y);
+
+                bAmitieAttente = false;
+                HeureAmitie = DateTime.MinValue;
+
+                return true;
             }
 
+            // =====================================
+            // FENÊTRE ABSENTE
+            // RESET DE L'ATTENTE
+            // =====================================
+            bAmitieAttente = false;
+            HeureAmitie = DateTime.MinValue;
+
             return false;
-        }
+        }// Attendre 2 secondes avant fermeture
+
         // =========================================================
-        // 🔥 AUCUNE TABLE
+        // 🔥 COLLECTION PSEUDOS
         // =========================================================
-        private void Charger_Aucune_Table_JSON()
+        private void Charger_Collection_Pseudos_JSON()
         {
-            string fichier = Path.Combine(DOSSIER_JSON, "Aucune_Table.json");
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Collection_Pseudos.json");
 
             if (!File.Exists(fichier))
                 return;
 
             string json = File.ReadAllText(fichier);
 
-            AucuneTableDetect = JsonConvert.DeserializeObject<S_AucuneTableDetect[]>(json);
-        }// =========================================================
+            CollectionPseudos =
+                JsonConvert.DeserializeObject<S_CollectionPseudos[]>(json)
+                ?? Array.Empty<S_CollectionPseudos>();
+        }
+        private bool Extraire_Collection_Pseudos(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            List<S_CollectionPseudos> liste =
+                new List<S_CollectionPseudos>();
+
+            bool bCollectionPseudos = false;
+
+            string pseudoCourant = "";
+            int positionCourante = 0;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Collection_Pseudos")
+                {
+                    bCollectionPseudos = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bCollectionPseudos)
+                    continue;
+
+                // =====================================
+                // SEPARATEUR VISUEL
+                // =====================================
+                if (ligne == "COMMENT : ------------------------------------------------")
+                    continue;
+
+                // =====================================
+                // COMMENT
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string valeur =
+                        ligne.Substring("COMMENT :".Length).Trim();
+
+                    // =================================
+                    // POSITION
+                    // =================================
+                    if (int.TryParse(valeur, out int position))
+                    {
+                        if (position < 1 || position > 9)
+                            return false;
+
+                        positionCourante = position;
+                        continue;
+                    }
+
+                    // =================================
+                    // NOUVEAU PSEUDO
+                    // =================================
+                    pseudoCourant = valeur;
+                    positionCourante = 0;
+
+                    continue;
+                }
+
+                // =====================================
+                // PREMIER PIXEL
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t1 = ligne.Split(':');
+
+                    if (t1.Length < 5)
+                        continue;
+
+                    if (pseudoCourant == "" ||
+                        positionCourante == 0)
+                        return false;
+
+                    S_CollectionPseudos entree =
+                        new S_CollectionPseudos();
+
+                    entree.Pseudo = pseudoCourant;
+                    entree.Position = positionCourante;
+
+                    entree.X1 =
+                        int.Parse(t1[1]);
+
+                    entree.Y1 =
+                        int.Parse(t1[2]);
+
+                    entree.Couleur1 =
+                        int.Parse(t1[3]);
+
+                    // =================================
+                    // CHERCHER LE DEUXIEME PIXEL
+                    // =================================
+                    int j = i + 1;
+
+                    while (j < lignes.Length)
+                    {
+                        string ligneSuivante =
+                            lignes[j].Trim();
+
+                        // Ignorer ENDIF et lignes vides
+                        if (ligneSuivante == "ENDIF" ||
+                            string.IsNullOrWhiteSpace(ligneSuivante))
+                        {
+                            j++;
+                            continue;
+                        }
+
+                        break;
+                    }
+
+                    // =================================
+                    // PAS DE DEUXIEME PIXEL
+                    // =================================
+                    if (j >= lignes.Length)
+                        return false;
+
+                    string ligne2 =
+                        lignes[j].Trim();
+
+                    if (!ligne2.StartsWith("IF PIXEL COLOR EQUALS"))
+                        return false;
+
+                    string[] t2 =
+                        ligne2.Split(':');
+
+                    if (t2.Length < 5)
+                        return false;
+
+                    entree.X2 =
+                        int.Parse(t2[1]);
+
+                    entree.Y2 =
+                        int.Parse(t2[2]);
+
+                    entree.Couleur2 =
+                        int.Parse(t2[3]);
+
+                    // =================================
+                    // AJOUT DE LA SIGNATURE
+                    // =================================
+                    liste.Add(entree);
+
+                    // On se positionne sur le deuxième pixel
+                    i = j;
+
+                    continue;
+                }
+            }
+
+            // =====================================
+            // AU MOINS UNE SIGNATURE
+            // =====================================
+            if (liste.Count == 0)
+                return false;
+
+            CollectionPseudos =
+                liste.ToArray();
+
+            return true;
+        }
+        private void Sauver_Collection_Pseudos()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Collection_Pseudos.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    CollectionPseudos,
+                    Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
+
+        // =========================================================
         // 🔥 CARTOGRAPHIE DU POT
         // =========================================================
         private void Charger_Cartographie_Du_Pot_JSON()
@@ -7619,6 +8017,21 @@ namespace Poker
 
             return true;
         }
+
+        // =========================================================
+        // 🔥 AUCUNE TABLE
+        // =========================================================
+        private void Charger_Aucune_Table_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Aucune_Table.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            AucuneTableDetect = JsonConvert.DeserializeObject<S_AucuneTableDetect[]>(json);
+        }
         private bool Extraire_Aucune_Table(string txt)
         {
             string[] lignes = txt.Split('\n');
@@ -7688,6 +8101,10 @@ namespace Poker
             string json = JsonConvert.SerializeObject(AucuneTableDetect, Formatting.Indented);
             File.WriteAllText(fichier, json);
         }
+
+        // =========================================================
+        // 🔥 MONTANT DU POT
+        // =========================================================
         private string Lire_Montant_Du_Pot()
         {
             if (CartographieDuPot == null || CartographieDuPot.Count == 0)
@@ -8083,18 +8500,12 @@ namespace Poker
         }
         private bool Decision_Autorisee()
         {
-
-            // ==========================
-            // MODE MANUEL
-            // ==========================
             if (bModeManuel)
             {
+                Debug("DECISION : MANUEL");
                 return false;
             }
 
-            // ==========================
-            // DELAI PRISE DE CONTROLE
-            // ==========================
             double temps =
                 (DateTime.Now - Heure_Decision).TotalMilliseconds;
 
@@ -8102,6 +8513,8 @@ namespace Poker
             {
                 return false;
             }
+
+            Debug("DECISION : AUTORISEE après " + temps + " ms");
 
             return true;
         }
@@ -8170,6 +8583,112 @@ namespace Poker
                     Bt_Relancer.Background = Vert;
                     break;
             }
+        }
+
+        // =========================================================
+        // 🔥 DISTRIBUTION GIFS
+        // =========================================================
+        private void Charger_Distribution_Gifs_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Distribution_Gifs.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            DistributionGifsDetect =
+                JsonConvert.DeserializeObject<S_DistributionGifsDetect[]>(json);
+        }
+        private bool Extraire_Distribution_Gifs(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bDistribution_Gifs = false;
+            string nomCourant = "";
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Distribution_Gifs")
+                {
+                    bDistribution_Gifs = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bDistribution_Gifs)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    DistributionGifsDetect[index].Nom = nomCourant;
+                    DistributionGifsDetect[index].X = int.Parse(t[1]);
+                    DistributionGifsDetect[index].Y = int.Parse(t[2]);
+                    DistributionGifsDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Distribution_Gifs()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Distribution_Gifs.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    DistributionGifsDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
+        private int Un_Joueur_Pour_Distribution_Gifs(string txt)
+        {
+            for (int i = 0; i < DistributionGifsDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    DistributionGifsDetect[i].X,
+                    DistributionGifsDetect[i].Y);
+
+                if (couleur == DistributionGifsDetect[i].Couleur)
+                    return i + 1;   // Position du joueur : 1 à 9
+            }
+
+            return 0;               // Aucun joueur détecté
         }
 
         // =========================================================
@@ -9638,7 +10157,106 @@ namespace Poker
 
             return false;
         }
+        // =========================================================
+        // 🔥 PAS DE GIF
+        // =========================================================
+        private void Charger_Pas_De_Gif_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Pas_De_Gif.json");
 
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PasDeGifDetect =
+                JsonConvert.DeserializeObject<S_PasDeGifDetect[]>(json);
+        }
+        private bool Extraire_Pas_De_Gif(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bPas_De_Gif = false;
+            string nomCourant = "";
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Pas_De_Gif")
+                {
+                    bPas_De_Gif = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bPas_De_Gif)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant =
+                        ligne.Replace("COMMENT :", "").Trim();
+
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    PasDeGifDetect[index].Nom =
+                        nomCourant;
+
+                    PasDeGifDetect[index].X =
+                        int.Parse(t[1]);
+
+                    PasDeGifDetect[index].Y =
+                        int.Parse(t[2]);
+
+                    PasDeGifDetect[index].Couleur =
+                        int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Pas_De_Gif()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Pas_De_Gif.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    PasDeGifDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
         // =========================================================
         // 🔥 PLACES LIBRES
         // =========================================================
@@ -10030,6 +10648,7 @@ namespace Poker
                 bSeRecaver = false;
             }
         }
+
         // =========================================================
         // 🔥 PLUS DE POT
         // =========================================================
@@ -10346,7 +10965,123 @@ namespace Poker
 
             File.WriteAllText(fichier, json);
         }
+        // =========================================================
+        // 🔥 PRESENCE GIFS
+        // =========================================================
+        private void Charger_Presence_Gifs_JSON()
+        {
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Presence_Gifs.json");
 
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            PresenceGifsDetect =
+                JsonConvert.DeserializeObject<S_PresenceGifsDetect[]>(json);
+        }
+        private bool Extraire_Presence_Gifs(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            int index = 0;
+
+            bool bPresenceGifs = false;
+
+            string nomGif = "";
+            int position = 0;
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT
+                // =====================================
+                if (ligne == "COMMENT : Presence_Gifs")
+                {
+                    bPresenceGifs = true;
+                    continue;
+                }
+
+                if (!bPresenceGifs)
+                    continue;
+
+                // =====================================
+                // COMMENT
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    string valeur =
+                        ligne.Substring("COMMENT :".Length).Trim();
+
+                    // POSITION 1 à 9
+                    if (int.TryParse(valeur, out int p))
+                    {
+                        position = p;
+                    }
+                    else
+                    {
+                        // NOM DU GIF
+                        nomGif = valeur;
+                        position = 0;
+                    }
+
+                    continue;
+                }
+
+                // =====================================
+                // PIXEL
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+
+                    if (t.Length < 5)
+                        continue;
+
+                    if (index >= 243)
+                        return false;
+
+                    // =====================================
+                    // CONTROLE
+                    // =====================================
+                    if (nomGif == "" || position < 1 || position > 9)
+                        return false;
+
+                    PresenceGifsDetect[index].NomGif = nomGif;
+                    PresenceGifsDetect[index].Position = position;
+                    PresenceGifsDetect[index].X = int.Parse(t[1]);
+                    PresenceGifsDetect[index].Y = int.Parse(t[2]);
+                    PresenceGifsDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // EXACTEMENT 243 DETECTEURS
+            // =====================================
+            if (index != 243)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Presence_Gifs()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Presence_Gifs.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    PresenceGifsDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
         // =========================================================
         // 🔥 PUPITRE GRIS
         // =========================================================
@@ -11699,7 +12434,9 @@ namespace Poker
             bool okAmitie                   = Extraire_Amitie(txt);
             bool okAucune_Table             = Extraire_Aucune_Table(txt);
             bool okCartographie_Du_Pot      = Extraire_Cartographie_Du_Pot(txt);
+            bool okCollection_Pseudos       = Extraire_Collection_Pseudos(txt);
             bool okDecision                 = Extraire_Decision(txt);
+            bool okDistribution_Gifs        = Extraire_Distribution_Gifs(txt);
             bool okFelicitation             = Extraire_Felicitation(txt);
             bool okInfo_Joueur              = Extraire_Info_Joueur(txt);
             bool okJe_Ne_Suis_Pas_Assis     = Extraire_Je_Ne_Suis_Pas_Assis(txt);
@@ -11715,12 +12452,14 @@ namespace Poker
             bool okMain_Board               = Extraire_Main_Board(txt);
             bool okNiveau_Table             = Extraire_Niveau_Table(txt);
             bool okNouveau_Niveau           = Extraire_Nouveau_Niveau(txt);
+            bool okPas_De_Gif               = Extraire_Pas_De_Gif(txt);
             bool okPlaces_Libres            = Extraire_Places_Libres(txt);
             bool okPlace_Occupee            = Extraire_Place_Occupee(txt);
             bool okPosition_Bouton          = Extraire_Position_Bouton(txt);
             bool okPlus_De_Jetons           = Extraire_Plus_De_Jetons(txt);
             bool okPlus_De_Pot              = Extraire_Plus_De_Pot(txt);
             bool okPreferences_Utilisateur  = Extraire_Preferences_Utilisateur(txt);
+            bool okPresence_Gifs            = Extraire_Presence_Gifs(txt);
             bool okPublicite                = Extraire_Publicite(txt);
             bool okPupitre_Gris             = Extraire_Pupitre_Gris(txt);
             bool okSuis_Je_Assis            = Extraire_Suis_Je_Assis(txt);
@@ -11741,7 +12480,9 @@ namespace Poker
                 !okAmitie                   &&
                 !okAucune_Table             &&
                 !okCartographie_Du_Pot      &&
+                !okCollection_Pseudos       &&
                 !okDecision                 &&
+                !okDistribution_Gifs        &&
                 !okMain_Board               &&
                 !okFelicitation             &&
                 !okInfo_Joueur              &&
@@ -11755,12 +12496,14 @@ namespace Poker
                 !okJoueur_Se_Couche         &&
                 !okJoueur_Suit              &&
                 !okGagne                    &&
+                !okPas_De_Gif               &&
                 !okPlaces_Libres            &&
                 !okPlace_Occupee            &&
                 !okPosition_Bouton          &&
                 !okPlus_De_Jetons           &&
                 !okPlus_De_Pot              &&
                 !okPreferences_Utilisateur  &&
+                !okPresence_Gifs            &&
                 !okPublicite                &&
                 !okPupitre_Gris             &&
                 !okSuis_Je_Assis            &&
@@ -11807,8 +12550,14 @@ namespace Poker
             if (okCartographie_Du_Pot)
                 Sauver_Cartographie_Du_Pot();
 
+            if (okCollection_Pseudos)
+                Sauver_Collection_Pseudos();
+
             if (okDecision)
                 Sauver_Decision();
+
+            if (okDistribution_Gifs)
+                Sauver_Distribution_Gifs();
 
             if (okFelicitation)
                 Sauver_Felicitation();
@@ -11849,6 +12598,9 @@ namespace Poker
             if (okNouveau_Niveau)
                 Sauver_Nouveau_Niveau();
 
+            if (okPas_De_Gif)
+                Sauver_Pas_De_Gif();
+
             if (okPlaces_Libres)
                 Sauver_Places_Libres();
 
@@ -11866,6 +12618,9 @@ namespace Poker
 
             if (okPreferences_Utilisateur)
                 Sauver_Preferences_Utilisateur();
+
+            if (okPresence_Gifs)
+                Sauver_Presence_Gifs();
 
             if (okPublicite)
                 Sauver_Publicite();
@@ -11921,8 +12676,14 @@ namespace Poker
             if (okCartographie_Du_Pot)
                 msg += "Cartographie_Du_Pot : chargée\n";
 
+            if (okCollection_Pseudos)
+                msg += "Collection_Pseudos : chargée\n";
+
             if (okDecision)
                 msg += "Decision : 5 détecteurs\n";
+
+            if (okDistribution_Gifs)
+                msg += "Distribution_Gifs : 9 détecteurs\n";
 
             if (okFelicitation)
                 msg += "Felicitation : 2 détecteurs\n";
@@ -11963,6 +12724,9 @@ namespace Poker
             if (okNouveau_Niveau)
                 msg += "Nouveau_Niveau : 1 détecteur\n";
 
+            if (okPas_De_Gif)
+                msg += "Pas_De_Gif : 9 détecteurs\n";
+
             if (okPlaces_Libres)
                 msg += "Places_Libres : 18 détecteurs\n";
 
@@ -11973,6 +12737,9 @@ namespace Poker
                 msg += "Préférences_Utilisateur : " +
                        NbPreferences +
                        " Préférences\n";
+
+            if (okPresence_Gifs)
+                msg += "Presence_Gifs : 243 détecteurs\n";
 
             if (okPosition_Bouton)
                 msg += "Position_Bouton : 9 détecteurs\n";
@@ -12824,7 +13591,7 @@ namespace Poker
 
                 CaptureEcran();
                 await Task.Delay(1);
-                if ((DateTime.Now - HeureWatchdog).TotalSeconds >= 6)
+                if ((DateTime.Now - HeureWatchdog).TotalSeconds >= 4)
                 {
 
                     HeureWatchdog = DateTime.Now;
@@ -12893,7 +13660,7 @@ namespace Poker
                     // =====================================
                     // 🔥 LAISSER GGS TERMINER LA RECAVE
                     // =====================================
-                    await Task.Delay(1000);
+                    await Task.Delay(2000);
 
                     // =====================================
                     // 🔥 RESET LECTURE BOARD
@@ -12910,7 +13677,7 @@ namespace Poker
                 // =====================================
                 // 🔥 RECHERCHER UNE PLACE SI NÉCESSAIRE
                 // =====================================
-                if (bPremierePlaceChoisie)
+                if (bPremierePlaceChoisie || Un_Mode_Actif())
                 {
                     CaptureEcran();
 
@@ -12922,6 +13689,7 @@ namespace Poker
                         // 🔥 CLIQUER UNE SEULE FOIS SUR LA PLACE
                         // =====================================
                         Cliquer_Place(place);
+                        await Task.Delay(1500);
 
                         // =====================================
                         // 🔥 NOUVELLE ASSISE
@@ -12948,7 +13716,7 @@ namespace Poker
                     bPot_Trouve = false;
                     bFinMain_Traitee = false;
 
-                    //Debug("Lecture Main1");
+                    Debug("Lecture Main1");
 
                     // =====================================
                     // NOUVELLE MAIN → RÉARMER LE COMPTEUR
@@ -13068,7 +13836,6 @@ namespace Poker
                     // =====================================
                     bPreFlop_Calcul = true;
 
-                    //await Task.Delay(5);
                     Calcul_PreFlop();
 
                     bPreFlop_Calcul = false;
@@ -13241,15 +14008,6 @@ namespace Poker
                     Clic(990, 250);
 
                     // =====================================
-                    // ATTENDRE LA SORTIE REELLE
-                    // =====================================
-                    //while (!Je_Ne_Suis_Pas_Assis())
-                    //{
-                    //    CaptureEcran();
-                    //    await Task.Delay(10);
-                    //}
-
-                    // =====================================
                     // JE N'AI PLUS DE PLACE
                     // =====================================
                     MaPlace = 0;
@@ -13297,6 +14055,7 @@ namespace Poker
                 if (!bFlop1_Lu &&
                     Mode_Decision())
                 {
+                    Debug("DECISION : FENETRE");
 
                     // =====================================
                     // ATTENTE DE DECISION
@@ -13308,19 +14067,22 @@ namespace Poker
                     }
 
                     // =====================================
-                    // 5 - DECISION AUTORISEE
+                    // DECISION AUTORISEE
                     // =====================================
                     if (Decision_Autorisee())
                     {
+                        Debug("DECISION : AUTORISEE");
+
                         // =====================================
                         // MAIN ACTUELLE
                         // =====================================
-                        string main = NormaliserMainTapis( T_Carte[0], T_Carte[1]);
+                        string main = NormaliserMainTapis(
+                            T_Carte[0],
+                            T_Carte[1]);
 
-                        // =====================================
-                        // RANGE TAPIS
-                        // =====================================
-                        bool dansRangeTapis = !string.IsNullOrEmpty(main) && RangeTapis.Contains(main);
+                        bool dansRangeTapis =
+                            !string.IsNullOrEmpty(main) &&
+                            RangeTapis.Contains(main);
 
                         // =====================================
                         // PRIORITÉ TAPIS
@@ -13333,17 +14095,25 @@ namespace Poker
                         {
                             ActionForcee = Action_Mode_Actif();
                         }
+
+                        Debug("DECISION : ACTION = " + ActionForcee);
+
+                        // =====================================
+                        // DECISION
+                        // =====================================
                         if (Decision())
                         {
-                            // =================================
-                            // 8 - CLIC EFFECTUE
-                            // =================================
-                            T_Stak_Depart_Joueur8.Text = "CLIC ✓";
+                            Debug("DECISION : CLIC");
+
+                            bAttente_Decision = false;
+
+                            await Task.Delay(1000);
 
                             // =================================
                             // COMPTEUR TAPIS
                             // =================================
-                            if (ActionForcee == "TAPIS" && !bTapis_Comptabilise)
+                            if (ActionForcee == "TAPIS" &&
+                                !bTapis_Comptabilise)
                             {
                                 NbTapis++;
 
@@ -13366,6 +14136,10 @@ namespace Poker
                             CaptureEcran();
 
                             continue;
+                        }
+                        else
+                        {
+                            Debug("DECISION : PAS DE CLIC");
                         }
                     }
                 }
@@ -13501,7 +14275,7 @@ namespace Poker
                     bMain_Depassee_Preflop = true;
                     Lire_Flop_3();
 
-                    await Task.Delay(5);
+                    await Task.Delay(2);
 
                     // =====================================
                     // 🔥 TAPIS OFF
@@ -13589,6 +14363,8 @@ namespace Poker
                     if (Detecter_Presence("Turn_Presence"))
                     {
                         Lire_Turn();
+
+                        await Task.Delay(2);
                         bTurn_Lu = true;
                     }
 
@@ -13646,27 +14422,25 @@ namespace Poker
                 // ==========================
                 if (bTurn_Lu && !bRiver_Lu)
                 {
-                    // ----- River normale -----
+                    // ----- River HB en priorité -----
                     if (Detecter_Presence("River_Presence"))
                     {
                         Lire_River();
 
-                        // =====================================
-                        // 🔥 NOUVELLE RIVER
-                        // Effacer le Danger du TURN
-                        // =====================================
-                        StopFlashDanger();
+                        if (!string.IsNullOrWhiteSpace(TB_R.Text))
+                        {
+                            StopFlashDanger();
 
-                        Bt_Danger.Background = Blanc;
-                        Bt_Danger.Foreground = Brushes.Black;
-                        Bt_Danger.Content = "";
+                            Bt_Danger.Background = Blanc;
+                            Bt_Danger.Foreground = Brushes.Black;
+                            Bt_Danger.Content = "";
 
-                        bRiver_Lu = true;
-                        //Capture_ShareX();
+                            bRiver_Lu = true;
+                        }
                     }
 
-                    // ----- River HB -----
-                    if (Detecter_Presence("River_HB_Presence"))
+                    // ----- River normale -----
+                    if (Detecter_Presence("River_HB_Presence") && !bRiver_Lu)
                     {
                         Lire_River_HB();
 
@@ -13836,6 +14610,11 @@ namespace Poker
             ActiverRange(Bt_Range_Suivre);
         }
 
+        private void Bt_Gifles_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
         private void Bt_Quitter_Click(object sender, RoutedEventArgs e)
         {
             // =========================================
@@ -13853,6 +14632,7 @@ namespace Poker
             // 🔥 QUITTER LA PLACE SUR GGS
             // =========================================
             Clic(891, 195);
+            Clic(891, 231);
         }
 
         // =========================================================
@@ -14099,18 +14879,43 @@ namespace Poker
         private DateTime HeureAbsence;
 
         // =========================================================
-        // AUCUNE TABLE
-        // Retourne true si aucune table n'est présente
+        // LIRE AUCUNE TABLE
         // =========================================================
+        private bool Lire_Aucune_Table()
+        {
+            for (int i = 0; i < AucuneTableDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    AucuneTableDetect[i].X,
+                    AucuneTableDetect[i].Y);
+                if (couleur == AucuneTableDetect[i].Couleur)
+                    return false;
+            }
+
+            return true;
+        }
+        private string Action_Mode_Actif()
+        {
+            if (bTriggersBoard_Actif)
+                return "PAROLE";
+
+            if (bTapisPreFlop_Actif)
+                return "PAROLE"; //Action_Tapis();
+
+            if (bIA_Actif)
+                return "PAROLE"; // Action_IA();
+
+            return "PAROLE";
+        }
+        private void ResetPosition()
+        {
+            foreach (var b in BoutonsPosition)
+                b.Background = (Brush)FindResource("blanc");
+        }
         private bool Aucune_Table()
         {
             return Lire_Aucune_Table();
         }
-
-        // =========================================================
-        // ABSENCE TABLE
-        // Retourne true si la table est absente depuis plus de 7.5 s
-        // =========================================================
         private bool Absence_Table()
         {
             // La table est présente
@@ -14148,41 +14953,6 @@ namespace Poker
             }
 
             return false;
-        }
-
-        // =========================================================
-        // LIRE AUCUNE TABLE
-        // =========================================================
-        private bool Lire_Aucune_Table()
-        {
-            for (int i = 0; i < AucuneTableDetect.Length; i++)
-            {
-                int couleur = LirePixel(
-                    AucuneTableDetect[i].X,
-                    AucuneTableDetect[i].Y);
-                if (couleur == AucuneTableDetect[i].Couleur)
-                    return false;
-            }
-
-            return true;
-        }
-        private string Action_Mode_Actif()
-        {
-            if (bTriggersBoard_Actif)
-                return "PAROLE";
-
-            if (bTapisPreFlop_Actif)
-                return "PAROLE"; //Action_Tapis();
-
-            if (bIA_Actif)
-                return "PAROLE"; // Action_IA();
-
-            return "PAROLE";
-        }
-        private void ResetPosition()
-        {
-            foreach (var b in BoutonsPosition)
-                b.Background = (Brush)FindResource("blanc");
         }
 
         private void ResetNiveauTable()

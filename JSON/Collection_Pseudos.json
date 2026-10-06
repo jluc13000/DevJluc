@@ -1,0 +1,782 @@
+[
+  {
+    "Pseudo": "AdelbertWolfi",
+    "Position": 6,
+    "X1": 1477,
+    "Y1": 646,
+    "Couleur1": 12105656,
+    "X2": 1504,
+    "Y2": 643,
+    "Couleur2": 13421516
+  },
+  {
+    "Pseudo": "AdelbertWolfi",
+    "Position": 9,
+    "X1": 627,
+    "Y1": 827,
+    "Couleur1": 9079434,
+    "X2": 715,
+    "Y2": 824,
+    "Couleur2": 11974070
+  },
+  {
+    "Pseudo": "adi506champion",
+    "Position": 1,
+    "X1": 440,
+    "Y1": 650,
+    "Couleur1": 11842484,
+    "X2": 514,
+    "Y2": 650,
+    "Couleur2": 11842484
+  },
+  {
+    "Pseudo": "adi506champion",
+    "Position": 4,
+    "X1": 1093,
+    "Y1": 387,
+    "Couleur1": 9934743,
+    "X2": 1197,
+    "Y2": 386,
+    "Couleur2": 7368816
+  },
+  {
+    "Pseudo": "adi506champion",
+    "Position": 5,
+    "X1": 1373,
+    "Y1": 402,
+    "Couleur1": 13421516,
+    "X2": 1462,
+    "Y2": 403,
+    "Couleur2": 10592673
+  },
+  {
+    "Pseudo": "adi506champion",
+    "Position": 6,
+    "X1": 1428,
+    "Y1": 644,
+    "Couleur1": 7171437,
+    "X2": 1503,
+    "Y2": 644,
+    "Couleur2": 7171437
+  },
+  {
+    "Pseudo": "adi506champion",
+    "Position": 9,
+    "X1": 627,
+    "Y1": 826,
+    "Couleur1": 8816262,
+    "X2": 717,
+    "Y2": 821,
+    "Couleur2": 10263708
+  },
+  {
+    "Pseudo": "brummibärli2",
+    "Position": 1,
+    "X1": 474,
+    "Y1": 651,
+    "Couleur1": 11842484,
+    "X2": 505,
+    "Y2": 651,
+    "Couleur2": 11842484
+  },
+  {
+    "Pseudo": "brummibärli2",
+    "Position": 4,
+    "X1": 1157,
+    "Y1": 383,
+    "Couleur1": 10263708,
+    "X2": 1173,
+    "Y2": 382,
+    "Couleur2": 10855845
+  },
+  {
+    "Pseudo": "brummibärli2",
+    "Position": 5,
+    "X1": 1438,
+    "Y1": 403,
+    "Couleur1": 6118749,
+    "X2": 1444,
+    "Y2": 407,
+    "Couleur2": 6513507
+  },
+  {
+    "Pseudo": "brummibärli2",
+    "Position": 6,
+    "X1": 1413,
+    "Y1": 650,
+    "Couleur1": 8947848,
+    "X2": 1500,
+    "Y2": 648,
+    "Couleur2": 13026758
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 1,
+    "X1": 445,
+    "Y1": 650,
+    "Couleur1": 11842484,
+    "X2": 504,
+    "Y2": 652,
+    "Couleur2": 7895160
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 2,
+    "X1": 541,
+    "Y1": 409,
+    "Couleur1": 9474192,
+    "X2": 550,
+    "Y2": 409,
+    "Couleur2": 10395294
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 3,
+    "X1": 822,
+    "Y1": 389,
+    "Couleur1": 6710886,
+    "X2": 831,
+    "Y2": 389,
+    "Couleur2": 7303023
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 6,
+    "X1": 1495,
+    "Y1": 646,
+    "Couleur1": 12303035,
+    "X2": 1503,
+    "Y2": 646,
+    "Couleur2": 5921370
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 8,
+    "X1": 936,
+    "Y1": 821,
+    "Couleur1": 10263708,
+    "X2": 995,
+    "Y2": 823,
+    "Couleur2": 8158332
+  },
+  {
+    "Pseudo": "dejaconnu",
+    "Position": 3,
+    "X1": 750,
+    "Y1": 389,
+    "Couleur1": 6052956,
+    "X2": 761,
+    "Y2": 392,
+    "Couleur2": 6710886
+  },
+  {
+    "Pseudo": "dejaconnu",
+    "Position": 5,
+    "X1": 1360,
+    "Y1": 409,
+    "Couleur1": 12040119,
+    "X2": 1371,
+    "Y2": 411,
+    "Couleur2": 9539985
+  },
+  {
+    "Pseudo": "dejaconnu",
+    "Position": 7,
+    "X1": 1202,
+    "Y1": 828,
+    "Couleur1": 6381921,
+    "X2": 1213,
+    "Y2": 831,
+    "Couleur2": 10197915
+  },
+  {
+    "Pseudo": "Hotfever",
+    "Position": 3,
+    "X1": 747,
+    "Y1": 386,
+    "Couleur1": 5658198,
+    "X2": 802,
+    "Y2": 386,
+    "Couleur2": 5789784
+  },
+  {
+    "Pseudo": "Hotfever",
+    "Position": 4,
+    "X1": 1133,
+    "Y1": 387,
+    "Couleur1": 7303023,
+    "X2": 1132,
+    "Y2": 388,
+    "Couleur2": 6710886
+  },
+  {
+    "Pseudo": "Hotfever",
+    "Position": 8,
+    "X1": 916,
+    "Y1": 826,
+    "Couleur1": 13948116,
+    "X2": 971,
+    "Y2": 825,
+    "Couleur2": 11776691
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 3,
+    "X1": 790,
+    "Y1": 392,
+    "Couleur1": 11316140,
+    "X2": 809,
+    "Y2": 386,
+    "Couleur2": 10395294
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 4,
+    "X1": 1154,
+    "Y1": 386,
+    "Couleur1": 7763574,
+    "X2": 1135,
+    "Y2": 392,
+    "Couleur2": 13882067
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 5,
+    "X1": 1401,
+    "Y1": 411,
+    "Couleur1": 7171437,
+    "X2": 1419,
+    "Y2": 405,
+    "Couleur2": 7434609
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 6,
+    "X1": 1456,
+    "Y1": 652,
+    "Couleur1": 8289918,
+    "X2": 1475,
+    "Y2": 647,
+    "Couleur2": 7763574
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 7,
+    "X1": 1245,
+    "Y1": 821,
+    "Couleur1": 10263708,
+    "X2": 1262,
+    "Y2": 825,
+    "Couleur2": 8421504
+  },
+  {
+    "Pseudo": "infraserv2023",
+    "Position": 3,
+    "X1": 746,
+    "Y1": 382,
+    "Couleur1": 10790309,
+    "X2": 832,
+    "Y2": 385,
+    "Couleur2": 14803169
+  },
+  {
+    "Pseudo": "Jakav",
+    "Position": 2,
+    "X1": 468,
+    "Y1": 408,
+    "Couleur1": 7763574,
+    "X2": 502,
+    "Y2": 407,
+    "Couleur2": 8684676
+  },
+  {
+    "Pseudo": "Jakav",
+    "Position": 3,
+    "X1": 745,
+    "Y1": 389,
+    "Couleur1": 5658198,
+    "X2": 779,
+    "Y2": 387,
+    "Couleur2": 9868950
+  },
+  {
+    "Pseudo": "Jakav",
+    "Position": 5,
+    "X1": 1355,
+    "Y1": 408,
+    "Couleur1": 7895160,
+    "X2": 1389,
+    "Y2": 407,
+    "Couleur2": 8947848
+  },
+  {
+    "Pseudo": "Jakav",
+    "Position": 6,
+    "X1": 1410,
+    "Y1": 649,
+    "Couleur1": 8618883,
+    "X2": 1444,
+    "Y2": 648,
+    "Couleur2": 10132122
+  },
+  {
+    "Pseudo": "Jakav",
+    "Position": 9,
+    "X1": 624,
+    "Y1": 828,
+    "Couleur1": 7039851,
+    "X2": 658,
+    "Y2": 827,
+    "Couleur2": 7368816
+  },
+  {
+    "Pseudo": "kim...neo",
+    "Position": 4,
+    "X1": 1100,
+    "Y1": 382,
+    "Couleur1": 10855845,
+    "X2": 1124,
+    "Y2": 390,
+    "Couleur2": 10197915
+  },
+  {
+    "Pseudo": "kim...neo",
+    "Position": 7,
+    "X1": 1200,
+    "Y1": 826,
+    "Couleur1": 7631988,
+    "X2": 1232,
+    "Y2": 827,
+    "Couleur2": 9408399
+  },
+  {
+    "Pseudo": "Krymek",
+    "Position": 4,
+    "X1": 1094,
+    "Y1": 387,
+    "Couleur1": 6710886,
+    "X2": 1138,
+    "Y2": 387,
+    "Couleur2": 6974058
+  },
+  {
+    "Pseudo": "Krymek",
+    "Position": 5,
+    "X1": 1358,
+    "Y1": 406,
+    "Couleur1": 9013641,
+    "X2": 1403,
+    "Y2": 407,
+    "Couleur2": 11645105
+  },
+  {
+    "Pseudo": "Krymek",
+    "Position": 6,
+    "X1": 1358,
+    "Y1": 406,
+    "Couleur1": 9013641,
+    "X2": 1403,
+    "Y2": 407,
+    "Couleur2": 11645105
+  },
+  {
+    "Pseudo": "ligdark330266",
+    "Position": 1,
+    "X1": 427,
+    "Y1": 650,
+    "Couleur1": 11842740,
+    "X2": 513,
+    "Y2": 652,
+    "Couleur2": 6513507
+  },
+  {
+    "Pseudo": "ligdark330266",
+    "Position": 3,
+    "X1": 758,
+    "Y1": 389,
+    "Couleur1": 7039851,
+    "X2": 821,
+    "Y2": 388,
+    "Couleur2": 8553090
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 1,
+    "X1": 450,
+    "Y1": 652,
+    "Couleur1": 14013653,
+    "X2": 458,
+    "Y2": 653,
+    "Couleur2": 7697781
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 3,
+    "X1": 769,
+    "Y1": 382,
+    "Couleur1": 10855845,
+    "X2": 807,
+    "Y2": 382,
+    "Couleur2": 10855845
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 6,
+    "X1": 1438,
+    "Y1": 646,
+    "Couleur1": 8355711,
+    "X2": 1446,
+    "Y2": 646,
+    "Couleur2": 10526880
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 7,
+    "X1": 1221,
+    "Y1": 821,
+    "Couleur1": 10263708,
+    "X2": 1259,
+    "Y2": 821,
+    "Couleur2": 10263708
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 8,
+    "X1": 937,
+    "Y1": 821,
+    "Couleur1": 10263708,
+    "X2": 975,
+    "Y2": 821,
+    "Couleur2": 10263708
+  },
+  {
+    "Pseudo": "MWWM.",
+    "Position": 2,
+    "X1": 475,
+    "Y1": 409,
+    "Couleur1": 9145227,
+    "X2": 524,
+    "Y2": 407,
+    "Couleur2": 13882067
+  },
+  {
+    "Pseudo": "MWWM.",
+    "Position": 4,
+    "X1": 1096,
+    "Y1": 386,
+    "Couleur1": 10460828,
+    "X2": 1146,
+    "Y2": 388,
+    "Couleur2": 8289917
+  },
+  {
+    "Pseudo": "MWWM.",
+    "Position": 5,
+    "X1": 1361,
+    "Y1": 406,
+    "Couleur1": 6974058,
+    "X2": 1402,
+    "Y2": 406,
+    "Couleur2": 7697781
+  },
+  {
+    "Pseudo": "MWWM.",
+    "Position": 7,
+    "X1": 1214,
+    "Y1": 826,
+    "Couleur1": 10066329,
+    "X2": 1253,
+    "Y2": 827,
+    "Couleur2": 8684676
+  },
+  {
+    "Pseudo": "MWWM.",
+    "Position": 8,
+    "X1": 919,
+    "Y1": 825,
+    "Couleur1": 10000536,
+    "X2": 969,
+    "Y2": 827,
+    "Couleur2": 8684676
+  },
+  {
+    "Pseudo": "NEOWISE",
+    "Position": 1,
+    "X1": 428,
+    "Y1": 655,
+    "Couleur1": 6645093,
+    "X2": 464,
+    "Y2": 557,
+    "Couleur2": 9776687
+  },
+  {
+    "Pseudo": "NEOWISE",
+    "Position": 3,
+    "X1": 751,
+    "Y1": 387,
+    "Couleur1": 7171437,
+    "X2": 790,
+    "Y2": 288,
+    "Couleur2": 9776686
+  },
+  {
+    "Pseudo": "NEOWISE",
+    "Position": 7,
+    "X1": 1203,
+    "Y1": 825,
+    "Couleur1": 8026746,
+    "X2": 1240,
+    "Y2": 724,
+    "Couleur2": 9776687
+  },
+  {
+    "Pseudo": "NEOWISE",
+    "Position": 9,
+    "X1": 919,
+    "Y1": 826,
+    "Couleur1": 6842472,
+    "X2": 957,
+    "Y2": 728,
+    "Couleur2": 9776687
+  },
+  {
+    "Pseudo": "nick555S",
+    "Position": 1,
+    "X1": 444,
+    "Y1": 655,
+    "Couleur1": 7829367,
+    "X2": 480,
+    "Y2": 654,
+    "Couleur2": 7237230
+  },
+  {
+    "Pseudo": "nick555S",
+    "Position": 3,
+    "X1": 767,
+    "Y1": 387,
+    "Couleur1": 7171437,
+    "X2": 803,
+    "Y2": 386,
+    "Couleur2": 7500402
+  },
+  {
+    "Pseudo": "nick555S",
+    "Position": 4,
+    "X1": 1112,
+    "Y1": 387,
+    "Couleur1": 7566195,
+    "X2": 1148,
+    "Y2": 389,
+    "Couleur2": 7895160
+  },
+  {
+    "Pseudo": "nick555S",
+    "Position": 6,
+    "X1": 1433,
+    "Y1": 648,
+    "Couleur1": 7303023,
+    "X2": 1468,
+    "Y2": 649,
+    "Couleur2": 6381921
+  },
+  {
+    "Pseudo": "nick555S",
+    "Position": 8,
+    "X1": 935,
+    "Y1": 826,
+    "Couleur1": 7237230,
+    "X2": 971,
+    "Y2": 828,
+    "Couleur2": 8882055
+  },
+  {
+    "Pseudo": "oublier",
+    "Position": 2,
+    "X1": 474,
+    "Y1": 409,
+    "Couleur1": 10526880,
+    "X2": 514,
+    "Y2": 405,
+    "Couleur2": 11908277
+  },
+  {
+    "Pseudo": "oublier",
+    "Position": 6,
+    "X1": 1416,
+    "Y1": 650,
+    "Couleur1": 8816262,
+    "X2": 1456,
+    "Y2": 646,
+    "Couleur2": 10329501
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 1,
+    "X1": 448,
+    "Y1": 656,
+    "Couleur1": 10461087,
+    "X2": 506,
+    "Y2": 652,
+    "Couleur2": 7039851
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 2,
+    "X1": 470,
+    "Y1": 409,
+    "Couleur1": 6447714,
+    "X2": 552,
+    "Y2": 403,
+    "Couleur2": 10461087
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 4,
+    "X1": 1093,
+    "Y1": 390,
+    "Couleur1": 11579568,
+    "X2": 1174,
+    "Y2": 386,
+    "Couleur2": 8158332
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 5,
+    "X1": 1358,
+    "Y1": 409,
+    "Couleur1": 8421504,
+    "X2": 1439,
+    "Y2": 405,
+    "Couleur2": 8158332
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 6,
+    "X1": 1463,
+    "Y1": 647,
+    "Couleur1": 6842472,
+    "X2": 1494,
+    "Y2": 646,
+    "Couleur2": 6908265
+  },
+  {
+    "Pseudo": "parker simon",
+    "Position": 7,
+    "X1": 1200,
+    "Y1": 829,
+    "Couleur1": 11579568,
+    "X2": 1286,
+    "Y2": 824,
+    "Couleur2": 10066329
+  },
+  {
+    "Pseudo": "roulini",
+    "Position": 5,
+    "X1": 1383,
+    "Y1": 403,
+    "Couleur1": 6118749,
+    "X2": 1397,
+    "Y2": 403,
+    "Couleur2": 6118749
+  },
+  {
+    "Pseudo": "roulini",
+    "Position": 7,
+    "X1": 1226,
+    "Y1": 821,
+    "Couleur1": 10263708,
+    "X2": 1239,
+    "Y2": 821,
+    "Couleur2": 10263708
+  },
+  {
+    "Pseudo": "roulini",
+    "Position": 9,
+    "X1": 649,
+    "Y1": 819,
+    "Couleur1": 10658466,
+    "X2": 666,
+    "Y2": 822,
+    "Couleur2": 13421516
+  },
+  {
+    "Pseudo": "ticaze",
+    "Position": 4,
+    "X1": 1091,
+    "Y1": 389,
+    "Couleur1": 10527137,
+    "X2": 1117,
+    "Y2": 388,
+    "Couleur2": 7039851
+  },
+  {
+    "Pseudo": "ticaze",
+    "Position": 6,
+    "X1": 1413,
+    "Y1": 645,
+    "Couleur1": 6184542,
+    "X2": 1437,
+    "Y2": 649,
+    "Couleur2": 6381921
+  },
+  {
+    "Pseudo": "ticaze",
+    "Position": 7,
+    "X1": 914,
+    "Y1": 828,
+    "Couleur1": 9145484,
+    "X2": 940,
+    "Y2": 827,
+    "Couleur2": 7237230
+  },
+  {
+    "Pseudo": "ticaze",
+    "Position": 9,
+    "X1": 627,
+    "Y1": 824,
+    "Couleur1": 6118749,
+    "X2": 651,
+    "Y2": 827,
+    "Couleur2": 6184542
+  },
+  {
+    "Pseudo": "vieuxloup",
+    "Position": 2,
+    "X1": 471,
+    "Y1": 407,
+    "Couleur1": 7763574,
+    "X2": 530,
+    "Y2": 409,
+    "Couleur2": 10658466
+  },
+  {
+    "Pseudo": "vieuxloup",
+    "Position": 6,
+    "X1": 1413,
+    "Y1": 648,
+    "Couleur1": 7434609,
+    "X2": 1472,
+    "Y2": 650,
+    "Couleur2": 8947848
+  },
+  {
+    "Pseudo": "vieuxloup",
+    "Position": 7,
+    "X1": 1201,
+    "Y1": 826,
+    "Couleur1": 9539985,
+    "X2": 1259,
+    "Y2": 827,
+    "Couleur2": 7237230
+  },
+  {
+    "Pseudo": "vieuxloup",
+    "Position": 9,
+    "X1": 628,
+    "Y1": 827,
+    "Couleur1": 6250335,
+    "X2": 686,
+    "Y2": 829,
+    "Couleur2": 9408399
+  }
+]
