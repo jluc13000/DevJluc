@@ -325,6 +325,18 @@ namespace Poker
 
         private S_DecisionDetect[] DecisionDetect = new S_DecisionDetect[5];
 
+        // =========================================================
+        // 🔥 DECISION HOWER
+        // =========================================================
+        public struct S_DecisionHowerDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_DecisionHowerDetect[] DecisionHowerDetect = new S_DecisionHowerDetect[5];
 
         // =========================================================
         // 🔥 DISTRIBUTION GIFS
@@ -671,6 +683,19 @@ namespace Poker
         private S_PupitreGrisDetect[] PupitreGrisDetect =
             new S_PupitreGrisDetect[2];
 
+        // =========================================================
+        // 🔥 STACK TAPIS
+        // =========================================================
+        public struct S_StackTapisDetect
+        {
+            public string Nom;
+            public int X;
+            public int Y;
+            public int Couleur;
+        }
+
+        private S_StackTapisDetect[] StackTapisDetect =
+            new S_StackTapisDetect[9];
 
         // =========================================================
         // 🔥 SUIS JE ASSIS
@@ -983,6 +1008,7 @@ namespace Poker
             Charger_Cartographie_Du_Pot_JSON();
             Charger_Collection_Pseudos_JSON();
             Charger_Decision_JSON();
+            Charger_Decision_Hower_JSON();
             Charger_Distribution_Gifs_JSON();
             Charger_Felicitation_JSON();
             Charger_Info_Joueur_JSON();
@@ -1012,6 +1038,7 @@ namespace Poker
             Charger_Range_Relance_JSON();
             Charger_Range_Suivre_JSON();
 
+            Charger_Stack_Tapis_JSON();
             Charger_Suis_Je_Assis_JSON();
             Charger_Table_Prete_JSON();
             Charger_Table_Stabilisee_JSON();
@@ -8493,10 +8520,7 @@ namespace Poker
         }
         private bool Mode_Decision()
         {
-            bool resultat =
-                Bouton_Decision_Present("Se_Coucher");
-
-            return resultat;
+            return Bouton_Decision_Present("Tapis");
         }
         private bool Decision_Autorisee()
         {
@@ -8514,7 +8538,7 @@ namespace Poker
                 return false;
             }
 
-            Debug("DECISION : AUTORISEE après " + temps + " ms");
+            //Debug("DECISION : AUTORISEE après " + temps + " ms");
 
             return true;
         }
@@ -8585,6 +8609,140 @@ namespace Poker
             }
         }
 
+        // =========================================================
+        // 🔥 DECISION HOWER
+        // =========================================================
+        private void Charger_Decision_Hower_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Decision_Hower.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            S_DecisionHowerDetect[] detecteurs =
+                JsonConvert.DeserializeObject<S_DecisionHowerDetect[]>(json);
+
+            if (detecteurs == null || detecteurs.Length != 5)
+                return;
+
+            DecisionHowerDetect = detecteurs;
+        }
+        private bool Extraire_Decision_Hower(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+
+            int index = 0;
+
+            bool bDecision_Hower = false;
+            string nomCourant = "";
+
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Decision_Hower")
+                {
+                    bDecision_Hower = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bDecision_Hower)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant =
+                        ligne.Replace("COMMENT :", "").Trim();
+
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    // =================================
+                    // SECURITE : MAXIMUM 5 DETECTEURS
+                    // =================================
+                    if (index >= DecisionHowerDetect.Length)
+                        return false;
+
+                    string[] t = ligne.Split(':');
+
+                    if (t.Length < 4)
+                        return false;
+
+                    DecisionHowerDetect[index].Nom = nomCourant;
+                    DecisionHowerDetect[index].X = int.Parse(t[1]);
+                    DecisionHowerDetect[index].Y = int.Parse(t[2]);
+                    DecisionHowerDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // EXACTEMENT 5 DETECTEURS
+            // =====================================
+            if (index != 5)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Decision_Hower()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+
+            string fichier =
+                Path.Combine(DOSSIER_JSON, "Decision_Hower.json");
+
+            string json =
+                JsonConvert.SerializeObject(
+                    DecisionHowerDetect,
+                    Formatting.Indented);
+
+            File.WriteAllText(fichier, json);
+        }
+        private bool Decision_Hower_Detecte()
+        {
+            for (int i = 0; i < DecisionHowerDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    DecisionHowerDetect[i].X,
+                    DecisionHowerDetect[i].Y);
+
+                if (couleur == DecisionHowerDetect[i].Couleur)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+        private void Passage_Auto_Manuel_Hower()
+        {
+            if (bModeManuel)
+                return;
+
+            if (Decision_Hower_Detecte())
+            {
+                bModeManuel = true;
+
+                Debug("DECISION HOWER : PASSAGE EN MANUEL");
+            }
+        }
         // =========================================================
         // 🔥 DISTRIBUTION GIFS
         // =========================================================
@@ -11506,6 +11664,111 @@ namespace Poker
         }
 
         // =========================================================
+        // 🔥 STACK TAPIS
+        // =========================================================
+        private void Charger_Stack_Tapis_JSON()
+        {
+            string fichier = Path.Combine(DOSSIER_JSON, "Stack_Tapis.json");
+
+            if (!File.Exists(fichier))
+                return;
+
+            string json = File.ReadAllText(fichier);
+
+            StackTapisDetect = JsonConvert.DeserializeObject<S_StackTapisDetect[]>(json);
+        }
+        private bool Extraire_Stack_Tapis(string txt)
+        {
+            string[] lignes = txt.Split('\n');
+            int index = 0;
+            bool bStack_Tapis = false;
+            string nomCourant = "";
+            for (int i = 0; i < lignes.Length; i++)
+            {
+                string ligne = lignes[i].Trim();
+
+                // =====================================
+                // DEBUT DU BLOC
+                // =====================================
+                if (ligne == "COMMENT : Stack_Tapis")
+                {
+                    bStack_Tapis = true;
+                    continue;
+                }
+
+                // =====================================
+                // PAS ENCORE DANS LE BLOC
+                // =====================================
+                if (!bStack_Tapis)
+                    continue;
+
+                // =====================================
+                // COMMENT :
+                // =====================================
+                if (ligne.StartsWith("COMMENT :"))
+                {
+                    nomCourant = ligne.Replace("COMMENT :", "").Trim();
+                    continue;
+                }
+
+                // =====================================
+                // IF PIXEL COLOR EQUALS
+                // =====================================
+                if (ligne.StartsWith("IF PIXEL COLOR EQUALS"))
+                {
+                    string[] t = ligne.Split(':');
+                    if (t.Length < 5)
+                        continue;
+
+                    StackTapisDetect[index].Nom = nomCourant;
+                    StackTapisDetect[index].X = int.Parse(t[1]);
+                    StackTapisDetect[index].Y = int.Parse(t[2]);
+                    StackTapisDetect[index].Couleur = int.Parse(t[3]);
+
+                    index++;
+                }
+            }
+
+            // =====================================
+            // DONNEES NON CONFORMES
+            // =====================================
+
+            if (index != 9)
+                return false;
+
+            return true;
+        }
+        private void Sauver_Stack_Tapis()
+        {
+            Directory.CreateDirectory(DOSSIER_JSON);
+            string fichier = Path.Combine(DOSSIER_JSON, "Stack_Tapis.json");
+            string json = JsonConvert.SerializeObject(StackTapisDetect, Formatting.Indented);
+            File.WriteAllText(fichier, json);
+        }
+        private bool Suis_Je_A_Tapis()
+        {
+            for (int i = 0; i < StackTapisDetect.Length; i++)
+            {
+                int couleur = LirePixel(
+                    StackTapisDetect[i].X,
+                    StackTapisDetect[i].Y);
+
+                // =====================================
+                // PIXEL DU TAPIS TROUVÉ
+                // =====================================
+                if (couleur == StackTapisDetect[i].Couleur)
+                {
+                    return true;
+                }
+            }
+
+            // =====================================
+            // AUCUN PIXEL TROUVÉ
+            // =====================================
+            return false;
+        }
+
+        // =========================================================
         // 🔥 SUIS JE ASSIS
         // =========================================================
         private void Charger_Suis_Je_Assis_JSON()
@@ -12436,6 +12699,7 @@ namespace Poker
             bool okCartographie_Du_Pot      = Extraire_Cartographie_Du_Pot(txt);
             bool okCollection_Pseudos       = Extraire_Collection_Pseudos(txt);
             bool okDecision                 = Extraire_Decision(txt);
+            bool okDecision_Hower           = Extraire_Decision_Hower(txt);
             bool okDistribution_Gifs        = Extraire_Distribution_Gifs(txt);
             bool okFelicitation             = Extraire_Felicitation(txt);
             bool okInfo_Joueur              = Extraire_Info_Joueur(txt);
@@ -12462,6 +12726,7 @@ namespace Poker
             bool okPresence_Gifs            = Extraire_Presence_Gifs(txt);
             bool okPublicite                = Extraire_Publicite(txt);
             bool okPupitre_Gris             = Extraire_Pupitre_Gris(txt);
+            bool okStack_Tapis             = Extraire_Stack_Tapis(txt);
             bool okSuis_Je_Assis            = Extraire_Suis_Je_Assis(txt);
             bool okTable_Prete              = Extraire_Table_Prete(txt);
             bool okTable_Stabilisee         = Extraire_Table_Stabilisee(txt);
@@ -12482,6 +12747,7 @@ namespace Poker
                 !okCartographie_Du_Pot      &&
                 !okCollection_Pseudos       &&
                 !okDecision                 &&
+                !okDecision_Hower           &&
                 !okDistribution_Gifs        &&
                 !okMain_Board               &&
                 !okFelicitation             &&
@@ -12506,6 +12772,7 @@ namespace Poker
                 !okPresence_Gifs            &&
                 !okPublicite                &&
                 !okPupitre_Gris             &&
+                !okStack_Tapis              &&
                 !okSuis_Je_Assis            &&
                 !okTable_Prete              &&
                 !okTable_Stabilisee)
@@ -12555,6 +12822,9 @@ namespace Poker
 
             if (okDecision)
                 Sauver_Decision();
+
+            if (okDecision_Hower)
+                Sauver_Decision_Hower();
 
             if (okDistribution_Gifs)
                 Sauver_Distribution_Gifs();
@@ -12628,6 +12898,9 @@ namespace Poker
             if (okPupitre_Gris)
                 Sauver_Pupitre_Gris();
 
+            if (okStack_Tapis)
+                Sauver_Stack_Tapis();
+
             if (okSuis_Je_Assis)
                 Sauver_Suis_Je_Assis();
 
@@ -12681,6 +12954,9 @@ namespace Poker
 
             if (okDecision)
                 msg += "Decision : 5 détecteurs\n";
+
+            if (okDecision_Hower)
+                msg += "Decision_Hower : 5 détecteurs\n";
 
             if (okDistribution_Gifs)
                 msg += "Distribution_Gifs : 9 détecteurs\n";
@@ -12755,6 +13031,9 @@ namespace Poker
 
             if (okPupitre_Gris)
                 msg += "Pupitre_Gris : 2 détecteurs\n";
+
+            if (okStack_Tapis)
+                msg += "Stack_Tapis : 9 détecteurs\n";
 
             if (okSuis_Je_Assis)
                 msg += "Suis_Je_Assis : 18 détecteurs\n";
@@ -13591,7 +13870,7 @@ namespace Poker
 
                 CaptureEcran();
                 await Task.Delay(1);
-                if ((DateTime.Now - HeureWatchdog).TotalSeconds >= 4)
+                if ((DateTime.Now - HeureWatchdog).TotalSeconds >= 8)
                 {
 
                     HeureWatchdog = DateTime.Now;
@@ -14047,105 +14326,86 @@ namespace Poker
                     continue;
                 }
 
-                // =====================================================
-                // 🔥 DÉCISION PRÉFLOP
-                // AVANT LA BARRIÈRE BOARD
-                // =====================================================
-
-                if (!bFlop1_Lu &&
-                    Mode_Decision())
+                // =====================================
+                // ATTENTE DE DECISION
+                // =====================================
+                if (!bAttente_Decision)
                 {
-                    Debug("DECISION : FENETRE");
-
-                    // =====================================
-                    // ATTENTE DE DECISION
-                    // =====================================
-                    if (!bAttente_Decision)
-                    {
-                        bAttente_Decision = true;
-                        Heure_Decision = DateTime.Now;
-                    }
-
-                    // =====================================
-                    // DECISION AUTORISEE
-                    // =====================================
-                    if (Decision_Autorisee())
-                    {
-                        Debug("DECISION : AUTORISEE");
-
-                        // =====================================
-                        // MAIN ACTUELLE
-                        // =====================================
-                        string main = NormaliserMainTapis(
-                            T_Carte[0],
-                            T_Carte[1]);
-
-                        bool dansRangeTapis =
-                            !string.IsNullOrEmpty(main) &&
-                            RangeTapis.Contains(main);
-
-                        // =====================================
-                        // PRIORITÉ TAPIS
-                        // =====================================
-                        if (dansRangeTapis)
-                        {
-                            ActionForcee = "TAPIS";
-                        }
-                        else
-                        {
-                            ActionForcee = Action_Mode_Actif();
-                        }
-
-                        Debug("DECISION : ACTION = " + ActionForcee);
-
-                        // =====================================
-                        // DECISION
-                        // =====================================
-                        if (Decision())
-                        {
-                            Debug("DECISION : CLIC");
-
-                            bAttente_Decision = false;
-
-                            await Task.Delay(1000);
-
-                            // =================================
-                            // COMPTEUR TAPIS
-                            // =================================
-                            if (ActionForcee == "TAPIS" &&
-                                !bTapis_Comptabilise)
-                            {
-                                NbTapis++;
-
-                                LbNbTapis.Content =
-                                    NbTapis.ToString();
-
-                                bTapis_Comptabilise = true;
-                            }
-
-                            // =================================
-                            // RESET ACTION FORCEE
-                            // =================================
-                            ActionForcee = "";
-
-                            // =================================
-                            // LAISSER POKERTEAM TERMINER
-                            // =================================
-                            await Task.Delay(300);
-
-                            CaptureEcran();
-
-                            continue;
-                        }
-                        else
-                        {
-                            Debug("DECISION : PAS DE CLIC");
-                        }
-                    }
+                    bAttente_Decision = true;
+                    Heure_Decision = DateTime.Now;
                 }
-                else if (!Mode_Decision())
+
+                // =====================================
+                // DECISION AUTORISEE
+                // =====================================
+                if (Decision_Autorisee())
                 {
-                    bAttente_Decision = false;
+                    // =====================================
+                    // MAIN ACTUELLE
+                    // =====================================
+                    string main = NormaliserMainTapis(
+                        T_Carte[0],
+                        T_Carte[1]);
+
+                    bool dansRangeTapis =
+                        !string.IsNullOrEmpty(main) &&
+                        RangeTapis.Contains(main);
+
+                    // =====================================
+                    // PRIORITÉ TAPIS
+                    // =====================================
+                    if (dansRangeTapis)
+                    {
+                        ActionForcee = "TAPIS";
+                    }
+                    else
+                    {
+                        ActionForcee = Action_Mode_Actif();
+                    }
+
+                    // =====================================
+                    // DECISION
+                    // =====================================
+                    if (Decision())
+                    {
+                        await Task.Delay(1000);
+
+                        // =================================
+                        // COMPTEUR TAPIS
+                        // =================================
+                        if (ActionForcee == "TAPIS" &&
+                            !bTapis_Comptabilise)
+                        {
+                            NbTapis++;
+
+                            LbNbTapis.Content =
+                                NbTapis.ToString();
+
+                            bTapis_Comptabilise = true;
+                        }
+
+                        // =================================
+                        // RESET ACTION FORCEE
+                        // =================================
+                        ActionForcee = "";
+
+                        // =================================
+                        // LAISSER POKERTEAM TERMINER
+                        // =================================
+                        await Task.Delay(300);
+
+                        CaptureEcran();
+
+                        continue;
+                    }
+
+                    // =====================================
+                    // TAPIS DISPARU
+                    // =====================================
+                    if (!Mode_Decision())
+                    {
+                        bAttente_Decision = false;
+                    }
                 }
 
                 // ==========================================
@@ -14362,9 +14622,11 @@ namespace Poker
                     // ----- Turn normal -----
                     if (Detecter_Presence("Turn_Presence"))
                     {
+                        Capture_ShareX();
+                        await Task.Delay(5);
                         Lire_Turn();
 
-                        await Task.Delay(2);
+                        await Task.Delay(5);
                         bTurn_Lu = true;
                     }
 

@@ -1,7 +1,7 @@
 {
   "ModeDebug": true,
-  "DelaiPriseControle": 3000,
+  "DelaiPriseControle": 5000,
   "SeRecave": true,
   "NiveauMise": -9,
-  "Memo": 6
+  "Memo": 12
 }
