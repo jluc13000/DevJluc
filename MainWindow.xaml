@@ -789,6 +789,7 @@
         <Button x:Name="Bt_Test_Pot"    Content="TEST POT"  Click="Bt_Test_Pot_Click"   HorizontalAlignment="Left" Height="20" Margin="289,315,0,0" VerticalAlignment="Top" Width="56"                      FontWeight="Bold"   FontSize="10" Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Quitter"     Content="QUITTER"   Click="Bt_Quitter_Click"     HorizontalAlignment="Left" Height="20" Margin="142,315,0,0" VerticalAlignment="Top" Width="58"                      FontWeight="Bold"   FontSize="10" Style="{StaticResource FlatButton}"/>
         <Button x:Name="Bt_Gifles"      Content="Gifles"    Click="Bt_Gifles_Click"         HorizontalAlignment="Left" Height="20" Margin="289,295,0,0" VerticalAlignment="Top" Width="29"          FontWeight="Bold"               FontSize="8"  Style="{StaticResource FlatButton}"/>
+        <TextBox x:Name="Duree_Delai" HorizontalAlignment="Left" Height="14" Margin="212,336,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="50" FontSize="11"/>
 
     </Grid>
 </Window>

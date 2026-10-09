@@ -500,7 +500,7 @@ namespace Poker
         }
 
         private S_GagneDetect[] GagneDetect =
-            new S_GagneDetect[18];
+            new S_GagneDetect[9];
 
 
         // =========================================================
@@ -4782,25 +4782,24 @@ namespace Poker
         // =========================================================
         private void Calcul_Flop()
         {
-            //Initialiser_bFlop();
-
             // =========================================================
             // 🔥 AJOUT DES CARTES DU FLOP
             // =========================================================
             if (TableCartes.Count == 2)
             {
                 TableCartes.Add(CreerCarte(TB_F1.Text, false));
-
                 TableCartes.Add(CreerCarte(TB_F2.Text, false));
-
                 TableCartes.Add(CreerCarte(TB_F3.Text, false));
             }
 
             // =========================================================
-            // 🔥 SECURITE
+            // 🔥 SECURITE : 5 CARTES NECESSAIRES
             // =========================================================
             if (TableCartes.Count != 5)
+            {
+                Debug("CALCUL FLOP IMPOSSIBLE : 5 CARTES NON DISPONIBLES");
                 return;
+            }
 
             JeuFlop = new Jeu();
 
@@ -8526,7 +8525,7 @@ namespace Poker
         {
             if (bModeManuel)
             {
-                Debug("DECISION : MANUEL");
+                //Debug("DECISION : MANUEL");
                 return false;
             }
 
@@ -9787,9 +9786,9 @@ namespace Poker
             }
 
             // =====================================
-            // 9 POSITIONS × 2 PIXELS
+            // 9 POSITIONS 
             // =====================================
-            return index == 18;
+            return index == 9;
         }
         private void Sauver_Gagne()
         {
@@ -9820,6 +9819,14 @@ namespace Poker
                     if (!gagnants.Contains(GagneDetect[i].Nom))
                     {
                         gagnants.Add(GagneDetect[i].Nom);
+
+                        // =====================================
+                        // 🏆 J'AI GAGNÉ
+                        // =====================================
+                        if (GagneDetect[i].Nom == MaPlace)
+                        {
+                            Bt_J_ai_Gagne.Background = Brushes.LimeGreen;
+                        }
 
                         // =====================================
                         // 🔥 AFFICHER LE GAGNANT
@@ -12992,7 +12999,7 @@ namespace Poker
                 msg += "Joueur_Suit : 9 détecteurs\n";
 
             if (okGagne)
-                msg += "Gagne : 18 détecteurs\n";
+                msg += "Gagne : 9 détecteurs\n";
 
             if (okNiveau_Table)
                 msg += "Niveau_Table : 12 détecteurs\n";
@@ -13748,6 +13755,7 @@ namespace Poker
         // La fin de cette main a-t-elle déjà été traitée ?
         private bool bFinMain_Traitee = false;
         bool bPremiereStabilisation = false;
+        bool bTapis= false;
         // =========================================================
         // 🔥 SUPERVISEUR POKER
         // =========================================================
@@ -13994,6 +14002,8 @@ namespace Poker
                     bMain_Depassee_Preflop = false;
                     bPot_Trouve = false;
                     bFinMain_Traitee = false;
+                    bTapis = false;
+                    Bt_J_ai_Gagne.Background = Blanc;
 
                     Debug("Lecture Main1");
 
@@ -14061,6 +14071,7 @@ namespace Poker
                 // ==========================
                 if (bMain1_Lu && !bMain2_Lu && Detecter_Presence("Main_2_Presence"))
                 {
+                    await Task.Delay(2);
                     Lire_Main_2();
 
                     // =====================================
@@ -14078,6 +14089,7 @@ namespace Poker
                     if (dansRangeTapis)
                     {
                         Bt_Tapis.Background = Vert;
+                        bTapis = true;
                     }
                     else
                     {
@@ -14333,6 +14345,11 @@ namespace Poker
                 {
                     bAttente_Decision = true;
                     Heure_Decision = DateTime.Now;
+
+                    // =================================
+                    // RESET ACTION FORCEE
+                    // =================================
+                    ActionForcee = "";
                 }
 
                 // =====================================
@@ -14340,6 +14357,8 @@ namespace Poker
                 // =====================================
                 if (Decision_Autorisee())
                 {
+                    await Task.Delay(10);
+
                     // =====================================
                     // MAIN ACTUELLE
                     // =====================================
@@ -14368,6 +14387,15 @@ namespace Poker
                     // =====================================
                     if (Decision())
                     {
+                        // =====================================
+                        // ⏱️ DÉLAI EFFECTIF
+                        // =====================================
+                        double delaiEffectif =
+                            (DateTime.Now - Heure_Decision).TotalSeconds;
+
+                        Duree_Delai.Text =
+                            delaiEffectif.ToString("0.00") + " s";
+
                         await Task.Delay(1000);
 
                         // =================================
@@ -14381,20 +14409,22 @@ namespace Poker
                             LbNbTapis.Content =
                                 NbTapis.ToString();
 
+                            //Ajouter_Historique();
+
                             bTapis_Comptabilise = true;
+
+                            // =================================
+                            // RESET ACTION FORCEE
+                            // =================================
+                            ActionForcee = "";
                         }
 
-                        // =================================
-                        // RESET ACTION FORCEE
-                        // =================================
-                        ActionForcee = "";
-
-                        // =================================
-                        // LAISSER POKERTEAM TERMINER
-                        // =================================
-                        await Task.Delay(300);
-
                         CaptureEcran();
+
+                        // =================================
+                        // NOUVELLE ATTENTE DE DECISION
+                        // =================================
+                        bAttente_Decision = false;
 
                         continue;
                     }
@@ -14486,7 +14516,7 @@ namespace Poker
                     // ==========================
                     // HISTORIQUE
                     // ==========================
-                    if (bMain_Depassee_Preflop)
+                    if (bMain_Depassee_Preflop || bTapis)
                     {
                         Ajouter_Historique();
 
@@ -14622,11 +14652,10 @@ namespace Poker
                     // ----- Turn normal -----
                     if (Detecter_Presence("Turn_Presence"))
                     {
-                        Capture_ShareX();
                         await Task.Delay(5);
                         Lire_Turn();
 
-                        await Task.Delay(5);
+                        await Task.Delay(2);
                         bTurn_Lu = true;
                     }
 
@@ -14684,8 +14713,9 @@ namespace Poker
                 // ==========================
                 if (bTurn_Lu && !bRiver_Lu)
                 {
-                    // ----- River HB en priorité -----
-                    if (Detecter_Presence("River_Presence"))
+
+                    // ----- River normale -----
+                    if (Detecter_Presence("River_Presence") && !bRiver_Lu)
                     {
                         Lire_River();
 
@@ -14700,25 +14730,22 @@ namespace Poker
                             bRiver_Lu = true;
                         }
                     }
-
-                    // ----- River normale -----
-                    if (Detecter_Presence("River_HB_Presence") && !bRiver_Lu)
+                    // ----- River HB  -----
+                    if (Detecter_Presence("River_HB_Presence"))
                     {
                         Lire_River_HB();
 
-                        // =====================================
-                        // 🔥 NOUVELLE RIVER
-                        // Effacer le Danger du TURN
-                        // =====================================
-                        StopFlashDanger();
+                        if (!string.IsNullOrWhiteSpace(TB_R.Text))
+                        {
+                            StopFlashDanger();
 
-                        Bt_Danger.Background = Blanc;
-                        Bt_Danger.Foreground = Brushes.Black;
-                        Bt_Danger.Content = "";
+                            Bt_Danger.Background = Blanc;
+                            Bt_Danger.Foreground = Brushes.Black;
+                            Bt_Danger.Content = "";
 
-                        bRiver_Lu = true;
+                            bRiver_Lu = true;
+                        }
                     }
-
                     // ----- Traitement commun -----
                     if (bRiver_Lu)
                     {

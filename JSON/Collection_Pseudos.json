@@ -141,6 +141,26 @@
   },
   {
     "Pseudo": "christ1958bb",
+    "Position": 4,
+    "X1": 1184,
+    "Y1": 385,
+    "Couleur1": 9539985,
+    "X2": 1158,
+    "Y2": 386,
+    "Couleur2": 9079434
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 5,
+    "X1": 1360,
+    "Y1": 403,
+    "Couleur1": 8026746,
+    "X2": 1421,
+    "Y2": 405,
+    "Couleur2": 7368816
+  },
+  {
+    "Pseudo": "christ1958bb",
     "Position": 6,
     "X1": 1495,
     "Y1": 646,
@@ -151,6 +171,16 @@
   },
   {
     "Pseudo": "christ1958bb",
+    "Position": 7,
+    "X1": 1200,
+    "Y1": 824,
+    "Couleur1": 8421504,
+    "X2": 1263,
+    "Y2": 825,
+    "Couleur2": 9145227
+  },
+  {
+    "Pseudo": "christ1958bb",
     "Position": 8,
     "X1": 936,
     "Y1": 821,
@@ -158,6 +188,16 @@
     "X2": 995,
     "Y2": 823,
     "Couleur2": 8158332
+  },
+  {
+    "Pseudo": "christ1958bb",
+    "Position": 9,
+    "X1": 690,
+    "Y1": 825,
+    "Couleur1": 9342606,
+    "X2": 697,
+    "Y2": 827,
+    "Couleur2": 5789784
   },
   {
     "Pseudo": "dejaconnu",
@@ -266,6 +306,16 @@
     "Y1": 821,
     "Couleur1": 10263708,
     "X2": 1262,
+    "Y2": 825,
+    "Couleur2": 8421504
+  },
+  {
+    "Pseudo": "indian jew",
+    "Position": 9,
+    "X1": 671,
+    "Y1": 830,
+    "Couleur1": 6974058,
+    "X2": 689,
     "Y2": 825,
     "Couleur2": 8421504
   },
@@ -418,6 +468,16 @@
     "X2": 807,
     "Y2": 382,
     "Couleur2": 10855845
+  },
+  {
+    "Pseudo": "Moi335Girl",
+    "Position": 5,
+    "X1": 1383,
+    "Y1": 405,
+    "Couleur1": 8355711,
+    "X2": 1391,
+    "Y2": 405,
+    "Couleur2": 9671571
   },
   {
     "Pseudo": "Moi335Girl",
@@ -671,6 +731,16 @@
   },
   {
     "Pseudo": "roulini",
+    "Position": 2,
+    "X1": 497,
+    "Y1": 403,
+    "Couleur1": 6118749,
+    "X2": 510,
+    "Y2": 403,
+    "Couleur2": 6118749
+  },
+  {
+    "Pseudo": "roulini",
     "Position": 5,
     "X1": 1383,
     "Y1": 403,
@@ -678,6 +748,16 @@
     "X2": 1397,
     "Y2": 403,
     "Couleur2": 6118749
+  },
+  {
+    "Pseudo": "roulini",
+    "Position": 6,
+    "X1": 1452,
+    "Y1": 644,
+    "Couleur1": 7171437,
+    "X2": 1439,
+    "Y2": 644,
+    "Couleur2": 6447714
   },
   {
     "Pseudo": "roulini",
@@ -698,6 +778,16 @@
     "X2": 666,
     "Y2": 822,
     "Couleur2": 13421516
+  },
+  {
+    "Pseudo": "ticaze",
+    "Position": 3,
+    "X1": 744,
+    "Y1": 384,
+    "Couleur1": 12895942,
+    "X2": 772,
+    "Y2": 388,
+    "Couleur2": 8289918
   },
   {
     "Pseudo": "ticaze",
